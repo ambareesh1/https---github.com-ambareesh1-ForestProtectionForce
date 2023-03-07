@@ -1,0 +1,43 @@
+<div class="d-flex custom-container ">
+    <div class="container align-self-center ">
+      <div class="row">
+        <div class="card mx-auto shadow" style="max-width: 700px;">
+          <div class="row">
+            <div class="col-md-4 bg-success">
+          <p class="p-2 text-white fs-6">This is a privacy note to inform you that access to our platform is restricted only to authenticated users.
+             We take your privacy and security very seriously, and therefore, we require users to provide valid credentials to access the portal.</p>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                
+                  <div class="form-group mt-3">
+                    <label>User Name</label>
+                    <input type="text" class="form-control" />
+               
+                
+                    <div class="form-group mt-3">
+                        <label>Password</label>
+                        <input type="password" class="form-control" />
+                      </div>
+
+                      <div class="form-group">
+                        <ngx-captcha [(ngModel)]="captcha" [ngSwitch]="siteKey"></ngx-captcha>
+                      </div>
+                      <div class="form-group mt-3">
+                        <label>Enter Captcha </label>
+                        <input type="text" class="form-control" />
+                      </div>
+                      <button type="button" class="btn btn-success mt-3" (click)="onSubmit()" >Login</button>
+
+                      <div class="text-end">
+                        <a class="text-success text-decoration-none text-bold" routerLink="/forgotpassword">Forgot Password</a>
+                      </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

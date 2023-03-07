@@ -1,0 +1,49 @@
+<div class="d-flex custom-container">
+    <div class="container align-self-center ">
+      <div class="row">
+        <div class="card mx-auto shadow" style="max-width: 700px;">
+          <div class="row">
+            <div class="col-md-4 bg-white">
+               <a routerLink=""><i class="pi  pi-arrow-left p-3 text-success text-bold" style="font-size: 2rem"></i></a> 
+               <div class="row bg-success">
+                <p class="p-2 text-white fs-6">Enter the OTP sent to your registered email or mobile number.</p>
+               </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">2 Way Authentication</h5>
+                
+                  <div class="form-group mt-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" value="ambru333@gmail.com" disabled />
+                 
+                    <div class="form-group mt-3">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" value="(+91) 9535770068" disabled />
+                      </div>
+                      <div class="form-group mt-3">
+                        <label>OTP</label>
+                      <div class="row justify-content-center">
+                        <div class="col-auto">
+                          <div class="d-flex justify-content-center">
+                            <input type="text" class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" class="form-control otp-input shadow" maxlength="1">
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                     
+                
+                      <button type="button" class="btn btn-success mt-3" (click)="onSubmitOTP()">Submit</button>
+
+                    
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
