@@ -1,44 +1,43 @@
 <div class="d-flex custom-container">
     <div class="container align-self-center ">
       <div class="row">
-        <div class="card mx-auto shadow" style="max-width: 700px;">
+        <div class="card mx-auto shadow" style="max-width: 800px;">
           <div class="row">
-            <div class="col-md-4 bg-white">
-               <a routerLink=""><i class="pi  pi-arrow-left p-3 text-success text-bold" style="font-size: 2rem"></i></a> 
-               <div class="row bg-success">
+            <div class="col-md-4 bg-success">
+              <a routerLink=""><i class="pi  pi-arrow-left p-3 text-white text-success text-bold" style="font-size: 2rem"></i></a> 
+              <div class="row">
                 <p class="p-2 text-white fs-6">Enter the OTP sent to your registered email or mobile number.</p>
                </div>
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">2 Way Authentication</h5>
+                <h5 class="card-title text-bs-gray-700 text-bold fs-4">2 Way Authentication</h5>
                 
                   <div class="form-group mt-3">
-                    <label>Email</label>
-                    <input type="email" class="form-control" value="ambru333@gmail.com" disabled />
+                    <label class="p-1 block fs-6">Email</label>
+                    <input type="email" pInputText class="form-control" value="ambru333@gmail.com" disabled />
                  
                     <div class="form-group mt-3">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" value="(+91) 9535770068" disabled />
+                        <label class="p-1 block fs-6">Phone</label>
+                        <input type="text" pInputText class="form-control" value="(+91) 9535770068" disabled />
                       </div>
                       <div class="form-group mt-3">
-                        <label>OTP</label>
+                        <label class="p-1 block fs-6">OTP</label>
                       <div class="row justify-content-center">
                         <div class="col-auto">
                           <div class="d-flex justify-content-center">
-                            <input type="text" class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
                           </div>
                         </div>
                       </div>
                       </div>
                      
-                
-                      <button type="button" class="btn btn-success mt-3" (click)="onSubmitOTP()">Submit</button>
-
-                    
+                      <button pButton pRipple type="button" label="Submit"
+                      class="p-button-rounded p-button-success text-center mt-3" (click)="onSubmitOTP()"></button>
+                  </div>
                 
               </div>
             </div>

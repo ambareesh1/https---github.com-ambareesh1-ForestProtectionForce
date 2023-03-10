@@ -1,3 +1,6 @@
 .custom-container {
     height: 100vh;
   }
+  .card{
+    border:none !important;
+  }

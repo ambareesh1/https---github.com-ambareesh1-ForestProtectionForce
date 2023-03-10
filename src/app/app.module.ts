@@ -6,12 +6,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { RippleModule } from 'primeng/ripple';
+import {ChartModule} from 'primeng/chart';
+import { MenubarModule } from 'primeng/menubar';
+import { TableModule } from 'primeng/table';
+
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { TwoWayAuthenticationComponent } from './two-way-authentication/two-way-authentication.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { CaptchaComponent } from './captcha/captcha.component';
+import { StandardlayoutComponent } from './standardlayout/standardlayout.component';
+import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +30,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     TwoWayAuthenticationComponent,
     DashboardComponent,
     ChangePasswordComponent,
+    CaptchaComponent,
+    StandardlayoutComponent,
+    AuthLayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,8 +41,13 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ReactiveFormsModule ,
     BrowserAnimationsModule,
     InputTextModule,
+    ButtonModule,
     CardModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    RippleModule,
+    ChartModule,
+    MenubarModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

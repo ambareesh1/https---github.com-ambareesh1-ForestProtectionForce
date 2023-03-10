@@ -5,3 +5,7 @@
     margin: 5%;
     width: 50px;
   }
+
+  .card{
+    border:none !important;
+  }

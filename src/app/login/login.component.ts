@@ -8,26 +8,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  form!: FormGroup;
+  loginForm!: FormGroup;
     loading = false;
     submitted = false;
-  captcha: string = "";
-  siteKey = 'your_site_key';
+
   constructor(private router: Router, 
      private formBuilder: FormBuilder,
    
    ) {}
 
-   get f() { return this.form.controls; }
+ 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      captcha : ['', Validators.required]
   });
   }
 
   public onSubmit = () =>{
-    // Submit forgot password form
+   
+    console.log("aa");
 
     // Navigate back to login page
     this.router.navigate(['/TwoWayAuthentication']);

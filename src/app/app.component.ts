@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ForestProtectionForceProject';
+  title = 'Forest Protection Force';
+  currentUrl: string;
+  isLandingPage : boolean = false; 
+  constructor(private router: Router) {
+    this.currentUrl = this.router.url;
+  }
+
+   isLandingPageBackground = ()=>{
+    console.log(this.currentUrl);
+    if(this.currentUrl === "/" || this.currentUrl == "forgotpassword"){
+      this.isLandingPage = true;
+    }
+   }
+
 }

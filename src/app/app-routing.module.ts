@@ -5,12 +5,25 @@ import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.compone
 import { TwoWayAuthenticationComponent } from './two-way-authentication/two-way-authentication.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { StandardlayoutComponent } from './standardlayout/standardlayout.component';
+import { AppComponent } from './app.component';
+import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+
 const routes: Routes = [
- {path:'', component:LoginComponent},
- {path:'forgotpassword', component:ForgotpasswordComponent},
- {path:'TwoWayAuthentication', component:TwoWayAuthenticationComponent},
- {path:'dashboard', component:DashboardComponent},
- {path:'changepassword', component:ChangePasswordComponent}
+
+  {path:'', component:AuthLayoutComponent,
+  children:[
+    {path:'', component:LoginComponent},
+    {path:'forgotpassword', component:ForgotpasswordComponent},
+    {path:'TwoWayAuthentication', component:TwoWayAuthenticationComponent},
+    {path:'changepassword', component:ChangePasswordComponent},
+  ]
+},
+ {path:'', component:StandardlayoutComponent,
+   children:[
+    {path:'dashboard', component:DashboardComponent}
+   ]
+}
 ];
 
 @NgModule({
