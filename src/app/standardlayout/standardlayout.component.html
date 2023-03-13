@@ -1,3 +1,83 @@
-<main>
-<router-outlet></router-outlet>
-</main>
+<div class="container-fluid">
+  <nav class="navbar navbar-light bg-light custom-nav-heigh bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerlink="/dashboard">
+        <img src="../../assets/logo.png" alt="" width="100" height="50" class="d-inline-block align-text-top">
+       
+      </a>
+      <form class="d-flex" role="search">
+        <i class="pi pi-bell fs-3 p-2"></i>
+        <span class="notification-circel">3</span>
+        <a routerLink="/changepassword"><i class="pi pi-user fs-3 p-2"></i></a>
+      </form>
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col-lg-2 shadow" style="height: 1028px;">
+      <nav class="navbar navbar-expand-lg sidemenu-bg">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav flex-column">
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" routerLink="mangeprofile">
+                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Manage Profile</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="baselinedata">
+                  <i class="pi pi-database" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Baseline Data</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="#">
+                  <i class="pi pi-users" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Offender Profile</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="#">
+                  <i class="pi pi-history" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">History Sheet</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="#">
+                  <i class="pi pi-stop-circle" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Disposed Case</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="#">
+                  <i class="pi pi-file-edit" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Suzere</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom">
+                <a class="nav-link active text-white" aria-current="page" href="#">
+                  <i class="pi pi-file-excel" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Reports</span>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="col-lg-10">
+      <main>
+        <router-outlet> </router-outlet>
+      </main>
+    </div>
+
+
+
+  </div>
+</div>

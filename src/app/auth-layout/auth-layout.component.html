@@ -30,11 +30,12 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 80px;
+        height: 110px;
         display: flex;
         align-items: center;
-        color: #fff;
+        background: #fff;
         font-weight: 600;
+        box-shadow: 2px 2px 3px #888888;
     }
 
     .toolbar img {
@@ -117,7 +118,7 @@
 
     .card-container .card:not(.highlight-card):hover {
         transform: translateY(-3px);
-        box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.35);
     }
 
     .card-container .card:not(.highlight-card):hover .material-icons path {
@@ -295,17 +296,18 @@
 
 
 <div class="toolbar" role="banner shadow">
-    <img class="img-thumbnail" width="60" alt="Angular Logo" src="../assets/logo.jpg" />
+    
     <a routerLink="">
-        <h2 class="text-white">Forest Protection Force</h2>
+        <img class="logo-img"  alt="Angular Logo" src="../assets/logo.png" />
+        
     </a>
     <div class="spacer"></div>
 
 </div>
 
 <div role="main" class="landing-background">
-    <div class="landing-img"></div>
+   
     <main>
-        <router-outlet></router-outlet>
+        <router-outlet> </router-outlet>
     </main>
 </div>

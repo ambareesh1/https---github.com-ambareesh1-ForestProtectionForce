@@ -21,6 +21,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { CaptchaComponent } from './captcha/captcha.component';
 import { StandardlayoutComponent } from './standardlayout/standardlayout.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { ManageProfileComponent } from './manage-profile/manage-profile.component';
+import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
     CaptchaComponent,
     StandardlayoutComponent,
     AuthLayoutComponent,
+    ManageProfileComponent,
+    BaselineDataComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { StandardlayoutComponent } from './standardlayout/standardlayout.component';
 import { AppComponent } from './app.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { ManageProfileComponent } from './manage-profile/manage-profile.component';
+import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 
 const routes: Routes = [
 
@@ -21,7 +23,9 @@ const routes: Routes = [
 },
  {path:'', component:StandardlayoutComponent,
    children:[
-    {path:'dashboard', component:DashboardComponent}
+    {path:'dashboard', component:DashboardComponent},
+    {path:'mangeprofile', component:ManageProfileComponent},
+    {path:'baselinedata', component:BaselineDataComponent}
    ]
 }
 ];
