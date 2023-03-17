@@ -3,8 +3,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxCaptchaModule } from 'ngx-captcha';
+// -----------------------  Imports - PrimeNg ---------------
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -26,13 +27,15 @@ import {RatingModule} from 'primeng/rating';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {InputNumberModule} from 'primeng/inputnumber';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import {	ToggleButtonModule} from 'primeng/togglebutton';
+import { AccordionModule } from 'primeng/accordion';
+// -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ProductService } from './manage-admin-users/productservice';
-import { HttpClientModule } from '@angular/common/http';
 
-import { NgxCaptchaModule } from 'ngx-captcha';
+
+// -----------------------  Imports - Componenets ---------------
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { TwoWayAuthenticationComponent } from './two-way-authentication/two-way-authentication.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -43,6 +46,20 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-users.component';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+
+// ------------------------  Services ---------------------
+import { ProductService } from './manage-admin-users/productservice';
+import { ManageProvinceComponent } from './manage-province/manage-province.component';
+import { ManageCircleComponent } from './manage-circle/manage-circle.component';
+import { ManageDistrictComponent } from './manage-district/manage-district.component';
+import { ManageDivisionComponent } from './manage-division/manage-division.component';
+import { ManageCompartmentComponent } from './manage-compartment/manage-compartment.component';
+import { ManageParentComponent } from './manage-parent/manage-parent.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -58,6 +75,12 @@ import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-use
     ManageProfileComponent,
     BaselineDataComponent,
     ManageAdminUsersComponent,
+    ManageProvinceComponent,
+    ManageCircleComponent,
+    ManageDistrictComponent,
+    ManageDivisionComponent,
+    ManageCompartmentComponent,
+    ManageParentComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +115,9 @@ import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-use
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
-    HttpClientModule
+    HttpClientModule,
+    ToggleButtonModule,
+    AccordionModule
   ],
   providers: [ProductService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]

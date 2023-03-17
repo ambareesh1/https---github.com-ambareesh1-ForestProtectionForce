@@ -1,0 +1,22 @@
+<p-card header="Manage Data">
+    <p-accordion>
+        <p-accordionTab header="Manage Province" [selected]="true">
+         <app-manage-province></app-manage-province>
+        </p-accordionTab>
+        <p-accordionTab header="Manage Circle">
+          <app-manage-circle></app-manage-circle>
+        </p-accordionTab>
+        <p-accordionTab header="Manage District">
+           <app-manage-district></app-manage-district>
+        </p-accordionTab>
+        <p-accordionTab header="Manage Division">
+            <app-manage-division></app-manage-division>
+         </p-accordionTab>
+         <p-accordionTab header="Manage Compartment">
+            <app-manage-compartment></app-manage-compartment>
+         </p-accordionTab>
+    </p-accordion>
+    
+
+</p-card>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

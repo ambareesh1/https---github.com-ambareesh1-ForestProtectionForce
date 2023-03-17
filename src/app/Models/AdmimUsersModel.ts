@@ -13,6 +13,9 @@ export interface AdminUser {
     alternativeEmail:string;
     phone: string;
     address: string;
+    isactive? : boolean
   }
+  
+
   
   

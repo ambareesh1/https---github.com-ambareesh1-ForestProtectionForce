@@ -1,0 +1,83 @@
+<p-toast></p-toast>
+
+<div class="grid">
+    <div class="col-8 p-3">
+        <p-card header="Add Circle" styleClass="p-fluid">
+            <form *ngIf="this.ProvinceData.length>0"  [formGroup]="formCircle"  (ngSubmit)="onSubmitCircle()">
+                <div class="formgrid">
+         
+                    <div class="field">
+                        <label for="CircleName">Circle Name</label>
+                        <input id="CircleName" pInputText mode="text" formControlName="circleName" />
+                        <small class="p-error block"
+                            *ngIf="formCircle.get('circleName')?.invalid && formCircle.get('circleName')?.dirty"> Circle is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="name">User Types</label>
+                        <p-dropdown [options]="ProvinceData" formControlName="province" optionLabel="name" optionValue="id"></p-dropdown>
+
+                    </div>
+                  
+
+                    <div class="flex align-items-end  col-6 gap-3 ">
+                        <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
+                            [disabled]="formCircle.invalid"></button>
+                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                            type="reset"></button>
+                    </div>
+
+                </div>
+            </form>
+        </p-card>
+    </div>
+</div>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+           <h4>Manage Admin Users</h4>
+        </ng-template>
+
+        <ng-template pTemplate="right" *ngIf="false">
+            <button pButton pRipple label="Export"  (click)="dt.exportCSV()" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="circle" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
+         [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "search" (input)="dt.filterGlobal(search, 'contains')" placeholder="Search..." />
+                    {{search}}
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">Circle Name<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="provinceName">Province Name<p-sortIcon field="provinceName"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template> 
+        <ng-template pTemplate="body" let-Circle>
+            <tr>
+                <td>{{Circle.name}}</td>
+                <td>{{Circle.province.name}}</td>
+                <td class="gap-3">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editCircle(Circle)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCircle(Circle)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{circle ? circle.length : 0 }} Circles.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+

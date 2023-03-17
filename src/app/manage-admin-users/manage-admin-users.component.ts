@@ -94,7 +94,6 @@ export class ManageAdminUsersComponent {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 this.adminUsers = this.adminUsers.filter(val => val.username !== user.username);
-                console.log(this.adminUsers)
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
             }
         });

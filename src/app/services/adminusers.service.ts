@@ -6,6 +6,8 @@ import { AdminUser } from '../Models/AdmimUsersModel';
 })
 export class AdminusersService {
 
+  private apiUrl = 'https://localhost:7164/api/Provinces';
+
   constructor(private http: HttpClient) {
 
  

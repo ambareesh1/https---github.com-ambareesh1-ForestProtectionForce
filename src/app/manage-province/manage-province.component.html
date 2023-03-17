@@ -1,0 +1,80 @@
+
+<p-toast></p-toast>
+
+<div class="grid">
+    <div class="col-8 p-3">
+        <p-card  styleClass="p-fluid">
+            <form [formGroup]="formProvince" (ngSubmit)="onSubmitProvince()">
+                <div class="formgrid">
+         
+                    <div class="field">
+                        <label for="provinceName">Province Name</label>
+                        <input id="provinceName" pInputText mode="text" formControlName="provinceName" />
+                        <small class="p-error block"
+                            *ngIf="formProvince.get('provinceName')?.invalid && formProvince.get('provinceName')?.dirty"> Province is
+                            required.</small>
+                    </div>
+
+                  
+
+                    <div class="flex align-items-end  col-6 gap-3 ">
+                        <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
+                            [disabled]="formProvince.invalid"></button>
+                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                            type="reset"></button>
+                    </div>
+
+                </div>
+            </form>
+        </p-card>
+    </div>
+</div>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-1">
+        <ng-template pTemplate="left">
+           <h6>Manage Admin Users</h6>
+        </ng-template>
+
+        <ng-template pTemplate="right" *ngIf="false">
+            <button pButton pRipple label="Export"  (click)="dt.exportCSV()" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
+         [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "search" (input)="dt.filterGlobal(search, 'contains')" placeholder="Search..." />
+                    {{search}}
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">Province Name<p-sortIcon field="name"></p-sortIcon></th>
+               
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-province>
+            <tr>
+                <td>{{province.name}}</td>
+              
+                <td class="gap-3">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editProvince(province)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProvince(province)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{province ? province.length : 0 }} Provinces.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+

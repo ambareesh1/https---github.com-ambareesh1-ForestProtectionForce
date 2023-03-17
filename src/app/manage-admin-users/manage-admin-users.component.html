@@ -128,7 +128,8 @@
                 <td>{{user.alternativeEmail}}</td>
                 <td>{{user.phone}}</td>
                 <td>{{user.address}}</td>
-                <td>
+                <td class="gap-3">
+                    <p-toggleButton [(ngModel)]="user.isactive" pRipple onIcon="pi pi-unlock" offIcon="pi pi-lock" [ngClass]="{'on': user.isactive}"></p-toggleButton>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editProduct(user)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(user)"></button>
                 </td>

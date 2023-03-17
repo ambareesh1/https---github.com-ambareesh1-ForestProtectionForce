@@ -11,6 +11,12 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-users.component';
+import { ManageProvinceComponent } from './manage-province/manage-province.component';
+import { ManageCircleComponent } from './manage-circle/manage-circle.component';
+import { ManageDistrictComponent } from './manage-district/manage-district.component';
+import { ManageDivisionComponent } from './manage-division/manage-division.component';
+import { ManageCompartmentComponent } from './manage-compartment/manage-compartment.component';
+import { ManageParentComponent } from './manage-parent/manage-parent.component';
 
 const routes: Routes = [
 
@@ -27,7 +33,13 @@ const routes: Routes = [
     {path:'dashboard', component:DashboardComponent},
     {path:'mangeprofile', component:ManageProfileComponent},
     {path:'baselinedata', component:BaselineDataComponent},
-    {path:'manageadminusers', component:ManageAdminUsersComponent}
+    {path:'manageadminusers', component:ManageAdminUsersComponent},
+    {path:'manageprovision', component:ManageProvinceComponent},
+    {path:'managecircle', component:ManageCircleComponent},
+    {path:'managedistrict', component:ManageDistrictComponent},
+    {path:'manangedivision', component:ManageDivisionComponent},
+    {path:'managecompartment', component:ManageCompartmentComponent},
+    {path:'manageparent', component:ManageParentComponent},
    ]
 }
 ];
