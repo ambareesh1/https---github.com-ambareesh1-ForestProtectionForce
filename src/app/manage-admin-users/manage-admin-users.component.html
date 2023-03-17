@@ -1,0 +1,146 @@
+
+<p-toast></p-toast>
+
+<div class="grid">
+    <div class="col-8 p-3">
+        <p-card header="Add Admin Users" styleClass="p-fluid">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="formgrid">
+                    <div class="field">
+                        <label for="name">User Types</label>
+                        <p-dropdown [options]="userTypes" formControlName="userType" optionLabel="label" optionValue="value"></p-dropdown>
+
+                    </div>
+                    <div class="field">
+                        <label for="userName">User Name</label>
+                        <input id="userName" pInputText mode="text" formControlName="username" />
+                        <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="firstName">First Name</label>
+                        <input id="firstName" pInputText mode="text" formControlName="firstName" />
+                        <small class="p-error block"
+                            *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.dirty"> First name is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="lastName">Last Name</label>
+                        <input id="lastName" pInputText mode="text" formControlName="lastName" />
+                        <small class="p-error block"
+                            *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.dirty"> Last name is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input id="email" pInputText mode="email" formControlName="email" />
+                        <small class="p-error block" *ngIf="form.get('email')?.invalid && form.get('email')?.dirty">
+                            Email is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="alternativeEmail">Alternative Email</label>
+                        <input id="alternativeEmail" pInputText mode="email" formControlName="alternateEmail" />
+                    </div>
+
+                    <div class="field">
+                        <label for="mobileNo">Mobile No</label>
+                        <input id="mobileNo" pInputText mode="phone" formControlName="phone" />
+                        <small class="p-error block" *ngIf="form.get('phone')?.invalid && form.get('phone')?.dirty">
+                            Phone No is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="address">Address</label>
+                        <textarea id="address" pInputTextarea rows="3" cols="20" formControlName="address"></textarea>
+                        <small class="p-error block" *ngIf="form.get('address')?.invalid && form.get('address')?.dirty">
+                            Address is
+                            required.</small>
+                    </div>
+
+                    <div class="flex align-items-end  col-6 gap-3 ">
+                        <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
+                            [disabled]="form.invalid"></button>
+                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                            type="reset"></button>
+                    </div>
+
+                </div>
+            </form>
+        </p-card>
+    </div>
+    <div class="col-4 mt-5">
+        <p-card subheader="Username & Password will be autogenarated to the provided email address.">
+           
+        </p-card>
+    </div>
+</div>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+           <h4>Manage Admin Users</h4>
+        </ng-template>
+
+        <ng-template pTemplate="right" *ngIf="false">
+            <button pButton pRipple label="Export"  (click)="dt.exportCSV()" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="adminUsers" [rows]="10" [paginator]="true" [globalFilterFields]="['userType','username','firstName','lastName', 'email', 'alternativeEmail', 'phone', 'address']"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "search" (input)="dt.filterGlobal(search, 'contains')" placeholder="Search..." />
+                    {{search}}
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="userType">User Type <p-sortIcon field="userType"></p-sortIcon></th>
+                <th pSortableColumn="username">User Name <p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="firstName">First Name<p-sortIcon field="firstName"></p-sortIcon></th>
+                <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastName"></p-sortIcon></th>
+                <th pSortableColumn="email">Email  <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="alternativeEmail">Alternative Email <p-sortIcon field="alternativeEmail"></p-sortIcon></th>
+                <th pSortableColumn="phone">Phone No <p-sortIcon field="phone"></p-sortIcon></th>
+                <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.userType}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.alternativeEmail}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.address}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editProduct(user)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(user)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{products ? products.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

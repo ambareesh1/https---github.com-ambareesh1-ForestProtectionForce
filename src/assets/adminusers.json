@@ -1,0 +1,63 @@
+{
+	"data": [
+    {
+     "userType":"Director",
+      "username": "ajohndoe",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "johndoe@example.com",
+      "alternativeEmail" : "johndoe@example.com",
+      "phone": "1234567890",
+      "address": "123 Main St, Anytown, USA"
+    },
+    {
+      "userType":"bDirector",
+       "username": "cjohndoe",
+       "firstName": "John",
+       "lastName": "Doe",
+       "email": "johndoe@example.com",
+       "alternativeEmail" : "johndoe@example.com",
+       "phone": "1234567890",
+       "address": "123 Main St, Anytown, USA"
+     },
+     {
+      "userType":"eDirector",
+       "username": "fjohndoe",
+       "firstName": "John",
+       "lastName": "Doe",
+       "email": "johndoe@example.com",
+       "alternativeEmail" : "johndoe@example.com",
+       "phone": "1234567890",
+       "address": "123 Main St, Anytown, USA"
+     },    {
+      "userType":"aDirector",
+       "username": "hjohndoe",
+       "firstName": "John",
+       "lastName": "Doe",
+       "email": "johndoe@example.com",
+       "alternativeEmail" : "johndoe@example.com",
+       "phone": "1234567890",
+       "address": "123 Main St, Anytown, USA"
+     },
+     {
+      "userType":"tDirector",
+       "username": "hjkjohndoe",
+       "firstName": "John",
+       "lastName": "Doe",
+       "email": "johndoe@example.com",
+       "alternativeEmail" : "johndoe@example.com",
+       "phone": "1234567890",
+       "address": "123 Main St, Anytown, USA"
+     },
+     {
+      "userType":"xDirector",
+       "username": "uyjohndoe",
+       "firstName": "John",
+       "lastName": "Doe",
+       "email": "johndoe@example.com",
+       "alternativeEmail" : "johndoe@example.com",
+       "phone": "1234567890",
+       "address": "123 Main St, Anytown, USA"
+     }
+]
+}

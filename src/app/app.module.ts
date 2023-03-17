@@ -12,6 +12,25 @@ import { RippleModule } from 'primeng/ripple';
 import {ChartModule} from 'primeng/chart';
 import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
+import {CalendarModule} from 'primeng/calendar';
+import {SliderModule} from 'primeng/slider';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {FileUploadModule} from 'primeng/fileupload';
+import {ToolbarModule} from 'primeng/toolbar';
+import {RatingModule} from 'primeng/rating';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {InputNumberModule} from 'primeng/inputnumber';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProductService } from './manage-admin-users/productservice';
+import { HttpClientModule } from '@angular/common/http';
 
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
@@ -23,6 +42,7 @@ import { StandardlayoutComponent } from './standardlayout/standardlayout.compone
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
+import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-users.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +57,7 @@ import { BaselineDataComponent } from './baseline-data/baseline-data.component';
     AuthLayoutComponent,
     ManageProfileComponent,
     BaselineDataComponent,
+    ManageAdminUsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,9 +72,29 @@ import { BaselineDataComponent } from './baseline-data/baseline-data.component';
     RippleModule,
     ChartModule,
     MenubarModule,
-    TableModule
+    TableModule,
+    TableModule,
+    CalendarModule,
+		SliderModule,
+		DialogModule,
+		MultiSelectModule,
+		ContextMenuModule,
+		DropdownModule,
+		ButtonModule,
+		ToastModule,
+    InputTextModule,
+    ProgressBarModule,
+    FileUploadModule,
+    ToolbarModule,
+    RatingModule,
+    FormsModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ProductService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

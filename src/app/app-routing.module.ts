@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { ManageProfileComponent } from './manage-profile/manage-profile.component';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
+import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-users.component';
 
 const routes: Routes = [
 
@@ -25,7 +26,8 @@ const routes: Routes = [
    children:[
     {path:'dashboard', component:DashboardComponent},
     {path:'mangeprofile', component:ManageProfileComponent},
-    {path:'baselinedata', component:BaselineDataComponent}
+    {path:'baselinedata', component:BaselineDataComponent},
+    {path:'manageadminusers', component:ManageAdminUsersComponent}
    ]
 }
 ];
