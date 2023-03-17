@@ -36,26 +36,23 @@
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-           <h4>Manage Admin Users</h4>
+           <h6>Manage Circle</h6>
         </ng-template>
 
-        <ng-template pTemplate="right" *ngIf="false">
-            <button pButton pRipple label="Export"  (click)="dt.exportCSV()" icon="pi pi-upload" class="p-button-help"></button>
+        <ng-template pTemplate="right">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "search" (input)="dt.filterGlobal(search, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
         </ng-template>
     </p-toolbar>
 
     <p-table #dt [value]="circle" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
          [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" [(ngModel)] = "search" (input)="dt.filterGlobal(search, 'contains')" placeholder="Search..." />
-                    {{search}}
-                </span>
-            </div>
-        </ng-template>
+        
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="name">Circle Name<p-sortIcon field="name"></p-sortIcon></th>

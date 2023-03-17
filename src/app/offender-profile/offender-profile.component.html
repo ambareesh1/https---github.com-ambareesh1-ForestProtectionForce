@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <form>
+        <p-card subheader="Personal Profile">
+      
+            <div class="formgrid">
+                <div class="row">
+
+             
+                <div class="col-6">
+                    <div class="field">
+                        <label for="userName">Name</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+                    <div class="field mt-3">
+                        <label class="p-1 block fs-6">User Name</label>
+                        <input type="text" pInputText formControlName="username"  />
+                        <!-- <small class="p-error block"
+                          *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.dirty"> User name is
+                          required.</small> -->
+                      </div>
+      
+                    <div class="field">
+                        <label for="userName">SurName/Alias</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+                    <div class="field">
+                        <label for="userName">Father Name/ Husband Name with</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+                    <div class="field">
+                        <label for="userName">Caste</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="userName">Trade or Profession</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+                    <div class="field">
+                        <label for="userName">Date of Photography</label>
+                        <input id="userName" pInputText mode="text"  />
+                        <!-- <small class="p-error block"
+                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
+                            required.</small> -->
+                    </div>
+
+                    <div class="field">
+                        <p-fileUpload name="myfile[]" url="./upload.php" ></p-fileUpload>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </p-card>
+</form>
+</div>

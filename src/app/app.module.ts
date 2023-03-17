@@ -30,6 +30,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import {	ToggleButtonModule} from 'primeng/togglebutton';
 import { AccordionModule } from 'primeng/accordion';
+import { FieldsetModule } from 'primeng/fieldset';
+
+
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -57,6 +60,7 @@ import { ManageDistrictComponent } from './manage-district/manage-district.compo
 import { ManageDivisionComponent } from './manage-division/manage-division.component';
 import { ManageCompartmentComponent } from './manage-compartment/manage-compartment.component';
 import { ManageParentComponent } from './manage-parent/manage-parent.component';
+import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
 
 
 
@@ -81,6 +85,7 @@ import { ManageParentComponent } from './manage-parent/manage-parent.component';
     ManageDivisionComponent,
     ManageCompartmentComponent,
     ManageParentComponent,
+    OffenderProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,7 +122,8 @@ import { ManageParentComponent } from './manage-parent/manage-parent.component';
     InputTextareaModule,
     HttpClientModule,
     ToggleButtonModule,
-    AccordionModule
+    AccordionModule,
+    FieldsetModule
   ],
   providers: [ProductService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
