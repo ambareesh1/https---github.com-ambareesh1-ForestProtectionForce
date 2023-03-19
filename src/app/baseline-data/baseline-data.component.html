@@ -1,97 +1,162 @@
 <div class="container-fluid">
     <p-panel header="Manage Base Line Data">
-            <form [formGroup]="formBaseline">
-                <div class="row">
-                    <div class="col-lg-6">
+        <form  [formGroup]="formBaseline" (ngSubmit)="onSubmitBaseline()">
+            <div class="row">
+                <div class="col-lg-6">
 
-                        <div class="field">
-                            <label for="DateOfDetection" class="block">Date of Detection</label>
-                            <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width" formControlName="DateOfDetection"></p-calendar>
-                            <small class="p-error block"
-                            *ngIf="formBaseline.get('DateOfDetection')?.invalid && formBaseline.get('DateOfDetection')?.dirty">Date of Photography is
-                           </small>
-                        </div>
-                        <div class="field">
-                            <label for="OfficerName" class="block">Officer's Name</label>
-                            <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="OfficerName" />
-                            <small class="p-error block"
-                                *ngIf="formBaseline.get('OfficerName')?.invalid && formBaseline.get('OfficerName')?.dirty"> Name is
-                                required.</small>
-                        </div>
-
-                        <div class="field">
-                            <label for="CrimeDetails" class="block">Crime Details</label>
-                            <textarea  id="CrimeDetails"  [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" class="offender-input-width" formControlName="CrimeDetails"></textarea>
-                            <small class="p-error block" *ngIf="formBaseline.get('CrimeDetails')?.invalid && formBaseline.get('CrimeDetails')?.dirty">Crime Details is required.</small>
-                          </div>
-
-                          <div class="field">
-                            <label for="ToolsUsed" class="block">Tools Used</label>
-                            <p-chips  separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'" styleClass ="offender-input-width"></p-chips>
-                            <small class="p-error block" *ngIf="formBaseline.get('ToolsUsed')?.invalid && formBaseline.get('ToolsUsed')?.dirty">Tools Used is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="PoliceStation" class="block">Police Station</label>
-                            <input id="PoliceStation" pInputText mode="text" class="offender-input-width" formControlName="PoliceStation" />
-                            <small class="p-error block" *ngIf="formBaseline.get('PoliceStation')?.invalid && formBaseline.get('PoliceStation')?.dirty">Police Station is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="FIRNo" class="block">FIR Number</label>
-                            <input id="FIRNo" pInputText mode="text" class="offender-input-width" formControlName="FIRNo" />
-                            <small class="p-error block" *ngIf="formBaseline.get('FIRNo')?.invalid && formBaseline.get('FIRNo')?.dirty">FIR Number is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="CrimeDate" class="block">Crime Date</label>
-                            <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width" formControlName="CrimeDate"></p-calendar>
-                            <small class="p-error block"
-                            *ngIf="formBaseline.get('CrimeDate')?.invalid && formBaseline.get('CrimeDate')?.dirty">Date of Photography is
-                           </small>
-                        </div>
-                        <div class="field">
-                            <label for="SectionOfLaw" class="block">Section of Law</label>
-                            <input id="SectionOfLaw" pInputText mode="text" class="offender-input-width" formControlName="SectionOfLaw" />
-                            <small class="p-error block" *ngIf="formBaseline.get('SectionOfLaw')?.invalid && formBaseline.get('SectionOfLaw')?.dirty">Section of Law is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="Quantity" class="block">Quantity</label>
-                            <input id="Quantity" pInputText  type="number" class="offender-input-width" formControlName="Quantity" />
-                            <small class="p-error block" *ngIf="formBaseline.get('Quantity')?.invalid && formBaseline.get('Quantity')?.dirty">Quantity is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="Weight" class="block">Weight</label>
-                            <input id="Weight" pInputText type="number" class="offender-input-width" formControlName="Weight" />
-                            <small class="p-error block" *ngIf="formBaseline.get('Weight')?.invalid && formBaseline.get('Weight')?.dirty">Weight is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="NoOfAccused" class="block">Number of Accused</label>
-                            <input id="NoOfAccused" pInputText type="number" class="offender-input-width" formControlName="NoOfAccused" />
-                            <small class="p-error block" *ngIf="formBaseline.get('NoOfAccused')?.invalid && formBaseline.get('NoOfAccused')?.dirty">Number of Accused is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="NameOfAccused" class="block">Name of Accused</label>
-                            <p-chips formControlName="NameOfAccused" (onAdd)="onChipAdd($event)" placeholder="Enter names" formControlName="NameOfAccused"></p-chips>
-                            <small class="p-error block" *ngIf="formBaseline.get('NameOfAccused')?.invalid && formBaseline.get('NameOfAccused')?.dirty">Name of Accused is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="SpeciesDetected" class="block">Species Detected</label>
-                            <input id="SpeciesDetected" pInputText mode="text" class="offender-input-width" formControlName="SpeciesDetected" />
-                            <small class="p-error block" *ngIf="formBaseline.get('SpeciesDetected')?.invalid && formBaseline.get('SpeciesDetected')?.dirty">Species Detected is required.</small>
-                          </div>
-                          <div class="field">
-                            <label for="ItemDescription" class="block">Item Description</label>
-                            <input id="ItemDescription" pInputText mode="text" class="offender-input-width" formControlName="ItemDescription" />
-                            <small class="p-error block" *ngIf="formBaseline.get('ItemDescription')?.invalid && formBaseline.get('ItemDescription')?.dirty">Item Description is required.</small>
-                          </div>
-                       
+                    <div class="field">
+                        <label for="DateOfDetection" class="block">Date of Detection</label>
+                        <p-calendar [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width"
+                            formControlName="DateOfDetection"></p-calendar>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('DateOfDetection')?.invalid && formBaseline.get('DateOfDetection')?.dirty">Date
+                            of Photography is
+                        </small>
                     </div>
-                    <div class="col-lg-6">
-                        
+                    <div class="field">
+                        <label for="OfficerName" class="block">Officer's Name</label>
+                        <input id="Name" pInputText mode="text" class="offender-input-width"
+                            formControlName="OfficerName" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('OfficerName')?.invalid && formBaseline.get('OfficerName')?.dirty">
+                            Name is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="CrimeDetails" class="block">Crime Details</label>
+                        <textarea id="CrimeDetails" [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
+                            class="offender-input-width" formControlName="CrimeDetails"></textarea>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('CrimeDetails')?.invalid && formBaseline.get('CrimeDetails')?.dirty">Crime
+                            Details is required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="ToolsUsed" class="block">Tools Used</label>
+                        <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'" formControlName="ToolsUsed"
+                            styleClass="offender-input-width"></p-chips>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('ToolsUsed')?.invalid && formBaseline.get('ToolsUsed')?.dirty">Tools
+                            Used is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="CircleId" class="block">Circle </label>
+                        <p-dropdown id="CircleId" [options]="circles" [showClear]="true" formControlName="CircleId" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)"> </p-dropdown>
+                        <small class="p-error block" *ngIf="formBaseline.get('CircleId')?.invalid && formBaseline.get('CircleId')?.dirty">Circle ID is required.</small>
+                      </div>
+                      <div class="field">
+                        <label for="ForestDivisionId" class="block">Forest Division</label>
+                        <p-dropdown id="ForestDivisionId" [options]="forestDivisions" [showClear]="true" formControlName="ForestDivisionId" optionLabel="name" optionValue="id" (onChange)="onForestDivisionChange($event)"></p-dropdown>
+                        <small class="p-error block" *ngIf="formBaseline.get('ForestDivisionId')?.invalid && formBaseline.get('ForestDivisionId')?.dirty">Forest Division ID is required.</small>
+                      </div>
+                      <div class="field">
+                        <label for="ForestRangeId" class="block">Forest Range</label>
+                        <p-dropdown id="ForestRangeId" [options]="forestRanges" [showClear]="true" formControlName="ForestRangeId" optionLabel="name" optionValue="id" (onChange)="onForestRangeChange($event)"></p-dropdown>
+                        <small class="p-error block" *ngIf="formBaseline.get('ForestRangeId')?.invalid && formBaseline.get('ForestRangeId')?.dirty">Forest Range ID is required.</small>
+                      </div>
+                      <div class="field">
+                        <label for="CompartmentId" class="block">Compartment</label>
+                        <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id"></p-dropdown>
+                        <small class="p-error block" *ngIf="formBaseline.get('CompartmentId')?.invalid && formBaseline.get('CompartmentId')?.dirty">Compartment ID is required.</small>
+                      </div>
+                    <div class="field">
+                        <label for="PoliceStation" class="block">Police Station</label>
+                        <input id="PoliceStation" pInputText mode="text" class="offender-input-width"
+                            formControlName="PoliceStation" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('PoliceStation')?.invalid && formBaseline.get('PoliceStation')?.dirty">Police
+                            Station is required.</small>
+                    </div>
+                
+                </div>
+                <div class="col-lg-6">
+                    <div class="field">
+                        <label for="FIRNo" class="block">FIR Number</label>
+                        <input id="FIRNo" pInputText mode="text" class="offender-input-width" formControlName="FIRNo" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('FIRNo')?.invalid && formBaseline.get('FIRNo')?.dirty">FIR Number is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="CrimeDate" class="block">Crime Date</label>
+                        <p-calendar [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width"
+                            formControlName="CrimeDate"></p-calendar>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('CrimeDate')?.invalid && formBaseline.get('CrimeDate')?.dirty">Date
+                            of Photography is
+                        </small>
+                    </div>
+                    <div class="field">
+                        <label for="SectionOfLaw" class="block">Section of Law</label>
+                        <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
+                            styleClass="offender-input-width" formControlName="SectionOfLaw"></p-chips>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('SectionOfLaw')?.invalid && formBaseline.get('SectionOfLaw')?.dirty">Section
+                            of Law is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="Quantity" class="block">Quantity</label>
+                        <input id="Quantity" pInputText type="number" class="offender-input-width"
+                            formControlName="Quantity" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('Quantity')?.invalid && formBaseline.get('Quantity')?.dirty">Quantity
+                            is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="Weight" class="block">Weight</label>
+                        <input id="Weight" pInputText type="number" class="offender-input-width"
+                            formControlName="Weight" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('Weight')?.invalid && formBaseline.get('Weight')?.dirty">Weight is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="NoOfAccused" class="block">Number of Accused</label>
+                        <input id="NoOfAccused" pInputText type="number" class="offender-input-width"
+                            formControlName="NoOfAccused" />
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('NoOfAccused')?.invalid && formBaseline.get('NoOfAccused')?.dirty">Number
+                            of Accused is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="NameOfAccused" class="block">Name of Accused</label>
+                        <p-chips formControlName="NameOfAccused" (onAdd)="onChipAdd($event)" placeholder="Enter names"
+                            formControlName="NameOfAccused">
+                            <ng-template let-item pTemplate="item">
+                                <span class="pi pi-user pr-2"></span>{{ item }}
+                            </ng-template>
+                        </p-chips>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('NameOfAccused')?.invalid && formBaseline.get('NameOfAccused')?.dirty">Name
+                            of Accused is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="SpeciesDetected" class="block">Species Detected</label>
+                        <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
+                            styleClass="offender-input-width" formControlName="SpeciesDetected"></p-chips>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('SpeciesDetected')?.invalid && formBaseline.get('SpeciesDetected')?.dirty">Species
+                            Detected is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="ItemDescription" class="block">Item Description</label>
+                        <textarea id="CrimeDetails" [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
+                            class="offender-input-width" formControlName="CrimeDetails"
+                            formControlName="ItemDescription"></textarea>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('ItemDescription')?.invalid && formBaseline.get('ItemDescription')?.dirty">Item
+                            Description is required.</small>
                     </div>
                 </div>
-                <div class="d-flex align-items-center justify-content-center">
-                    <button pButton pRipple type="submit" label="Login"
-                        class="p-button-rounded p-button-success text-center mt-3"></button>
+            </div>
+         
+                <div class="p-card-footer flex justify-content-center flex-wrap gap-3">
+                    <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success">Submit</button>
+                    <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
                 </div>
-            </form>
+           
+        </form>
     </p-panel>
 </div>
+<p-toast></p-toast>
