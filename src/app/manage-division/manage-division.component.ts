@@ -4,7 +4,7 @@ import { AdminUser } from '../Models/AdmimUsersModel';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
-import { Division, Province } from '../Models/ManageDataModels';
+import { District, Division, Province } from '../Models/ManageDataModels';
 
 @Component({
   selector: 'app-manage-division',
@@ -17,7 +17,7 @@ export class ManageDivisionComponent {
   productDialog: boolean = false;
   Delete : any = "Delete";
   division : Division[] = [];
-  districtData : Province[]=[];
+  districtData : District[]=[];
   submitted: boolean = true;
   search : any = "";
   isDivisionConf : boolean = true;

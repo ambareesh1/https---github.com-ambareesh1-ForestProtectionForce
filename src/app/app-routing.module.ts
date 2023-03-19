@@ -18,6 +18,7 @@ import { ManageDivisionComponent } from './manage-division/manage-division.compo
 import { ManageCompartmentComponent } from './manage-compartment/manage-compartment.component';
 import { ManageParentComponent } from './manage-parent/manage-parent.component';
 import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
+import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
 
 const routes: Routes = [
 
@@ -41,7 +42,8 @@ const routes: Routes = [
     {path:'manangedivision', component:ManageDivisionComponent},
     {path:'managecompartment', component:ManageCompartmentComponent},
     {path:'manageparent', component:ManageParentComponent},
-    {path: 'offenderprofile', component:OffenderProfileComponent}
+    {path: 'offenderprofile', component:OffenderProfileComponent},
+    {path:'offenderprofileData', component:OffenderProfileDataComponent}
    ]
 }
 ];

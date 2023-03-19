@@ -31,7 +31,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import {	ToggleButtonModule} from 'primeng/togglebutton';
 import { AccordionModule } from 'primeng/accordion';
 import { FieldsetModule } from 'primeng/fieldset';
-
+import {PanelModule} from 'primeng/panel';
+import {InputMaskModule} from 'primeng/inputmask';
+import {ChipsModule} from 'primeng/chips';
 
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
@@ -61,6 +63,7 @@ import { ManageDivisionComponent } from './manage-division/manage-division.compo
 import { ManageCompartmentComponent } from './manage-compartment/manage-compartment.component';
 import { ManageParentComponent } from './manage-parent/manage-parent.component';
 import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
+import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
 
 
 
@@ -86,6 +89,7 @@ import { OffenderProfileComponent } from './offender-profile/offender-profile.co
     ManageCompartmentComponent,
     ManageParentComponent,
     OffenderProfileComponent,
+    OffenderProfileDataComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,7 +127,10 @@ import { OffenderProfileComponent } from './offender-profile/offender-profile.co
     HttpClientModule,
     ToggleButtonModule,
     AccordionModule,
-    FieldsetModule
+    FieldsetModule,
+    PanelModule,
+    InputMaskModule,
+    ChipsModule
   ],
   providers: [ProductService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]

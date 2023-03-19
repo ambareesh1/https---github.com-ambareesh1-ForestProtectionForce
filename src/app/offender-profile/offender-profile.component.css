@@ -1,0 +1,26 @@
+.offender-input-width{
+    width: 75%;
+}
+:host ::ng-deep .p-card-subtitle {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: #fff !important;
+    background: #6c757d !important;
+    padding: 10px !important;
+    font-weight: bold !important;
+}
+:host ::ng-deep span > .p-button{
+    background: #6c757d;
+    color: #ffffff;
+    border-color: #6c757d;
+}
+:host ::ng-deep .p-fileupload-buttonbar >  .p-fileupload-choose{
+    background: #6c757d;
+    color: #ffffff;
+    border-color: #6c757d;
+}
+:host ::ng-deep .p-fileupload-buttonbar >.p-button[type="button"] > .button[type="button"]{
+    background: #6c757d;
+    color: #ffffff;
+    border-color: #6c757d;
+}

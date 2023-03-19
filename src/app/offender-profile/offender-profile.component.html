@@ -1,71 +1,215 @@
 <div class="container-fluid">
-    <form>
-        <p-card subheader="Personal Profile">
-      
-            <div class="formgrid">
-                <div class="row">
+    <form *ngIf="districtData.length>0" [formGroup]="formOffender" (ngSubmit)="onSubmitOffender()">
+        <p-panel header="Personal Profile of Offender">
+            <p-card subheader="Personal Profile">
+                <div class="formgrid">
+                    <div class="row">
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="Name" class="block">Name</label>
+                            <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="name" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('name')?.invalid && formOffender.get('name')?.dirty"> Name is
+                                required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="surNameAlias" class="block text-bold">SurName/Alias</label>
+                            <input id="surNameAlias" pInputText mode="text" class="offender-input-width" formControlName="surNameAlias" />
+                        </div>
+                        <div class="field">
+                            <label for="fatherName" class="block">Father Name/ Husband Name with</label>
+                            <input id="fatherName" pInputText mode="text" class="offender-input-width" formControlName="fatherName" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('fatherName')?.invalid && formOffender.get('fatherName')?.dirty"> Father name is
+                                required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="caste" class="block">Caste</label>
+                            <input id="caste" pInputText mode="text" class="offender-input-width" formControlName="caste"  />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('caste')?.invalid && formOffender.get('caste')?.dirty"> Caste is
+                                required.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="trade" class="block">Trade or Profession</label>
+                            <input id="trade" pInputText mode="text" class="offender-input-width" formControlName="trade" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('trade')?.invalid && formOffender.get('trade')?.dirty"> Trade or Profession is
+                                required.</small>
+                        </div>
+                  
+                        <div class="field">
+                            <label for="userName" class="block">Date of Photography</label>
+                            <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success " formControlName="dateOfPhotography"></p-calendar>
+                            <small class="p-error block"
+                            *ngIf="formOffender.get('dateOfPhotography')?.invalid && formOffender.get('dateOfPhotography')?.dirty">Date of Photography is
+                           </small>
+                        </div>
+    
+                        <div class="field">
+                            <label for="userName" class="block">Upload Photo - Max Size 10K</label>
+                            <p-fileUpload name="myfile[]"  url="https://localhost:7164/api/offenders/upload" (onUpload)="onUpload($event)" [maxFileSize]="1000000" ></p-fileUpload>
+                                <ul *ngIf="uploadedFiles && uploadedFiles.length">
+                                    <li style="font-weight: bold; color:darkkhaki" class="text-bold" *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </p-card>
+            <p-card subheader="Important Personal Information" styleClass="mt-3">
+                <div class="formgrid">
+                    <div class="row">
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="userName" class="block">Date of Birth</label>
+                            <p-calendar  [showIcon]="true" inputId="icon" formControlName="dateOfBirth" [maxDate]="maxDate" (onSelect)="onDateSelect($event)"></p-calendar>
+                            <small class="p-error block"
+                            *ngIf="formOffender.get('dateOfBirth')?.invalid && formOffender.get('dateOfBirth')?.dirty">Date of Birth is required
+                           </small>
+                        </div>
+                        <div class="field">
+                            <label for="age" class="block text-bold">Age</label>
+                            <input id="age" pInputText mode="text" class="offender-input-width" formControlName="age" />
+                        </div>
+                        <div class="field">
+                            <label for="fatherName" class="block">Sex</label>
+                            <div class="p-field-radiobutton">
+                                <p-radioButton name="sex" value="male"  formControlName="sex" label="Male"></p-radioButton>
+                                <p-radioButton class="ml-2" name="sex" value="female" formControlName="sex" label="Female"></p-radioButton>
+                                <p-radioButton class="ml-2" name="sex" value="other" formControlName="sex" label="Others"></p-radioButton>
+                              </div>
+                   
+                        </div>
+                        <div class="field">
+                            <label for="citizenShip" class="block">Citizenship</label>
+                            <input id="citizenShip" pInputText mode="text" class="offender-input-width" formControlName="citizenShip"  />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('citizenShip')?.invalid && formOffender.get('citizenShip')?.dirty"> Citizenship is
+                                required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="email" class="block">Email Address</label>
+                            <input id="email" pInputText mode="email" class="offender-input-width" formControlName="email" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('email')?.invalid && formOffender.get('email')?.dirty"> Email is
+                                required.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="passport" class="block">Passport No</label>
+                            <input id="passport" pInputText mode="text" class="offender-input-width" formControlName="passport" />
+                            <small class="p-error block"
+                            *ngIf="formOffender.get('passport')?.invalid && formOffender.get('passport')?.dirty">Passport is required.
+                           </small>
+                        </div>
 
-             
+                        <div class="field">
+                            <label for="mobileNo" class="block">Telephone/Mobile No</label>
+                            <input id="mobileNo" pInputText mode="text" class="offender-input-width"
+                                formControlName="mobileNo" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('mobileNo')?.invalid && formOffender.get('mobileNo')?.dirty">Passport
+                                is required.
+                            </small>
+                        </div>
+
+                        <div class="field">
+                            <label for="aadharNo" class="block">Aadhar No</label>
+                                <p-inputMask mask="9999-9999-9999"   class="offender-input-width" formControlName="aadharNo"></p-inputMask>
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('aadharNo')?.invalid && formOffender.get('aadharNo')?.dirty">Aadhar
+                                No is required.
+                            </small>
+                        </div>
+
+                        <div class="field">
+                            <label for="backAccountNo" class="block">Bank Account No</label>
+                            <input id="backAccountNo" pInputText mode="text" class="offender-input-width"
+                                formControlName="backAccountNo" />
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('backAccountNo')?.invalid && formOffender.get('backAccountNo')?.dirty">Back
+                                Account No is required.
+                            </small>
+                        </div>
+
+
+                       
+                    </div>
+                </div>
+                </div>
+            </p-card>
+            <p-card subheader="Residence" styleClass="mt-3">
+               <div class="row">
                 <div class="col-6">
                     <div class="field">
-                        <label for="userName">Name</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
-                    </div>
-                    <div class="field mt-3">
-                        <label class="p-1 block fs-6">User Name</label>
-                        <input type="text" pInputText formControlName="username"  />
-                        <!-- <small class="p-error block"
-                          *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.dirty"> User name is
-                          required.</small> -->
-                      </div>
-      
-                    <div class="field">
-                        <label for="userName">SurName/Alias</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
+                        <label for="houseNo" class="block">House No.</label>
+                        <input id="houseNo" pInputText mode="text" class="offender-input-width" formControlName="houseNo" />
+                        <small class="p-error block" *ngIf="formOffender.get('houseNo')?.invalid && formOffender.get('houseNo')?.dirty">
+                            House No. is required.
+                        </small>
                     </div>
                     <div class="field">
-                        <label for="userName">Father Name/ Husband Name with</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
+                        <label for="village" class="block">Village</label>
+                        <input id="village" pInputText mode="text" class="offender-input-width" formControlName="village" />
+                        <small class="p-error block" *ngIf="formOffender.get('village')?.invalid && formOffender.get('village')?.dirty">
+                            Village is required.
+                        </small>
                     </div>
                     <div class="field">
-                        <label for="userName">Caste</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
+                        <label for="city" class="block">City</label>
+                        <input id="city" pInputText mode="text" class="offender-input-width" formControlName="city" />
+                        <small class="p-error block" *ngIf="formOffender.get('city')?.invalid && formOffender.get('city')?.dirty">
+                            City is required.
+                        </small>
+                    </div>
+                    <div class="field">
+                        <label for="street" class="block">Street</label>
+                        <input id="street" pInputText mode="text" class="offender-input-width" formControlName="street" />
+                        <small class="p-error block" *ngIf="formOffender.get('street')?.invalid && formOffender.get('street')?.dirty">
+                            Street is required.
+                        </small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="field">
-                        <label for="userName">Trade or Profession</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
+                        <label for="policeStation" class="block">Police Station</label>
+                        <input id="policeStation" pInputText mode="text" class="offender-input-width" formControlName="policeStation" />
+                        <small class="p-error block"
+                            *ngIf="formOffender.get('policeStation')?.invalid && formOffender.get('policeStation')?.dirty">
+                            Police Station is required.
+                        </small>
                     </div>
                     <div class="field">
-                        <label for="userName">Date of Photography</label>
-                        <input id="userName" pInputText mode="text"  />
-                        <!-- <small class="p-error block"
-                            *ngIf="form.get('username')?.invalid && form.get('username')?.dirty"> User name is
-                            required.</small> -->
+                        <label for="district" class="block">District</label>
+                        <p-dropdown [options]="districtData" formControlName="district" class="offender-input-width" optionLabel="name" optionValue="id"></p-dropdown>
+                        <small class="p-error block"
+                            *ngIf="formOffender.get('district')?.invalid && formOffender.get('district')?.dirty">
+                            District is required.
+                        </small>
                     </div>
-
                     <div class="field">
-                        <p-fileUpload name="myfile[]" url="./upload.php" ></p-fileUpload>
+                        <label for="pincode" class="block">Pincode</label>
+                        <input id="pincode" pInputText mode="text" class="offender-input-width" formControlName="pincode" />
+                        <small class="p-error block"
+                            *ngIf="formOffender.get('pincode')?.invalid && formOffender.get('pincode')?.dirty">
+                            Pincode is required
+                        </small>
                     </div>
                 </div>
             </div>
-            </div>
-        </p-card>
+                   </p-card>
+                   <p-card styleClass="mt-2">
+                    <div class="p-card-footer flex justify-content-center flex-wrap gap-4">
+                        
+                        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success"   >Submit</button>
+                        <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
+                    </div>
+                </p-card>
+        </p-panel>
+   
 </form>
-</div>
+</div><p-toast></p-toast>

@@ -1,0 +1,86 @@
+<p-panel header="Offender Profiles">
+    <p-table #dt [value]="offerProfileData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']"
+    [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+    [showCurrentPageReport]="true" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="caption">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "searchValue" (input)="dt.filterGlobal(searchValue, 'contains')" placeholder="Search..." />
+                </span>
+            </ng-template>
+    
+            <ng-template pTemplate="right">
+                <label for="range" class="block">From Date - To Date</label>
+                <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+            </ng-template>
+        </p-toolbar>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="SurnameAlias">Surname / Alias <p-sortIcon field="SurnameAlias"></p-sortIcon></th>
+            <th pSortableColumn="FatherHusbandNameAlias">Father's / Husband's Name  <p-sortIcon field="FatherHusbandNameAlias"></p-sortIcon></th>
+            <th pSortableColumn="CaseId">Case Id <p-sortIcon field="CaseId"></p-sortIcon></th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        <tr>
+			<th>
+				<p-columnFilter type="text" field="name"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="SurnameAlias"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="FatherHusbandNameAlias"></p-columnFilter>
+			</th>
+			
+			<th>
+				<p-columnFilter type="text" field="CaseId"></p-columnFilter>
+			</th>
+            <th>
+				
+			</th>
+            <th>
+				
+			</th>
+            <th>
+				
+			</th>
+		</tr>
+	</ng-template>
+  
+    <ng-template pTemplate="body" let-offender>
+        <tr>
+           
+            <td>
+                <img [alt]="offender.name" [src]="offender.photo" width="32" style="vertical-align: middle; border-radius:20%" />
+                <span class="font-bold ml-2">{{offender.name}}</span>
+            </td>
+            <td>{{offender.surnameAlias}}</td>
+            <td>{{offender.fatherHusbandNameAlias}}</td>
+            <td>{{offender.caseId}}</td>
+            <td class="p-1">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editOffenderData(offender)"></button>
+                
+            </td>
+            <td class="p-1">
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary" (click)="viewOffenderHistory(offender)"></button>
+                
+            </td>
+            <td class="p-1">
+                <button pButton pRipple icon="pi pi-history" class="p-button-rounded p-button-secondary" (click)="viewOffenderHistory(offender)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            In total there are {{offerProfileData ? offerProfileData.length : 0 }} Offenders.
+        </div>
+    </ng-template>
+</p-table>
+</p-panel>

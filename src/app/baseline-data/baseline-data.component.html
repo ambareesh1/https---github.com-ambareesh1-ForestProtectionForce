@@ -1,168 +1,97 @@
-<div class="row">
-
-    <div class="card shadow">
-        <div class="card-header">
-            Manage Base Line Data
-        </div>
-        <div class="card-body">
-            <form>
+<div class="container-fluid">
+    <p-panel header="Manage Base Line Data">
+            <form [formGroup]="formBaseline">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Date of detection</label>
-                            <input type="text" pInputText formControlName="username" class="form-control"
-                                value="Ambareesh Marimekala" [disabled]="true" />
 
+                        <div class="field">
+                            <label for="DateOfDetection" class="block">Date of Detection</label>
+                            <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width" formControlName="DateOfDetection"></p-calendar>
+                            <small class="p-error block"
+                            *ngIf="formBaseline.get('DateOfDetection')?.invalid && formBaseline.get('DateOfDetection')?.dirty">Date of Photography is
+                           </small>
+                        </div>
+                        <div class="field">
+                            <label for="OfficerName" class="block">Officer's Name</label>
+                            <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="OfficerName" />
+                            <small class="p-error block"
+                                *ngIf="formBaseline.get('OfficerName')?.invalid && formBaseline.get('OfficerName')?.dirty"> Name is
+                                required.</small>
                         </div>
 
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Officer's Name</label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
+                        <div class="field">
+                            <label for="CrimeDetails" class="block">Crime Details</label>
+                            <textarea  id="CrimeDetails"  [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" class="offender-input-width" formControlName="CrimeDetails"></textarea>
+                            <small class="p-error block" *ngIf="formBaseline.get('CrimeDetails')?.invalid && formBaseline.get('CrimeDetails')?.dirty">Crime Details is required.</small>
+                          </div>
 
+                          <div class="field">
+                            <label for="ToolsUsed" class="block">Tools Used</label>
+                            <p-chips  separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'" styleClass ="offender-input-width"></p-chips>
+                            <small class="p-error block" *ngIf="formBaseline.get('ToolsUsed')?.invalid && formBaseline.get('ToolsUsed')?.dirty">Tools Used is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="PoliceStation" class="block">Police Station</label>
+                            <input id="PoliceStation" pInputText mode="text" class="offender-input-width" formControlName="PoliceStation" />
+                            <small class="p-error block" *ngIf="formBaseline.get('PoliceStation')?.invalid && formBaseline.get('PoliceStation')?.dirty">Police Station is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="FIRNo" class="block">FIR Number</label>
+                            <input id="FIRNo" pInputText mode="text" class="offender-input-width" formControlName="FIRNo" />
+                            <small class="p-error block" *ngIf="formBaseline.get('FIRNo')?.invalid && formBaseline.get('FIRNo')?.dirty">FIR Number is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="CrimeDate" class="block">Crime Date</label>
+                            <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width" formControlName="CrimeDate"></p-calendar>
+                            <small class="p-error block"
+                            *ngIf="formBaseline.get('CrimeDate')?.invalid && formBaseline.get('CrimeDate')?.dirty">Date of Photography is
+                           </small>
                         </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Crime Details</label>
-                            <textarea type="email" pInputText formControlName="password" class="form-control"
-                                rows="3"></textarea>
-
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Tools Used</label>
-                            <textarea type="email" pInputText formControlName="password" class="form-control"
-                                rows="5"></textarea>
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of Circle</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of District</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of Forest Range</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of Compartment</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Case No # </label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of Forest Range</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-
-               
-
+                        <div class="field">
+                            <label for="SectionOfLaw" class="block">Section of Law</label>
+                            <input id="SectionOfLaw" pInputText mode="text" class="offender-input-width" formControlName="SectionOfLaw" />
+                            <small class="p-error block" *ngIf="formBaseline.get('SectionOfLaw')?.invalid && formBaseline.get('SectionOfLaw')?.dirty">Section of Law is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="Quantity" class="block">Quantity</label>
+                            <input id="Quantity" pInputText  type="number" class="offender-input-width" formControlName="Quantity" />
+                            <small class="p-error block" *ngIf="formBaseline.get('Quantity')?.invalid && formBaseline.get('Quantity')?.dirty">Quantity is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="Weight" class="block">Weight</label>
+                            <input id="Weight" pInputText type="number" class="offender-input-width" formControlName="Weight" />
+                            <small class="p-error block" *ngIf="formBaseline.get('Weight')?.invalid && formBaseline.get('Weight')?.dirty">Weight is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="NoOfAccused" class="block">Number of Accused</label>
+                            <input id="NoOfAccused" pInputText type="number" class="offender-input-width" formControlName="NoOfAccused" />
+                            <small class="p-error block" *ngIf="formBaseline.get('NoOfAccused')?.invalid && formBaseline.get('NoOfAccused')?.dirty">Number of Accused is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="NameOfAccused" class="block">Name of Accused</label>
+                            <p-chips formControlName="NameOfAccused" (onAdd)="onChipAdd($event)" placeholder="Enter names" formControlName="NameOfAccused"></p-chips>
+                            <small class="p-error block" *ngIf="formBaseline.get('NameOfAccused')?.invalid && formBaseline.get('NameOfAccused')?.dirty">Name of Accused is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="SpeciesDetected" class="block">Species Detected</label>
+                            <input id="SpeciesDetected" pInputText mode="text" class="offender-input-width" formControlName="SpeciesDetected" />
+                            <small class="p-error block" *ngIf="formBaseline.get('SpeciesDetected')?.invalid && formBaseline.get('SpeciesDetected')?.dirty">Species Detected is required.</small>
+                          </div>
+                          <div class="field">
+                            <label for="ItemDescription" class="block">Item Description</label>
+                            <input id="ItemDescription" pInputText mode="text" class="offender-input-width" formControlName="ItemDescription" />
+                            <small class="p-error block" *ngIf="formBaseline.get('ItemDescription')?.invalid && formBaseline.get('ItemDescription')?.dirty">Item Description is required.</small>
+                          </div>
+                       
                     </div>
                     <div class="col-lg-6">
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Name Of Compartment</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Case No # </label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">police Station </label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">FIR</label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Crime Date</label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Section of law</label>
-                            <input type="text" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Quantity</label>
-                            <input type="number" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Weight</label>
-                            <input type="number" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">No of Accused </label>
-                            <input type="number" pInputText formControlName="password" (ngModel)="numberOfTextboxes"
-                                class="form-control" />
-                            <div *ngFor="let i of [1,2,3,4]">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">Species Detected </label>
-                            <input type="number" pInputText formControlName="password" class="form-control" />
-                        </div>
-
-                        <div class="field mt-3">
-                            <label class="p-1 block fs-6">item Description </label>
-                            <input type="number" pInputText formControlName="password" class="form-control" />
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <button pButton pRipple type="submit" label="Login"
-                      class="p-button-rounded p-button-success text-center mt-3" ></button>
-                  </div>
+                        class="p-button-rounded p-button-success text-center mt-3"></button>
+                </div>
             </form>
-        </div>
-    </div>
+    </p-panel>
 </div>
