@@ -119,6 +119,7 @@ export class BaselineDataComponent implements OnInit {
         nameOfAccused: this.formBaseline.value.NameOfAccused.join(","),
         speciesDetected: this.formBaseline.value.SpeciesDetected.join(","),
         itemDescription: this.formBaseline.value.ItemDescription,
+        Status : "Open",
         isActive: this.formBaseline.value.IsActive,
         updatedOn: new Date(), // assign the updatedOn value if available, otherwise null
         updatedBy: this.formBaseline.value.UpdatedBy

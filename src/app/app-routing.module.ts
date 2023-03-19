@@ -19,6 +19,7 @@ import { ManageCompartmentComponent } from './manage-compartment/manage-compartm
 import { ManageParentComponent } from './manage-parent/manage-parent.component';
 import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
 import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
+import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
 
 const routes: Routes = [
 
@@ -35,6 +36,7 @@ const routes: Routes = [
     {path:'dashboard', component:DashboardComponent},
     {path:'mangeprofile', component:ManageProfileComponent},
     {path:'baselinedata', component:BaselineDataComponent},
+    {path:'baselinegrid', component:BaselineGridComponent},
     {path:'manageadminusers', component:ManageAdminUsersComponent},
     {path:'manageprovision', component:ManageProvinceComponent},
     {path:'managecircle', component:ManageCircleComponent},
