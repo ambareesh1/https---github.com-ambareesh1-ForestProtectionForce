@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Offender } from '../Models/OffenderModel';
 import { OffenderdataService } from '../services/offenderdata.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-offender-profile-data',
@@ -12,7 +14,7 @@ export class OffenderProfileDataComponent implements OnInit {
   offerProfileData : Offender[] = [];
   searchValue : any = null;
   rangeDates: Date[] = [];
-  constructor(private offenderDataService : OffenderdataService){
+  constructor(private offenderDataService : OffenderdataService, private router : Router){
 
   }
   ngOnInit(): void {
@@ -36,6 +38,10 @@ export class OffenderProfileDataComponent implements OnInit {
 
   viewOffenderProfile=(offender:Offender)=>{
 
+  }
+
+   navigateToOffender = () =>{
+    this.router.navigate(['/offenderprofile'])
   }
 
 

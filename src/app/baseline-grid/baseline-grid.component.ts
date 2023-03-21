@@ -46,6 +46,26 @@ export class BaselineGridComponent {
     this.router.navigate(['/offenderprofile']);
   }
 
+  onDateRangeSelect=(event:any)=>{
+    if(event[0] !== null && event[1] !== null){
+      let startDate = new Date(event[0]);
+      let endDate = new Date(event[1]);
+      this.baselineData = this.baselineData = this.baselineData.filter(x => {
+        const detectionDate = new Date(x.dateOfDetection);
+        return detectionDate >= startDate &&
+        detectionDate <= endDate;
+      });
+    }
+  }
+
+  navigateToBaselineProfile(){
+    this.router.navigate(['/baselinedata'])
+  }
+  onClear = () =>{
+    this.rangeDates = [];
+    this.searchValue = "";
+    this.getOffenderData();
+  }
 
 }
 

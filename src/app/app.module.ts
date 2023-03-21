@@ -34,6 +34,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import {PanelModule} from 'primeng/panel';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ChipsModule} from 'primeng/chips';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
@@ -65,6 +66,7 @@ import { ManageParentComponent } from './manage-parent/manage-parent.component';
 import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
 import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
 import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -92,6 +94,7 @@ import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
     OffenderProfileComponent,
     OffenderProfileDataComponent,
     BaselineGridComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,7 +135,8 @@ import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
     FieldsetModule,
     PanelModule,
     InputMaskModule,
-    ChipsModule
+    ChipsModule,
+    ProgressSpinnerModule
   ],
   providers: [ProductService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]

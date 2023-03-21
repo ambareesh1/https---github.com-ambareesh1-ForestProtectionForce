@@ -12,9 +12,13 @@
                 </span>
             </ng-template>
     
-            <ng-template pTemplate="right">
+            <ng-template pTemplate="center">
                 <label for="range" class="block">From Date - To Date</label>
                 <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <button pButton type="button" label="Add Offenders" icon="pi pi-plus" iconPos="left" class="p-button-secondary" (click)="navigateToOffender()"></button>
             </ng-template>
         </p-toolbar>
     </ng-template>

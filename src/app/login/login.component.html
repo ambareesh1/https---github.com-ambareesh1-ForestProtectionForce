@@ -35,7 +35,16 @@
                   <small class="p-error block"
                     *ngIf="loginForm.get('captcha')?.invalid && loginForm.get('captcha')?.dirty"> Captcha is
                     required.</small>
-                  <app-captcha #captchaImage class="form-control"></app-captcha>
+                    <small class="p-error block pb-2"
+                    *ngIf="isCapthaNotMatch"> Captcha not 
+                    matched. Please retry.</small>
+                    <div class="d-flex">
+                      <app-captcha #captchaImage class="form-control" style="background: #cddc39c2; width: 90%;"></app-captcha>
+                      <button class="btn btn-link" type="button" (click)="refreshCaptcha()">
+                       <i class="pi pi-refresh icon-style"> </i>
+                      </button>
+                    </div>
+              
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                   <button pButton pRipple type="submit" label="Login"

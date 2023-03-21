@@ -1,17 +1,4 @@
 <div class="container-fluid">
-  <nav class="navbar navbar-light bg-light custom-nav-heigh bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerlink="/dashboard">
-      
-       
-      </a>
-      <form class="d-flex" role="search">
-        <i class="pi pi-bell fs-3 p-2"></i>
-        <span class="notification-circel">3</span>
-        <a routerLink="/changepassword"><i class="pi pi-user fs-3 p-2"></i></a>
-      </form>
-    </div>
-  </nav>
   <div class="row">
     <div class="col-lg-2 shadow" style="height: 1028px;">
       <nav class="navbar navbar-expand-lg sidemenu-bg">
@@ -21,51 +8,57 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse " id="navbarNav">
-            <ul class="navbar-nav flex-column">
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" routerLink="mangeprofile">
+            <ul class="navbar-nav flex-column nav nav-item">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'dashboard'" [class.inactive]="activeItem !== 'dashboard'" (click)="activateItem('dashboard')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="dashboard">
+                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'mangeprofile'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('mangeprofile')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="mangeprofile">
                   <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Manage Profile</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" routerLink="manageparent">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'manageparent'" [class.inactive]="activeItem !== 'manageparent'" (click)="activateItem('manageparent')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="manageparent">
                   <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Manage Data</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" routerLink="baselinegrid">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'baselinegrid'" [class.inactive]="activeItem !== 'baselinegrid'" (click)="activateItem('baselinegrid')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="baselinegrid">
                   <i class="pi pi-database" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Baseline Data</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" routerLink="offenderprofile">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'offenderprofileData'" [class.inactive]="activeItem !== 'offenderprofileData'" (click)="activateItem('offenderprofileData')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="offenderprofileData">
                   <i class="pi pi-users" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Offender Profile</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'historysheet'" [class.inactive]="activeItem !== 'historysheet'" (click)="activateItem('historysheet')">
+                <a class="nav-link  text-white" aria-current="page" href="#">
                   <i class="pi pi-history" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">History Sheet</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposedcase'" [class.inactive]="activeItem !== 'disposedcase'" (click)="activateItem('disposedcase')">
+                <a class="nav-link  text-white" aria-current="page" href="#">
                   <i class="pi pi-stop-circle" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Disposed Case</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'suzere'" [class.inactive]="activeItem !== 'suzere'" (click)="activateItem('suzere')">
+                <a class="nav-link  text-white" aria-current="page" href="#">
                   <i class="pi pi-file-edit" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Suzere</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom">
-                <a class="nav-link active text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'reports'" [class.inactive]="activeItem !== 'reports'" (click)="activateItem('reports')">
+                <a class="nav-link  text-white" aria-current="page" href="#">
                   <i class="pi pi-file-excel" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Reports</span>
                 </a>
@@ -77,8 +70,11 @@
       </nav>
     </div>
 
-    <div class="col-lg-10">
+    <div class="col-lg-10 mt-2">
       <main>
+        <div class="progress-spinner" *ngIf="false">
+          <p-progressSpinner></p-progressSpinner>
+      </div>
         <router-outlet> </router-outlet>
       </main>
     </div>

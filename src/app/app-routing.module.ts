@@ -36,6 +36,7 @@ const routes: Routes = [
     {path:'dashboard', component:DashboardComponent},
     {path:'mangeprofile', component:ManageProfileComponent},
     {path:'baselinedata', component:BaselineDataComponent},
+    {path:'baselinedata/:id', component:BaselineDataComponent},
     {path:'baselinegrid', component:BaselineGridComponent},
     {path:'manageadminusers', component:ManageAdminUsersComponent},
     {path:'manageprovision', component:ManageProvinceComponent},

@@ -26,3 +26,9 @@ body{
     font-weight: 600 !important;
     color: #6c757d !important;
 }
+
+.icon-style{
+    font-size: 1.8rem !important;
+    font-weight: bolder !important;
+    color: darkcyan !important;
+  }
