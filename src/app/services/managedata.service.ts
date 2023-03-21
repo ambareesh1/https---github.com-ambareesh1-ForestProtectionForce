@@ -34,6 +34,10 @@ export class ManagedataService {
     return  this.http.get<CircleView[]>(this.baseUrl+'/Circles');
   }
 
+  getCircleByid = (id:any) =>{
+    return  this.http.get<CircleView[]>(this.baseUrl+'/Circles/'+id+'');
+  }
+
   createCircle(circle: Circle): Observable<Circle> {
 
     return this.http.post<Circle>(this.baseUrl+'/Circles', circle);

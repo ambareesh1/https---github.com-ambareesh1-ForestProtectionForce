@@ -23,7 +23,7 @@ export interface BaselineModel {
     nameOfAccused: string;
     speciesDetected: string;
     itemDescription: string;
-    Status:string,
+    status:string,
     isActive: boolean;
     updatedOn: Date;
     updatedBy: string;

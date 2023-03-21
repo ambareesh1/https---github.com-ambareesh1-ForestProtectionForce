@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
     });
     let user: User = {
       username: 'ambru333',
+      name : 'Ambareesh Marimekala',
       email: 'ambru333@gmail.com',
       mobileNo: '9535770068',
       alternativeEmail: 'ambru333@gmail.com',

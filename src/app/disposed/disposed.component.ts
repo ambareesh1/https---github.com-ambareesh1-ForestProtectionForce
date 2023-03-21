@@ -3,24 +3,18 @@ import { BaselineModel } from '../Models/BaselineModel';
 import { BaselinedataService } from '../services/baselinedata.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
-
 @Component({
-  selector: 'app-baseline-grid',
-  templateUrl: './baseline-grid.component.html',
-  styleUrls: ['./baseline-grid.component.css']
+  selector: 'app-disposed',
+  templateUrl: './disposed.component.html',
+  styleUrls: ['./disposed.component.css']
 })
-export class BaselineGridComponent {
+export class DisposedComponent {
 
   baselineData : BaselineModel[] = [];
   searchValue : any = null;
   rangeDates: Date[] = [];
-  ref: DynamicDialogRef | undefined;
-  
-  constructor(private baselineDataService : BaselinedataService, private router: Router,
-    public dialogService: DialogService, public messageService: MessageService){
+  caseId : any ="";
+  constructor(private baselineDataService : BaselinedataService, private router: Router){
 
   }
   ngOnInit(): void {
@@ -45,7 +39,7 @@ export class BaselineGridComponent {
   }
 
   viewBaseline=(baseline:BaselineModel)=>{
-    this.show(baseline);
+
   }
 
   addOffender=(baseline:BaselineModel)=>{
@@ -73,21 +67,9 @@ export class BaselineGridComponent {
     this.getOffenderData();
   }
 
-  show(baseline:BaselineModel) {
-    this.ref = this.dialogService.open(BaselineViewComponent, {
-        header: 'Baseline Details',
-        width: '60%',
-        contentStyle: {"max-height": "500px", "overflow": "auto"},
-        baseZIndex: 10000,
-        data: baseline.id
-    });
-}
-
-ngOnDestroy() {
-    if (this.ref) {
-        this.ref.close();
-    }
-}
+  onCaseIdClick = (event:any) =>{
+    debugger;
+    this.caseId = event;
+  }
 
 }
-

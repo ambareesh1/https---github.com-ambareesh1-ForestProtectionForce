@@ -12,24 +12,35 @@
             <div class="col-md-8">
               <form [formGroup]="otpForm" (ngSubmit) ="onSubmitOTP()">
               <div class="card-body">
-                <h6 class="mt-3 opt-text">The Otp send to the phone no (+91) 95*****0068 and email Id amb***3@gmail.com</h6>
+                <h6 class="mt-3 opt-text">The Otp send to the phone no {{this.formattedPhoneNo}} and email Id {{this.formattedEmail}}</h6>
                    
                       <div class="form-group mt-3">
                         <label class="p-1 block fs-6">OTP</label>
                       <div class="row justify-content-center">
                         <div class="col-auto">
                           <div class="d-flex justify-content-center">
-                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
-                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1" formControlName="one">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1" formControlName="two">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1" formControlName="three">
+                            <input type="text" pInputText class="form-control otp-input shadow" maxlength="1" formControlName="four">
                           </div>
+                          <small class="p-error block"
+                          *ngIf="otpForm.get('one')?.invalid && otpForm.get('one')?.dirty &&
+                            otpForm.get('two')?.invalid && otpForm.get('two')?.dirty &&
+                            otpForm.get('three')?.invalid &&  otpForm.get('three')?.dirty &&
+                            otpForm.get('four')?.invalid &&  otpForm.get('four')?.dirty"
+                          > OTP is required.
+                          </small>
+                          
+                          <small class="p-error block" *ngIf="otpIncorrect"> Incorrect OTP. Please provide correct Otp or If your not recived please Resend</small>
                         </div>
                       </div>
+                      <button type="button" class="btn btn-link text-success" (click)="resendOtp()" >Resend OTP</button>
+                      <div class="text-center">
+                        <button pButton pRipple type="submit" label="Submit"
+                        class="p-button-rounded p-button-success text-center mt-3" [disabled]="otpForm.invalid"></button>
+                       </div>
                       </div>
-                     
-                      <button pButton pRipple type="submit" label="Submit"
-                      class="p-button-rounded p-button-success text-center mt-3" (click)="onSubmitOTP()"></button>
               </div>
               </form>
             </div>

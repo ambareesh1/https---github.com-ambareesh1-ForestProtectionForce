@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-lg-4" *ngIf="baseline.length>0">
+         <p-card header={{this.baseline[0].caseNo}} class="card-header-view">
+            <p class="text-bold"> Crime Details : </p>
+            <p> {{baseline[0].crimeDetails}}</p>
+            <div class="mb-2">
+            <label class="text-bold">Crime Date : </label>
+            <label> {{baseline[0].crimeDate  | date}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Names of Accused : </label>
+            <label> {{baseline[0].nameOfAccused}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Officer Name : </label>
+            <label> {{baseline[0].officerName}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">FIR No : </label>
+            <label>{{baseline[0].firNo}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Section of Law : </label>
+            <label>{{baseline[0].sectionOfLaw}}</label>
+        </div>
+         </p-card>
+    </div>
+    <div class="col-lg-8">
+        <p-card>
+            <div class="mb-2">
+                <label class="text-bold">Status : </label>
+                <label>{{baseline[0].status}}</label>
+              </div>
+        <div class="mb-2">
+            <label class="text-bold">Circle Name : </label>
+            <label>{{baseline[0].circleName}}</label>
+        </div>
+        
+        <div class="mb-2">
+            <label class="text-bold">Compartment Name : </label>
+            <label>{{baseline[0].compartmentName}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Forest Division Name : </label>
+            <label>{{baseline[0].forestDivisionName}}</label>
+        </div>
+       
+        <div class="mb-2">
+            <label class="text-bold">Forest Range Name : </label>
+            <label>{{baseline[0].forestRangeName}}</label>
+        </div>
+       
+        <div class="mb-2">
+            <label class="text-bold">Item Description : </label>
+            <label>{{baseline[0].itemDescription}}</label>
+        </div>
+        
+        <div class="mb-2">
+            <label class="text-bold">Police Station : </label>
+            <label>{{baseline[0].policeStation}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Quantity : </label>
+            <label>{{baseline[0].quantity}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Species Detected : </label>
+            <label>{{baseline[0].speciesDetected}}</label>
+          </div>
+          
+          <div class="mb-2">
+            <label class="text-bold">Tools Used : </label>
+            <label>{{baseline[0].toolsUsed}}</label>
+          </div>
+        
+          <div class="mb-2">
+            <label class="text-bold">Weight : </label>
+            <label>{{baseline[0].weight}}</label>
+          </div>
+          
+    </p-card>
+    </div>
+</div>

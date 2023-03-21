@@ -1,14 +1,14 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-2 shadow" style="height: 1028px;">
-      <nav class="navbar navbar-expand-lg sidemenu-bg">
+  <div class="row mt-2">
+    <div class="col-lg-2">
+      <nav class="navbar navbar-expand-lg sidemenu-bg shadow">
         <div class="container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse " id="navbarNav">
-            <ul class="navbar-nav flex-column nav nav-item">
+            <ul class=" navbar-nav flex-column nav nav-item">
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'dashboard'" [class.inactive]="activeItem !== 'dashboard'" (click)="activateItem('dashboard')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="dashboard">
                   <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
@@ -39,26 +39,26 @@
                   <span class="pl-3">Offender Profile</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'historysheet'" [class.inactive]="activeItem !== 'historysheet'" (click)="activateItem('historysheet')">
-                <a class="nav-link  text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'history'" [class.inactive]="activeItem !== 'history'" (click)="activateItem('history')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="history">
                   <i class="pi pi-history" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">History Sheet</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposedcase'" [class.inactive]="activeItem !== 'disposedcase'" (click)="activateItem('disposedcase')">
-                <a class="nav-link  text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposed'" [class.inactive]="activeItem !== 'disposed'" (click)="activateItem('disposed')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="disposed">
                   <i class="pi pi-stop-circle" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Disposed Case</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'suzere'" [class.inactive]="activeItem !== 'suzere'" (click)="activateItem('suzere')">
-                <a class="nav-link  text-white" aria-current="page" href="#">
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'seizure'" [class.inactive]="activeItem !== 'seizure'" (click)="activateItem('seizure')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="seizure">
                   <i class="pi pi-file-edit" style="font-size: 1.5rem;"> </i>
-                  <span class="pl-3">Suzere</span>
+                  <span class="pl-3">seizure</span>
                 </a>
               </li>
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'reports'" [class.inactive]="activeItem !== 'reports'" (click)="activateItem('reports')">
-                <a class="nav-link  text-white" aria-current="page" href="#">
+                <a class="nav-link  text-white" aria-current="page" routerLink="reports">
                   <i class="pi pi-file-excel" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Reports</span>
                 </a>

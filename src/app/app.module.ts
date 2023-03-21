@@ -35,10 +35,12 @@ import {PanelModule} from 'primeng/panel';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ChipsModule} from 'primeng/chips';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 
 // -----------------------  Imports - Componenets ---------------
@@ -55,6 +57,7 @@ import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-use
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
+
 // ------------------------  Services ---------------------
 import { ProductService } from './manage-admin-users/productservice';
 import { ManageProvinceComponent } from './manage-province/manage-province.component';
@@ -67,6 +70,11 @@ import { OffenderProfileComponent } from './offender-profile/offender-profile.co
 import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
 import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HistoryComponent } from './history/history.component';
+import { DisposedComponent } from './disposed/disposed.component';
+import { SeizureComponent } from './seizure/seizure.component';
+import { ReportsComponent } from './reports/reports.component';
+import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 
 
 
@@ -95,6 +103,11 @@ import { NavbarComponent } from './navbar/navbar.component';
     OffenderProfileDataComponent,
     BaselineGridComponent,
     NavbarComponent,
+    HistoryComponent,
+    DisposedComponent,
+    SeizureComponent,
+    ReportsComponent,
+    BaselineViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,9 +149,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     PanelModule,
     InputMaskModule,
     ChipsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    DynamicDialogModule
   ],
-  providers: [ProductService, MessageService, ConfirmationService],
+  providers: [ProductService, MessageService, ConfirmationService, DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

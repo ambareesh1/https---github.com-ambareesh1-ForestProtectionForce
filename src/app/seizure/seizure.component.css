@@ -1,0 +1,13 @@
+.offender-input-width{
+    width: 75%;
+}
+
+:host ::ng-deep .p-button {
+    color: #ffffff;
+    background: #64748B;
+    border: 1px solid #64748B;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+}

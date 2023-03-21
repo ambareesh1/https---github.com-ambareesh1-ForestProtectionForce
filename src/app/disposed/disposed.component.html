@@ -1,0 +1,165 @@
+<p-panel header="Disposed Cases">
+    <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        styleClass="p-datatable-gridlines" [showCurrentPageReport]="true" responsiveLayout="stack"
+        [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="caption">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchValue"
+                            (input)="dt.filterGlobal(searchValue, 'contains')" placeholder="Search..." />
+                    </span>
+                </ng-template>
+
+                <ng-template pTemplate="center">
+
+                    <h6>Date Range</h6>
+                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [showIcon]="true" inputId="icon"
+                        [readonlyInput]="true" inputId="range" (ngModelChange)="onDateRangeSelect($event)">
+
+                    </p-calendar>
+                    <button pButton type="button" label="Clear Global Filters" icon="pi pi-filter" iconPos="left"
+                        class="p-button-secondary" (click)="onClear()"></button>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton type="button" label="Add Baseline Data" icon="pi pi-plus" iconPos="left"
+                        class="p-button-secondary d-none" (click)="navigateToBaselineProfile()"></button>
+                </ng-template>
+            </p-toolbar>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="caseNo">Case No <p-sortIcon field="caseNo"></p-sortIcon></th>
+                <th pSortableColumn="DateOfDetection">Date Of Detection <p-sortIcon
+                        field="DateOfDetection"></p-sortIcon></th>
+                <th pSortableColumn="nameOfOfficier">Name of Officer <p-sortIcon field="nameOfOfficier"></p-sortIcon>
+                </th>
+                <th pSortableColumn="firNo">FIR No <p-sortIcon field="firNo"></p-sortIcon></th>
+                <th pSortableColumn="DateOfCrime">Date Of Crime <p-sortIcon field="DateOfCrime"></p-sortIcon></th>
+                <th pSortableColumn="Status">Status <p-sortIcon field="Status"></p-sortIcon></th>
+                <th> </th>
+
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="caseNo"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="DateOfDetection"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="nameOfOfficier"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="firNo"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="DateOfCrime"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="Status"></p-columnFilter>
+                </th>
+
+                <th>
+
+                </th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-Baseline>
+            <tr>
+
+                <td style="font-weight: 700;">
+                    <p-tableRadioButton value={{Baseline.caseNo}} (onSelect)="onCaseIdClick($event)"></p-tableRadioButton> {{Baseline.caseNo}}
+                </td>
+                <td>{{this.convertToDate(Baseline.dateOfDetection)}}</td>
+                <td>{{Baseline.officerName}}</td>
+                <td>{{Baseline.firNo}}</td>
+                <td>{{this.convertToDate(Baseline.crimeDate)}}</td>
+                <td>{{Baseline.status}}</td>
+                <td class="p-1">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"
+                        (click)="viewBaseline(Baseline)"></button>
+
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{baselineData ? baselineData.length : 0 }} Offenders.
+            </div>
+        </ng-template>
+    </p-table>
+
+    <p-card subheader="Add Details Of disposed case ">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="field">
+                    <label for="ItemDescription" class="block">Case No</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" value="{{this.caseId}}" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Date of Filling Complaints</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+
+                <div class="field">
+                    <label for="ItemDescription" class="block">Name of the Court</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+
+                <div class="field">
+                    <label for="ItemDescription" class="block">Total Amplements</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Final Disposal Of Case</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">If convicted Of Case</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="field">
+                    <label for="ItemDescription" class="block">Section Of Laws</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Details Of Recovery</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Case of Death</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Name of Accused</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">If Compounded Amount - Rupees</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+                <div class="field">
+                    <label for="ItemDescription" class="block">Appeal filled</label>
+                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                </div>
+            </div>
+
+            <div class="p-card-footer flex justify-content-center flex-wrap gap-4 mt-1">
+                        
+                <button pButton type="submit" class="p-button-raised p-button-rounded p-button-warning">Update</button>
+                <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
+            </div>
+        </div>
+    </p-card>
+
+</p-panel>

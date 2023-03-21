@@ -20,6 +20,10 @@ import { ManageParentComponent } from './manage-parent/manage-parent.component';
 import { OffenderProfileComponent } from './offender-profile/offender-profile.component';
 import { OffenderProfileDataComponent } from './offender-profile-data/offender-profile-data.component';
 import { BaselineGridComponent } from './baseline-grid/baseline-grid.component';
+import { HistoryComponent } from './history/history.component';
+import { DisposedComponent } from './disposed/disposed.component';
+import { SeizureComponent } from './seizure/seizure.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
 
@@ -46,7 +50,11 @@ const routes: Routes = [
     {path:'managecompartment', component:ManageCompartmentComponent},
     {path:'manageparent', component:ManageParentComponent},
     {path: 'offenderprofile', component:OffenderProfileComponent},
-    {path:'offenderprofileData', component:OffenderProfileDataComponent}
+    {path:'offenderprofileData', component:OffenderProfileDataComponent},
+    {path:'history', component:HistoryComponent},
+    {path:'disposed', component:DisposedComponent},
+    {path:'seizure', component:SeizureComponent},
+    {path:'reports', component:ReportsComponent}
    ]
 }
 ];

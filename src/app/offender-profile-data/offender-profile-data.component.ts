@@ -33,7 +33,7 @@ export class OffenderProfileDataComponent implements OnInit {
   }
 
   viewOffenderHistory=(offender:Offender)=>{
-
+    this.router.navigate(['/history']);
   }
 
   viewOffenderProfile=(offender:Offender)=>{
@@ -41,7 +41,7 @@ export class OffenderProfileDataComponent implements OnInit {
   }
 
    navigateToOffender = () =>{
-    this.router.navigate(['/offenderprofile'])
+    this.router.navigate(['/offenderprofile']);
   }
 
 
