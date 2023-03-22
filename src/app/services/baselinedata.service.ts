@@ -20,6 +20,10 @@ export class BaselinedataService {
     console.log(baselinedata);
     return this.http.post<BaselineModel>(this.baseUrl+'/Baselines', baselinedata);
   }
+
+ updateBaselinet(id: number, baselinedata: BaselineModel): Observable<any> {
+    return this.http.put(this.baseUrl+'/Baselines/'+id+'', baselinedata);
+  }
   
   deleteBaselinet(id: number): Observable<any> {
     return this.http.delete(this.baseUrl+'/Baselines/'+id+'');

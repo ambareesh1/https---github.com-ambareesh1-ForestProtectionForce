@@ -1,6 +1,6 @@
 <div class="container-fluid">
-    <p-panel header="Manage Base Line Data">
-        <form   [formGroup]="formBaseline" (ngSubmit)="onSubmitBaseline()">
+    <p-panel header={{titleText}}>
+        <form *ngIf="isDataLoaded"  [formGroup]="formBaseline" (ngSubmit)="onSubmitBaseline()">
             <div class="row">
                 <div class="col-lg-6">
 
@@ -57,7 +57,7 @@
                       </div>
                       <div class="field">
                         <label for="CompartmentId" class="block">Compartment</label>
-                        <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id"></p-dropdown>
+                        <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id" (onChange)="onCompartmentChange($event)"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('CompartmentId')?.invalid && formBaseline.get('CompartmentId')?.dirty">Compartment ID is required.</small>
                       </div>
                     <div class="field">
@@ -152,8 +152,8 @@
             </div>
          
                 <div class="p-card-footer flex justify-content-center flex-wrap gap-3">
-                    <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success">Submit</button>
-                    <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
+                    <button pButton type = "submit" class="p-button-raised p-button-rounded p-button-success" [ngClass]="{'p-button-warning': isEdit}">{{buttonText}}</button>
+                    <button pButton type ="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
                 </div>
            
         </form>

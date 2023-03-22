@@ -41,7 +41,7 @@ export class BaselineGridComponent {
   }
 
   editBaseline = (baseline:BaselineModel) =>{
-
+    this.router.navigate(['/baselinedata/'+baseline.id+'']);
   }
 
   viewBaseline=(baseline:BaselineModel)=>{

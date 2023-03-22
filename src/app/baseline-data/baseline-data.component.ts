@@ -34,7 +34,8 @@ export class BaselineDataComponent implements OnInit {
   id: string = "";
   isEdit : boolean = false;
   isDataLoaded : boolean = false;
-  
+  titleText = "Manage Base Line Data";
+  buttonText = "Submit";
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
@@ -45,10 +46,12 @@ export class BaselineDataComponent implements OnInit {
     
 
   ngOnInit(): void {
-    debugger;
+    
     this.id = this.route.snapshot.paramMap.get('id')!;
     if(this.id != null) {
       this.isEdit = true;
+      this.buttonText = "Update"
+      this.titleText = "Update Manage Base Line Data";
       this.loadData();
       this.loadDistrictData();
       this.loadDRangeData();
@@ -63,6 +66,7 @@ export class BaselineDataComponent implements OnInit {
       let baseline = [];
       this.initFormBaseline({} as BaselineModel);
       this.loadData();
+      this.isDataLoaded = true;
     }
    
   }
@@ -73,8 +77,7 @@ export class BaselineDataComponent implements OnInit {
     initFormBaseline =(baseline: BaselineModel = {} as BaselineModel) =>{
       console.log(baseline);
       this.formBaseline = this.fb.group({
-       // DateOfDetection: [new Date(baseline.dateOfDetection) || new Date(), Validators.required],
-        DateOfDetection: [baseline.dateOfDetection || '', Validators.required],
+        DateOfDetection: [Object.keys(baseline).length !== 0 ?new Date(baseline.dateOfDetection):''|| '', Validators.required],
         OfficerName: [baseline.officerName ||'', Validators.required],
         CrimeDetails: [baseline.crimeDetails ||'', Validators.required],
         ToolsUsed: [baseline.toolsUsed?.split(",") ||'', Validators.required],
@@ -89,7 +92,7 @@ export class BaselineDataComponent implements OnInit {
         CaseNo: [baseline.caseNo ||'', Validators.required],
         PoliceStation: [baseline.policeStation ||'', Validators.required],
         FIRNo: [baseline.firNo ||'', Validators.required],
-        CrimeDate: [new Date(baseline.crimeDate) ||'', Validators.required],
+        CrimeDate: [Object.keys(baseline).length !== 0 ?new Date(baseline.crimeDate):'' ||'', Validators.required],
         SectionOfLaw: [baseline.sectionOfLaw?.split(",") ||'', Validators.required],
         Quantity: [baseline.quantity ||'', Validators.required],
         Weight: [baseline.weight ||'', Validators.required],
@@ -141,21 +144,21 @@ export class BaselineDataComponent implements OnInit {
     }
 
     onSubmitBaseline = () =>{
-    
+   
       let baseLineData: BaselineModel = {
-        id: 0, // assign the id value if available, otherwise null
+        id: this.isEdit?  parseInt(this.id) : 0, // assign the id value if available, otherwise null
         dateOfDetection: this.formBaseline.value.DateOfDetection,
         officerName: this.formBaseline.value.OfficerName,
         crimeDetails: this.formBaseline.value.CrimeDetails,
         toolsUsed: this.formBaseline.value.ToolsUsed.join(","),
         circleId: this.formBaseline.value.CircleId,
-        circleName: this.formBaseline.value.CircleName,
-        forestDivisionName: this.formBaseline.value.ForestDivisionName,
+        circleName: this.circleName,
+        forestDivisionName: this.forestDivisionName,
         forestDivisionId: this.formBaseline.value.ForestDivisionId,
-        forestRangeName: this.formBaseline.value.ForestRangeName,
+        forestRangeName: this.forestRangeName,
         forestRangeId: this.formBaseline.value.ForestRangeId,
         compartmentId: this.formBaseline.value.CompartmentId,
-        compartmentName: this.formBaseline.value.CompartmentName,
+        compartmentName: this.compartmentName,
         caseNo: this.formBaseline.value.CaseNo,
         policeStation: this.formBaseline.value.PoliceStation,
         firNo: this.formBaseline.value.FIRNo,
@@ -172,17 +175,25 @@ export class BaselineDataComponent implements OnInit {
         updatedOn: new Date(), // assign the updatedOn value if available, otherwise null
         updatedBy: this.formBaseline.value.UpdatedBy
     };
+
+    if(this.isEdit){
+      this.baselineDataService.updateBaselinet(parseInt(this.id), baseLineData).subscribe(data=>{
+           console.log(data);
+      })
+    }else{
+      this.baselineDataService.createBaseline(baseLineData).subscribe((x)=>{
+        if(x){
+          console.log(x);
+          let caseNo = x.caseNo;
+         let provinceAddmsg = "Baseline details saved & Case No:" +caseNo+"";
+         this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
+         this.formBaseline.reset();
+         //this.getProvinceData();
+        }
+       })
+    }
     
-    this.baselineDataService.createBaseline(baseLineData).subscribe((x)=>{
-      if(x){
-        console.log(x);
-        let caseNo = x.caseNo;
-       let provinceAddmsg = "Baseline details saved & Case No:" +caseNo+"";
-       this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
-       this.formBaseline.reset();
-       //this.getProvinceData();
-      }
-     })
+ 
 
     }
 
@@ -202,7 +213,9 @@ export class BaselineDataComponent implements OnInit {
           circle: {id:-1, name:"", isActive:true, provinceId:-1}
         });
         this.forestDivisions = data;
+        this.circleName = this.circles.filter(x=>x.id == event.value)[0].name;
       })
+    
     }
     
     onForestDivisionChange = (event:any) =>{
@@ -215,7 +228,9 @@ export class BaselineDataComponent implements OnInit {
           district: {id:-1, name:"", isActive:true, circleId:-1}
         });
         this.forestRanges = data;
+        this.forestDivisionName = this.forestDivisions.filter(x=>x.id == event.value)[0].name;
       })
+    
     }
     onForestRangeChange = (event:any) =>{
       this.manageDataService.getCompartment().subscribe((data)=>{
@@ -227,9 +242,13 @@ export class BaselineDataComponent implements OnInit {
           division: {id:-1, name:"", isActive:true, districtId:-1}
         });
         this.compartments = data;
+        this.forestRangeName = this.forestRanges.filter(x=>x.id == event.value)[0].name;
       })
     }
 
+    onCompartmentChange = (event:any) =>{
+      this.compartmentName = this.compartments.filter(x=>x.id == event.value)[0].name;
+    }
     convertToDate = (onlyDate:any)=>{
       const datePipe = new DatePipe('en-US');
       const formattedDate = datePipe.transform(onlyDate, 'yyyy-MM-dd');
