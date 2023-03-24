@@ -75,3 +75,9 @@
     margin-left: -15%;
     margin-top: -10%;
   }
+  .text {
+    height: 3em; /* adjust the value to show the desired number of lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }

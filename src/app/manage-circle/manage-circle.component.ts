@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
 import { Circle, Province } from '../Models/ManageDataModels';
 import { async } from '@angular/core/testing';
+import { RefreshService } from '../services/refresh.service';
 
 @Component({
   selector: 'app-manage-circle',
@@ -25,12 +26,14 @@ export class ManageCircleComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder) { 
+      private fb: FormBuilder, private refreshService : RefreshService) { 
      }
 
  ngOnInit() {
+  this.refreshService.refreshEvent.subscribe(() => {
    this.getCircleData();
    this.getProvisionData();
+  });
  }
  initForm(circle: Circle = {} as Circle){
   

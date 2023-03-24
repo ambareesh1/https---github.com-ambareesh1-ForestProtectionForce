@@ -21,6 +21,12 @@
                   <span class="pl-3">Manage Profile</span>
                 </a>
               </li>
+              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'createadmin'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('createadmin')">
+                <a class="nav-link  text-white" aria-current="page" routerLink="createadmin">
+                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Create Admin</span>
+                </a>
+              </li>
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'manageparent'" [class.inactive]="activeItem !== 'manageparent'" (click)="activateItem('manageparent')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="manageparent">
                   <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>

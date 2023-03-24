@@ -75,6 +75,7 @@ import { DisposedComponent } from './disposed/disposed.component';
 import { SeizureComponent } from './seizure/seizure.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
 
 
 
@@ -108,6 +109,7 @@ import { BaselineViewComponent } from './baseline-view/baseline-view.component';
     SeizureComponent,
     ReportsComponent,
     BaselineViewComponent,
+    CreateAdminComponent,
   ],
   imports: [
     BrowserModule,

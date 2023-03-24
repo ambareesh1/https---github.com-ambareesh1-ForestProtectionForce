@@ -24,6 +24,7 @@ import { HistoryComponent } from './history/history.component';
 import { DisposedComponent } from './disposed/disposed.component';
 import { SeizureComponent } from './seizure/seizure.component';
 import { ReportsComponent } from './reports/reports.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
 
 const routes: Routes = [
 
@@ -39,6 +40,7 @@ const routes: Routes = [
    children:[
     {path:'dashboard', component:DashboardComponent},
     {path:'mangeprofile', component:ManageProfileComponent},
+    {path:'createadmin', component:CreateAdminComponent},
     {path:'baselinedata', component:BaselineDataComponent},
     {path:'baselinedata/:id', component:BaselineDataComponent},
     {path:'baselinegrid', component:BaselineGridComponent},

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BaselineModel } from '../Models/BaselineModel';
+import { BoxModel, Chart, Dashboard } from '../Models/Dashboard';
+import { DashboardService } from '../services/dashboard.service';
 
 interface Case {
   caseId: number;
@@ -14,7 +17,7 @@ interface Case {
 })
 
 
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   barChartData: any;
   pieChartDate : any;
   tableData : any;
@@ -30,34 +33,55 @@ export class DashboardComponent {
     { caseId: 9, accusedName: 'Ali Joe', division: 'Columbus', date: new Date(2022, 2, 16, 14, 10) },
     { caseId: 10, accusedName: 'Cary Matthew', division: 'Dallos', date: new Date(2022, 2, 16, 14, 10) }
   ]
-  constructor(){
-    this.barChartData = {
-      labels: ['2015', '2016', '2017', '2018',  '2019',  '2020'],
-      datasets: [
-        {
-          label: 'Cases',
-          data: [2000, 3500, 5000, 2000, 3000, 2800],
-        
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-           
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            
-          ],
-        },
-        
-      ],
-     
-      borderWidth: 1
-    }
+  dashboard: any = null;
+  boxModels: BoxModel[] = [];
+  charts: Chart[] = [];
+  baseline: BaselineModel[] = [];
+  constructor( private dashboardService: DashboardService){
 
-    this.pieChartDate = {
-        labels: ['North', 'South', 'East', 'West'],
+
+    this.dashboardService.getDashboardDetails().subscribe(data => {
+    debugger;
+      this.dashboard = data;
+      this.boxModels = this.dashboard.boxModels || [];
+      this.charts = this.dashboard.charts || [];
+      this.baseline = this.dashboard.baseline || [];
+      
+      let bar = this.charts.filter(x=>x.name == "bar");
+      let labels = bar.map(x=>x.xaxis);
+      let yaxisData = bar.map(x=>x.yaxis);
+
+      let pie = this.charts.filter(x=>x.name == "pie");
+      let labelsPie = pie.map(x=>x.xaxis);
+      let yaxisDataPie = pie.map(x=>x.yaxis);
+      
+      this.barChartData = {
+        labels: labels,
         datasets: [
           {
-            data: [2000, 1500, 2500, 1000],
+            label: 'Cases',
+            data: yaxisData,
+          
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+             
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              
+            ],
+          },
+          
+        ],
+       
+        borderWidth: 1
+      }
+
+      this.pieChartDate = {
+        labels:labelsPie,
+        datasets: [
+          {
+            data: yaxisDataPie,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(255, 159, 64, 0.2)',
@@ -81,6 +105,10 @@ export class DashboardComponent {
     
         borderWidth: 1
       }
+    });
+  
+
+ 
   this.tableData = {}
 
 
@@ -92,6 +120,9 @@ export class DashboardComponent {
     firstItem.remove();
   }, 3000)
 }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   
 
    randomCount = ()=>{

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Message } from 'primeng/api';
 import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
+import { UserDetailService } from '../services/user-detail.service';
 @Component({
   selector: 'app-two-way-authentication',
   templateUrl: './two-way-authentication.component.html',
@@ -16,13 +18,12 @@ export class TwoWayAuthenticationComponent implements OnInit {
   formattedPhoneNo = "";
   formattedEmail = "";
   otpIncorrect = false;
+  messages : Message[]=[];
 
   otpForm !: FormGroup;
-  constructor(private router: Router, private sharedService : SharedService, private authService:AuthenticationService, private formBuilder: FormBuilder,){
-    let otpGenarated = Math.floor(1000 + Math.random() * 9000);
+  constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder,){
     let userDetails = this.sharedService.getUserDetails();
-    this.otp = 3333;
-    this.authService.sendOtp(userDetails);
+    this.otp = this.userDetailsService.otp;
     let phoneNo = userDetails.mobileNo;
     let email = userDetails.email;
     this.formattedPhoneNo = '(+91) ' + phoneNo.substring(0, 0) + '*******' + phoneNo.substring(7);
@@ -51,8 +52,13 @@ export class TwoWayAuthenticationComponent implements OnInit {
   }
 
   resendOtp = () =>{
+    debugger;
     let userDetails = this.sharedService.getUserDetails();
-    this.authService.sendOtp(userDetails);
-    this.otp = 4444;
+    let userName = userDetails.username;
+    let otp = Math.floor(1000 + Math.random() * 9000);
+    this.otp = otp;
+    this.userDetailsService.resendOtp(userName,otp).subscribe(data=>{
+      this.messages = [{ severity: 'success', summary: 'Success', detail: 'OTP sent agan. Please verify and try again' }];
+    });
   }
 }

@@ -3,16 +3,16 @@
         <p-accordionTab header="Manage Province" [selected]="true">
          <app-manage-province></app-manage-province>
         </p-accordionTab>
-        <p-accordionTab header="Manage Circle">
+        <p-accordionTab header="Manage Circle" (click)="refreshChildComponents()">
           <app-manage-circle></app-manage-circle>
         </p-accordionTab>
-        <p-accordionTab header="Manage District/ Division">
+        <p-accordionTab header="Manage District/ Division"  (click)="refreshChildComponents()">
            <app-manage-district></app-manage-district>
         </p-accordionTab>
-        <p-accordionTab header="Manage Forest Range">
+        <p-accordionTab header="Manage Forest Range"  (click)="refreshChildComponents()">
             <app-manage-division></app-manage-division>
          </p-accordionTab>
-         <p-accordionTab header="Manage Compartment">
+         <p-accordionTab header="Manage Compartment"  (click)="refreshChildComponents()">
             <app-manage-compartment></app-manage-compartment>
          </p-accordionTab>
     </p-accordion>

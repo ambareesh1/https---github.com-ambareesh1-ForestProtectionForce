@@ -2,6 +2,9 @@
     <div class="container align-self-center ">
       <div class="row">
         <div class="card mx-auto shadow" style="max-width: 800px;">
+          <div class="card">
+            <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+        </div>
           <div class="row">
             <div class="col-md-4 bg-success">
               <a routerLink=""><i class="pi  pi-arrow-left p-3 text-white text-success text-bold" style="font-size: 2rem"></i></a> 

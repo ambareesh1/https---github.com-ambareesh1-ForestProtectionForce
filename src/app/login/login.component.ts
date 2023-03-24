@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CaptchaComponent } from '../captcha/captcha.component';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Models/User';
+import { UserDetailService } from '../services/user-detail.service';
+import { Message } from 'primeng/api';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,10 +16,12 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   isCapthaNotMatch: boolean = false;
+  messages: Message[]=[];
   @ViewChild('captchaImage') captchaImage!: CaptchaComponent;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private authService : AuthenticationService
+    private authService : AuthenticationService,
+    private userDetailsService : UserDetailService
 
   ) { }
 
@@ -50,26 +54,31 @@ export class LoginComponent implements OnInit {
   verfiyCredentials = () =>{
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
-    debugger;
-    this.authService.validateCredentials(username, password).subscribe(data => {
-     
-        
-    });
-    let user: User = {
-      username: 'ambru333',
-      name : 'Ambareesh Marimekala',
-      email: 'ambru333@gmail.com',
-      mobileNo: '9535770068',
-      alternativeEmail: 'ambru333@gmail.com',
-      address: '123 Main St',
-      department: 'Sales',
-      roleId: 1,
-      roleName: 'Director',
-      isActive: true
-    };
+    let otp =  Math.floor(1000 + Math.random() * 9000);
+    this.userDetailsService.validateCredentials(username, password, otp).subscribe(data => {
+      this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
+      if(data){
+      this.userDetailsService.otp = otp;
+      let user: User = {
+        username: data.username,
+        name : data.first_Name+" "+data.last_Name,
+        email: data.email,
+        mobileNo: data.mobile,
+        alternativeEmail: data.alternate_Email,
+        address: data.address,
+        department: data.userType_Name,
+        roleId: data.userType_Id,
+        roleName: data.userType_Name,
+        isActive: true
+      };
+      localStorage.setItem('userDetails', JSON.stringify(user));
+      this.router.navigate(['/TwoWayAuthentication']);
+    }else{
+      this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password. Please provide valid credentails' }];
+    }
     
-    localStorage.setItem('userDetails', JSON.stringify(user));
-    this.router.navigate(['/TwoWayAuthentication']);
+    });
+
   }
 
 }

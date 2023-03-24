@@ -1,0 +1,125 @@
+<p-panel header="Create Admin">
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="field">
+                    <label for="userType_Name" class="block">User Types</label>
+                    <p-dropdown  [options]="userTypes" [showClear]="true" class="offender-input-width" formControlName="userType_Id" optionLabel="name" optionValue="id"> </p-dropdown>
+                   
+                    <small class="p-error block"
+                        *ngIf="userForm.get('userType_Id')?.invalid && userForm.get('userType_Id')?.dirty">
+                        User Type Name is required.
+                    </small>
+                </div>
+
+                <!-- Username field -->
+                <div class="field">
+                    <label for="username" class="block">User name</label>
+                    <input id="username" pInputText mode="text" class="offender-input-width"
+                        formControlName="username" />
+                    <small class="p-error block"
+                        *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
+                        Username is required.
+                    </small>
+                </div>
+
+                <!-- First Name field -->
+                <div class="field">
+                    <label for="firstName" class="block">First Name</label>
+                    <input id="firstName" pInputText mode="text" class="offender-input-width"
+                        formControlName="firstName" />
+                    <small class="p-error block"
+                        *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.dirty">
+                        First Name is required.
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="lastName" class="block">Last Name</label>
+                    <input id="lastName" pInputText mode="text" class="offender-input-width"
+                        formControlName="lastName" />
+                    <small class="p-error block"
+                        *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.dirty">
+                        Last Name is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="field">
+                    <label for="email" class="block">Email</label>
+                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email" />
+                    <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty">
+                        Email is required and must be a valid email address.
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="alternateEmail" class="block">Alternate Email</label>
+                    <input id="alternateEmail" pInputText mode="text" class="offender-input-width"
+                        formControlName="alternateEmail" />
+                </div>
+
+                <div class="field">
+                    <label for="mobile" class="block">Mobile</label>
+                    <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" />
+                    <small class="p-error block"
+                        *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.dirty">
+                        Mobile is required.
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="address" class="block">Address</label>
+                    <input id="address" pInputText mode="text" class="offender-input-width" formControlName="address" />
+                    <small class="p-error block"
+                        *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.dirty">
+                        <Address></Address> is required.
+
+                    </small>
+                </div>
+
+            </div>
+            <div class="p-card-footer flex justify-content-center flex-wrap gap-4">
+
+                <button pButton type="submit" [class]="isEdit ? 'p-button-raised p-button-rounded p-button-warning':'p-button-raised p-button-rounded p-button-success'">{{isEdit?'Update':'Submit'}}</button>
+                <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
+            </div>
+        </div>
+    </form>
+  <p-card subheader="Admin User Details">
+    <p-table [value]="userDetails" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>User Name</th>
+                <th>First Name </th>
+                <th>Last Name</th>
+                <th>User Type</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_Name }}</td>
+                <td>{{ user.last_Name }}</td>
+                <td>{{ user.userType_Name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.mobile }}</td>
+                <td class="p-1">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editUserDetails(user)"></button>
+                </td>
+                <td class="p-1">
+                    <button pButton pRipple [icon]="user.isActive ? 'pi pi-lock' : 'pi pi-unlock'" [class]="user.isActive ?'p-button-rounded p-button-secondary' : 'p-button-rounded p-button-danger'" (click)="ActivateUserDetails(user)"></button>
+
+                    
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+  </p-card>
+</p-panel>
+<p-toast></p-toast>

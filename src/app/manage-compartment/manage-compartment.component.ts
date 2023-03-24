@@ -5,6 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
 import { Compartment, Division, Province } from '../Models/ManageDataModels';
+import { RefreshService } from '../services/refresh.service';
 
 
 @Component({
@@ -25,12 +26,14 @@ export class ManageCompartmentComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder) { 
+      private fb: FormBuilder, private refreshServie : RefreshService) { 
      }
 
  ngOnInit() {
+  this.refreshServie.refreshEvent.subscribe(() => {
    this.getCompartmentData();
    this.getDivisionData();
+  });
  }
  initForm(compartment: Compartment = {} as Compartment){
   
