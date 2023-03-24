@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDetails } from '../Models/UserDetails';
+import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ManageProfileComponent implements OnInit {
   passwordForm: FormGroup = new FormGroup({});
   userDetails : UserDetails[] =[];
 
-  constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService){}
+  constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, private sharedServices : SharedService){}
 
   ngOnInit(): void {
 
@@ -25,7 +26,7 @@ export class ManageProfileComponent implements OnInit {
     })
 
     this.userDetailsService.getUserDetails().subscribe(data=>{
-      this.userDetails = data;
+      this.userDetails = data.filter(x=>x.username == this.sharedServices.getUserDetails()?.username);
       this.initForm(data[0]);
     })
 
