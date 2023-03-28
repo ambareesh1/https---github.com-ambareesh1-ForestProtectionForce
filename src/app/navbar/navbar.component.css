@@ -1,7 +1,16 @@
 .bg-light {
-    background: #eeeeee !important;
+    background: #fff !important;
 }
 
 .banner{
     box-shadow: 2px 2px 3px #888888;
+  }
+
+  .brand-custom{
+    font-size: 30px;
+    padding-left: 10px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: #209b25;
+    font-family: roboto;
   }

@@ -56,5 +56,13 @@ export class UserDetailService {
     return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/resendOtp', body);
   }
   
-
+  checkUserNameAndEmail = (username: any, email:any): Observable<UserDetails> => {
+    const body = { username: username, email: email };
+    return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/forgotPassword', body);
+  }
+  
+  changePassword = (username: any, password:any, newpassword:any): Observable<UserDetails> => {
+    const body = { username: username, password: password, newpassword:newpassword };
+    return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/changePassword', body);
+  }
 }

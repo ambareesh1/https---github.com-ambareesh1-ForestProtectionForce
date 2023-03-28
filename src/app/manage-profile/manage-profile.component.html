@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-6" *ngIf="this.userDetails.length>0 && this.userDetails[0].username != 'superadmin' ">
     <p-panel header="Manage Profile">
-          <form *ngIf="this.userDetails.length>0" [formGroup]="userForm"  (ngSubmit)="onSubmitIserDetails()">
+          <form  [formGroup]="userForm"  (ngSubmit)="onSubmitIserDetails()">
               <div class="field mt-3">
                 <label class="p-1 block fs-6">User Name</label>
                 <input type="text" pInputText formControlName="username" class="form-control"  [disabled]="true"  readonly style="background: #9e9e9e47;"/>
@@ -45,7 +45,8 @@
     </p-panel>
   </div>
  <div class="col-lg-6">
-  <p-card header="Change Password">
+  <app-change-password></app-change-password>
+  <!-- <p-card header="Change Password">
       <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
         <div class="field mt-3">
           <label class="p-1 block fs-6">Passport</label>
@@ -70,7 +71,7 @@
               class="p-button-rounded p-button-secondary text-center mt-3" ></button>
         </div>
       </form>
-  </p-card>
+  </p-card> -->
  </div>
 
 </div>

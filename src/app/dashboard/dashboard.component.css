@@ -76,7 +76,7 @@
     margin-top: -10%;
   }
   .text {
-    height: 3em; /* adjust the value to show the desired number of lines */
+    height: 2.5em; /* adjust the value to show the desired number of lines */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

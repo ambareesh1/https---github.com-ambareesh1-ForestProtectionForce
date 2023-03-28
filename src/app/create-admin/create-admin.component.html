@@ -1,4 +1,4 @@
-<p-panel header="Create Admin">
+<p-panel header="Create Users">
 
     <form [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
         <div class="row">
@@ -88,7 +88,7 @@
             </div>
         </div>
     </form>
-  <p-card subheader="Admin User Details">
+  <p-card >
     <p-table [value]="userDetails" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>

@@ -1,5 +1,5 @@
-<div class="container-fluid">
-  <div class="row mt-2">
+<div class="container-fluid" style="background: #eeeeee;">
+  <div class="row mt-1">
     <div class="col-lg-2">
       <nav class="navbar navbar-expand-lg sidemenu-bg shadow">
         <div class="container-fluid">
@@ -11,7 +11,7 @@
             <ul class=" navbar-nav flex-column nav nav-item">
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'dashboard'" [class.inactive]="activeItem !== 'dashboard'" (click)="activateItem('dashboard')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="dashboard">
-                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
+                  <i class="pi pi-chart-line" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Dashboard</span>
                 </a>
               </li>
@@ -23,13 +23,13 @@
               </li>
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'createadmin'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('createadmin')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="createadmin">
-                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
-                  <span class="pl-3">Create Admin</span>
+                  <i class="pi pi-user-plus" style="font-size: 1.5rem;"> </i>
+                  <span class="pl-3">Create Users</span>
                 </a>
               </li>
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'manageparent'" [class.inactive]="activeItem !== 'manageparent'" (click)="activateItem('manageparent')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="manageparent">
-                  <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
+                  <i class="pi pi-bars" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Manage Data</span>
                 </a>
               </li>
@@ -76,7 +76,7 @@
       </nav>
     </div>
 
-    <div class="col-lg-10 mt-2">
+    <div class="col-lg-10 mt-1">
       <main>
         <div class="progress-spinner" *ngIf="false">
           <p-progressSpinner></p-progressSpinner>

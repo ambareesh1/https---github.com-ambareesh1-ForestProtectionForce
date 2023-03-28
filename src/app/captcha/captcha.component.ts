@@ -45,7 +45,7 @@ export class CaptchaComponent implements OnInit {
     context.height = 60;
 
       // Draw random noise in the background
-  const noiseAmount = 20;
+  const noiseAmount = 2;
   for (let i = 0; i < noiseAmount; i++) {
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
