@@ -13,6 +13,15 @@
                             required.</small>
                     </div>
                     <div class="field">
+                        <label for="name">Province</label>
+                        <p-dropdown [options]="provinceData" formControlName="province" optionLabel="name" optionValue="id"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="name">Circle</label>
+                        <p-dropdown [options]="circleData" formControlName="circle" optionLabel="name" optionValue="id"></p-dropdown>
+                    </div>
+                  
+                    <div class="field">
                         <label for="name">District</label>
                         <p-dropdown [options]="districtData" formControlName="district" optionLabel="name" optionValue="id"></p-dropdown>
 

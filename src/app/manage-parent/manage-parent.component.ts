@@ -12,8 +12,10 @@ export class ManageParentComponent {
 
   constructor(private refreshService: RefreshService) {}
 
-  refreshChildComponents() {
-    this.refreshService.emitRefreshEvent();
+  refreshChildComponents(event:any) {
+    if ((event.target as HTMLElement).classList.contains('p-accordion-header-link') || (event.target as HTMLElement).classList.contains('p-accordion-header-text')) {
+      this.refreshService.emitRefreshEvent();
+    }
   }
 }
 

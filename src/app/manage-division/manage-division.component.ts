@@ -4,7 +4,7 @@ import { AdminUser } from '../Models/AdmimUsersModel';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
-import { District, Division, Province } from '../Models/ManageDataModels';
+import { Circle, CircleView, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
 
 @Component({
@@ -19,6 +19,8 @@ export class ManageDivisionComponent {
   Delete : any = "Delete";
   division : Division[] = [];
   districtData : District[]=[];
+  provinceData : Province[]=[];
+  circleData : CircleView[] =[];
   submitted: boolean = true;
   search : any = "";
   isDivisionConf : boolean = true;
@@ -34,13 +36,17 @@ export class ManageDivisionComponent {
   this.refreshService.refreshEvent.subscribe(() => {
    this.getDivisionData();
    this.getDistrictData();
+   this.getCircleData();
+   this.getProvinceData();
   })
  }
  initForm(division: Division = {} as Division){
   
    this.formDivision = this.fb.group({
     divisionName: [division.name || '', Validators.required],
-    district : [division.districtId || this.districtData[0].id]
+    district : [division.districtId || this.districtData[0].id],
+    province : [this.provinceData[0].id || this.provinceData[0].id],
+    circle : [this.circleData[0].id || this.circleData[0].id]
    });
 }
 
@@ -56,6 +62,17 @@ getDistrictData = () => {
      this.initForm();
     });
 }
+getProvinceData(){
+  this.manageDataService.getProvince().subscribe((data)=>{
+    this.provinceData = data;
+  })
+ }
+
+ getCircleData(){
+  this.manageDataService.getCircle().subscribe((data)=>{
+    this.circleData = data;
+  })
+ }
 
 onSubmitDivision() {
   console.log(this.formDivision.value);

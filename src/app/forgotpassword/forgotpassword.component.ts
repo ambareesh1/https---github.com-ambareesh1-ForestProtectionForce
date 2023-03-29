@@ -29,7 +29,7 @@ export class ForgotpasswordComponent implements OnInit {
   ngOnInit(): void {
     this.forgotForm = this.formBuilder.group({
       username: ['', Validators.required],
-      forgotEmail: ['', Validators.required, Validators.email],
+      forgotEmail: ['', [Validators.required, Validators.email]],
       captcha: ['', Validators.required]
     });
   }

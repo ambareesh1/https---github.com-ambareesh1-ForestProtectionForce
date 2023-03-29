@@ -4,7 +4,7 @@ import { AdminUser } from '../Models/AdmimUsersModel';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
-import { District, Province } from '../Models/ManageDataModels';
+import { Circle, CircleView, District, Province } from '../Models/ManageDataModels';
 import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
 
@@ -19,7 +19,8 @@ export class ManageDistrictComponent {
   productDialog: boolean = false;
   Delete : any = "Delete";
   district : District[] = [];
-  circleData : Province[]=[];
+  circleData : CircleView[]=[];
+  provinceData : Province[] = [];
   submitted: boolean = true;
   search : any = "";
 
@@ -34,13 +35,15 @@ export class ManageDistrictComponent {
   this.refreshService.refreshEvent.subscribe(() => {
    this.getDistrictData();
    this.getCircleData();
+   this.getProvinceData();
   })
  }
  initForm(district: District = {} as District){
   
    this.formDistrict = this.fb.group({
     districtName: [district.name || '', Validators.required],
-    circle : [district.circleId || this.circleData[0].id]
+    circle : [district.circleId || this.circleData.length>0 ? this.circleData[0].id:''],
+    province : [this.provinceData[0].id || this.circleData[0].id]
    });
 }
 
@@ -55,6 +58,13 @@ getCircleData = () => {
      this.circleData = data;
      this.initForm();
     });
+}
+
+getProvinceData = () =>{
+  this.manageDataService.getProvince().subscribe((data) =>{
+    this.provinceData = data;
+    this.initForm();
+   });
 }
 
 onSubmitDistrict() {
@@ -98,6 +108,15 @@ onSubmitDistrict() {
        }
        });
  }
+
+ onProvinceChange = (event:any) =>{
+  this.manageDataService.getCircle().subscribe((data)=>{
+    debugger;
+    data= data.filter(x=>x.provinceId == event.value);
+     this.circleData = data;
+   })
+ }
+ 
 
  hideDialog() {
      this.productDialog = false;

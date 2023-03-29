@@ -2,7 +2,7 @@
 
 <div class="grid">
     <div class="col-8 p-3">
-        <p-card header="Add District" styleClass="p-fluid">
+        <p-card header="Add Forest District/Division" styleClass="p-fluid">
             <form *ngIf="this.circleData.length>0"  [formGroup]="formDistrict"  (ngSubmit)="onSubmitDistrict()">
                 <div class="formgrid">
          
@@ -14,9 +14,13 @@
                             required.</small>
                     </div>
                     <div class="field">
+                        <label for="name">Province</label>
+                        <p-dropdown [options]="provinceData" formControlName="province" optionLabel="name" optionValue="id" (onChange)="onProvinceChange($event)"></p-dropdown>
+                    </div>
+                  
+                    <div class="field">
                         <label for="name">Circle</label>
                         <p-dropdown [options]="circleData" formControlName="circle" optionLabel="name" optionValue="id"></p-dropdown>
-
                     </div>
                   
 
