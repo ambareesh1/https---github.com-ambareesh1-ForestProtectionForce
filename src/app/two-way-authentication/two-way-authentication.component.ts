@@ -19,6 +19,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
   formattedEmail = "";
   otpIncorrect = false;
   messages : Message[]=[];
+  isSendInitially : boolean = true;
 
   otpForm !: FormGroup;
   constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder,){
@@ -36,6 +37,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
       three: ['', Validators.required],
       four: ['', Validators.required]
     });
+    this.resendOtp();
   }
 
   public onSubmitOTP = () =>{
@@ -52,13 +54,14 @@ export class TwoWayAuthenticationComponent implements OnInit {
   }
 
   resendOtp = () =>{
-    debugger;
+  
     let userDetails = this.sharedService.getUserDetails();
     let userName = userDetails.username;
     let otp = Math.floor(1000 + Math.random() * 9000);
     this.otp = otp;
     this.userDetailsService.resendOtp(userName,otp).subscribe(data=>{
-      this.messages = [{ severity: 'success', summary: 'Success', detail: 'OTP sent agan. Please verify and try again' }];
+    this.isSendInitially? this.messages = [{ severity: 'success', summary: 'Success', detail: 'OTP sent to registered email. Please verify.' }]:   this.messages = [{ severity: 'success', summary: 'Success', detail: 'OTP sent again. Please verify and try again' }];
+    this.isSendInitially = false;
     });
   }
 }

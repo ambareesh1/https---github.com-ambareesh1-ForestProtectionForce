@@ -16,6 +16,7 @@ export class ChangePasswordComponent {
   siteKey = 'your_site_key';
   changeForm!: FormGroup;
   messages: Message[]=[];
+  isLoading:boolean = false;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService : AuthenticationService,
@@ -47,13 +48,19 @@ export class ChangePasswordComponent {
   }
 
   onSubmitPassword = ()=>{
-    debugger;
+   this.isLoading = true;
     let userName = this.sharedService.getUserDetails().username;
     let password = this.changeForm.value.password;
     let newpassword = this.changeForm.value.newpassword;
     this.userDetailsService.changePassword(userName, password, newpassword).subscribe(x=>{
       if(x !=null ){
-        this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again'  }];
+        this.isLoading = false;
+        this.changeForm.reset();
+        this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
+        setInterval(() => {
+          this.router.navigate(['']);
+        }, 5000);
+       
       }else {
         this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];
       }

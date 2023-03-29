@@ -18,19 +18,20 @@ export class BaselineGridComponent {
   searchValue : any = null;
   rangeDates: Date[] = [];
   ref: DynamicDialogRef | undefined;
-  
+  isDataLoaded : boolean = false;
   constructor(private baselineDataService : BaselinedataService, private router: Router,
     public dialogService: DialogService, public messageService: MessageService){
 
   }
   ngOnInit(): void {
+    this.isDataLoaded = true;
     this.getOffenderData();
   }
 
   getOffenderData = () =>{
      this.baselineDataService.getBaseline().subscribe((data)=>{
         this.baselineData = data;
-        console.log(data);
+        this.isDataLoaded = false;
      })
   }
 

@@ -1,6 +1,6 @@
 <p-card header="Manage Data">
     <p-accordion>
-        <p-accordionTab header="Manage Province" [selected]="true">
+        <p-accordionTab header="Manage Province">
          <app-manage-province></app-manage-province>
         </p-accordionTab>
         <p-accordionTab header="Manage Circle" (click)="refreshChildComponents($event)">
@@ -14,6 +14,9 @@
          </p-accordionTab>
          <p-accordionTab header="Manage Compartment"  (click)="refreshChildComponents($event)">
             <app-manage-compartment></app-manage-compartment>
+         </p-accordionTab>
+         <p-accordionTab header="Manage User Types"  (click)="refreshChildComponents($event)" [ngClass]="isSuperAdmin?'d-block':'d-none'">
+            <app-manage-user-types></app-manage-user-types>
          </p-accordionTab>
     </p-accordion>
     

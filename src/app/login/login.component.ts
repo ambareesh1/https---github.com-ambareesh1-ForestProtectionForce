@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   isCapthaNotMatch: boolean = false;
   messages: Message[]=[];
+  showPassword : boolean = true;
+   isLoading : boolean = false;
   @ViewChild('captchaImage') captchaImage!: CaptchaComponent;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -42,26 +44,7 @@ export class LoginComponent implements OnInit {
       this.isCapthaNotMatch = false;
       let username = this.loginForm.value.username;
       let password = this.loginForm.value.password;
-      if(username == "superadmin" && password == "$uper@admin@2023")
-      {
-        let user: User = {
-          username: "superadmin",
-          name : "superadmin",
-          email: "superadmin@gmail.com",
-          mobileNo: "90090009000",
-          alternativeEmail: "superadmin@gmail.com",
-          address: "super admin",
-          department: "super admin",
-          roleId: 1,
-          roleName: "Director",
-          isActive: true
-        };
-        localStorage.setItem('userDetails', JSON.stringify(user));
-        this.router.navigate(['/dashboard']);
-      }else{
         this.verfiyCredentials();
-      }
-      
     }
 
   }
@@ -73,12 +56,13 @@ export class LoginComponent implements OnInit {
   }
 
   verfiyCredentials = () =>{
+    this.isLoading = true;
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
     let otp =  Math.floor(1000 + Math.random() * 9000);
     this.userDetailsService.validateCredentials(username, password, otp).subscribe(data => {
-      this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
       if(data){
+        this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
       this.userDetailsService.otp = otp;
       let user: User = {
         username: data.username,
@@ -100,6 +84,10 @@ export class LoginComponent implements OnInit {
     
     });
 
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 
 }

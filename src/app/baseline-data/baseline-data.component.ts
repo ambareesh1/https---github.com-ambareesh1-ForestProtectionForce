@@ -25,7 +25,7 @@ export class BaselineDataComponent implements OnInit {
   forestDivisions:District[]=[];
   forestRanges:Division[] = [];
   compartments : Compartment[] = [];
-
+  units : Circle[] =[];
   circleName : string = "";
   forestDivisionName: string = "";
   forestRangeName : string = "";
@@ -42,7 +42,12 @@ export class BaselineDataComponent implements OnInit {
     private baselineDataService :BaselinedataService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private spinnerService : SpinnerService) {}
+    private spinnerService : SpinnerService) {
+      this.units.push(
+      {id:1, isActive:true, name : 'Kilogram (kg)',provinceId:0},
+      {id:2, isActive:true, name : 'Tonne (t)',provinceId:0},
+      {id:3, isActive:true, name : 'Grams (g)',provinceId:0})
+    }
     
 
   ngOnInit(): void {

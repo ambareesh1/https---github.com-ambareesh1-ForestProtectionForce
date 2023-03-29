@@ -19,7 +19,7 @@ export class ForgotpasswordComponent implements OnInit {
   captcha: string = "";
   siteKey = 'your_site_key';
   messages: Message[]=[];
-  
+  isLoading : boolean = false;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService : AuthenticationService,
@@ -43,7 +43,9 @@ export class ForgotpasswordComponent implements OnInit {
         let userName = this.forgotForm.value.username;
         let email = this.forgotForm.value.forgotEmail;
         this.userDetailsService.checkUserNameAndEmail(userName, email).subscribe(x=>{
+          this.isLoading = true;
           if(x){
+            this.isLoading = false;
             let formattedEmail = email.substring(0,3) + '***@' + email.substring(email.indexOf('@') + 1);
             this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password is sent to registered email '+" "+formattedEmail+ ". Please login with new password."  }];
             this.forgotForm.reset();

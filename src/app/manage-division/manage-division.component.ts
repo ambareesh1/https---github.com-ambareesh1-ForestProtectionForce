@@ -125,8 +125,24 @@ onSubmitDivision() {
      this.submitted = false;
  }
  
-
+ onChangeProvince = (event:any)=>{
+  this.manageDataService.getCircle().subscribe((data)=>{
+    debugger;
+    data= data.filter(x=>x.provinceId == event.value);
+     this.circleData = data;
+   })
+ }
  
+ onChangeCircle = (event:any) =>{
+  this.manageDataService.getDistrict().subscribe((data)=>{
+    debugger;
+    data= data.filter(x=>x.circleId == event.value);
+     this.districtData = data;
+   })
+ }
+
+
+
 }
 
 

@@ -4,7 +4,7 @@ import { AdminUser } from '../Models/AdmimUsersModel';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
-import { Compartment, Division, Province } from '../Models/ManageDataModels';
+import { CircleView, Compartment, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
 
 
@@ -19,6 +19,9 @@ export class ManageCompartmentComponent {
   Delete : any = "Delete";
   compartment : Compartment[] = [];
   divisontData : Division[]=[];
+  districtData : District[]=[];
+  provinceData : Province[]=[];
+  circleData : CircleView[] =[];
   submitted: boolean = true;
   search : any = "";
 
@@ -33,6 +36,9 @@ export class ManageCompartmentComponent {
   this.refreshServie.refreshEvent.subscribe(() => {
    this.getCompartmentData();
    this.getDivisionData();
+   this.getDistrictData();
+   this.getCircleData();
+   this.getProvinceData();
   });
  }
  initForm(compartment: Compartment = {} as Compartment){
@@ -55,7 +61,23 @@ getDivisionData = () => {
      this.initForm();
     });
 }
+getDistrictData = () => {
+  this.manageDataService.getDistrict().subscribe((data) =>{
+     this.districtData = data;
+     this.initForm();
+    });
+}
+getProvinceData(){
+  this.manageDataService.getProvince().subscribe((data)=>{
+    this.provinceData = data;
+  })
+ }
 
+ getCircleData(){
+  this.manageDataService.getCircle().subscribe((data)=>{
+    this.circleData = data;
+  })
+ }
 onSubmitCompartment() {
   console.log(this.formCompartment.value);
    let compartmentData: Compartment = {
@@ -103,6 +125,28 @@ onSubmitCompartment() {
      this.submitted = false;
  }
  
+ onChangeProvince = (event:any)=>{
+  this.manageDataService.getCircle().subscribe((data)=>{
+    
+    data= data.filter(x=>x.provinceId == event.value);
+     this.circleData = data;
+   })
+ }
+ 
+ onChangeCircle = (event:any) =>{
+  this.manageDataService.getDistrict().subscribe((data)=>{
+    
+    data= data.filter(x=>x.circleId == event.value);
+     this.districtData = data;
+   })
+ }
 
+ onChangDistrict = (event:any) =>{
+  this.manageDataService.getDivison().subscribe((data)=>{
+    
+    data= data.filter(x=>x.districtId == event.value);
+     this.divisontData = data;
+   })
+ }
  
 }

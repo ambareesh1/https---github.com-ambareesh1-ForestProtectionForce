@@ -26,7 +26,10 @@
 
                 <div class="field mt-3">
                   <label class="p-1 block fs-6">Password</label>
-                  <input type="password" pInputText formControlName="password" class="form-control" />
+                  <span class="p-input-icon-right w-100">
+                    <i [ngClass]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'" (click)="toggleShowPassword()"></i>
+                    <input [type]="showPassword ? 'password' : 'text'" pInputText formControlName="password" class="form-control" />
+                </span>
                   <small class="p-error block"
                     *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty"> password is
                     required.</small>
@@ -51,7 +54,8 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                   <button pButton pRipple type="submit" label="Login"
-                    class="p-button-rounded p-button-success text-center mt-3" [disabled]="loginForm.invalid"></button>
+                    class="p-button-rounded p-button-success text-center mt-3" [icon]="isLoading ? 'pi pi-spin pi-spinner':''" iconPos="right" [disabled]="loginForm.invalid" >
+                      </button>
                 </div>
               </form>
               <div class="text-end">

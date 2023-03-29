@@ -1,4 +1,5 @@
 <p-panel header="Baseline Data">
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="!isDataLoaded"></p-progressBar>
     <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']"
     [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 

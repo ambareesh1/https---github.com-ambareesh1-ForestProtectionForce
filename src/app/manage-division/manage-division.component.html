@@ -14,15 +14,15 @@
                     </div>
                     <div class="field">
                         <label for="name">Province</label>
-                        <p-dropdown [options]="provinceData" formControlName="province" optionLabel="name" optionValue="id"></p-dropdown>
+                        <p-dropdown [options]="provinceData" formControlName="province" optionLabel="name" optionValue="id" (onChange)="onChangeProvince($event)"></p-dropdown>
                     </div>
                     <div class="field">
                         <label for="name">Circle</label>
-                        <p-dropdown [options]="circleData" formControlName="circle" optionLabel="name" optionValue="id"></p-dropdown>
+                        <p-dropdown [options]="circleData" formControlName="circle" optionLabel="name" optionValue="id" (onChange)="onChangeCircle($event)"></p-dropdown>
                     </div>
                   
                     <div class="field">
-                        <label for="name">District</label>
+                        <label for="name">Forest District / Division</label>
                         <p-dropdown [options]="districtData" formControlName="district" optionLabel="name" optionValue="id"></p-dropdown>
 
                     </div>
@@ -44,7 +44,7 @@
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-           <h4>Manage Divisions</h4>
+           <h4>Manage Forest Range</h4>
         </ng-template>
 
         <ng-template pTemplate="right">

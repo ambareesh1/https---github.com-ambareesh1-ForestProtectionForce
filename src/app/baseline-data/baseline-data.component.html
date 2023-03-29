@@ -96,7 +96,7 @@
                             of Law is required.</small>
                     </div>
                     <div class="field">
-                        <label for="Quantity" class="block">Quantity</label>
+                        <label for="Quantity" class="block">Item Quantity</label>
                         <input id="Quantity" pInputText type="number" class="offender-input-width"
                             formControlName="Quantity" />
                         <small class="p-error block"
@@ -104,9 +104,13 @@
                             is required.</small>
                     </div>
                     <div class="field">
-                        <label for="Weight" class="block">Weight</label>
-                        <input id="Weight" pInputText type="number" class="offender-input-width"
+                        <label for="Weight" class="block">Item Weight</label>
+                        <div class="flex">
+                            <input id="Weight" pInputText type="number" class=""
                             formControlName="Weight" />
+                             <p-dropdown id="CircleId" [options]="units"  optionLabel="name" optionValue="id" style="width: 35%;margin-left: 2%;"> </p-dropdown>
+                        </div>
+                      
                         <small class="p-error block"
                             *ngIf="formBaseline.get('Weight')?.invalid && formBaseline.get('Weight')?.dirty">Weight is
                             required.</small>

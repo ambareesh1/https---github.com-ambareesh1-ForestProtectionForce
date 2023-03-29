@@ -4,7 +4,7 @@
       <div class="card shadow">
         <div class="card-body bg-primary">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[0].count}}</h2>
+            <h2>{{boxModels[0].count || 0}}</h2>
             <div>
               <i class="pi pi-chart-bar p-3 text-white  text-bold" style="font-size: 3rem"></i>
             </div>
@@ -19,7 +19,7 @@
       <div class="card shadow">
         <div class="card-body bg-warning">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[1].count}}</h2>
+            <h2>{{boxModels[1].count || 0}}</h2>
             <div>
               <i class="bi bi-subtract"></i>
               <i class="pi pi-folder-open p-3 text-white  text-bold" style="font-size: 3rem"></i>
@@ -35,7 +35,7 @@
       <div class="card shadow">
         <div class="card-body bg-success">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[2].count}}</h2>
+            <h2>{{boxModels[2].count || 0}}</h2>
             <div>
               <i class="pi  pi-flag-fill p-3 text-white text-success text-bold" style="font-size: 3rem"></i>
             </div>
@@ -50,7 +50,7 @@
       <div class="card shadow">
         <div class="card-body bg-danger">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[3].count}}</h2>
+            <h2>{{boxModels[3].count || 0}}</h2>
             <div>
               <i class="pi  pi-stop-circle p-3 text-white text-success text-bold" style="font-size: 3rem"></i>
             </div>

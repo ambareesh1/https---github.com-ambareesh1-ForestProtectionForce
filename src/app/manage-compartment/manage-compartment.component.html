@@ -14,19 +14,31 @@
                             required.</small>
                     </div>
                     <div class="field">
-                        <label for="name">District</label>
-                        <p-dropdown [options]="divisontData" formControlName="division" optionLabel="name" optionValue="id"></p-dropdown>
+                        <label for="name">Province</label>
+                        <p-dropdown [options]="provinceData" formControlName="province" optionLabel="name" optionValue="id" (onChange)="onChangeProvince($event)"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="name">Circle</label>
+                        <p-dropdown [options]="circleData" formControlName="circle" optionLabel="name" optionValue="id" (onChange)="onChangeCircle($event)"></p-dropdown>
+                    </div>
+                  
+                    <div class="field">
+                        <label for="name">Forest District / Division</label>
+                        <p-dropdown [options]="districtData" formControlName="district" optionLabel="name" optionValue="id" (onChange)="onChangDistrict($event)"></p-dropdown>
 
                     </div>
                   
+                    <div class="field">
+                        <label for="name">Forest Range</label>
+                        <p-dropdown [options]="divisontData" formControlName="district" optionLabel="name" optionValue="id"></p-dropdown>
 
+                    </div>
                     <div class="flex align-items-end  col-6 gap-3 ">
                         <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
                             [disabled]="formCompartment.invalid"></button>
                         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
                             type="reset"></button>
                     </div>
-
                 </div>
             </form>
         </p-card>

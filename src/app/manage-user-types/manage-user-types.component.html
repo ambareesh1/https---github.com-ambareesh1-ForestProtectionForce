@@ -3,15 +3,15 @@
 
 <div class="grid">
     <div class="col-8 p-3">
-        <p-card header="Add Province"  styleClass="p-fluid">
-            <form [formGroup]="formProvince" (ngSubmit)="onSubmitProvince()">
+        <p-card header="Add User Type"  styleClass="p-fluid">
+            <form [formGroup]="formUserTypes" (ngSubmit)="onSubmitUserTypes()">
                 <div class="formgrid">
          
                     <div class="field">
-                        <label for="provinceName">Province Name</label>
-                        <input id="provinceName" pInputText mode="text" formControlName="provinceName" />
+                        <label for="userTypesName">User Type</label>
+                        <input id="userTypesName" pInputText mode="text" formControlName="userTypesName" />
                         <small class="p-error block"
-                            *ngIf="formProvince.get('provinceName')?.invalid && formProvince.get('provinceName')?.dirty"> Province is
+                            *ngIf="formUserTypes.get('userTypesName')?.invalid && formUserTypes.get('userTypesName')?.dirty"> UserTypes is
                             required.</small>
                     </div>
 
@@ -19,7 +19,7 @@
 
                     <div class="flex align-items-end  col-6 gap-3 ">
                         <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
-                            [disabled]="formProvince.invalid"></button>
+                            [disabled]="formUserTypes.invalid"></button>
                         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
                             type="reset"></button>
                     </div>
@@ -33,7 +33,7 @@
 <div class="card">
     <p-toolbar styleClass="p-mb-1">
         <ng-template pTemplate="left">
-           <h6>Manage Province</h6>
+           <h6>Manage User Types</h6>
         </ng-template>
 
         <ng-template pTemplate="right" >
@@ -47,30 +47,30 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
+    <p-table #dt [value]="userTypes" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
          [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
    
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="name">Province Name<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name">User Type<p-sortIcon field="name"></p-sortIcon></th>
                
                 <th></th>  <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-province>
+        <ng-template pTemplate="body" let-userTypes>
             <tr>
-                <td>{{province.name}}</td>
+                <td>{{userTypes.name}}</td>
               
                 <td class="pl-2">
-                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5" (click)="editProvince(province)"></button>
-                    <button pButton pRipple icon="pi pi-trash" iconPos="left" class="p-button-rounded p-button-warning" (click)="deleteProvince(province)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5" (click)="editUserTypes(userTypes)"></button>
+                    <button pButton pRipple icon="pi pi-trash" iconPos="left" class="p-button-rounded p-button-warning" (click)="deleteUserTypes(userTypes)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                In total there are {{province ? province.length : 0 }} Provinces.
+                In total there are {{userTypes ? userTypes.length : 0 }} UserTypess.
             </div>
         </ng-template>
     </p-table>
