@@ -23,12 +23,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
 
   otpForm !: FormGroup;
   constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder,){
-    let userDetails = this.sharedService.getUserDetails();
-    this.otp = this.userDetailsService.otp;
-    let phoneNo = userDetails.mobileNo;
-    let email = userDetails.email;
-    this.formattedPhoneNo = '(+91) ' + phoneNo.substring(0, 0) + '*******' + phoneNo.substring(7);
-    this.formattedEmail = email.substring(0,3) + '***@' + email.substring(email.indexOf('@') + 1);
+  
   }
   ngOnInit(): void {
     this.otpForm = this.formBuilder.group({
@@ -37,6 +32,11 @@ export class TwoWayAuthenticationComponent implements OnInit {
       three: ['', Validators.required],
       four: ['', Validators.required]
     });
+    let userDetails = this.sharedService.getUserDetails();
+    let phoneNo = userDetails.mobileNo;
+    let email = userDetails.email;
+    this.formattedPhoneNo = '(+91) ' + phoneNo.substring(0, 0) + '*******' + phoneNo.substring(7);
+    this.formattedEmail = email.substring(0,3) + '***@' + email.substring(email.indexOf('@') + 1);
     this.resendOtp();
   }
 

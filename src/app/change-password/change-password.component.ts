@@ -58,6 +58,7 @@ export class ChangePasswordComponent {
         this.changeForm.reset();
         this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
         setInterval(() => {
+          localStorage.clear();
           this.router.navigate(['']);
         }, 5000);
        

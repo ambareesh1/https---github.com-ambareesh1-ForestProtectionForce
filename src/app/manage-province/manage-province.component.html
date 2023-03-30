@@ -47,7 +47,7 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
+    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" 
          [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
    
@@ -55,7 +55,7 @@
             <tr>
                 <th pSortableColumn="name">Province Name<p-sortIcon field="name"></p-sortIcon></th>
                
-                <th></th>  <th></th>
+                <th></th>  
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-province>

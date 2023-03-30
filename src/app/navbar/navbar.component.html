@@ -1,7 +1,7 @@
 <div class="banner" role="banner shadow">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-          <a class="navbar-brand" href="">
+          <a class="navbar-brand" [routerLink]="this.isLoggedIn?'/dashboard':''">
             <img src="../../assets/logo.png" alt="Logo" height="70"> <span class="brand-custom">Jammu & Kashmir Forest Protection Force</span>
           </a>
           <span  class="text-success bold"

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { AuthServiceService } from '../services/auth-service.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
 
@@ -13,22 +14,16 @@ export class NavbarComponent {
   isLoggedIn: boolean = false;
   userName: string = '';
 
-  constructor(private authService: AuthenticationService, private sharedService:SharedService, private router : Router) { }
+  constructor(private authService: AuthServiceService, private sharedService:SharedService, private router : Router) { }
 
   ngOnInit() {
-    this.authService.isLoggedIn().subscribe(
-      (isLoggedIn: boolean) => {
-        debugger;
-        this.isLoggedIn = isLoggedIn;
-        if (isLoggedIn) {
+        if (this.authService.isLoggedIn()) {
+          this.isLoggedIn = true;
           let details = this.sharedService.getUserDetails()
-          console.log(details)
           this.userName = details.name;
         } else {
           this.userName = '';
         }
-      }
-    );
   }
 
   logout() {

@@ -104,3 +104,6 @@
   background: #8BC34A;
 }
 
+.border-bottom {
+  border-bottom: var(--bs-border-width) var(--bs-border-style) #9E9E9E!important;
+}

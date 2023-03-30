@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
         isActive: true
       };
       localStorage.setItem('userDetails', JSON.stringify(user));
+      localStorage.setItem('isLoggedIn','true');
       this.router.navigate(['/TwoWayAuthentication']);
     }else{
       this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password. Please provide valid credentails' }];
