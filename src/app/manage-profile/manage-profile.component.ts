@@ -4,6 +4,8 @@ import { MessageService } from 'primeng/api';
 import { UserDetails } from '../Models/UserDetails';
 import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
+import { Superadmin } from '../Models/Superadmin';
+import { SuperadminService } from '../services/superadmin.service';
 
 @Component({
   selector: 'app-manage-profile',
@@ -12,11 +14,17 @@ import { UserDetailService } from '../services/user-detail.service';
 })
 export class ManageProfileComponent implements OnInit {
 
+  isSuperAdmin : boolean = false;
   userForm: FormGroup =new FormGroup({});
   passwordForm: FormGroup = new FormGroup({});
   userDetails : UserDetails[] =[];
-
-  constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, private sharedServices : SharedService, private messageService : MessageService){}
+  superadminDetails : Superadmin[] = [];
+  constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, 
+    private sharedServices : SharedService, private messageService : MessageService, private superadminServices : SuperadminService){
+    if(this.sharedServices.getUserDetails().name === 'superadmin'){
+      this.isSuperAdmin = true;
+    }
+  }
 
   ngOnInit(): void {
 
@@ -25,11 +33,19 @@ export class ManageProfileComponent implements OnInit {
       newPassword:['',Validators.required],
       conformPassword:['',Validators.required]
     })
-    this.userDetailsService.getUserDetails().subscribe(data=>{
-      this.userDetails = data.filter(x=>x.username == this.sharedServices.getUserDetails()?.username);
-      this.initForm(this.userDetails[0]);
-    })
 
+     if(this.isSuperAdmin){
+      this.superadminServices.getSuperadminDetails().subscribe(data=>{
+        this.superadminDetails = data.filter(x=>x.username == this.sharedServices.getUserDetails()?.username);
+        this.superadminDetails[0].mobile = data[0].mobile;
+        this.initSuperForm(this.superadminDetails[0]);
+      })
+     }else{
+      this.userDetailsService.getUserDetails().subscribe(data=>{
+        this.userDetails = data.filter(x=>x.username == this.sharedServices.getUserDetails()?.username);
+        this.initForm(this.userDetails[0]);
+      })
+     }
   }
 
   initForm = (userDetails : UserDetails) =>{
@@ -48,31 +64,75 @@ export class ManageProfileComponent implements OnInit {
     });
   }
 
+  
+  initSuperForm = (userDetails : Superadmin) =>{
+    console.log(userDetails);
+    let mobileNo = JSON.stringify (userDetails.mobile);
+    this.userForm = this.formBuilder.group({
+      userType_Id : [userDetails.id ],
+      userType_Name: [userDetails.name ],
+      username: [userDetails.username],
+      password: [''],
+      firstName: [],
+      lastName: [],
+      email: [userDetails.email ],
+      alternateEmail: [userDetails.alternativeemail||''],
+      mobile: [userDetails.mobile||''],
+      address: [''],
+      isActive: [true]
+    });
+  }
+
   onSubmitIserDetails = () =>{
 
-    if(this.userForm.value){
-      let userDetails : UserDetails = {
-        id: this.userDetails[0].id,
-        userType_Id: this.userDetails[0].userType_Id,
-        userType_Name: this.userDetails[0].userType_Name,
-        username: this.userDetails[0].username,
-        password: this.userDetails[0].password,
-        first_Name: this.userForm.value.firstName,
-        last_Name: this.userForm.value.lastName,
-        email: this.userForm.value.email,
-        alternate_Email: this.userDetails[0].alternate_Email,
-        mobile: this.userForm.value.mobile,
-        address: this.userForm.value.address,
-        isActive: true,
-        createdOn: new Date(),
-        updatedOn: new Date()
-      }
-    
-      this.userDetailsService.editUserDetails(userDetails, userDetails.id).subscribe(data=>{
+    if(this.isSuperAdmin){
+      if(this.userForm.value){
+        let userDetails : Superadmin = {
+          id: this.superadminDetails[0].id,
+          username: this.superadminDetails[0].username,
+          email: this.userForm.value.email,
+          alternativeemail: this.superadminDetails[0].alternativeemail,
+          mobile: this.userForm.value.mobile,
+          division: '0',
+          ipaddress: '10.10.10',
+          name: 'superadmin',
+          roleId: 0,
+          roleName: 'superadmin'
+        }
+        this.superadminServices.editSuperAdminDetails(userDetails, userDetails.id).subscribe(data=>{
       
           this.messageService.add({severity:'success', summary: 'Successful', detail: "Details Updated Successfully.", life: 10000});
        
       })
+  
+    }else{
+      if(this.userForm.value){
+        let userDetails : UserDetails = {
+          id: this.userDetails[0].id,
+          userType_Id: this.userDetails[0].userType_Id,
+          userType_Name: this.userDetails[0].userType_Name,
+          username: this.userDetails[0].username,
+          password: this.userDetails[0].password,
+          first_Name: this.userForm.value.firstName,
+          last_Name: this.userForm.value.lastName,
+          email: this.userForm.value.email,
+          alternate_Email: this.userDetails[0].alternate_Email,
+          mobile: this.userForm.value.mobile,
+          address: this.userForm.value.address,
+          isActive: true,
+          createdOn: new Date(),
+          updatedOn: new Date()
+        }
+        this.userDetailsService.editUserDetails(userDetails, userDetails.id).subscribe(data=>{
+      
+          this.messageService.add({severity:'success', summary: 'Successful', detail: "Details Updated Successfully.", life: 10000});
+       
+      })
+    }
+
+  }
+    
+
     }
 
   }

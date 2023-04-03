@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-6" *ngIf="this.userDetails.length>0 && this.userDetails[0].username != 'superadmin' ">
+  <div class="col-lg-6" *ngIf="isSuperAdmin? this.superadminDetails.length>0 :this.userDetails.length>0">
     <p-panel header="Manage Profile">
           <form  [formGroup]="userForm"  (ngSubmit)="onSubmitIserDetails()">
               <div class="field mt-3">
@@ -7,12 +7,12 @@
                 <input type="text" pInputText formControlName="username" class="form-control"  [disabled]="true"  readonly style="background: #9e9e9e47;"/>
                
               </div>
-              <div class="field mt-3">
+              <div class="field mt-3" [ngClass]="isSuperAdmin?'d-none':'d-block'">
                 <label class="p-1 block fs-6">First Name</label>
                 <input type="text" pInputText formControlName="firstName" class="form-control"  />
                
               </div>
-              <div class="field mt-3">
+              <div class="field mt-3" [ngClass]="isSuperAdmin?'d-none':'d-block'">
                 <label class="p-1 block fs-6">last Name</label>
                 <input type="text" pInputText formControlName="lastName" class="form-control"   />
                
@@ -30,7 +30,7 @@
                   
                 </div>
       
-                <div class="field mt-3">
+                <div class="field mt-3" [ngClass]="isSuperAdmin?'d-none':'d-block'">
                   <label class="p-1 block fs-6">Address</label>
                   <textarea type="email" pInputText formControlName="address" class="form-control"  rows="5"></textarea>
                 </div>

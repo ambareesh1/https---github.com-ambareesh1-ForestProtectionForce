@@ -17,11 +17,16 @@
                 <div class="field">
                     <label for="username" class="block">User name</label>
                     <input id="username" pInputText mode="text" class="offender-input-width"
-                        formControlName="username" />
+                        formControlName="username" (blur)="onFocusUsername($event)" />
                     <small class="p-error block"
                         *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
                         Username is required.
                     </small>
+                    <small class="p-error block"
+                    *ngIf="userForm.get('username')?.errors?.['usernameTaken'] | async">
+                    Username is already exists.
+                </small>
+
                 </div>
 
                 <!-- First Name field -->

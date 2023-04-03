@@ -65,4 +65,9 @@ export class UserDetailService {
     const body = { username: username, password: password, newpassword:newpassword };
     return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/changePassword', body);
   }
+
+  verifyUserName = (username : any): Observable<UserDetails> => {
+   
+    return this.http.get<UserDetails>(this.baseUrl + '/UserDetails/verifyusername/?username='+username);
+  }
 }

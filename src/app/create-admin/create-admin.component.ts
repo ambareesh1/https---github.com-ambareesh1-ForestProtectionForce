@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UserDetails } from '../Models/UserDetails';
 import { UserTypes } from '../Models/UserTypes';
 import { UserDetailService } from '../services/user-detail.service';
+import { map, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-admin',
@@ -15,6 +16,8 @@ export class CreateAdminComponent implements OnInit {
   userTypes : UserTypes[] = [];
   userDetails : UserDetails[] = [];
   isEdit : boolean = false;
+  isUsernameTaken : boolean = false;
+
   constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, private messageService : MessageService) { }
 
   ngOnInit(): void {
@@ -98,7 +101,7 @@ export class CreateAdminComponent implements OnInit {
       id : [this.isEdit ? userDetails.id : 0 || 0],
       userType_Id : [userDetails.userType_Id ||'',Validators.required],
       userType_Name: [userDetails.userType_Name ||''],
-      username: [userDetails.username||'', Validators.required],
+      username: [userDetails.username||'', Validators.required, this.usernameTakenValidator.bind(this)],
       password: [''],
       firstName: [userDetails.first_Name||'', Validators.required],
       lastName: [userDetails.last_Name||'', Validators.required],
@@ -122,5 +125,31 @@ export class CreateAdminComponent implements OnInit {
       let provinceAddmsg = userDetails.isActive ? userDetails.username+" profile is unlocked": userDetails.username+" profile is locked";
       this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
     })
+  }
+
+  onFocusUsername(event: any) {
+    const usernameControl = this.userForm.get('username');
+    if (usernameControl && usernameControl.value) {
+      //usernameControl.markAsTouched();
+    //  usernameControl.updateValueAndValidity();
+    }
+  }
+
+  usernameTakenValidator(control: FormControl) {
+    debugger;
+    const value = control.value;
+    if (!value) {
+      return of(null);
+    }
+    return this.userDetailsService.verifyUserName(control.value).pipe(
+      map(data => {
+        if (data != null) {
+          return { usernameTaken: true };
+        } else {
+          control.untouched;
+          return null;
+        }
+      })
+    );
   }
 }

@@ -34,7 +34,7 @@ const routes: Routes = [
     {path:'', component:LoginComponent},
     {path:'forgotpassword', component:ForgotpasswordComponent},
     {path:'TwoWayAuthentication', component:TwoWayAuthenticationComponent},
-    {path:'changepassword', component:ChangePasswordComponent},
+    {path:'changepassword', component:ChangePasswordComponent,canActivate: [AuthGuard]},
   ]
 },
  {path:'', component:StandardlayoutComponent,

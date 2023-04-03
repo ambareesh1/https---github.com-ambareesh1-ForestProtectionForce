@@ -6,6 +6,9 @@ import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Models/User';
 import { UserDetailService } from '../services/user-detail.service';
 import { Message } from 'primeng/api';
+import { Superadmin } from '../Models/Superadmin';
+import { SuperadminService } from '../services/superadmin.service';
+import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,7 +26,9 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService : AuthenticationService,
-    private userDetailsService : UserDetailService
+    private userDetailsService : UserDetailService,
+    private superadminService : SuperadminService,
+    private sharedService : SharedService
 
   ) { }
 
@@ -60,10 +65,38 @@ export class LoginComponent implements OnInit {
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
     let otp =  Math.floor(1000 + Math.random() * 9000);
-    this.userDetailsService.validateCredentials(username, password, otp).subscribe(data => {
-      if(data){
-        this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
-      this.userDetailsService.otp = otp;
+    this.sharedService.setOtp(otp);
+    if(username.trim() === 'superadmin'){
+     this.superadminService.validateCredentials(username, password, otp).subscribe(data=>{
+     this.afterLoginVerified(data,otp,true);
+     })
+    }else{
+      this.userDetailsService.validateCredentials(username, password, otp).subscribe(data => {
+        this.afterLoginVerified(data,otp,false);
+     });
+    }
+  }
+
+   afterLoginVerified = (data:any, otp : any, isSuperAdmin : boolean) =>{
+    debugger;
+    if(data){
+      this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
+    this.userDetailsService.otp = otp;
+    if(isSuperAdmin){
+      let superadmin: Superadmin = {
+        username: data.username,
+        email: data.email,
+        mobile: data.mobile,
+        alternativeemail: data.alternativeemail,
+        roleName: 'superadmin',
+        id: 0,
+        division: '',
+        ipaddress: '',
+        name: 'superadmin',
+        roleId: 0
+      };
+      localStorage.setItem('userDetails', JSON.stringify(superadmin));
+    }else{
       let user: User = {
         username: data.username,
         name : data.first_Name+" "+data.last_Name,
@@ -77,15 +110,15 @@ export class LoginComponent implements OnInit {
         isActive: true
       };
       localStorage.setItem('userDetails', JSON.stringify(user));
-      localStorage.setItem('isLoggedIn','true');
-      this.router.navigate(['/TwoWayAuthentication']);
-    }else{
-      this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password. Please provide valid credentails' }];
     }
-    
-    });
-
+   
+ 
+    localStorage.setItem('isLoggedIn','true');
+    this.router.navigate(['/TwoWayAuthentication']);
+  }else{
+    this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password. Please provide valid credentails' }];
   }
+   }
 
   toggleShowPassword() {
     this.showPassword = !this.showPassword;

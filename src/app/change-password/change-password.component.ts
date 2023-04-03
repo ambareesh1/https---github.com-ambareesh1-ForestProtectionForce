@@ -5,6 +5,7 @@ import { Message } from 'primeng/api';
 import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
+import { SuperadminService } from '../services/superadmin.service';
 
 @Component({
   selector: 'app-change-password',
@@ -17,13 +18,19 @@ export class ChangePasswordComponent {
   changeForm!: FormGroup;
   messages: Message[]=[];
   isLoading:boolean = false;
+  isSuperAdmin: boolean = false;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService : AuthenticationService,
     private userDetailsService : UserDetailService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private superadminServices : SuperadminService
 
-  ) { }
+  ) {
+       if(this.sharedService.getUserDetails().username === "superadmin"){
+        this.isSuperAdmin = true;
+       }
+   }
 
   ngOnInit(): void {
     this.changeForm = this.formBuilder.group({
@@ -37,7 +44,6 @@ export class ChangePasswordComponent {
   
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return (group: FormGroup) => {
-      debugger;
       const password = group.controls[passwordKey];
       const confirmPassword = group.controls[confirmPasswordKey];
 
@@ -48,23 +54,43 @@ export class ChangePasswordComponent {
   }
 
   onSubmitPassword = ()=>{
+    debugger;
    this.isLoading = true;
     let userName = this.sharedService.getUserDetails().username;
     let password = this.changeForm.value.password;
     let newpassword = this.changeForm.value.newpassword;
-    this.userDetailsService.changePassword(userName, password, newpassword).subscribe(x=>{
-      if(x !=null ){
-        this.isLoading = false;
-        this.changeForm.reset();
-        this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
-        setInterval(() => {
-          localStorage.clear();
-          this.router.navigate(['']);
-        }, 5000);
-       
-      }else {
-        this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];
-      }
-    })
+
+    if(this.isSuperAdmin){
+      this.superadminServices.changeSuperPassword(userName, password, newpassword).subscribe(x=>{
+        if(x !=null ){
+          this.isLoading = false;
+          this.changeForm.reset();
+          this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
+          setInterval(() => {
+            localStorage.clear();
+            this.router.navigate(['']);
+          }, 5000);
+         
+        }else {
+          this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];
+        }
+      })
+    }else{
+      this.userDetailsService.changePassword(userName, password, newpassword).subscribe(x=>{
+        if(x !=null ){
+          this.isLoading = false;
+          this.changeForm.reset();
+          this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
+          setInterval(() => {
+            localStorage.clear();
+            this.router.navigate(['']);
+          }, 5000);
+         
+        }else {
+          this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];
+        }
+      })
+    }
+ 
   }
 }
