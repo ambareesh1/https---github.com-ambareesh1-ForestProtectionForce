@@ -36,6 +36,7 @@ import {InputMaskModule} from 'primeng/inputmask';
 import {ChipsModule} from 'primeng/chips';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { SkeletonModule } from 'primeng/skeleton';
 
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
@@ -154,7 +155,8 @@ import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.
     InputMaskModule,
     ChipsModule,
     ProgressSpinnerModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    SkeletonModule
   ],
   providers: [ProductService, MessageService, ConfirmationService, DialogService],
   bootstrap: [AppComponent]

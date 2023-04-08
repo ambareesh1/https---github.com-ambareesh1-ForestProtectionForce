@@ -5,6 +5,7 @@ import { Message } from 'primeng/api';
 import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
+import { SuperadminService } from '../services/superadmin.service';
 @Component({
   selector: 'app-two-way-authentication',
   templateUrl: './two-way-authentication.component.html',
@@ -22,8 +23,18 @@ export class TwoWayAuthenticationComponent implements OnInit {
 
 
   otpForm !: FormGroup;
-  constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder,){
-  this.otp = this.sharedService.getOtp();
+  constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder, private superadminServices : SuperadminService){
+  let username = this.sharedService.getUserDetails().username;
+  if(username == 'superadmin'){
+    this.superadminServices.getSuperadminByUserName(username).subscribe(x=>{
+      this.otp = Number(x.otp);
+    });
+  }else{
+    this.userDetailsService.getUserDetailsByUserName(username).subscribe(x=>{
+      this.otp = Number(x.otp);
+    });
+  }
+
   }
   ngOnInit(): void {
     debugger;
@@ -57,10 +68,10 @@ export class TwoWayAuthenticationComponent implements OnInit {
   
     let userDetails = this.sharedService.getUserDetails();
     let userName = userDetails.username;
-    let otp = Math.floor(1000 + Math.random() * 9000);
-    this.otp = otp;
-    this.userDetailsService.resendOtp(userName,otp).subscribe(data=>{
+
+    this.userDetailsService.resendOtp(userName).subscribe(data=>{
     this.messages = [{ severity: 'success', summary: 'Success', detail: 'OTP sent again. Please verify and try again' }];
     });
   }
 }
+                          

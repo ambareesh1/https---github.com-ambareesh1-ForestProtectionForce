@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BaselineModel } from '../Models/BaselineModel';
 import { BoxModel, Chart, Dashboard } from '../Models/Dashboard';
 import { DashboardService } from '../services/dashboard.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 
 interface Case {
   caseId: number;
@@ -17,7 +19,9 @@ interface Case {
 })
 
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  ref: DynamicDialogRef | undefined;
+   intervalId: any= 0;
   barChartData: any;
   pieChartDate : any;
   tableData : any;
@@ -37,96 +41,107 @@ export class DashboardComponent implements OnInit {
   boxModels: BoxModel[] = [];
   charts: Chart[] = [];
   baseline: BaselineModel[] = [];
-  constructor( private dashboardService: DashboardService){
-
-
-    this.dashboardService.getDashboardDetails().subscribe(data => {
-    debugger;
-      this.dashboard = data;
-      this.boxModels = this.dashboard.boxModels || [];
-      this.charts = this.dashboard.charts || [];
-      this.baseline = this.dashboard.baseline || [];
-      
-      let bar = this.charts.filter(x=>x.name == "bar");
-      let labels = bar.map(x=>x.xaxis);
-      let yaxisData = bar.map(x=>x.yaxis);
-
-      let pie = this.charts.filter(x=>x.name == "pie");
-      let labelsPie = pie.map(x=>x.xaxis);
-      let yaxisDataPie = pie.map(x=>x.yaxis);
-      
-      this.barChartData = {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Cases',
-            data: yaxisData,
-          
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-             
-            ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              
-            ],
-          },
-          
-        ],
-       
-        borderWidth: 1
-      }
-
-      this.pieChartDate = {
-        labels:labelsPie,
-        datasets: [
-          {
-            data: yaxisDataPie,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(255, 205, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              'rgb(255, 159, 64)',
-              'rgb(255, 205, 86)',
-              'rgb(75, 192, 192)',
-              'rgb(54, 162, 235)',
-              'rgb(153, 102, 255)',
-              'rgb(201, 203, 207)'
-            ]
-          }
-        ],
-    
-        borderWidth: 1
-      }
-    });
-  
-
- 
-  this.tableData = {}
-
-
-  setInterval(() => {
-    const list = document.querySelector('.list-group') as HTMLElement;
-    const firstItem = list.firstElementChild as HTMLElement;
-    const newItem = firstItem.cloneNode(true) as HTMLElement;
-    list.appendChild(newItem);
-    firstItem.remove();
-  }, 3000)
+  constructor( private dashboardService: DashboardService, public dialogService: DialogService){
+     this.intervalId =setInterval(() => {
+      const list = document.querySelector('.list-group') as HTMLElement;
+      const firstItem = list.firstElementChild as HTMLElement;
+      const newItem = firstItem.cloneNode(true) as HTMLElement;
+      list.appendChild(newItem);
+      firstItem.remove();
+    }, 4000);
 }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-  
 
+  ngOnInit(): void {
+   
+    this.dashboardService.getDashboardDetails().subscribe(data => {
+        this.dashboard = data;
+        this.boxModels = this.dashboard.boxModels || [];
+        this.charts = this.dashboard.charts || [];
+        this.baseline = this.dashboard.baseline || [];
+        
+        let bar = this.charts.filter(x=>x.name == "bar");
+        let labels = bar.map(x=>x.xaxis);
+        let yaxisData = bar.map(x=>x.yaxis);
+  
+        let pie = this.charts.filter(x=>x.name == "pie");
+        let labelsPie = pie.map(x=>x.xaxis);
+        let yaxisDataPie = pie.map(x=>x.yaxis);
+        
+        this.barChartData = {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Cases',
+              data: yaxisData,
+            
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+               
+              ],
+              borderColor: [
+                'rgb(255, 99, 132)',
+                
+              ],
+            },
+            
+          ],
+         
+          borderWidth: 1
+        }
+  
+        this.pieChartDate = {
+          labels:labelsPie,
+          datasets: [
+            {
+              data: yaxisDataPie,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+              ],
+              borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+              ]
+            }
+          ],
+      
+          borderWidth: 1
+        }
+      });
+    
+  
+   
+    this.tableData = {}
+ 
+  }
+  show(baseline:BaselineModel) {
+    this.ref = this.dialogService.open(BaselineViewComponent, {
+        header: 'Baseline Details',
+        width: '60%',
+        contentStyle: {"max-height": "500px", "overflow": "auto"},
+        baseZIndex: 10000,
+        data: baseline.id
+    });
+}
+  viewBaseline=(baseline:BaselineModel)=>{
+    this.show(baseline);
+  }
    randomCount = ()=>{
     return 4;
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
 }

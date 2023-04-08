@@ -28,6 +28,10 @@ export class UserDetailService {
     return  this.http.get<UserDetails[]>(this.baseUrl+'/UserDetails/'+id);
   }
 
+  getUserDetailsByUserName = (username:any) =>{
+    return  this.http.get<UserDetails>(this.baseUrl+'/UserDetails/GetUserDetailsByUserName'+username);
+  }
+
   createUserDetails(circle: UserDetails): Observable<UserDetails> {
 
     return this.http.post<UserDetails>(this.baseUrl+'/UserDetails', circle);
@@ -46,13 +50,13 @@ export class UserDetailService {
     return this.http.delete(this.baseUrl+'/UserDetails/'+id+'');
   }
 
-  validateCredentials = (username: any, password: any, otp: any): Observable<UserDetails> => {
-    const body = { username: username, password: password, otp: otp };
+  validateCredentials = (username: any, password: any): Observable<UserDetails> => {
+    const body = { username: username, password: password};
     return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/verifyUser', body);
   }
   
-  resendOtp = (username: any, otp: any): Observable<UserDetails> => {
-    const body = { username: username, otp: otp };
+  resendOtp = (username: any): Observable<UserDetails> => {
+    const body = { username: username };
     return this.http.post<UserDetails>(this.baseUrl + '/UserDetails/resendOtp', body);
   }
   
@@ -69,5 +73,15 @@ export class UserDetailService {
   verifyUserName = (username : any): Observable<UserDetails> => {
    
     return this.http.get<UserDetails>(this.baseUrl + '/UserDetails/verifyusername/?username='+username);
+  }
+
+  verifyEmail = (email : any): Observable<UserDetails> => {
+   
+    return this.http.get<UserDetails>(this.baseUrl + '/UserDetails/verifyemail/?email='+email);
+  }
+
+  verifyPhone = (phoneNo : any): Observable<UserDetails> => {
+   
+    return this.http.get<UserDetails>(this.baseUrl + '/UserDetails/verifyphone/?phone='+phoneNo);
   }
 }

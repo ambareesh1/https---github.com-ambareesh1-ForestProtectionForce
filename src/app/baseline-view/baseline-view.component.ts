@@ -18,6 +18,7 @@ export class BaselineViewComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    debugger;
     this.baselineId = this.config.data;
       this.baselineService.getBaseline().subscribe(data=>{
         this.baseline = data.filter(x=>x.id == this.baselineId);

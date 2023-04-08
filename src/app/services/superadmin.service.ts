@@ -18,8 +18,12 @@ export class SuperadminService {
     return  this.http.get<Superadmin[]>(this.baseUrl+'/superadmin');
   }
 
-  validateCredentials = (username: any, password: any, otp: any): Observable<Superadmin> => {
-    const body = { username: username, password: password, otp: otp };
+  getSuperadminByUserName(username:any){
+    return  this.http.get<Superadmin>(this.baseUrl+'/superadmin/'+username);
+  }
+
+  validateCredentials = (username: any, password: any): Observable<Superadmin> => {
+    const body = { username: username, password: password };
     return this.http.post<Superadmin>(this.baseUrl + '/Superadmin/verifySuperAdminUser', body);
   }
 

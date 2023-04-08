@@ -66,11 +66,11 @@ export class ChangePasswordComponent {
           this.isLoading = false;
           this.changeForm.reset();
           this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
-          setInterval(() => {
-            localStorage.clear();
-            this.router.navigate(['']);
-          }, 5000);
-         
+          // setInterval(() => {
+          //   localStorage.clear();
+          //   this.router.navigate(['']);
+          // }, 5000);
+         this.isLoading = false
         }else {
           this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];
         }
@@ -81,10 +81,10 @@ export class ChangePasswordComponent {
           this.isLoading = false;
           this.changeForm.reset();
           this.messages = [{ severity: 'success', summary: 'Success', detail: 'The password changed sucessfully. Please login again. ',   }];
-          setInterval(() => {
-            localStorage.clear();
-            this.router.navigate(['']);
-          }, 5000);
+          // setInterval(() => {
+          //   localStorage.clear();
+          //   this.router.navigate(['']);
+          // }, 5000);
          
         }else {
           this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid password. Please provide valid password' }];

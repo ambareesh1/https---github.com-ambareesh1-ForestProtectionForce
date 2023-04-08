@@ -1,10 +1,11 @@
 
-  <div class="row mt-3">
+
+ <div *ngIf="boxModels.length>0"> <div class="row mt-3 dashboard fade-in">
     <div class="col-lg-3">
       <div class="card shadow">
         <div class="card-body bg-primary">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[0].count || 0}}</h2>
+            <h2>{{boxModels[0].count}}</h2>
             <div>
               <i class="pi pi-chart-bar p-3 text-white  text-bold" style="font-size: 3rem"></i>
             </div>
@@ -19,7 +20,7 @@
       <div class="card shadow">
         <div class="card-body bg-warning">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[1].count || 0}}</h2>
+            <h2>{{boxModels[1].count}}</h2>
             <div>
               <i class="bi bi-subtract"></i>
               <i class="pi pi-folder-open p-3 text-white  text-bold" style="font-size: 3rem"></i>
@@ -35,7 +36,7 @@
       <div class="card shadow">
         <div class="card-body bg-success">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[2].count || 0}}</h2>
+            <h2>{{boxModels[2].count}}</h2>
             <div>
               <i class="pi  pi-flag-fill p-3 text-white text-success text-bold" style="font-size: 3rem"></i>
             </div>
@@ -50,7 +51,7 @@
       <div class="card shadow">
         <div class="card-body bg-danger">
           <div class="d-flex justify-content-between align-items-center">
-            <h2>{{boxModels[3].count || 0}}</h2>
+            <h2>{{boxModels[3].count}}</h2>
             <div>
               <i class="pi  pi-stop-circle p-3 text-white text-success text-bold" style="font-size: 3rem"></i>
             </div>
@@ -62,7 +63,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <div class="row mt-5">
 
     <div class="col-lg-4">
@@ -77,20 +78,21 @@
           </p-card>
     </div>
     <div class="col-lg-4">
-      <div class="card border-light shadow">
-        <div class="card-header d-flex align-items-center justify-content-between">
+      <div class="p-card p-component border-light">
+        <div class="p-card-body">
+        <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
             <div class="dot me-2 bg-tomato"></div>
-            <h5 class="card-title mb-0">
-              Live Updates</h5>
+            <div class="p-card-title">
+              Live Updates</div>
           </div>
         </div>
         <div class="p-1">
           <div class="list-group" #list>
-            <div *ngFor="let item of baseline">
-              <a href="#" class="list-group-item list-group-item-action">
+            <div *ngFor="let item of baseline" class="text-grey">
+              <a (click)="viewBaseline(item)" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Case No {{item.caseNo}}</h5>
+                  <h6 class="mb-1">Case # {{item.caseNo}}</h6>
                   <small class="text-muted">Crime Date : {{item.crimeDate | date}}</small>
                 </div>
                 <p class="mb-1 text">{{item.crimeDetails}}</p>
@@ -98,6 +100,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
     </div>
@@ -122,8 +125,8 @@
             <td>{{ base.caseNo }}</td>
             <td>{{ base.nameOfAccused }}</td>
             <td>{{ base.officerName }}</td>
-            <td>{{ base.nameOfOfficer | date }}</td>
-            <td><i class="pi pi-eye fs-4"></i></td>
+            <td>{{ base.crimeDate | date }}</td>
+            <td (click)="viewBaseline(base)"><i class="pi pi-eye fs-4"></i></td>
           </tr>
         </ng-template>
       </p-table>

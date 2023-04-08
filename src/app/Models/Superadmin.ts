@@ -1,6 +1,7 @@
 export interface Superadmin {
     id: number;
     username: string;
+    password : string;
     mobile: string;
     email: string;
     alternativeemail: string;
@@ -8,5 +9,7 @@ export interface Superadmin {
     ipaddress: string;
     name : string,
     roleId : number,
-    roleName: string
+    roleName: string,
+    otp:number,
+    lastupdatedOn: Date
 }

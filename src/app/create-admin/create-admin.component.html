@@ -1,29 +1,57 @@
-<p-panel header="Create Users">
+<p-panel header="{{editOrCreateText}}">
 
-    <form [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
+    <form *ngIf="userDetails.length>0" [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
         <div class="row">
             <div class="col-lg-6">
                 <div class="field">
                     <label for="userType_Name" class="block">User Types</label>
-                    <p-dropdown  [options]="userTypes" [showClear]="true" class="offender-input-width" formControlName="userType_Id" optionLabel="name" optionValue="id"> </p-dropdown>
+                    <p-dropdown  [options]="userTypes" [showClear]="true" class="offender-input-width" formControlName="userType_Id" optionLabel="name" optionValue="id" (onChange)="onChangeUserType($event)"> </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('userType_Id')?.invalid && userForm.get('userType_Id')?.dirty">
                         User Type Name is required.
                     </small>
                 </div>
-
+                <div class="field" [ngClass]="isProvinceRequired?'d-block':'d-none'">
+                    <label for="userType_Name" class="block">Province</label>
+                    <p-dropdown  [options]="province" [showClear]="true" class="offender-input-width" formControlName="province" optionLabel="name" optionValue="id" (onChange)="onProvinceChange($event)"> </p-dropdown>
+                   
+                    <small class="p-error block"
+                        *ngIf="userForm.get('province')?.invalid && userForm.get('province')?.dirty">
+                        Provinceis required.
+                    </small>
+                </div>
+                <div [ngClass]="isDistrictRequired?'d-block':'d-none'">
+                <div class="field" >
+                    <label for="userType_Name" class="block">Circle</label>
+                    <p-dropdown  [options]="circle" [showClear]="true" class="offender-input-width" formControlName="circle" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)">  </p-dropdown>
+                   
+                    <small class="p-error block"
+                        *ngIf="userForm.get('circle')?.invalid && userForm.get('circle')?.dirty">
+                        Circle is required.
+                    </small>
+                </div>
+                <div class="field">
+                    <label for="userType_Name" class="block">District</label>
+                    <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id"> </p-dropdown>
+                   
+                    <small class="p-error block"
+                        *ngIf="userForm.get('district')?.invalid && userForm.get('district')?.dirty">
+                        District is required.
+                    </small>
+                </div>
+            </div>
                 <!-- Username field -->
                 <div class="field">
                     <label for="username" class="block">User name</label>
-                    <input id="username" pInputText mode="text" class="offender-input-width"
-                        formControlName="username" (blur)="onFocusUsername($event)" />
+                    <input id="username" pInputText type="text" class="offender-input-width" [disabled]="isEdit" [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"
+                        formControlName="username" (blur)="onFocusUsername($event)"   />
                     <small class="p-error block"
                         *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
                         Username is required.
                     </small>
                     <small class="p-error block"
-                    *ngIf="userForm.get('username')?.errors?.['usernameTaken'] | async">
+                    *ngIf="isUsernameTaken">
                     Username is already exists.
                 </small>
 
@@ -54,10 +82,14 @@
 
                 <div class="field">
                     <label for="email" class="block">Email</label>
-                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email" />
+                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"   (blur)="onFocusEmail($event)" />
                     <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty">
                         Email is required and must be a valid email address.
                     </small>
+                    <small class="p-error block"
+                    *ngIf="isEmailTaken">
+                    Email is already exists.
+                </small>
                 </div>
 
                 <div class="field">
@@ -68,11 +100,14 @@
 
                 <div class="field">
                     <label for="mobile" class="block">Mobile</label>
-                    <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" />
+                    <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" (blur)="onFocusPhone($event)" />
                     <small class="p-error block"
                         *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.dirty">
                         Mobile is required.
-                    </small>
+                    </small>  <small class="p-error block"
+                    *ngIf="isPhoneNoTaken">
+                    Mobile No is already exists.
+                </small>
                 </div>
 
                 <div class="field">
@@ -89,12 +124,12 @@
             <div class="p-card-footer flex justify-content-center flex-wrap gap-4">
 
                 <button pButton type="submit" [class]="isEdit ? 'p-button-raised p-button-rounded p-button-warning':'p-button-raised p-button-rounded p-button-success'">{{isEdit?'Update':'Submit'}}</button>
-                <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
+                <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary" (click)="onReset()">Cancel</button>
             </div>
         </div>
     </form>
   <p-card >
-    <p-table [value]="userDetails" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table  selectionMode="single" dataKey="username" [value]="userDetails" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>User Name</th>
@@ -103,6 +138,7 @@
                 <th>User Type</th>
                 <th>Email</th>
                 <th>Phone No</th>
+                <th></th>
                 <th></th>
             </tr>
         </ng-template>

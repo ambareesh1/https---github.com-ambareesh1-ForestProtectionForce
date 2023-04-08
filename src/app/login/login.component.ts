@@ -64,24 +64,22 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
-    let otp =  Math.floor(1000 + Math.random() * 9000);
-    this.sharedService.setOtp(otp);
+  
     if(username.trim() === 'superadmin'){
-     this.superadminService.validateCredentials(username, password, otp).subscribe(data=>{
-     this.afterLoginVerified(data,otp,true);
+     this.superadminService.validateCredentials(username, password).subscribe(data=>{
+     this.afterLoginVerified(data,true);
      })
     }else{
-      this.userDetailsService.validateCredentials(username, password, otp).subscribe(data => {
-        this.afterLoginVerified(data,otp,false);
+      this.userDetailsService.validateCredentials(username, password).subscribe(data => {
+        this.afterLoginVerified(data,false);
      });
     }
   }
 
-   afterLoginVerified = (data:any, otp : any, isSuperAdmin : boolean) =>{
+   afterLoginVerified = (data:any, isSuperAdmin : boolean) =>{
     debugger;
     if(data){
       this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
-    this.userDetailsService.otp = otp;
     if(isSuperAdmin){
       let superadmin: Superadmin = {
         username: data.username,
@@ -93,7 +91,10 @@ export class LoginComponent implements OnInit {
         division: '',
         ipaddress: '',
         name: 'superadmin',
-        roleId: 0
+        roleId: 0,
+        otp:0,
+        password:'',
+        lastupdatedOn: new Date()
       };
       localStorage.setItem('userDetails', JSON.stringify(superadmin));
     }else{

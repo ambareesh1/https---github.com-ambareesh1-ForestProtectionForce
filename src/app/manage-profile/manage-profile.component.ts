@@ -21,13 +21,12 @@ export class ManageProfileComponent implements OnInit {
   superadminDetails : Superadmin[] = [];
   constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, 
     private sharedServices : SharedService, private messageService : MessageService, private superadminServices : SuperadminService){
-    if(this.sharedServices.getUserDetails().name === 'superadmin'){
+    if(this.sharedServices.getUserDetails().username === 'superadmin'){
       this.isSuperAdmin = true;
     }
   }
 
   ngOnInit(): void {
-
     this.passwordForm = this.formBuilder.group({
       password : ['',Validators.required],
       newPassword:['',Validators.required],
@@ -84,7 +83,7 @@ export class ManageProfileComponent implements OnInit {
   }
 
   onSubmitIserDetails = () =>{
-
+debugger;
     if(this.isSuperAdmin){
       if(this.userForm.value){
         let userDetails : Superadmin = {
@@ -97,7 +96,10 @@ export class ManageProfileComponent implements OnInit {
           ipaddress: '10.10.10',
           name: 'superadmin',
           roleId: 0,
-          roleName: 'superadmin'
+          roleName: 'superadmin',
+          otp:0,
+          password:this.superadminDetails[0].password,
+          lastupdatedOn: new Date()
         }
         this.superadminServices.editSuperAdminDetails(userDetails, userDetails.id).subscribe(data=>{
       
@@ -105,6 +107,7 @@ export class ManageProfileComponent implements OnInit {
        
       })
   
+    }
     }else{
       if(this.userForm.value){
         let userDetails : UserDetails = {
@@ -121,19 +124,20 @@ export class ManageProfileComponent implements OnInit {
           address: this.userForm.value.address,
           isActive: true,
           createdOn: new Date(),
-          updatedOn: new Date()
+          updatedOn: new Date(),
+          provinceId: 0,
+          circleId: 0,
+          districtId: 0,
+          otp:0
         }
         this.userDetailsService.editUserDetails(userDetails, userDetails.id).subscribe(data=>{
-      
+        
           this.messageService.add({severity:'success', summary: 'Successful', detail: "Details Updated Successfully.", life: 10000});
        
       })
     }
 
   }
-    
-
-    }
 
   }
 
