@@ -5,6 +5,15 @@
                 <div class="formgrid">
                     <div class="row">
                     <div class="col-6">
+
+                        <div class="field">
+                            <label for="caseId" class="block">Case Id</label>
+                            <input id="caseId" pInputText mode="text"  class="offender-input-width caseId" [readOnly]="caseId.length>2" formControlName="caseId" />
+                          
+                            <small class="p-error block"
+                                *ngIf="formOffender.get('caseId')?.invalid && formOffender.get('caseId')?.dirty"> Case Id is
+                                required.</small>
+                        </div>
                         <div class="field">
                             <label for="Name" class="block">Name</label>
                             <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="name" />

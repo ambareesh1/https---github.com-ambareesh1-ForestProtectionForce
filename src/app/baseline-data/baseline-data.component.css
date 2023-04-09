@@ -34,3 +34,11 @@
     user-select: none;
     width: 75%;
 }
+
+:host ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token {
+    padding: 0.375rem 0.75rem;
+    background: #6c757d;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+}

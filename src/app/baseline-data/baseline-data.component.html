@@ -125,12 +125,26 @@
                     </div>
                     <div class="field">
                         <label for="NameOfAccused" class="block">Name of Accused</label>
-                        <p-chips formControlName="NameOfAccused" (onAdd)="onChipAdd($event)" placeholder="Enter names"
+
+                        <span class="p-fluid">
+                            <p-autoComplete [(ngModel)]="selectedOffenders" placeholder="Enter names"  [suggestions]="filteredOffenders" (completeMethod)="filterCountry($event)" field="name" [multiple]="true"> 
+                                <ng-template  let-option pTemplate="option">
+                                  <div class="option-item">
+                                    <div class="option-details">
+                                        <img [alt]="option.name" [src]="option.photo" width="40" height="40" style="vertical-align: middle; border-radius:50%" />
+                                        <span class="font-bold ml-2">{{option.name}} , {{option.surnameAlias}}</span> | Aadhar : <span class="text-secondary font-bold"> {{option.aadhaarNo}} </span>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </p-autoComplete>
+                        </span>
+
+                        <!-- <p-chips formControlName="NameOfAccused" (onAdd)="onChipAdd($event)" placeholder="Enter names"
                             formControlName="NameOfAccused">
                             <ng-template let-item pTemplate="item">
                                 <span class="pi pi-user pr-2"></span>{{ item }}
                             </ng-template>
-                        </p-chips>
+                        </p-chips> -->
                         <small class="p-error block"
                             *ngIf="formBaseline.get('NameOfAccused')?.invalid && formBaseline.get('NameOfAccused')?.dirty">Name
                             of Accused is required.</small>

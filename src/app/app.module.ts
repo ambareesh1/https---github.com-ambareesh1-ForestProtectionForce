@@ -37,7 +37,7 @@ import {ChipsModule} from 'primeng/chips';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SkeletonModule } from 'primeng/skeleton';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -156,7 +156,8 @@ import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.
     ChipsModule,
     ProgressSpinnerModule,
     DynamicDialogModule,
-    SkeletonModule
+    SkeletonModule,
+    AutoCompleteModule
   ],
   providers: [ProductService, MessageService, ConfirmationService, DialogService],
   bootstrap: [AppComponent]

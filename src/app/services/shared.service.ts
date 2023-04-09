@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
   otp : number  = 0;
+  caseId : any = '';
   constructor() { }
 
   getUserDetails=()=>{
@@ -19,5 +20,13 @@ export class SharedService {
 
   getOtp() {
     return this.otp;
+  }
+
+  setCaseId(caseId: any){
+    this.caseId = caseId;
+  }
+
+  getCaseId() {
+    return this.caseId;
   }
 }

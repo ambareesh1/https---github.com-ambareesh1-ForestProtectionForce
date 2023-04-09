@@ -6,6 +6,9 @@ import { environment } from 'src/environments/environment.development';
 import { OffenderdataService } from '../services/offenderdata.service';
 import { MessageService } from 'primeng/api';
 import { Offender } from '../Models/OffenderModel';
+import { SharedService } from '../services/shared.service';
+import { BaselineModel } from '../Models/BaselineModel';
+import { BaselinedataService } from '../services/baselinedata.service';
 @Component({
   selector: 'app-offender-profile',
   templateUrl: './offender-profile.component.html',
@@ -17,13 +20,20 @@ export class OffenderProfileComponent {
   districtData : District[]=[];
   imageUploadUrl : any = environment.apiBaseUrl+'/Offenders/upload';
   fileUploadPath : any = "";
-  caseId : any = "122323";
+  caseId : any = "";
   uploadedFiles: any[] = [];
+  caseIds: BaselineModel[] = [];
+  filteredCaseIds: BaselineModel[]=[];
 
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private sharedService : SharedService, 
+    private baseLineservice : BaselinedataService) { 
+    
+      this.caseId = this.sharedService.getCaseId();
+    }
 
   ngOnInit(): void {
    this.getDistrictData();
@@ -36,8 +46,16 @@ export class OffenderProfileComponent {
       });
   }
 
+  bindCaseIds = () =>{
+   this.baseLineservice.getBaseline().subscribe(x=>{
+      this.caseIds = x;
+    })
+  }
+
   initFormOffender =() =>{
+    debugger;
     this.formOffender = this.fb.group({
+      caseId :[this.caseId],
       name: ['', Validators.required],
       surNameAlias: [''],
       fatherName: ['', Validators.required],
@@ -78,7 +96,7 @@ export class OffenderProfileComponent {
     
     let offenderData: Offender = {
       Id: 0,
-      CaseId: this.caseId, //this.formOffender.value.caseId,
+      caseId: this.caseId, //this.formOffender.value.caseId,
       Name: this.formOffender.value.name,
       SurnameAlias: this.formOffender.value.surNameAlias,
       FatherHusbandNameAlias: this.formOffender.value.fatherName,
@@ -133,5 +151,10 @@ export class OffenderProfileComponent {
 
   onSubmit(): void {
     // Do something with the form data
+  }
+
+  searchCountries(event:any) {
+    const query = event.query;
+    this.filteredCaseIds = this.caseIds.filter(country => country.caseNo.toLowerCase().startsWith(query.toLowerCase()));
   }
 }

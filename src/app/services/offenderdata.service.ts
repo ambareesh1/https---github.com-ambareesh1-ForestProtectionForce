@@ -23,4 +23,10 @@ export class OffenderdataService {
     console.log(offender);
     return this.http.post<Offender>(this.baseUrl+'/Offenders', offender);
   }
+
+  UpdateOffendersFromBaseLine(caseId : any,offendars: Offender[]): Observable<any> {
+    return this.http.put(this.baseUrl+'/UpdateOffendersFromBaseLine/'+caseId+'', offendars);
+  }
+
+  
 }

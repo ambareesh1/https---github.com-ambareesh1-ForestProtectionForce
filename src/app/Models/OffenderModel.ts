@@ -1,6 +1,6 @@
 export interface Offender {
     Id: number;
-    CaseId: string;
+    caseId: string;
     Name: string;
     SurnameAlias: string;
     FatherHusbandNameAlias: string;

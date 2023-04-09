@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-baseline-grid',
@@ -20,7 +21,7 @@ export class BaselineGridComponent {
   ref: DynamicDialogRef | undefined;
   isDataLoaded : boolean = false;
   constructor(private baselineDataService : BaselinedataService, private router: Router,
-    public dialogService: DialogService, public messageService: MessageService){
+    public dialogService: DialogService, public messageService: MessageService, private sharedService: SharedService){
 
   }
   ngOnInit(): void {
@@ -50,6 +51,7 @@ export class BaselineGridComponent {
   }
 
   addOffender=(baseline:BaselineModel)=>{
+    this.sharedService.setCaseId(baseline.caseNo);
     this.router.navigate(['/offenderprofile']);
   }
 
@@ -77,8 +79,8 @@ export class BaselineGridComponent {
   show(baseline:BaselineModel) {
     this.ref = this.dialogService.open(BaselineViewComponent, {
         header: 'Baseline Details',
-        width: '60%',
-        contentStyle: {"max-height": "500px", "overflow": "auto"},
+        width: '90%',
+        contentStyle: {"max-height": "600px", "overflow": "auto"},
         baseZIndex: 10000,
         data: baseline.id
     });

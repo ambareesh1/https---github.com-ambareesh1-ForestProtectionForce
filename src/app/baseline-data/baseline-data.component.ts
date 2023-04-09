@@ -36,12 +36,21 @@ export class BaselineDataComponent implements OnInit {
   isDataLoaded : boolean = false;
   titleText = "Manage Base Line Data";
   buttonText = "Submit";
+
+  offendars: any[] = [];
+
+  selectedOffenders: any[]=[];
+
+  filteredOffenders: any[] = [];
+
+
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
     private baselineDataService :BaselinedataService,
     private messageService: MessageService,
     private route: ActivatedRoute,
+    private offenderService : OffenderdataService,
     private spinnerService : SpinnerService) {
       this.units.push(
       {id:1, isActive:true, name : 'Kilogram (kg)',provinceId:0},
@@ -71,6 +80,7 @@ export class BaselineDataComponent implements OnInit {
       let baseline = [];
       this.initFormBaseline({} as BaselineModel);
       this.loadData();
+      this.loadOffenders();
       this.isDataLoaded = true;
     }
    
@@ -192,8 +202,14 @@ export class BaselineDataComponent implements OnInit {
           let caseNo = x.caseNo;
          let provinceAddmsg = "Baseline details saved & Case No:" +caseNo+"";
          this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
+
+        
+          this.offenderDataService.UpdateOffendersFromBaseLine(caseNo,this.filteredOffenders).subscribe(x=>{
+            let provinceAddmsg = "Offenders added to baseline details";
+            this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
+          })
+
          this.formBaseline.reset();
-         //this.getProvinceData();
         }
        })
     }
@@ -250,6 +266,28 @@ export class BaselineDataComponent implements OnInit {
         this.forestRangeName = this.forestRanges.filter(x=>x.id == event.value)[0].name;
       })
     }
+
+    loadOffenders = () =>{
+        this.offenderDataService.getOffendersData().subscribe(x=>{
+          this.offendars = x;
+          this.selectedOffenders = x;
+        })
+    }
+
+    filterCountry(event:any) {
+      //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < this.offendars.length; i++) {
+          let country = this.offendars[i];
+          if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+              filtered.push(this.offendars[i]);
+          }
+      }
+
+      this.filteredOffenders = filtered;
+  }
 
     onCompartmentChange = (event:any) =>{
       this.compartmentName = this.compartments.filter(x=>x.id == event.value)[0].name;

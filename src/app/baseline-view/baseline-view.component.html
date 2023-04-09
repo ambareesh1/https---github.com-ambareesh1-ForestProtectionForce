@@ -80,4 +80,33 @@
           
     </p-card>
     </div>
+
+    <p-card header = "Offender Details">
+        <p-table [value]="offender" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="SurnameAlias">Surname / Alias <p-sortIcon field="SurnameAlias"></p-sortIcon></th>
+                <th pSortableColumn="FatherHusbandNameAlias">Father's / Husband's Name  <p-sortIcon field="FatherHusbandNameAlias"></p-sortIcon></th>
+                <th pSortableColumn="crimeDate">DOB <p-sortIcon field="dateOfBirth"></p-sortIcon></th>
+                <th pSortableColumn="Aadhar">Aadhar <p-sortIcon field="aadhaarNo"></p-sortIcon></th>
+               
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-offender>
+                <tr>
+                <td>
+                    <img [alt]="offender.name" [src]="offender.photo" width="32" style="vertical-align: middle; border-radius:20%" />
+                    <span class="font-bold ml-2">{{offender.name}}</span>
+                </td>
+                <td>{{offender.surnameAlias}}</td>
+                <td>{{offender.fatherHusbandNameAlias}}</td>
+                <td>{{this.convertToDate(offender.dateOfBirth)}}</td>
+                <td>{{offender.aadhaarNo}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+    </p-card>
+
 </div>

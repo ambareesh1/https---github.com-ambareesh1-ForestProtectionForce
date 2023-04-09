@@ -1,6 +1,6 @@
 <p-panel header="Baseline Data">
     <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="!isDataLoaded"></p-progressBar>
-    <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']"
+    <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true" [globalFilterFields]="['caseNo','dateOfDetection','officerName','firNo', 'DateOfCrime','Status']"
     [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
     [showCurrentPageReport]="true" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
@@ -30,8 +30,8 @@
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="caseNo">Case No <p-sortIcon field="caseNo"></p-sortIcon></th>
-            <th pSortableColumn="DateOfDetection">Date Of Detection <p-sortIcon field="DateOfDetection"></p-sortIcon></th>
-            <th pSortableColumn="nameOfOfficier">Name of Officer <p-sortIcon field="nameOfOfficier"></p-sortIcon></th>
+            <th pSortableColumn="dateOfDetection">Date Of Detection <p-sortIcon field="DateOfDetection"></p-sortIcon></th>
+            <th pSortableColumn="officerName">Name of Officer <p-sortIcon field="officerName"></p-sortIcon></th>
             <th pSortableColumn="firNo">FIR No  <p-sortIcon field="firNo"></p-sortIcon></th>
             <th pSortableColumn="DateOfCrime">Date Of Crime <p-sortIcon field="DateOfCrime"></p-sortIcon></th>
             <th pSortableColumn="Status">Status <p-sortIcon field="Status"></p-sortIcon></th>
@@ -44,19 +44,19 @@
 				<p-columnFilter type="text" field="caseNo"></p-columnFilter>
 			</th>
             <th>
-				<p-columnFilter type="date" field="DateOfDetection"></p-columnFilter>
+				<p-columnFilter type="date" field="dateOfDetection"></p-columnFilter>
 			</th>
 			<th>
-				<p-columnFilter type="text" field="nameOfOfficier"></p-columnFilter>
+				<p-columnFilter type="text" field="officerName"></p-columnFilter>
 			</th>
 			<th>
 				<p-columnFilter type="text" field="firNo"></p-columnFilter>
 			</th>
             <th>
-				<p-columnFilter type="date" field="DateOfCrime"></p-columnFilter>
+				<p-columnFilter type="date" field="crimeDate"></p-columnFilter>
 			</th>
 			<th>
-				<p-columnFilter type="text" field="Status"></p-columnFilter>
+				<p-columnFilter type="text" field="status"></p-columnFilter>
 			</th>
             <th>
 				
