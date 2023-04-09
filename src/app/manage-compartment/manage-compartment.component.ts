@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
 import { CircleView, Compartment, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
+import { compartmentValidator } from '../custom-validators/customvalidators';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class ManageCompartmentComponent {
  initForm(compartment: Compartment = {} as Compartment){
   
    this.formCompartment = this.fb.group({
-    compartmentName: [compartment.name || '', Validators.required],
+    compartmentName: [compartment.name || '', Validators.required, [compartmentValidator(this.manageDataService)]],
     division : [compartment.divisionId || this.divisontData[0].id]
    });
 }
@@ -149,4 +150,8 @@ onSubmitCompartment() {
    })
  }
  
+ get compartmentControl() {
+  return this.formCompartment.get('compartmentName');
+}
+
 }

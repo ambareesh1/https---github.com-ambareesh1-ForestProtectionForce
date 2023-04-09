@@ -20,6 +20,11 @@ export class ManagedataService {
     return  this.http.get<Province[]>(this.baseUrl+'/Provinces');
   }
 
+  getProvinceByName(name:any){
+    return  this.http.get<Province[]>(this.baseUrl+'/Provinces/GetProvinceByName/?name='+name);
+
+  }
+
   createProvince(province: Province): Observable<Province> {
     console.log(province);
     return this.http.post<Province>(this.baseUrl+'/Provinces', province);
@@ -37,7 +42,10 @@ export class ManagedataService {
   getCircleByid = (id:any) =>{
     return  this.http.get<CircleView[]>(this.baseUrl+'/Circles/'+id+'');
   }
+  getCircleByName(name:any){
+    return  this.http.get<CircleView[]>(this.baseUrl+'/Circles/GetCircleByName/?name='+name);
 
+  }
   createCircle(circle: Circle): Observable<Circle> {
 
     return this.http.post<Circle>(this.baseUrl+'/Circles', circle);
@@ -51,6 +59,11 @@ export class ManagedataService {
 
 getDistrict(){
   return  this.http.get<DistrictView[]>(this.baseUrl+'/Districts');
+}
+
+getDistrictByName(name:any){
+  return  this.http.get<DistrictView[]>(this.baseUrl+'/Districts/GetDistrictByName/?name='+name);
+
 }
 
 createDistrict(district: District): Observable<District> {
@@ -68,6 +81,11 @@ getDivison(){
   return  this.http.get<DivisionView[]>(this.baseUrl+'/Divisions');
 }
 
+getDivisonByName(name:any){
+  return  this.http.get<DivisionView[]>(this.baseUrl+'/Divisions/GetDivisonByName/?name='+name);
+
+}
+
 createDivison(division: Division): Observable<Division> {
 
   return this.http.post<Division>(this.baseUrl+'/Divisions', division);
@@ -83,10 +101,17 @@ getCompartment(){
   return  this.http.get<CompartmentView[]>(this.baseUrl+'/Compartments');
 }
 
+getCompartmentByName(name:any){
+  return  this.http.get<DivisionView[]>(this.baseUrl+'/Compartments/GetCompartmentByName/?name='+name);
+
+}
+
 createCompartment(compartment: Compartment): Observable<Compartment> {
 
   return this.http.post<Compartment>(this.baseUrl+'/Compartments', compartment);
 }
+
+
 
 deleteCompartment(id: number): Observable<any> {
   return this.http.delete(this.baseUrl+'/Compartments/'+id+'');

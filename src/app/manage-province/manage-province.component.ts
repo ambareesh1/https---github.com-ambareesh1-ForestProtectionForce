@@ -5,6 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
 import { Province } from '../Models/ManageDataModels';
+import { provinceValidator } from '../custom-validators/customvalidators';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class ManageProvinceComponent {
      province : Province[] = [];
     submitted: boolean = true;
     search : any = "";
-
+    isProvinceTaken : boolean = false;
     formProvince: FormGroup =new FormGroup({});
     constructor(private manageDataService: ManagedataService,
        private messageService: MessageService,
@@ -34,7 +35,7 @@ export class ManageProvinceComponent {
     initForm(province: Province = {} as Province){
      
       this.formProvince = this.fb.group({
-          provinceName: [province.name || '', Validators.required]
+          provinceName: [province.name || '', Validators.required, [provinceValidator(this.manageDataService)]]
       });
   }
 
@@ -91,6 +92,23 @@ export class ManageProvinceComponent {
         this.submitted = false;
     }
     
-
-    
+    onFocusOutProvince (event:any){
+      debugger;
+      let name = this.formProvince.value.provinceName;
+      if(name!=""){
+      this.manageDataService.getProvinceByName(name).subscribe(x=>{
+        console.log(x);
+         this.isProvinceTaken = true;
+      },
+      error => {
+        console.error('An error occurred while getting province by name:', error);
+        this.isProvinceTaken = false;
+      })
+    }else{
+      this.isProvinceTaken = false;
+    }
+    }
+    get provinceControl() {
+      return this.formProvince.get('provinceName');
+    }
 }

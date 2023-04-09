@@ -45,13 +45,13 @@
                 <div class="field">
                     <label for="username" class="block">User name</label>
                     <input id="username" pInputText type="text" class="offender-input-width" [disabled]="isEdit" [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"
-                        formControlName="username" (blur)="onFocusUsername($event)"   />
+                        formControlName="username" />
                     <small class="p-error block"
                         *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
                         Username is required.
                     </small>
                     <small class="p-error block"
-                    *ngIf="isUsernameTaken">
+                    *ngIf="userForm.get('username')?.dirty && usernameControl?.hasError('usernameTaken')">
                     Username is already exists.
                 </small>
 
@@ -82,12 +82,12 @@
 
                 <div class="field">
                     <label for="email" class="block">Email</label>
-                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"   (blur)="onFocusEmail($event)" />
+                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"   />
                     <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty">
-                        Email is required and must be a valid email address.
+                        Email is required.
                     </small>
                     <small class="p-error block"
-                    *ngIf="isEmailTaken">
+                    *ngIf="emailControl?.hasError('emailtaken')">
                     Email is already exists.
                 </small>
                 </div>
@@ -100,12 +100,12 @@
 
                 <div class="field">
                     <label for="mobile" class="block">Mobile</label>
-                    <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" (blur)="onFocusPhone($event)" />
+                    <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" />
                     <small class="p-error block"
                         *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.dirty">
                         Mobile is required.
                     </small>  <small class="p-error block"
-                    *ngIf="isPhoneNoTaken">
+                    *ngIf="phoneControl?.hasError('phoneTaken')">
                     Mobile No is already exists.
                 </small>
                 </div>

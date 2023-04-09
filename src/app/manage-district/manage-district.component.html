@@ -12,6 +12,9 @@
                         <small class="p-error block"
                             *ngIf="formDistrict.get('districtName')?.invalid && formDistrict.get('districtName')?.dirty"> District is
                             required.</small>
+                            <small class="p-error block"
+                            *ngIf="districtControl?.hasError('districtTaken')"> District is
+                            already exists</small>
                     </div>
                     <div class="field">
                         <label for="name">Province</label>

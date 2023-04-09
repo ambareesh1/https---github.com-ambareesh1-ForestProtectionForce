@@ -3,7 +3,7 @@
 <div class="grid">
     <div class="col-8 p-3">
         <p-card header="Add Compartment" styleClass="p-fluid">
-            <form *ngIf="this.divisontData.length>0"  [formGroup]="formCompartment"  (ngSubmit)="onSubmitCompartment()">
+            <form *ngIf="formCompartment && this.divisontData.length>0"  [formGroup]="formCompartment"  (ngSubmit)="onSubmitCompartment()">
                 <div class="formgrid">
          
                     <div class="field">
@@ -12,6 +12,9 @@
                         <small class="p-error block"
                             *ngIf="formCompartment.get('compartmentName')?.invalid && formCompartment.get('compartmentName')?.dirty"> Compartment is
                             required.</small>
+                            <small class="p-error block"
+                            *ngIf="this.compartmentControl?.hasError('compartmentTaken')"> Compartment is
+                            already taken.</small>
                     </div>
                     <div class="field">
                         <label for="name">Province</label>

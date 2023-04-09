@@ -2,7 +2,7 @@
 <div class="grid">
     <div class="col-8 p-3">
         <p-card header="Add Forest Range" styleClass="p-fluid">
-            <form *ngIf="this.districtData.length>0"  [formGroup]="formDivision"  (ngSubmit)="onSubmitDivision()">
+            <form  *ngIf="formDivision && districtData.length > 0 && provinceData.length > 0 && circleData.length > 0"  [formGroup]="formDivision"  (ngSubmit)="onSubmitDivision()">
                 <div class="formgrid">
          
                     <div class="field">
@@ -11,6 +11,9 @@
                         <small class="p-error block"
                             *ngIf="formDivision.get('divisionName')?.invalid && formDivision.get('divisionName')?.dirty"> Division is
                             required.</small>
+                            <small class="p-error block"
+                            *ngIf="divisonControl?.hasError('divisionTaken')"> Division is
+                            alreay taken.</small>
                     </div>
                     <div class="field">
                         <label for="name">Province</label>

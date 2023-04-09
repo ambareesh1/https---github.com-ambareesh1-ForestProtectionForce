@@ -12,6 +12,9 @@
                         <small class="p-error block"
                             *ngIf="formCircle.get('circleName')?.invalid && formCircle.get('circleName')?.dirty"> Circle is
                             required.</small>
+                            <small class="p-error block"
+                            *ngIf="circleControl?.hasError('circleTaken')"> Circle is
+                            already exists</small>
                     </div>
                     <div class="field">
                         <label for="name">Province</label>

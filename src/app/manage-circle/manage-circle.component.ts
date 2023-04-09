@@ -7,6 +7,7 @@ import { ManagedataService } from '../services/managedata.service';
 import { Circle, Province } from '../Models/ManageDataModels';
 import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
+import { circleValidator } from '../custom-validators/customvalidators';
 
 @Component({
   selector: 'app-manage-circle',
@@ -38,7 +39,7 @@ export class ManageCircleComponent {
  initForm(circle: Circle = {} as Circle){
   
    this.formCircle = this.fb.group({
-    circleName: [circle.name || '', Validators.required],
+    circleName: [circle.name || '', Validators.required, [circleValidator(this.manageDataService)]],
        province : [circle.provinceId || this.ProvinceData[0].id]
    });
 }
@@ -102,7 +103,9 @@ onSubmitCircle() {
      this.submitted = false;
  }
  
-
+ get circleControl() {
+  return this.formCircle.get('circleName');
+}
  
 }
 

@@ -7,6 +7,7 @@ import { UserDetailService } from '../services/user-detail.service';
 import { map, of } from 'rxjs';
 import { CircleView, District, Province } from '../Models/ManageDataModels';
 import { ManagedataService } from '../services/managedata.service';
+import { emailValidator, phoneValidator, usernameTakenValidator } from '../custom-validators/customvalidators';
 
 @Component({
   selector: 'app-create-admin',
@@ -178,13 +179,13 @@ console.log(this.userForm.value);
       province : [userDetails.provinceId || 0],
       circle : [userDetails.circleId || 0],
       district : [userDetails.districtId || 0],
-      username: [userDetails.username||'', Validators.required],
+      username: [userDetails.username||'', Validators.required, [usernameTakenValidator(this.userDetailsService)]],
       password: [''],
       firstName: [userDetails.first_Name||'', Validators.required],
       lastName: [userDetails.last_Name||'', Validators.required],
-      email: [userDetails.email || '', [Validators.required, Validators.email]],
+      email: [userDetails.email || '', [Validators.required, Validators.email],[emailValidator(this.userDetailsService)]],
       alternateEmail: [userDetails.alternate_Email||''],
-      mobile: [userDetails.mobile||'', Validators.required],
+      mobile: [userDetails.mobile||'', Validators.required, [phoneValidator(this.userDetailsService)]],
       address: [userDetails.address||'', Validators.required],
       isActive: [true]
     });
@@ -247,5 +248,13 @@ console.log(this.userForm.value);
     this.userForm.reset();
   }
 
-
+  get usernameControl() {
+    return this.userForm.get('username');
+  }
+  get emailControl() {
+    return this.userForm.get('email');
+  }
+  get phoneControl() {
+    return this.userForm.get('mobile');
+  }
 }

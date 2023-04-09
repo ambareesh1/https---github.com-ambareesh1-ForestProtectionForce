@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ManagedataService } from '../services/managedata.service';
 import { Circle, CircleView, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
+import { divisionValidator } from '../custom-validators/customvalidators';
 
 @Component({
   selector: 'app-manage-division',
@@ -30,6 +31,10 @@ export class ManageDivisionComponent {
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
       private fb: FormBuilder, private refreshService: RefreshService) { 
+        this.getDivisionData();
+        this.getDistrictData();
+        this.getCircleData();
+        this.getProvinceData();
      }
 
  ngOnInit() {
@@ -41,12 +46,12 @@ export class ManageDivisionComponent {
   })
  }
  initForm(division: Division = {} as Division){
-  
+  debugger;
    this.formDivision = this.fb.group({
-    divisionName: [division.name || '', Validators.required],
-    district : [division.districtId || this.districtData[0].id],
-    province : [this.provinceData[0].id || this.provinceData[0].id],
-    circle : [this.circleData[0].id || this.circleData[0].id]
+    divisionName: [division.name || '', Validators.required,[divisionValidator(this.manageDataService)]], //, 
+    district : [0 || this.districtData[0].id],
+    province : [0 || this.provinceData[0].id],
+    circle : [0 || this.circleData[0].id]
    });
 }
 
@@ -59,12 +64,13 @@ getDivisionData(){
 getDistrictData = () => {
   this.manageDataService.getDistrict().subscribe((data) =>{
      this.districtData = data;
-     this.initForm();
+
     });
 }
 getProvinceData(){
   this.manageDataService.getProvince().subscribe((data)=>{
     this.provinceData = data;
+    this.initForm();
   })
  }
 
@@ -141,7 +147,10 @@ onSubmitDivision() {
    })
  }
 
-
+ 
+ get divisonControl() {
+  return this.formDivision.get('divisionName');
+}
 
 }
 

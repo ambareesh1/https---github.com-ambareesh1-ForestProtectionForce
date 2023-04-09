@@ -7,6 +7,7 @@ import { ManagedataService } from '../services/managedata.service';
 import { Circle, CircleView, District, Province } from '../Models/ManageDataModels';
 import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
+import { districtValidator } from '../custom-validators/customvalidators';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class ManageDistrictComponent {
  initForm(district: District = {} as District){
   
    this.formDistrict = this.fb.group({
-    districtName: [district.name || '', Validators.required],
+    districtName: [district.name || '', Validators.required, [districtValidator(this.manageDataService)]],
     circle : [district.circleId || this.circleData.length>0 ? this.circleData[0].id:''],
     province : [this.provinceData[0].id || this.circleData[0].id]
    });
@@ -123,7 +124,9 @@ onSubmitDistrict() {
      this.submitted = false;
  }
  
-
+ get districtControl() {
+  return this.formDistrict.get('districtName');
+}
  
 }
 

@@ -9,10 +9,12 @@
          
                     <div class="field">
                         <label for="provinceName">Province Name</label>
-                        <input id="provinceName" pInputText mode="text" formControlName="provinceName" />
+                        <input id="provinceName" pInputText mode="text" formControlName="provinceName"/>
                         <small class="p-error block"
                             *ngIf="formProvince.get('provinceName')?.invalid && formProvince.get('provinceName')?.dirty"> Province is
                             required.</small>
+                            <small class="p-error block"
+                            *ngIf="provinceControl?.hasError('provinceTaken')"> Province already taken.</small>
                     </div>
 
                   
