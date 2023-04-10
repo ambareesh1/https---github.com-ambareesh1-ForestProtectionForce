@@ -159,7 +159,6 @@ export class BaselineDataComponent implements OnInit {
     }
 
     onSubmitBaseline = () =>{
-   
       let baseLineData: BaselineModel = {
         id: this.isEdit?  parseInt(this.id) : 0, // assign the id value if available, otherwise null
         dateOfDetection: this.formBaseline.value.DateOfDetection,
@@ -182,7 +181,7 @@ export class BaselineDataComponent implements OnInit {
         quantity: this.formBaseline.value.Quantity,
         weight: this.formBaseline.value.Weight,
         noOfAccused: this.formBaseline.value.NoOfAccused,
-        nameOfAccused: this.formBaseline.value.NameOfAccused.join(","),
+        nameOfAccused: this.getAccusedNames(),
         speciesDetected: this.formBaseline.value.SpeciesDetected.join(","),
         itemDescription: this.formBaseline.value.ItemDescription,
         status : "Open",
@@ -204,7 +203,7 @@ export class BaselineDataComponent implements OnInit {
          this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
 
         
-          this.offenderDataService.UpdateOffendersFromBaseLine(caseNo,this.filteredOffenders).subscribe(x=>{
+          this.offenderDataService.UpdateOffendersFromBaseLine(caseNo,this.selectedOffenders).subscribe(x=>{
             let provinceAddmsg = "Offenders added to baseline details";
             this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 10000});
           })
@@ -270,7 +269,6 @@ export class BaselineDataComponent implements OnInit {
     loadOffenders = () =>{
         this.offenderDataService.getOffendersData().subscribe(x=>{
           this.offendars = x;
-          this.selectedOffenders = x;
         })
     }
 
@@ -288,7 +286,14 @@ export class BaselineDataComponent implements OnInit {
 
       this.filteredOffenders = filtered;
   }
-
+  onSelect(event: any) {
+    debugger;
+    // Access the selected item from the event object
+    const selectedItem = event;
+    
+    // Push the selected item to the selectedOffenders array
+    this.selectedOffenders.push(selectedItem);
+  }
     onCompartmentChange = (event:any) =>{
       this.compartmentName = this.compartments.filter(x=>x.id == event.value)[0].name;
     }
@@ -296,6 +301,12 @@ export class BaselineDataComponent implements OnInit {
       const datePipe = new DatePipe('en-US');
       const formattedDate = datePipe.transform(onlyDate, 'yyyy-MM-dd');
       return formattedDate;
+    }
+
+    getAccusedNames = () =>{
+      debugger;
+     let result =   this.selectedOffenders.map(x=>x.id).join(',')
+     return result;
     }
 
 }

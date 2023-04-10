@@ -78,6 +78,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.component';
+import { OffenderViewComponent } from './offender-view/offender-view.component';
 
 
 
@@ -113,6 +114,7 @@ import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.
     BaselineViewComponent,
     CreateAdminComponent,
     ManageUserTypesComponent,
+    OffenderViewComponent,
   ],
   imports: [
     BrowserModule,

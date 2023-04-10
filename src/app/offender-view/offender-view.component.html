@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-lg-2">
+   <p-card>
+    <ng-template pTemplate="header">
+        <img [alt]="offender[0].name" [src]="offender[0].photo" height="300" />
+    </ng-template>
+    <h5> {{offender[0].surnameAlias}} {{offender[0].name}} </h5>
+   </p-card>
+  </div>
+  <div class="col-lg-8">
+    <div class="mb-2">
+        <label class="text-bold">Name : </label>
+        <label> {{offender[0].name}}</label>
+    </div>
+    <div class="mb-2">
+        <label class="text-bold">Surname / Alias : </label>
+        <label> {{offender[0].surnameAlias}}</label>
+    </div>
+
+    <div class="mb-2">
+        <label class="text-bold">DOB : </label>
+        <label> {{this.convertToDate(offender[0].dateOfBirth)}}</label>
+    </div>
+    <div class="mb-2">
+        <label class="text-bold">Aadhar No : </label>
+        <label> {{offender[0].aadhaarNo}}</label>
+    </div>
+    <div class="mb-2">
+        <label class="text-bold">Phone No : </label>
+        <label> {{offender[0].telephoneMobileNo}}</label>
+    </div>
+    <div class="mb-2">
+        <label class="text-bold">Email : </label>
+        <label> {{offender[0].email}}</label>
+    </div>
+  </div>
+
+  <div class="col-lg-6 mt-2">
+    <p-card header="Personal Details">
+        <div class="mb-2">
+            <label class="text-bold">Father / Husband Name: </label>
+            <label> {{offender[0].fatherHusbandNameAlias}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Back Account : </label>
+            <label> {{offender[0].bankAccountNo}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Citizenship : </label>
+            <label> {{offender[0].citizenship}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Date of Photography : </label>
+            <label> {{offender[0].dateOfPhotography}}</label>
+        </div>
+    </p-card>
+  </div>
+  
+  <div class="col-lg-6" >
+    <p-card header="Residence Details">
+        <div class="mb-2">
+            <label class="text-bold">street : </label>
+            <label> {{offender[0].street}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">PoliceStation : </label>
+            <label> {{offender[0].policeStation}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">City : </label>
+            <label> {{offender[0].city}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">PinCode: </label>
+            <label> {{offender[0].pinCode}}</label>
+        </div>
+    </p-card>
+  </div>
+
+</div>

@@ -9,6 +9,7 @@ import { Offender } from '../Models/OffenderModel';
 import { SharedService } from '../services/shared.service';
 import { BaselineModel } from '../Models/BaselineModel';
 import { BaselinedataService } from '../services/baselinedata.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-offender-profile',
   templateUrl: './offender-profile.component.html',
@@ -24,15 +25,22 @@ export class OffenderProfileComponent {
   uploadedFiles: any[] = [];
   caseIds: BaselineModel[] = [];
   filteredCaseIds: BaselineModel[]=[];
-
+  isItNavigatedFromBaeline : boolean = false;
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
     private messageService: MessageService,
     private sharedService : SharedService, 
-    private baseLineservice : BaselinedataService) { 
-    
+    private baseLineservice : BaselinedataService,
+     private route: ActivatedRoute) { 
+    debugger;
       this.caseId = this.sharedService.getCaseId();
+      this.route.queryParams.subscribe(params => {
+        if (Object.keys(params).length > 0) {
+        this.caseId = params['data'];
+        this.isItNavigatedFromBaeline = true;
+        }
+      });
     }
 
   ngOnInit(): void {

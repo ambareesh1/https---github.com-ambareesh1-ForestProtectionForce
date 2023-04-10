@@ -6,7 +6,7 @@
                     <div class="row">
                     <div class="col-6">
 
-                        <div class="field">
+                        <div class="field" [ngClass]="isItNavigatedFromBaeline ? 'd-block' : 'd-none' ">
                             <label for="caseId" class="block">Case Id</label>
                             <input id="caseId" pInputText mode="text"  class="offender-input-width caseId" [readOnly]="caseId.length>2" formControlName="caseId" />
                           

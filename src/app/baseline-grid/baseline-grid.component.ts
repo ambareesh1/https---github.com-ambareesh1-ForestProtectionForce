@@ -52,7 +52,7 @@ export class BaselineGridComponent {
 
   addOffender=(baseline:BaselineModel)=>{
     this.sharedService.setCaseId(baseline.caseNo);
-    this.router.navigate(['/offenderprofile']);
+    this.router.navigate(['/offenderprofile'], { queryParams: { data: baseline.caseNo } });
   }
 
   onDateRangeSelect=(event:any)=>{

@@ -116,7 +116,7 @@
                             required.</small>
                     </div>
                     <div class="field">
-                        <label for="NoOfAccused" class="block">Number of Accused</label>
+                        <label for="NoOfAccused" class="block">No of Accused</label>
                         <input id="NoOfAccused" pInputText type="number" class="offender-input-width"
                             formControlName="NoOfAccused" />
                         <small class="p-error block"
@@ -127,7 +127,7 @@
                         <label for="NameOfAccused" class="block">Name of Accused</label>
 
                         <span class="p-fluid">
-                            <p-autoComplete [(ngModel)]="selectedOffenders" placeholder="Enter names"  [suggestions]="filteredOffenders" (completeMethod)="filterCountry($event)" field="name" [multiple]="true"> 
+                            <p-autoComplete [(ngModel)]="this.selectedOffenders" placeholder="Enter names"  [suggestions]="filteredOffenders" (completeMethod)="filterCountry($event)" field="name" [multiple]="true" (onSelect)="onSelect($event)"> 
                                 <ng-template  let-option pTemplate="option">
                                   <div class="option-item">
                                     <div class="option-details">

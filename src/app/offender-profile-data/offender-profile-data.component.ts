@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Offender } from '../Models/OffenderModel';
 import { OffenderdataService } from '../services/offenderdata.service';
 import { Router } from '@angular/router';
+import { OffenderViewComponent } from '../offender-view/offender-view.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 
 @Component({
@@ -14,7 +16,8 @@ export class OffenderProfileDataComponent implements OnInit {
   offerProfileData : Offender[] = [];
   searchValue : any = null;
   rangeDates: Date[] = [];
-  constructor(private offenderDataService : OffenderdataService, private router : Router){
+  ref: DynamicDialogRef | undefined;
+  constructor(private offenderDataService : OffenderdataService, private router : Router, public dialogService: DialogService,){
 
   }
   ngOnInit(): void {
@@ -37,12 +40,28 @@ export class OffenderProfileDataComponent implements OnInit {
   }
 
   viewOffenderProfile=(offender:Offender)=>{
-
+    this.show(offender);
   }
 
    navigateToOffender = () =>{
     this.router.navigate(['/offenderprofile']);
   }
+  show(offender:Offender) {
+    debugger;
+    console.log(offender);
+    this.ref = this.dialogService.open(OffenderViewComponent, {
+        header: 'Offender Details',
+        width: '90%',
+        contentStyle: {"max-height": "600px", "overflow": "auto"},
+        baseZIndex: 10000,
+        data: (offender as any).id
+    });
+}
 
+ngOnDestroy() {
+    if (this.ref) {
+        this.ref.close();
+    }
+}
 
 }
