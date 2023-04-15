@@ -53,6 +53,7 @@ const routes: Routes = [
     {path:'managecompartment', component:ManageCompartmentComponent},
     {path:'manageparent', component:ManageParentComponent},
     {path: 'offenderprofile', component:OffenderProfileComponent},
+    {path: 'offenderprofile/:id', component:OffenderProfileComponent},
     {path:'offenderprofileData', component:OffenderProfileDataComponent},
     {path:'history', component:HistoryComponent},
     {path:'disposed', component:DisposedComponent},

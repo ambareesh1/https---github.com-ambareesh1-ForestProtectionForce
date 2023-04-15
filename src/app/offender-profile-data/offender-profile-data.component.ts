@@ -31,8 +31,8 @@ export class OffenderProfileDataComponent implements OnInit {
      })
   }
 
-  editOffenderData = (offender:Offender) =>{
-
+  editOffenderData = (offender:any) =>{
+    this.router.navigate(['/offenderprofile/'+offender.id+'']);
   }
 
   viewOffenderHistory=(offender:Offender)=>{

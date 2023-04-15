@@ -28,5 +28,7 @@ export class OffenderdataService {
     return this.http.put(this.baseUrl+'/Offenders/UpdateOffendersFromBaseLine?caseId='+caseId, offendars);
   }
 
-  
+  UpdateOffendersDetails(id:any, offender: Offender): Observable<any> {
+    return this.http.put(this.baseUrl+'/Offenders/'+id,offender);
+  }
 }

@@ -1,6 +1,6 @@
 <p-panel header="{{editOrCreateText}}">
 
-    <form *ngIf="userDetails.length>0" [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
+    <form  [formGroup]="userForm" (ngSubmit)="onSubmitUserDetails()">
         <div class="row">
             <div class="col-lg-6">
                 <div class="field">

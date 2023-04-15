@@ -26,6 +26,12 @@ export class OffenderProfileComponent {
   caseIds: BaselineModel[] = [];
   filteredCaseIds: BaselineModel[]=[];
   isItNavigatedFromBaeline : boolean = false;
+  id: string = "";
+  isEdit : boolean = false;
+  isDataLoaded : boolean = false;
+  titleText = "Manage Offenders Profile";
+  buttonText = "Submit";
+
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
@@ -44,13 +50,27 @@ export class OffenderProfileComponent {
     }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id')!;
+    if(this.id != null) {
+      this.isEdit = true;
+      this.buttonText = "Update"
+      this.titleText = "Update Offenders Profile";
+
+      this.offenderDataService.getOffendersData().subscribe((data:any)=>{
+        let offender = data.filter((x:any)=>x.id == parseInt(this.id))[0];
+        this.isDataLoaded = true;
+        this.initFormOffender(offender);
+      })
+    }
    this.getDistrictData();
   }
 
   getDistrictData = () => {
     this.manageDataService.getDistrict().subscribe((data) =>{
        this.districtData = data;
-       this.initFormOffender();
+       if(!this.isEdit){
+          this.initFormOffender({} as Offender);
+       }
       });
   }
 
@@ -60,35 +80,35 @@ export class OffenderProfileComponent {
     })
   }
 
-  initFormOffender =() =>{
-    debugger;
+  initFormOffender =(offender:any) =>{
+    console.log(offender);
     this.formOffender = this.fb.group({
-      caseId :[this.caseId],
-      name: ['', Validators.required],
-      surNameAlias: [''],
-      fatherName: ['', Validators.required],
-      caste: ['', Validators.required],
-      trade: ['', Validators.required],
-      dateOfPhotography: ['', Validators.required],
+      caseId :[offender.caseId || this.caseId],
+      name: [offender.name || '', Validators.required],
+      surNameAlias: [offender.surnameAlias ||''],
+      fatherName: [offender.fatherHusbandNameAlias ||'', Validators.required],
+      caste: [offender.caste ||'', Validators.required],
+      trade: [offender.tradeProfession ||'', Validators.required],
+      dateOfPhotography: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfPhotography):''||'', Validators.required],
       photo: [''],
 
-      dateOfBirth: ['', Validators.required],
-      age: ['', Validators.required],
-      sex: ['male', Validators.required],
-      citizenShip: ['', Validators.required],
-      email: ['', Validators.required],
-      passport: ['', Validators.required],
-      mobileNo: ['', Validators.required],
-      aadharNo: ['', Validators.required],
-      backAccountNo: ['', Validators.required],
+      dateOfBirth: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfBirth):''||'', Validators.required],
+      age: [offender.age ||0, Validators.required],
+      sex: [offender.sex ||'male', Validators.required],
+      citizenShip: [offender.citizenship ||'', Validators.required],
+      email: [offender.email ||'', Validators.required],
+      passport: [offender.passportNo ||'', Validators.required],
+      mobileNo: [offender.telephoneMobileNo ||'', Validators.required],
+      aadharNo: [offender.aadhaarNo ||'', Validators.required],
+      backAccountNo: [offender.bankAccountNo ||'', Validators.required],
 
-      houseNo: ['', Validators.required],
-      village: ['', Validators.required],
-      city: ['', Validators.required],
-      street: ['', Validators.required],
-      policeStation: ['', Validators.required],
-      district: [this.districtData[0].id, Validators.required],
-      pincode: ['', Validators.required]
+      houseNo: [offender.houseNo ||'', Validators.required],
+      village: [offender.village ||'', Validators.required],
+      city: [offender.city ||'', Validators.required],
+      street: [offender.street ||'', Validators.required],
+      policeStation: [offender.policeStation ||'', Validators.required],
+      district: [offender.districtId ||this.districtData[0].id, Validators.required],
+      pincode: [offender.pinCode ||'', Validators.required]
     });
   }
 
@@ -103,7 +123,7 @@ export class OffenderProfileComponent {
   onSubmitOffender(): void{
     
     let offenderData: Offender = {
-      Id: 0,
+      Id: this.isEdit?  parseInt(this.id) : 0,
       caseId: this.caseId, //this.formOffender.value.caseId,
       Name: this.formOffender.value.name,
       SurnameAlias: this.formOffender.value.surNameAlias,
@@ -135,7 +155,12 @@ export class OffenderProfileComponent {
       PinCode: this.formOffender.value.pincode,
     };
 
-    
+    if(this.isEdit){
+      this.offenderDataService.UpdateOffendersDetails(parseInt(this.id), offenderData).subscribe(data=>{
+        let provinceAddmsg = "Offender details updated successfully"
+        this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+      })
+    }else{
     this.offenderDataService.createOffender(offenderData).subscribe((x)=>{
       if(x){
        let provinceAddmsg = "Offender details "+this.formOffender.value.Name+ " saved"
@@ -144,6 +169,7 @@ export class OffenderProfileComponent {
        //this.getProvinceData();
       }
      })
+    }
     
   }
   
@@ -153,6 +179,8 @@ export class OffenderProfileComponent {
             this.uploadedFiles.push(file);
         }
   let currentFile = this.uploadedFiles[0].name;
+  console.log("-----Files------");
+  console.log(event);
   this.formOffender.controls['photo'].setValue(environment.fileUploadPath+"/uploads/"+currentFile);
   this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <form *ngIf="districtData.length>0" [formGroup]="formOffender" (ngSubmit)="onSubmitOffender()">
-        <p-panel header="Personal Profile of Offender">
+        <p-panel header={{titleText}}>
             <p-card subheader="Personal Profile">
                 <div class="formgrid">
                     <div class="row">
@@ -15,7 +15,7 @@
                                 required.</small>
                         </div>
                         <div class="field">
-                            <label for="Name" class="block">Name</label>
+                           <label for="Name" class="block">Name <span class="required-field">*</span></label>
                             <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="name" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('name')?.invalid && formOffender.get('name')?.dirty"> Name is
@@ -59,10 +59,14 @@
     
                         <div class="field">
                             <label for="userName" class="block">Upload Photo - Max Size 10K</label>
-                            <p-fileUpload name="myfile[]"  url="https://localhost:7164/api/offenders/upload" (onUpload)="onUpload($event)" [maxFileSize]="1000000" ></p-fileUpload>
+                            <p-fileUpload name="myfile[]"  url={{this.imageUploadUrl}} (onUpload)="onUpload($event)" [maxFileSize]="1000000" >
+                                <ng-template pTemplate="content">
                                 <ul *ngIf="uploadedFiles && uploadedFiles.length">
                                     <li style="font-weight: bold; color:darkkhaki" class="text-bold" *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
                                 </ul>
+                            </ng-template>
+                            </p-fileUpload>
+                              
                         </div>
                     </div>
                 </div>
@@ -81,7 +85,7 @@
                         </div>
                         <div class="field">
                             <label for="age" class="block text-bold">Age</label>
-                            <input id="age" pInputText mode="text" class="offender-input-width" formControlName="age" />
+                            <input id="age" pInputText type="number" class="offender-input-width" formControlName="age" />
                         </div>
                         <div class="field">
                             <label for="fatherName" class="block">Sex</label>
@@ -214,7 +218,7 @@
                    <p-card styleClass="mt-2">
                     <div class="p-card-footer flex justify-content-center flex-wrap gap-4">
                         
-                        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success"   >Submit</button>
+                        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success" [ngClass]="{'p-button-warning': isEdit}">{{buttonText}}</button>
                         <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
                     </div>
                 </p-card>

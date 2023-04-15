@@ -5,7 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { PathLocationStrategy, LocationStrategy } from '@angular/common';
+import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
 // -----------------------  Imports - PrimeNg ---------------
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
@@ -162,7 +162,7 @@ import { OffenderViewComponent } from './offender-view/offender-view.component';
     SkeletonModule,
     AutoCompleteModule
   ],
-  providers: [ProductService, MessageService, ConfirmationService, DialogService,  { provide: LocationStrategy, useClass: PathLocationStrategy }],
+  providers: [ProductService, MessageService, ConfirmationService, DialogService,  { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

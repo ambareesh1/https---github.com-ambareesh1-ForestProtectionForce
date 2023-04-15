@@ -32,3 +32,8 @@ body{
     font-weight: bolder !important;
     color: darkcyan !important;
   }
+
+  .required-field {
+    color: tomato; 
+    margin-left: 0.5px; 
+  }
