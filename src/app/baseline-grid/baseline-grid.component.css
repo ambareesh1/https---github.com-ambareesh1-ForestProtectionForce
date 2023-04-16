@@ -36,3 +36,17 @@
 :host ::ng-deep .p-toolbar-group-center{
     display: contents !important;
 }
+
+.customer-badge.status-proposal {
+    background-color: #ffd8b2;
+    color: #805b36;
+}
+
+.customer-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}

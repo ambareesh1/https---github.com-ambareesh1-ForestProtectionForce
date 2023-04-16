@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { District } from '../Models/ManageDataModels';
 import { ManagedataService } from '../services/managedata.service';
 import { environment } from 'src/environments/environment.development';
@@ -10,6 +10,7 @@ import { SharedService } from '../services/shared.service';
 import { BaselineModel } from '../Models/BaselineModel';
 import { BaselinedataService } from '../services/baselinedata.service';
 import { ActivatedRoute } from '@angular/router';
+import {markAllFieldsAsDirty} from '../utilities/makedirty'
 @Component({
   selector: 'app-offender-profile',
   templateUrl: './offender-profile.component.html',
@@ -31,7 +32,13 @@ export class OffenderProfileComponent {
   isDataLoaded : boolean = false;
   titleText = "Manage Offenders Profile";
   buttonText = "Submit";
-
+  displayPosition: boolean = false;
+  position: string = "right";
+  aadharNo : string = "";
+  aadharName : string = "";
+  aadharDistrict : string = "";
+  aadharCaseId : string = "";
+  
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
@@ -49,14 +56,14 @@ export class OffenderProfileComponent {
       });
     }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id')!;
     if(this.id != null) {
       this.isEdit = true;
       this.buttonText = "Update"
       this.titleText = "Update Offenders Profile";
 
-      this.offenderDataService.getOffendersData().subscribe((data:any)=>{
+      (await this.offenderDataService.getOffendersData()).subscribe((data:any)=>{
         let offender = data.filter((x:any)=>x.id == parseInt(this.id))[0];
         this.isDataLoaded = true;
         this.initFormOffender(offender);
@@ -121,56 +128,62 @@ export class OffenderProfileComponent {
   }
 
   onSubmitOffender(): void{
-    
-    let offenderData: Offender = {
-      Id: this.isEdit?  parseInt(this.id) : 0,
-      caseId: this.caseId, //this.formOffender.value.caseId,
-      Name: this.formOffender.value.name,
-      SurnameAlias: this.formOffender.value.surNameAlias,
-      FatherHusbandNameAlias: this.formOffender.value.fatherName,
-      Caste: this.formOffender.value.caste,
-      TradeProfession: this.formOffender.value.trade,
-      DateOfPhotography: this.formOffender.value.dateOfPhotography,
-      Photo: this.formOffender.value.photo,
-
-      DateOfBirth: this.formOffender.value.dateOfBirth,
-      Age: this.formOffender.value.age,
-      Sex: this.formOffender.value.sex,
-      Citizenship: this.formOffender.value.citizenShip,
-      Email: this.formOffender.value.email,
-      PassportNo: this.formOffender.value.passport,
-      TelephoneMobileNo: this.formOffender.value.mobileNo,
-      AadhaarNo: this.formOffender.value.aadharNo,
-      BankAccountNo: this.formOffender.value.backAccountNo,
-
-      HouseNo: this.formOffender.value.houseNo,
-      Village: this.formOffender.value.village,
-      City: this.formOffender.value.city,
-      Street: this.formOffender.value.street,
-      PoliceStation: this.formOffender.value.policeStation,
-      DistrictId: this.formOffender.value.district,
-      UpdatedBy: '',
-      UpdatedOn: new Date(),
-      IsActive: true,
-      PinCode: this.formOffender.value.pincode,
-    };
-
-    if(this.isEdit){
-      this.offenderDataService.UpdateOffendersDetails(parseInt(this.id), offenderData).subscribe(data=>{
-        let provinceAddmsg = "Offender details updated successfully"
-        this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
-      })
-    }else{
-    this.offenderDataService.createOffender(offenderData).subscribe((x)=>{
-      if(x){
-       let provinceAddmsg = "Offender details "+this.formOffender.value.Name+ " saved"
-       this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
-       this.formOffender.reset();
-       //this.getProvinceData();
+      markAllFieldsAsDirty(this.formOffender);
+    if(this.formOffender.valid){
+      let offenderData: Offender = {
+        Id: this.isEdit?  parseInt(this.id) : 0,
+        caseId: this.caseId, //this.formOffender.value.caseId,
+        Name: this.formOffender.value.name,
+        SurnameAlias: this.formOffender.value.surNameAlias,
+        FatherHusbandNameAlias: this.formOffender.value.fatherName,
+        Caste: this.formOffender.value.caste,
+        TradeProfession: this.formOffender.value.trade,
+        DateOfPhotography: this.formOffender.value.dateOfPhotography,
+        Photo: this.formOffender.value.photo,
+  
+        DateOfBirth: this.formOffender.value.dateOfBirth,
+        Age: this.formOffender.value.age,
+        Sex: this.formOffender.value.sex,
+        Citizenship: this.formOffender.value.citizenShip,
+        Email: this.formOffender.value.email,
+        PassportNo: this.formOffender.value.passport,
+        TelephoneMobileNo: this.formOffender.value.mobileNo,
+        AadhaarNo: this.formOffender.value.aadharNo,
+        BankAccountNo: this.formOffender.value.backAccountNo,
+  
+        HouseNo: this.formOffender.value.houseNo,
+        Village: this.formOffender.value.village,
+        City: this.formOffender.value.city,
+        Street: this.formOffender.value.street,
+        PoliceStation: this.formOffender.value.policeStation,
+        DistrictId: this.formOffender.value.district,
+        UpdatedBy: '',
+        UpdatedOn: new Date(),
+        IsActive: true,
+        PinCode: this.formOffender.value.pincode,
+      };
+  
+      
+  
+      if(this.isEdit){
+        this.offenderDataService.UpdateOffendersDetails(parseInt(this.id), offenderData).subscribe(data=>{
+          let provinceAddmsg = "Offender details updated successfully"
+          this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+        })
+      }else{
+      this.offenderDataService.createOffender(offenderData).subscribe((x)=>{
+        if(x){
+         let provinceAddmsg = "Offender details saved"
+         this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+         this.formOffender.reset();
+         //this.getProvinceData();
+        }
+       })
       }
-     })
+    }else{
+      let provinceAddmsg = "Please provide the required fields"
+      this.messageService.add({severity:'warn', summary: 'Validation Failed', detail: provinceAddmsg, life: 5000});
     }
-    
   }
   
   onUpload(event:any) {
@@ -192,5 +205,20 @@ export class OffenderProfileComponent {
   searchCountries(event:any) {
     const query = event.query;
     this.filteredCaseIds = this.caseIds.filter(country => country.caseNo.toLowerCase().startsWith(query.toLowerCase()));
+  }
+
+  onAadharFocusOut(event:any){
+     let aadharNo = event.target.value;
+     if(aadharNo.length>0){
+      this.offenderDataService.getOffenderWithAdhar(aadharNo).subscribe((x:any)=>{
+        this.aadharNo = x.aadhaarNo;
+        this.aadharName = x.name +" "+x.surnameAlias;
+        this.aadharDistrict = x.districtId;
+        this.aadharCaseId = x.caseId;
+        this.displayPosition = true;
+      })
+     
+     }
+    
   }
 }

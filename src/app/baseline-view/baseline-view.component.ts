@@ -32,11 +32,10 @@ export class BaselineViewComponent implements OnInit {
 
   }
 
-  bindOffenderData = () =>{
-    debugger;
-      this.offenderService.getOffendersData().subscribe(x=>{
-       
-        this.offender = x.filter(y=>y.caseId == this.caseId);
+  bindOffenderData = async () =>{
+  
+      (await this.offenderService.getOffendersData()).subscribe(x=>{
+        this.offender = x.filter(y=>y.caseId .includes(this.caseId));
       })
   }
 

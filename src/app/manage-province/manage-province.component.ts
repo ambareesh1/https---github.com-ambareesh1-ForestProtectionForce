@@ -68,7 +68,7 @@ export class ManageProvinceComponent {
     }
 
     deleteProvince(province: Province) {
-            this.confirmationService.confirm({
+            return this.confirmationService.confirm({
               message: 'Are you sure you want to delete ' + province.name + '?',
               header: 'Confirm',
               icon: 'pi pi-exclamation-triangle',

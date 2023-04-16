@@ -13,8 +13,11 @@
             </ng-template>
     
             <ng-template pTemplate="center">
-                <label for="range" class="block">From Date - To Date</label>
-                <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+                <div class="d-none">
+                    <label for="range" class="block">From Date - To Date</label>
+                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+                </div>
+               
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -69,7 +72,7 @@
             <td>{{offender.fatherHusbandNameAlias}}</td>
             <td>{{offender.caseId}}</td>
             <td class="p-1">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editOffenderData(offender)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editOffenderData(offender)"></button>
                 
             </td>
             <td class="p-1">

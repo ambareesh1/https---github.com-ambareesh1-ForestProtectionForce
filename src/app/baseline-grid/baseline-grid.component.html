@@ -80,7 +80,7 @@
             <td>{{Baseline.officerName}}</td>
             <td>{{Baseline.firNo}}</td>
             <td>{{this.convertToDate(Baseline.crimeDate)}}</td>
-            <td>{{Baseline.status}}</td>
+            <td> <span class="customer-badge status-proposal">{{Baseline.status}}</span></td>
             <td class="p-1">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editBaseline(Baseline)"></button>
                 

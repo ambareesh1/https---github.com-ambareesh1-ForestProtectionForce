@@ -37,8 +37,21 @@
 
 :host ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token {
     padding: 0.375rem 0.75rem;
-    background: #6c757d;
-    color: #fff;
+    background: #6c757d45;
+    color: #00000094;
     border-radius: 6px;
     font-weight: bold;
+}
+
+:host ::ng-deep  .p-chips .p-chips-multiple-container .p-chips-token {
+    padding: 0.375rem 0.75rem;
+    background: #6c757d45;
+    color: #00000094;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.units-dropdown {
+    width: 35%;
+    margin-left: 2%;
 }

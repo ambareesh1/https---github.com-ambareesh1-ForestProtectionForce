@@ -17,19 +17,19 @@ export class OffenderViewComponent {
   constructor(private offenderService : OffenderdataService, private ref: DynamicDialogRef, private config: DynamicDialogConfig, private manageService : ManagedataService){
 
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     debugger;
     this.offenderId = this.config.data;
-      this.offenderService.getOffendersData().subscribe((data:any)=>{
+      (await this.offenderService.getOffendersData()).subscribe((data:any)=>{
         this.offender = data.filter((x:any)=>x.id == this.offenderId);
         console.log(this.offender);
       })
 
   }
 
-  bindOffenderData = () =>{
+  bindOffenderData = async () =>{
     debugger;
-      this.offenderService.getOffendersData().subscribe(x=>{
+      (await this.offenderService.getOffendersData()).subscribe(x=>{
        
         this.offender = x.filter(y=>y.caseId == this.caseId);
       })

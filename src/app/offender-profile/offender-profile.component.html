@@ -11,7 +11,7 @@
                             <input id="caseId" pInputText mode="text"  class="offender-input-width caseId" [readOnly]="caseId.length>2" formControlName="caseId" />
                           
                             <small class="p-error block"
-                                *ngIf="formOffender.get('caseId')?.invalid && formOffender.get('caseId')?.dirty"> Case Id is
+                                *ngIf="formOffender.get('caseId')?.dirty"> Case Id is
                                 required.</small>
                         </div>
                         <div class="field">
@@ -20,20 +20,21 @@
                             <small class="p-error block"
                                 *ngIf="formOffender.get('name')?.invalid && formOffender.get('name')?.dirty"> Name is
                                 required.</small>
+                               
                         </div>
                         <div class="field">
-                            <label for="surNameAlias" class="block text-bold">SurName/Alias</label>
-                            <input id="surNameAlias" pInputText mode="text" class="offender-input-width" formControlName="surNameAlias" />
+                            <label for="surNameAlias" class="block text-bold">SurName/Alias<span class="required-field">*</span></label>
+                            <input id="surNameAlias" pInputText mode="text" class="offender-input-width" formControlName="surNameAlias"  />
                         </div>
                         <div class="field">
-                            <label for="fatherName" class="block">Father Name/ Husband Name with</label>
+                            <label for="fatherName" class="block">Father Name/ Husband Name <span class="required-field">*</span></label>
                             <input id="fatherName" pInputText mode="text" class="offender-input-width" formControlName="fatherName" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('fatherName')?.invalid && formOffender.get('fatherName')?.dirty"> Father name is
                                 required.</small>
                         </div>
                         <div class="field">
-                            <label for="caste" class="block">Caste</label>
+                            <label for="caste" class="block">Caste <span class="required-field">*</span></label>
                             <input id="caste" pInputText mode="text" class="offender-input-width" formControlName="caste"  />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('caste')?.invalid && formOffender.get('caste')?.dirty"> Caste is
@@ -42,7 +43,7 @@
                     </div>
                     <div class="col-6">
                         <div class="field">
-                            <label for="trade" class="block">Trade or Profession</label>
+                            <label for="trade" class="block">Trade or Profession <span class="required-field">*</span></label>
                             <input id="trade" pInputText mode="text" class="offender-input-width" formControlName="trade" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('trade')?.invalid && formOffender.get('trade')?.dirty"> Trade or Profession is
@@ -50,7 +51,7 @@
                         </div>
                   
                         <div class="field">
-                            <label for="userName" class="block">Date of Photography</label>
+                            <label for="userName" class="block">Date of Photography <span class="required-field">*</span></label>
                             <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success " formControlName="dateOfPhotography"></p-calendar>
                             <small class="p-error block"
                             *ngIf="formOffender.get('dateOfPhotography')?.invalid && formOffender.get('dateOfPhotography')?.dirty">Date of Photography is
@@ -58,7 +59,7 @@
                         </div>
     
                         <div class="field">
-                            <label for="userName" class="block">Upload Photo - Max Size 10K</label>
+                            <label for="userName" class="block">Upload Photo - Max Size 10K <span class="required-field">*</span></label>
                             <p-fileUpload name="myfile[]"  url={{this.imageUploadUrl}} (onUpload)="onUpload($event)" [maxFileSize]="1000000" >
                                 <ng-template pTemplate="content">
                                 <ul *ngIf="uploadedFiles && uploadedFiles.length">
@@ -77,18 +78,18 @@
                     <div class="row">
                     <div class="col-6">
                         <div class="field">
-                            <label for="userName" class="block">Date of Birth</label>
+                            <label for="userName" class="block">Date of Birth <span class="required-field">*</span></label>
                             <p-calendar  [showIcon]="true" inputId="icon" formControlName="dateOfBirth" [maxDate]="maxDate" (onSelect)="onDateSelect($event)"></p-calendar>
                             <small class="p-error block"
                             *ngIf="formOffender.get('dateOfBirth')?.invalid && formOffender.get('dateOfBirth')?.dirty">Date of Birth is required
                            </small>
                         </div>
                         <div class="field">
-                            <label for="age" class="block text-bold">Age</label>
+                            <label for="age" class="block text-bold">Age <span class="required-field">*</span></label>
                             <input id="age" pInputText type="number" class="offender-input-width" formControlName="age" />
                         </div>
                         <div class="field">
-                            <label for="fatherName" class="block">Sex</label>
+                            <label for="fatherName" class="block">Sex <span class="required-field">*</span></label>
                             <div class="p-field-radiobutton">
                                 <p-radioButton name="sex" value="male"  formControlName="sex" label="Male"></p-radioButton>
                                 <p-radioButton class="ml-2" name="sex" value="female" formControlName="sex" label="Female"></p-radioButton>
@@ -97,14 +98,14 @@
                    
                         </div>
                         <div class="field">
-                            <label for="citizenShip" class="block">Citizenship</label>
+                            <label for="citizenShip" class="block">Citizenship <span class="required-field">*</span></label>
                             <input id="citizenShip" pInputText mode="text" class="offender-input-width" formControlName="citizenShip"  />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('citizenShip')?.invalid && formOffender.get('citizenShip')?.dirty"> Citizenship is
                                 required.</small>
                         </div>
                         <div class="field">
-                            <label for="email" class="block">Email Address</label>
+                            <label for="email" class="block">Email Address <span class="required-field">*</span></label>
                             <input id="email" pInputText mode="email" class="offender-input-width" formControlName="email" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('email')?.invalid && formOffender.get('email')?.dirty"> Email is
@@ -113,7 +114,7 @@
                     </div>
                     <div class="col-6">
                         <div class="field">
-                            <label for="passport" class="block">Passport No</label>
+                            <label for="passport" class="block">Passport No <span class="required-field">*</span></label>
                             <input id="passport" pInputText mode="text" class="offender-input-width" formControlName="passport" />
                             <small class="p-error block"
                             *ngIf="formOffender.get('passport')?.invalid && formOffender.get('passport')?.dirty">Passport is required.
@@ -121,7 +122,7 @@
                         </div>
 
                         <div class="field">
-                            <label for="mobileNo" class="block">Telephone/Mobile No</label>
+                            <label for="mobileNo" class="block">Telephone/Mobile No <span class="required-field">*</span></label>
                             <input id="mobileNo" pInputText mode="text" class="offender-input-width"
                                 formControlName="mobileNo" />
                             <small class="p-error block"
@@ -131,8 +132,8 @@
                         </div>
 
                         <div class="field">
-                            <label for="aadharNo" class="block">Aadhar No</label>
-                                <p-inputMask mask="9999-9999-9999"   class="offender-input-width" formControlName="aadharNo"></p-inputMask>
+                            <label for="aadharNo" class="block">Aadhar No <span class="required-field">*</span></label>
+                                <p-inputMask mask="9999-9999-9999"   class="offender-input-width" formControlName="aadharNo" (focusout)="onAadharFocusOut($event)"></p-inputMask>
                             <small class="p-error block"
                                 *ngIf="formOffender.get('aadharNo')?.invalid && formOffender.get('aadharNo')?.dirty">Aadhar
                                 No is required.
@@ -140,7 +141,7 @@
                         </div>
 
                         <div class="field">
-                            <label for="backAccountNo" class="block">Bank Account No</label>
+                            <label for="backAccountNo" class="block">Bank Account No <span class="required-field">*</span></label>
                             <input id="backAccountNo" pInputText mode="text" class="offender-input-width"
                                 formControlName="backAccountNo" />
                             <small class="p-error block"
@@ -159,28 +160,28 @@
                <div class="row">
                 <div class="col-6">
                     <div class="field">
-                        <label for="houseNo" class="block">House No.</label>
+                        <label for="houseNo" class="block">House No. <span class="required-field">*</span></label>
                         <input id="houseNo" pInputText mode="text" class="offender-input-width" formControlName="houseNo" />
                         <small class="p-error block" *ngIf="formOffender.get('houseNo')?.invalid && formOffender.get('houseNo')?.dirty">
                             House No. is required.
                         </small>
                     </div>
                     <div class="field">
-                        <label for="village" class="block">Village</label>
+                        <label for="village" class="block">Village <span class="required-field">*</span></label>
                         <input id="village" pInputText mode="text" class="offender-input-width" formControlName="village" />
                         <small class="p-error block" *ngIf="formOffender.get('village')?.invalid && formOffender.get('village')?.dirty">
                             Village is required.
                         </small>
                     </div>
                     <div class="field">
-                        <label for="city" class="block">City</label>
+                        <label for="city" class="block">City <span class="required-field">*</span></label>
                         <input id="city" pInputText mode="text" class="offender-input-width" formControlName="city" />
                         <small class="p-error block" *ngIf="formOffender.get('city')?.invalid && formOffender.get('city')?.dirty">
                             City is required.
                         </small>
                     </div>
                     <div class="field">
-                        <label for="street" class="block">Street</label>
+                        <label for="street" class="block">Street <span class="required-field">*</span></label>
                         <input id="street" pInputText mode="text" class="offender-input-width" formControlName="street" />
                         <small class="p-error block" *ngIf="formOffender.get('street')?.invalid && formOffender.get('street')?.dirty">
                             Street is required.
@@ -189,7 +190,7 @@
                 </div>
                 <div class="col-6">
                     <div class="field">
-                        <label for="policeStation" class="block">Police Station</label>
+                        <label for="policeStation" class="block">Police Station <span class="required-field">*</span></label>
                         <input id="policeStation" pInputText mode="text" class="offender-input-width" formControlName="policeStation" />
                         <small class="p-error block"
                             *ngIf="formOffender.get('policeStation')?.invalid && formOffender.get('policeStation')?.dirty">
@@ -197,7 +198,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="district" class="block">District</label>
+                        <label for="district" class="block">District <span class="required-field">*</span></label>
                         <p-dropdown [options]="districtData" formControlName="district" class="offender-input-width" optionLabel="name" optionValue="id"></p-dropdown>
                         <small class="p-error block"
                             *ngIf="formOffender.get('district')?.invalid && formOffender.get('district')?.dirty">
@@ -205,7 +206,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="pincode" class="block">Pincode</label>
+                        <label for="pincode" class="block">Pincode <span class="required-field">*</span></label>
                         <input id="pincode" pInputText mode="text" class="offender-input-width" formControlName="pincode" />
                         <small class="p-error block"
                             *ngIf="formOffender.get('pincode')?.invalid && formOffender.get('pincode')?.dirty">
@@ -225,4 +226,17 @@
         </p-panel>
    
 </form>
+
+<p-dialog header="Aadhar No already exists" [(visible)]="displayPosition" [position]="position" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="mt-2">
+        <p>The following Aadhar No <b>{{this.aadharNo}} </b> already exists in the database with the offender name <b>{{this.aadharName}} </b> and offender is attached to the case Id <b>{{aadharCaseId}}</b>.</p>
+        <p> Please verify the submitted aadhar no & It should be unique to a offender.</p>
+
+    </div>
+   
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayPosition=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>
 </div><p-toast></p-toast>

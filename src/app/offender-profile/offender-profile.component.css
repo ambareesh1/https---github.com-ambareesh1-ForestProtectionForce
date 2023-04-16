@@ -29,3 +29,20 @@
     font-weight: bold;
     color: #607D8B;
 }
+
+:host ::ng-deep .p-inputmask{
+  width: 75%;
+}
+
+:host ::ng-deep .p-dropdown{
+    width: 75%;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+    border-bottom: 0 none;
+    background: #f7d571;
+    color: #00000075;
+    padding: 1.5rem;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}

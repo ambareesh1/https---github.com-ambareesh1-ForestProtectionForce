@@ -39,6 +39,9 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TooltipModule  } from 'primeng/tooltip';
+import { MessageModule } from 'primeng/message';
+import {BadgeModule} from 'primeng/badge';
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -160,7 +163,10 @@ import { OffenderViewComponent } from './offender-view/offender-view.component';
     ProgressSpinnerModule,
     DynamicDialogModule,
     SkeletonModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    TooltipModule,
+    MessageModule,
+    BadgeModule
   ],
   providers: [ProductService, MessageService, ConfirmationService, DialogService,  { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
