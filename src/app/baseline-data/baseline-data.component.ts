@@ -312,20 +312,29 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onUnselect(event: any) {
-    debugger;
-    const index = this.selectedOffenders.findIndex(x => x.aadhaarNo == event.aadhaarNo);
-    if (index !== -1) {
-      this.selectedOffenders.splice(index, 1);
-    }
-    this.offenderDataService.removeCaseId(this.caseId, event).subscribe(x => {
-      debugger;
-      console.log(x);
-      if (x == null) {
-        let provinceDeltedItem = "Offender " + event.name + " is removed from case successfully.";
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceDeltedItem, life: 3000 });
+    this.confirmationService.confirm({
+      message: 'Are you sure ? Do you want to remove offender [' + event.name + '] from the case ?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const index = this.selectedOffenders.findIndex(x => x.aadhaarNo == event.aadhaarNo);
+        if (index !== -1) {
+          this.selectedOffenders.splice(index, 1);
+        }
+        this.offenderDataService.removeCaseId(this.caseId, event).subscribe(x => {
+          debugger;
+          console.log(x);
+          if (x == null) {
+            let provinceDeltedItem = "Offender [" + event.name + "] is removed from the case successfully.";
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceDeltedItem, life: 3000 });
 
-      }
-    })
+          }
+        })
+      }, reject: () => {
+        debugger;
+        this.formBaseline.controls['NameOfAccused'].setValue(this.selectedOffenders);
+    }
+    });
   }
   onCompartmentChange = (event: any) => {
     this.compartmentName = this.compartments.filter(x => x.id == event.value)[0].name;
