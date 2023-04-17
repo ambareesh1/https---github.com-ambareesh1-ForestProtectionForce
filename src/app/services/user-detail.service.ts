@@ -84,4 +84,9 @@ export class UserDetailService {
    
     return this.http.get<UserDetails>(this.baseUrl + '/UserDetails/verifyphone/?phone='+phoneNo);
   }
+
+  verifyUserAlreadyExistedWithSameDistrict = (userDetails:UserDetails) =>{
+    return  this.http.post<UserDetails>(this.baseUrl+'/UserDetails/VerifyUserAlreadyExistedWithSameDistrict', userDetails);
+  }
+  
 }

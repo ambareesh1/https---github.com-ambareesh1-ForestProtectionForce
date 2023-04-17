@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="userType_Name" class="block">User Types</label>
-                    <p-dropdown  [options]="userTypes" [showClear]="true" class="offender-input-width" formControlName="userType_Id" optionLabel="name" optionValue="id" (onChange)="onChangeUserType($event)"> </p-dropdown>
+                    <label for="userType_Id" class="block">User Types <span class="required-field">*</span></label>
+                    <p-dropdown  [options]="userTypes" [showClear]="true" class="offender-input-width" formControlName="userType_Id" optionLabel="name" optionValue="id"  (onChange)="onChangeUserType($event)"> </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('userType_Id')?.invalid && userForm.get('userType_Id')?.dirty">
@@ -13,8 +13,8 @@
                     </small>
                 </div>
                 <div class="field" [ngClass]="isProvinceRequired?'d-block':'d-none'">
-                    <label for="userType_Name" class="block">Province</label>
-                    <p-dropdown  [options]="province" [showClear]="true" class="offender-input-width" formControlName="province" optionLabel="name" optionValue="id" (onChange)="onProvinceChange($event)"> </p-dropdown>
+                    <label for="userType_Name" class="block">Province<span class="required-field">*</span></label>
+                    <p-dropdown  [options]="province" [showClear]="true" class="offender-input-width" formControlName="province" optionLabel="name" optionValue="id"  (onChange)="onProvinceChange($event)"> </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('province')?.invalid && userForm.get('province')?.dirty">
@@ -23,8 +23,8 @@
                 </div>
                 <div [ngClass]="isDistrictRequired?'d-block':'d-none'">
                 <div class="field" >
-                    <label for="userType_Name" class="block">Circle</label>
-                    <p-dropdown  [options]="circle" [showClear]="true" class="offender-input-width" formControlName="circle" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)">  </p-dropdown>
+                    <label for="userType_Name" class="block">Circle <span class="required-field">*</span></label>
+                    <p-dropdown  [options]="circle" [showClear]="true" class="offender-input-width" formControlName="circle" optionLabel="name" optionValue="id"   (onChange)="onCircleChange($event)">  </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('circle')?.invalid && userForm.get('circle')?.dirty">
@@ -32,8 +32,8 @@
                     </small>
                 </div>
                 <div class="field">
-                    <label for="userType_Name" class="block">District</label>
-                    <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id"> </p-dropdown>
+                    <label for="userType_Name" class="block">District<span class="required-field">*</span></label>
+                    <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id" > </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('district')?.invalid && userForm.get('district')?.dirty">
@@ -43,11 +43,11 @@
             </div>
                 <!-- Username field -->
                 <div class="field">
-                    <label for="username" class="block">User name</label>
-                    <input id="username" pInputText type="text" class="offender-input-width" [disabled]="isEdit" [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"
+                    <label for="username" class="block">User name<span class="required-field">*</span></label>
+                    <input id="username" pInputText type="text" class="offender-input-width"  [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"
                         formControlName="username" />
                     <small class="p-error block"
-                        *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
+                        *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty && !usernameControl?.hasError('usernameTaken')">
                         Username is required.
                     </small>
                     <small class="p-error block"
@@ -59,7 +59,7 @@
 
                 <!-- First Name field -->
                 <div class="field">
-                    <label for="firstName" class="block">First Name</label>
+                    <label for="firstName" class="block">First Name<span class="required-field">*</span></label>
                     <input id="firstName" pInputText mode="text" class="offender-input-width"
                         formControlName="firstName" />
                     <small class="p-error block"
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="lastName" class="block">Last Name</label>
+                    <label for="lastName" class="block">Last Name<span class="required-field">*</span></label>
                     <input id="lastName" pInputText mode="text" class="offender-input-width"
                         formControlName="lastName" />
                     <small class="p-error block"
@@ -81,13 +81,12 @@
             <div class="col-lg-6">
 
                 <div class="field">
-                    <label for="email" class="block">Email</label>
-                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"   />
-                    <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty">
+                    <label for="email" class="block">Email<span class="required-field">*</span></label>
+                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"  [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"  />
+                    <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty && !emailControl?.hasError('emailtaken')">
                         Email is required.
                     </small>
-                    <small class="p-error block"
-                    *ngIf="emailControl?.hasError('emailtaken')">
+                    <small class="p-error block" *ngIf=" userForm.get('email')?.dirty && emailControl?.hasError('emailtaken')">
                     Email is already exists.
                 </small>
                 </div>
@@ -99,10 +98,10 @@
                 </div>
 
                 <div class="field">
-                    <label for="mobile" class="block">Mobile</label>
+                    <label for="mobile" class="block">Mobile<span class="required-field">*</span></label>
                     <input id="mobile" pInputText mode="text" class="offender-input-width" formControlName="mobile" />
                     <small class="p-error block"
-                        *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.dirty">
+                        *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.dirty && !phoneControl?.hasError('phoneTaken')">
                         Mobile is required.
                     </small>  <small class="p-error block"
                     *ngIf="phoneControl?.hasError('phoneTaken')">
@@ -111,7 +110,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="address" class="block">Address</label>
+                    <label for="address" class="block">Address<span class="required-field">*</span></label>
                     <input id="address" pInputText mode="text" class="offender-input-width" formControlName="address" />
                     <small class="p-error block"
                         *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.dirty">
@@ -164,3 +163,4 @@
   </p-card>
 </p-panel>
 <p-toast></p-toast>
+<p-confirmDialog [style]="{width: '750px'}"></p-confirmDialog>

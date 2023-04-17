@@ -11,6 +11,18 @@
     padding-left: 10px;
     font-weight: bolder;
     text-transform: uppercase;
-    color: #209b25;
-    font-family: roboto;
+    color: #209b25c7;
+    text-shadow: 2px 1px 4px #6666664a;
+   
+  }
+
+  .horizontal-list {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .horizontal-list .list-group-item {
+    flex: 1;
   }

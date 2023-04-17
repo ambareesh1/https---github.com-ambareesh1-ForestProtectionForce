@@ -312,6 +312,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onUnselect(event: any) {
+    if(this.isEdit){
     this.confirmationService.confirm({
       message: 'Are you sure ? Do you want to remove offender [' + event.name + '] from the case ?',
       header: 'Confirm',
@@ -335,6 +336,7 @@ export class BaselineDataComponent implements OnInit {
         this.formBaseline.controls['NameOfAccused'].setValue(this.selectedOffenders);
     }
     });
+  }
   }
   onCompartmentChange = (event: any) => {
     this.compartmentName = this.compartments.filter(x => x.id == event.value)[0].name;

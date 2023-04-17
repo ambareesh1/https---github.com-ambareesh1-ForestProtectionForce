@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 // -----------------------  Imports - PrimeNg ---------------
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
@@ -42,6 +44,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TooltipModule  } from 'primeng/tooltip';
 import { MessageModule } from 'primeng/message';
 import {BadgeModule} from 'primeng/badge';
+import {AvatarModule} from 'primeng/avatar';
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -166,9 +169,12 @@ import { OffenderViewComponent } from './offender-view/offender-view.component';
     AutoCompleteModule,
     TooltipModule,
     MessageModule,
-    BadgeModule
+    BadgeModule,
+    AvatarModule
   ],
-  providers: [ProductService, MessageService, ConfirmationService, DialogService,  { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [ProductService, MessageService, ConfirmationService, DialogService, 
+     { provide: LocationStrategy, useClass: HashLocationStrategy },
+      {provide: HTTP_INTERCEPTORS,useClass: HttpInterceptorService,multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

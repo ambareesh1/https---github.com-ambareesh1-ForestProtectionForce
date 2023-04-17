@@ -4,10 +4,17 @@
           <a class="navbar-brand" [routerLink]="this.isLoggedIn?'/dashboard':''">
             <img src="../../assets/logo.png" alt="Logo" height="80"> <span class="brand-custom">Jammu & Kashmir Forest Protection Force</span>
           </a>
-          <span  class="text-success bold"
-           style="font-weight: 600; font-size: large;"> {{userName}} <span *ngIf="isLoggedIn" class="pl-2 fs-4 text-bold" style=" color: tomato;" (click)="logout()">
-           <i class="pi pi-power-off" style="font-size: 1.5rem;"></i></span></span>
-         
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><p-avatar icon="pi pi-bell" pBadge value="4" severity="success" styleClass="mr-2" ></p-avatar> </li>
+            <li class="list-group-item"> <p-avatar icon="pi pi-user" shape="circle"></p-avatar></li>
+            <li class="list-group-item"> <span  class="text-success bold"
+              style="font-weight: 600; font-size: large;"> {{userName}} </span></li>
+            <li class="list-group-item"><p-avatar icon="pi pi-map-marker" shape="circle"></p-avatar></li>
+            <li class="list-group-item"><span  class="text-success bold"
+              style="font-weight: 600; font-size: large;">Kashmir </span> </li>
+            <li class="list-group-item"><span *ngIf="isLoggedIn" class="pl-2 fs-4 text-bold" style=" color: tomato;" (click)="logout()">
+              <i class="pi pi-power-off" style="font-size: 1.5rem;"></i></span></li>
+          </ul>
         </div>
       </nav>
 <div class="spacer"></div>

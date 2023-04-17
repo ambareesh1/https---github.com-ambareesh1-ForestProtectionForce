@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   baseline: BaselineModel[] = [];
   constructor( private dashboardService: DashboardService, public dialogService: DialogService){
      this.intervalId =setInterval(() => {
-      const list = document.querySelector('.list-group') as HTMLElement;
+      const list = document.querySelector('.live-updates') as HTMLElement;
       const firstItem = list.firstElementChild as HTMLElement;
       const newItem = firstItem.cloneNode(true) as HTMLElement;
       list.appendChild(newItem);
