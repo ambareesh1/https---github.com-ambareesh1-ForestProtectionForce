@@ -9,7 +9,6 @@ export class HttpInterceptorService {
 
   constructor() { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    debugger;
     const user = JSON.parse(localStorage.getItem('userDetails')!);
     if (user) {
       req = req.clone({

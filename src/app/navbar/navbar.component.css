@@ -26,3 +26,7 @@
   .horizontal-list .list-group-item {
     flex: 1;
   }
+
+  .profile-text{
+    color: #009688;
+  }

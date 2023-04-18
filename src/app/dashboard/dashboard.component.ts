@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   boxModels: BoxModel[] = [];
   charts: Chart[] = [];
   baseline: BaselineModel[] = [];
+  isDataLoaded: boolean = false;
   constructor( private dashboardService: DashboardService, public dialogService: DialogService){
      this.intervalId =setInterval(() => {
       const list = document.querySelector('.live-updates') as HTMLElement;
@@ -54,6 +55,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
    
     this.dashboardService.getDashboardDetails().subscribe(data => {
+      this.isDataLoaded = true;
         this.dashboard = data;
         this.boxModels = this.dashboard.boxModels || [];
         this.charts = this.dashboard.charts || [];

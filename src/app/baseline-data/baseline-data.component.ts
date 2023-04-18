@@ -12,6 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SpinnerService } from '../services/spinner.service';
 import { async } from 'rxjs';
+import { SharedService } from '../services/shared.service';
+import { UserDetailService } from '../services/user-detail.service';
+import { UserTypeEnum } from '../enums/UsereTypes';
+import {markAllFieldsAsDirty} from '../utilities/makedirty'
+
 @Component({
   selector: 'app-baseline-data',
   templateUrl: './baseline-data.component.html',
@@ -19,15 +24,21 @@ import { async } from 'rxjs';
 })
 export class BaselineDataComponent implements OnInit {
 
-
+  userName : string = "";
+  userTypeId : number = 0;
   numberOfTextboxes: number = 0;
   public separatorExp: RegExp = /,| /;
+  baseLineData : BaselineModel = {} as BaselineModel;
   circles: Circle[] = [];
   forestDivisions: District[] = [];
   forestRanges: Division[] = [];
   compartments: Compartment[] = [];
   units: Circle[] = [];
+  provinceId : number = 0;
+  provinceName : string = "";
+  circleId : number = 0;
   circleName: string = "";
+  districtId : number = 0;
   forestDivisionName: string = "";
   forestRangeName: string = "";
   compartmentName: string = "";
@@ -37,7 +48,9 @@ export class BaselineDataComponent implements OnInit {
   isDataLoaded: boolean = false;
   titleText = "Manage Base Line Data";
   buttonText = "Submit";
-
+  isDutyDirector : boolean = false;
+  displayPosition: boolean = false;
+  reason : string = "";
   offendars: any[] = [];
 
   selectedOffenders: any[] = [];
@@ -52,7 +65,9 @@ export class BaselineDataComponent implements OnInit {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
-    private confirmationService: ConfirmationService,) {
+    private confirmationService: ConfirmationService, 
+    private sharedServices : SharedService, 
+    private userDetailsServices : UserDetailService) {
     this.units.push(
       { id: 1, isActive: true, name: 'Kilogram (kg)', provinceId: 0 },
       { id: 2, isActive: true, name: 'Tonne (t)', provinceId: 0 },
@@ -61,6 +76,10 @@ export class BaselineDataComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
+    // storing the username & typeId in varaibles from local storage.
+    this.userName = this.sharedServices.getUserDetails().username;
+    this.userTypeId = this.sharedServices.getUserDetails().roleId;
+    this.isDutyDirector = this.sharedServices.isDuptyDirector();
     this.id = this.route.snapshot.paramMap.get('id')!;
     if (this.id != null) {
       this.isEdit = true;
@@ -70,9 +89,11 @@ export class BaselineDataComponent implements OnInit {
       this.loadDistrictData();
       this.loadDRangeData();
       this.loadComppartmentData();
+      this.setCircleIdAndDistrictId();
       this.baselineDataService.getBaseline().subscribe(async (data) => {
-        let baseline = data.filter(x => x.id == parseInt(this.id))[0];
-        await this.loadOffenders(baseline).then(() => { this.initFormBaseline(baseline); });
+        this.baseLineData = data.filter(x => x.id == parseInt(this.id))[0];
+        this.isDataLoaded = true;
+        await this.loadOffenders(this.baseLineData).then(() => { this.initFormBaseline(this.baseLineData); });
 
       })
     } else {
@@ -81,6 +102,7 @@ export class BaselineDataComponent implements OnInit {
       await this.loadOffenders({} as BaselineModel);
       this.initFormBaseline({} as BaselineModel);
       this.loadData();
+      this.setDistrictOnAndDisableOtherControls();
     }
 
   }
@@ -96,26 +118,25 @@ export class BaselineDataComponent implements OnInit {
       CrimeDetails: [baseline.crimeDetails || '', Validators.required],
       ToolsUsed: [baseline.toolsUsed?.split(",") || '', Validators.required],
       CircleId: [baseline.circleId || '', Validators.required],
-      CircleName: [baseline.circleName || '', Validators.required],
-      ForestDivisionName: [baseline.forestDivisionName || '', Validators.required],
+      CircleName: [baseline.circleName || ''],
+      ForestDivisionName: [baseline.forestDivisionName || ''],
       ForestDivisionId: [baseline.forestDivisionId || '', Validators.required],
-      ForestRangeName: [baseline.forestRangeName || '', Validators.required],
+      ForestRangeName: [baseline.forestRangeName || ''],
       ForestRangeId: [baseline.forestRangeId || '', Validators.required],
       CompartmentId: [baseline.compartmentId || '', Validators.required],
-      CompartmentName: [baseline.compartmentName || '', Validators.required],
+      CompartmentName: [baseline.compartmentName || ''],
       CaseNo: [baseline.caseNo || '', Validators.required],
       PoliceStation: [baseline.policeStation || '', Validators.required],
       FIRNo: [baseline.firNo || '', Validators.required],
       CrimeDate: [Object.keys(baseline).length !== 0 ? new Date(baseline.crimeDate) : '' || '', Validators.required],
       SectionOfLaw: [baseline.sectionOfLaw?.split(",") || '', Validators.required],
-      Quantity: [baseline.quantity || '', Validators.required],
-      Weight: [baseline.weight || '', Validators.required],
+      Quantity: [baseline.quantity || ''],
+      Weight: [baseline.weight || ''],
       NoOfAccused: [baseline.noOfAccused || '', Validators.required],
       NameOfAccused: [this.getAccusedNames()?.split(",") || this.selectedOffenders, Validators.required],
       SpeciesDetected: [baseline.speciesDetected?.split(",") || '', Validators.required],
       ItemDescription: [baseline.itemDescription || '', Validators.required],
-      IsActive: [true, Validators.required],
-      UpdatedBy: ['', Validators.required]
+      IsActive: [true, Validators.required]
     });
   }
 
@@ -142,12 +163,56 @@ export class BaselineDataComponent implements OnInit {
   loadDRangeData = () => {
     this.manageDataService.getDivison().subscribe((data) => {
       this.forestRanges = data;
+      if(this.isUserCaseEntryOperatorOrDuptyDirector()){
+        let data = this.forestRanges.filter(y=>y.districtId == this.districtId);
+        data.unshift({
+          id: -1,
+           name: 'Select',
+           districtId : -1,
+          isActive: false
+        });
+        this.forestRanges = data;
+      }
     })
   }
   loadComppartmentData = () => {
     this.manageDataService.getCompartment().subscribe((data) => {
       this.compartments = data;
     })
+  }
+
+  setDistrictOnAndDisableOtherControls = () =>{
+    debugger;
+    
+      if(this.isUserCaseEntryOperatorOrDuptyDirector()){
+        this.loadDistrictData();
+        this.loadDRangeData();
+       this.userDetailsServices.getUserDetailsByUserName(this.userName).subscribe((x)=>{
+          this.formBaseline.controls['CircleId'].setValue(x.circleId);
+          this.formBaseline.controls['ForestDivisionId'].setValue(x.circleId);
+          this.formBaseline.controls['CircleId'].disable();
+          this.formBaseline.controls['ForestDivisionId'].disable();
+          this.districtId = x.districtId;
+          this.circleId = x.circleId;
+          this.provinceId = x.provinceId;
+          let data = this.forestRanges.filter(y=>y.districtId == x.districtId);
+          data.unshift({
+            id: -1,
+             name: 'Select',
+             districtId : -1,
+            isActive: false
+          });
+          this.forestRanges = data;
+       })
+      }
+  }
+
+  setCircleIdAndDistrictId = () =>{
+    this.userDetailsServices.getUserDetailsByUserName(this.userName).subscribe((x)=>{
+      this.districtId = x.districtId;
+      this.circleId = x.circleId;
+      this.provinceId = x.provinceId;
+    });
   }
 
 
@@ -158,21 +223,22 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onSubmitBaseline = () => {
-    this.isDataLoaded = false;
+    markAllFieldsAsDirty(this.formBaseline);
+    if(this.formBaseline.valid) {
     let baseLineData: BaselineModel = {
-      id: this.isEdit ? parseInt(this.id) : 0, // assign the id value if available, otherwise null
+      id: this.isEdit ? parseInt(this.id) : 0,
       dateOfDetection: this.formBaseline.value.DateOfDetection,
       officerName: this.formBaseline.value.OfficerName,
       crimeDetails: this.formBaseline.value.CrimeDetails,
       toolsUsed: this.formBaseline.value.ToolsUsed.join(","),
       circleId: this.formBaseline.value.CircleId,
-      circleName: this.circleName,
+      circleName: this.circleName ?? "",
       forestDivisionName: this.forestDivisionName,
       forestDivisionId: this.formBaseline.value.ForestDivisionId,
       forestRangeName: this.forestRangeName,
       forestRangeId: this.formBaseline.value.ForestRangeId,
       compartmentId: this.formBaseline.value.CompartmentId,
-      compartmentName: this.compartmentName,
+      compartmentName: this.compartmentName ?? "",
       caseNo: this.formBaseline.value.CaseNo,
       policeStation: this.formBaseline.value.PoliceStation,
       firNo: this.formBaseline.value.FIRNo,
@@ -186,10 +252,13 @@ export class BaselineDataComponent implements OnInit {
       itemDescription: this.formBaseline.value.ItemDescription,
       status: "Open",
       isActive: this.formBaseline.value.IsActive,
-      updatedOn: new Date(), // assign the updatedOn value if available, otherwise null
-      updatedBy: this.formBaseline.value.UpdatedBy
+      updatedOn: new Date(),
+      updatedBy: this.userName,
+      provinceId: this.provinceId,
+      provinceName: "",
+      Reason: ''
     };
-
+    if(this.checkValidDistrictAndCircleIsSelected(baseLineData)){return;};
     if (this.isEdit) {
       this.baselineDataService.updateBaselinet(parseInt(this.id), baseLineData).subscribe(data => {
         let provinceAddmsg = "Baseline details are updated";
@@ -221,12 +290,14 @@ export class BaselineDataComponent implements OnInit {
         }
       })
     }
-
-
-
+  }else{
+    let provinceAddmsg = "Please provide the valid input in required fields"
+    this.messageService.add({severity:'warn', summary: 'Validation Failed', detail: provinceAddmsg, life: 5000});
+  }
   }
 
   onCircleChange = (event: any) => {
+    debugger;
     if (event.value == -1) {
       this.forestDivisions = [];
       this.forestRanges = [];
@@ -348,13 +419,12 @@ export class BaselineDataComponent implements OnInit {
   }
 
   getAccusedNames = () => {
-    debugger;
     let result = this.selectedOffenders.map(x => x.aadhaarNo).join(',')
     return result;
   }
 
   getOffenderDetailsOnAadhar = (baseline: BaselineModel) => {
-    debugger;
+    if(baseline.nameOfAccused == null) { return this.selectedOffenders;};
     let aadharNos: any = baseline.nameOfAccused.indexOf(',') > 0 ? baseline.nameOfAccused.split(',') : baseline.nameOfAccused;
     if (baseline.nameOfAccused.split(',').length > 1) {
       aadharNos.forEach((element: any) => {
@@ -369,5 +439,62 @@ export class BaselineDataComponent implements OnInit {
 
     return this.selectedOffenders;
   }
+
+  isUserCaseEntryOperatorOrDuptyDirector(){
+    return (this.userTypeId == UserTypeEnum.CaseEntryOperator || this.userTypeId == UserTypeEnum.DeputyDirector);
+  }
+
+  checkValidDistrictAndCircleIsSelected(baseline : BaselineModel){
+    if(this.isUserCaseEntryOperatorOrDuptyDirector()){
+     let result =  (baseline.circleId == this.circleId && baseline.forestDivisionId == this.districtId);
+     if(!result){
+      let provinceAddmsg = "Selected Circle or District are invalid to assigned location. Please provide appropriate circle & Division /district. "
+      this.messageService.add({severity:'error', summary: 'Validation Failed', detail: provinceAddmsg, life: 10000});
+      return true;
+     }
+    }
+    return false;
+  }
+
+// APPROVE & REJECT MODULE
+
+onApproveCase = () =>{
+  this.confirmationService.confirm({
+    message: 'Are you sure ? Do you want to approve the case ?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      let approvedBaseLineData = this.baseLineData;
+      approvedBaseLineData.status = 'Approved';
+      this.baselineDataService.updateBaselinet(approvedBaseLineData.id, approvedBaseLineData).subscribe((x)=>{
+        let provinceDeltedItem = "Baseline Data is approved.";
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceDeltedItem, life: 3000 });
+      });
+    } 
+  });
+}
+
+onRejectCase = () =>{
+  this.confirmationService.confirm({
+    message: 'Are you sure ? Do you want to reject the case ? Please provide the reason for rejection.',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    
+    accept: () => {
+      this.displayPosition = true;
+    }
+  });
+}
+
+onSubmittedRejectedReason = () =>{
+  let rejectedBaseLineData = this.baseLineData;
+  rejectedBaseLineData.status = 'Rejected';
+  rejectedBaseLineData.Reason = this.reason;
+  this.baselineDataService.updateBaselinet(rejectedBaseLineData.id, rejectedBaseLineData).subscribe((x)=>{
+    let provinceDeltedItem = "Baseline Data is Rejected.";
+    this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceDeltedItem, life: 3000 });
+  });
+}
+
 
 }

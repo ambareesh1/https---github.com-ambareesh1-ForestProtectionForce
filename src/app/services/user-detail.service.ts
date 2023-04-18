@@ -29,7 +29,7 @@ export class UserDetailService {
   }
 
   getUserDetailsByUserName = (username:any) =>{
-    return  this.http.get<UserDetails>(this.baseUrl+'/UserDetails/GetUserDetailsByUserName'+username);
+    return  this.http.get<UserDetails>(this.baseUrl+'/UserDetails/GetUserDetailsByUserName' +username);
   }
 
   createUserDetails(circle: UserDetails): Observable<UserDetails> {

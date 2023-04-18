@@ -4,6 +4,8 @@ export interface BaselineModel {
     officerName: string;
     crimeDetails: string;
     toolsUsed: string;
+    provinceId: number;
+    provinceName: string;
     circleId: number;
     circleName: string;
     forestDivisionName: string;
@@ -24,6 +26,7 @@ export interface BaselineModel {
     speciesDetected: string;
     itemDescription: string;
     status:string,
+    Reason:string,
     isActive: boolean;
     updatedOn: Date;
     updatedBy: string;

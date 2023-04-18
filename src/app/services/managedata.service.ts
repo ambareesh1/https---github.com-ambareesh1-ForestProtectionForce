@@ -19,9 +19,11 @@ export class ManagedataService {
    getProvince(){
     return  this.http.get<Province[]>(this.baseUrl+'/Provinces');
   }
-
+  getProvinceByid = (id:any) =>{
+    return  this.http.get<Province>(this.baseUrl+'/Provinces/'+id+'');
+  }
   getProvinceByName(name:any){
-    return  this.http.get<Province[]>(this.baseUrl+'/Provinces/GetProvinceByName/?name='+name);
+    return  this.http.get<Province>(this.baseUrl+'/Provinces/GetProvinceByName/?name='+name);
 
   }
 
@@ -40,10 +42,10 @@ export class ManagedataService {
   }
 
   getCircleByid = (id:any) =>{
-    return  this.http.get<CircleView[]>(this.baseUrl+'/Circles/'+id+'');
+    return  this.http.get<CircleView>(this.baseUrl+'/Circles/'+id+'');
   }
   getCircleByName(name:any){
-    return  this.http.get<CircleView[]>(this.baseUrl+'/Circles/GetCircleByName/?name='+name);
+    return  this.http.get<CircleView>(this.baseUrl+'/Circles/GetCircleByName/?name='+name);
 
   }
   createCircle(circle: Circle): Observable<Circle> {
@@ -65,7 +67,9 @@ getDistrictByName(name:any){
   return  this.http.get<DistrictView[]>(this.baseUrl+'/Districts/GetDistrictByName/?name='+name);
 
 }
-
+getDistricteByid = (id:any) =>{
+  return  this.http.get<DistrictView>(this.baseUrl+'/Districts/'+id+'');
+}
 createDistrict(district: District): Observable<District> {
 
   return this.http.post<District>(this.baseUrl+'/Districts', district);

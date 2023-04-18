@@ -18,6 +18,10 @@ export class UserTypeService {
     return  this.http.get<UserTypes[]>(this.baseUrl+'/UserTypes');
   }
 
+  getUserTypesById(id:any){
+    return  this.http.get<UserTypes>(this.baseUrl+'/UserTypes/' +id);
+  }
+
   createUserTypes(userType: UserTypes): Observable<UserTypes> {
     return this.http.post<UserTypes>(this.baseUrl+'/UserTypes', userType);
   }

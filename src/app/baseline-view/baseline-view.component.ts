@@ -42,7 +42,7 @@ export class BaselineViewComponent implements OnInit {
   getCircleNameByid = (id:any) =>{
       this.manageService.getCircleByid(id).subscribe(data=>{
         debugger;
-        return data[0].name;
+        return data.name;
       })
   }
 

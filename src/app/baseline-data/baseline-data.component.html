@@ -2,12 +2,24 @@
 <div class="container-fluid">
     <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="isDataLoaded"></p-progressBar>
     <p-panel header={{titleText}}>
+
+        <ng-template pTemplate="icons" >
+            <div class="flex gap-3" *ngIf="true"> 
+                <button pButton type="button" icon="pi pi-check" iconPos="left" styleClass="p-button"
+                class="p-button-raised p-button-rounded p-button-success" label="Approve" (click)="onApproveCase()">
+               
+              </button>
+                <button pButton type ="button" icon="pi pi-times" iconPos="left" label="Reject"
+                 styleClass="p-button" class="p-button-raised p-button-rounded p-button-danger" (click)="onRejectCase()" ></button>
+            </div>
+    </ng-template>
+
         <form *ngIf="formBaseline && isDataLoaded"  [formGroup]="formBaseline" (ngSubmit)="onSubmitBaseline()">
             <div class="row">
                 <div class="col-lg-6">
 
                     <div class="field">
-                        <label for="DateOfDetection" class="block">Date of Detection</label>
+                        <label for="DateOfDetection" class="block">Date of Detection <span class="required-field">*</span></label>
                         <p-calendar [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width"
                             formControlName="DateOfDetection"></p-calendar>
                         <small class="p-error block"
@@ -16,7 +28,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="OfficerName" class="block">Officer's Name</label>
+                        <label for="OfficerName" class="block">Officer's Name <span class="required-field">*</span></label>
                         <input id="Name" pInputText mode="text" class="offender-input-width"
                             formControlName="OfficerName" />
                         <small class="p-error block"
@@ -26,7 +38,7 @@
                     </div>
 
                     <div class="field">
-                        <label for="CrimeDetails" class="block">Crime Details</label>
+                        <label for="CrimeDetails" class="block">Crime Details <span class="required-field">*</span></label>
                         <textarea id="CrimeDetails" [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
                             class="offender-input-width" formControlName="CrimeDetails"></textarea>
                         <small class="p-error block"
@@ -35,7 +47,7 @@
                     </div>
 
                     <div class="field">
-                        <label for="ToolsUsed" class="block">Tools Used</label>
+                        <label for="ToolsUsed" class="block">Tools Used <span class="required-field">*</span></label>
                         <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'" formControlName="ToolsUsed"
                             styleClass="offender-input-width"></p-chips>
                         <small class="p-error block"
@@ -43,27 +55,27 @@
                             Used is required.</small>
                     </div>
                     <div class="field">
-                        <label for="CircleId" class="block">Circle </label>
+                        <label for="CircleId" class="block">Circle <span class="required-field">*</span></label>
                         <p-dropdown id="CircleId" [options]="circles" [showClear]="true" formControlName="CircleId" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)"> </p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('CircleId')?.invalid && formBaseline.get('CircleId')?.dirty">Circle ID is required.</small>
                       </div>
                       <div class="field">
-                        <label for="ForestDivisionId" class="block">Forest Division</label>
+                        <label for="ForestDivisionId" class="block">Forest District / Division <span class="required-field">*</span></label>
                         <p-dropdown id="ForestDivisionId" [options]="forestDivisions" [showClear]="true" formControlName="ForestDivisionId" optionLabel="name" optionValue="id" (onChange)="onForestDivisionChange($event)"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('ForestDivisionId')?.invalid && formBaseline.get('ForestDivisionId')?.dirty">Forest Division ID is required.</small>
                       </div>
                       <div class="field">
-                        <label for="ForestRangeId" class="block">Forest Range</label>
+                        <label for="ForestRangeId" class="block">Forest Range <span class="required-field">*</span></label>
                         <p-dropdown id="ForestRangeId" [options]="forestRanges" [showClear]="true" formControlName="ForestRangeId" optionLabel="name" optionValue="id" (onChange)="onForestRangeChange($event)"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('ForestRangeId')?.invalid && formBaseline.get('ForestRangeId')?.dirty">Forest Range ID is required.</small>
                       </div>
                       <div class="field">
-                        <label for="CompartmentId" class="block">Compartment</label>
+                        <label for="CompartmentId" class="block">Compartment <span class="required-field">*</span></label>
                         <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id" (onChange)="onCompartmentChange($event)"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('CompartmentId')?.invalid && formBaseline.get('CompartmentId')?.dirty">Compartment ID is required.</small>
                       </div>
                     <div class="field">
-                        <label for="PoliceStation" class="block">Police Station</label>
+                        <label for="PoliceStation" class="block">Police Station <span class="required-field">*</span></label>
                         <input id="PoliceStation" pInputText mode="text" class="offender-input-width"
                             formControlName="PoliceStation" />
                         <small class="p-error block"
@@ -74,14 +86,14 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="field">
-                        <label for="FIRNo" class="block">FIR Number</label>
+                        <label for="FIRNo" class="block">FIR Number <span class="required-field">*</span></label>
                         <input id="FIRNo" pInputText mode="text" class="offender-input-width" formControlName="FIRNo" />
                         <small class="p-error block"
                             *ngIf="formBaseline.get('FIRNo')?.invalid && formBaseline.get('FIRNo')?.dirty">FIR Number is
                             required.</small>
                     </div>
                     <div class="field">
-                        <label for="CrimeDate" class="block">Crime Date</label>
+                        <label for="CrimeDate" class="block">Crime Date <span class="required-field">*</span></label>
                         <p-calendar [showIcon]="true" inputId="icon" styleClass="p-button-success offender-input-width"
                             formControlName="CrimeDate"></p-calendar>
                         <small class="p-error block"
@@ -90,7 +102,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="SectionOfLaw" class="block">Section of Law</label>
+                        <label for="SectionOfLaw" class="block">Section of Law <span class="required-field">*</span></label>
                         <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
                             styleClass="offender-input-width" formControlName="SectionOfLaw"></p-chips>
                         <small class="p-error block"
@@ -101,9 +113,7 @@
                         <label for="Quantity" class="block">Item Quantity</label>
                         <input id="Quantity" pInputText type="number" class="offender-input-width"
                             formControlName="Quantity" />
-                        <small class="p-error block"
-                            *ngIf="formBaseline.get('Quantity')?.invalid && formBaseline.get('Quantity')?.dirty">Quantity
-                            is required.</small>
+                      
                     </div>
                     <div class="field">
                         <label for="Weight" class="block">Item Weight</label>
@@ -112,13 +122,9 @@
                             formControlName="Weight" />
                              <p-dropdown id="CircleId" [options]="units"  optionLabel="name" optionValue="id" class="units-dropdown"> </p-dropdown>
                         </div>
-                      
-                        <small class="p-error block"
-                            *ngIf="formBaseline.get('Weight')?.invalid && formBaseline.get('Weight')?.dirty">Weight is
-                            required.</small>
                     </div>
                     <div class="field">
-                        <label for="NoOfAccused" class="block">No of Accused</label>
+                        <label for="NoOfAccused" class="block">No of Accused <span class="required-field">*</span></label>
                         <input id="NoOfAccused" pInputText type="number" class="offender-input-width"
                             formControlName="NoOfAccused" />
                         <small class="p-error block"
@@ -126,7 +132,7 @@
                             of Accused is required.</small>
                     </div>
                     <div class="field">
-                        <label for="NameOfAccused" class="block">Name of Accused</label>
+                        <label for="NameOfAccused" class="block">Name of Accused <span class="required-field">*</span></label>
 
                         <span class="p-fluid">
                             <p-autoComplete  formControlName="NameOfAccused" placeholder="Enter names"  [suggestions]="filteredOffenders" dataKey="aadhaarNo" 
@@ -154,7 +160,7 @@
                             of Accused is required.</small>
                     </div>
                     <div class="field">
-                        <label for="SpeciesDetected" class="block">Species Detected</label>
+                        <label for="SpeciesDetected" class="block">Species Detected <span class="required-field">*</span></label>
                         <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
                             styleClass="offender-input-width" formControlName="SpeciesDetected"></p-chips>
                         <small class="p-error block"
@@ -162,9 +168,9 @@
                             Detected is required.</small>
                     </div>
                     <div class="field">
-                        <label for="ItemDescription" class="block">Item Description</label>
+                        <label for="ItemDescription" class="block">Item Description <span class="required-field">*</span></label>
                         <textarea id="CrimeDetails" [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
-                            class="offender-input-width" formControlName="CrimeDetails"
+                            class="offender-input-width" 
                             formControlName="ItemDescription"></textarea>
                         <small class="p-error block"
                             *ngIf="formBaseline.get('ItemDescription')?.invalid && formBaseline.get('ItemDescription')?.dirty">Item
@@ -182,3 +188,14 @@
     </p-panel>
 </div>
 <p-confirmDialog [style]="{width: '550px'}"></p-confirmDialog>
+
+<p-dialog header="Reason for rejecting the baseline data" [(visible)]="displayPosition"  [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div>
+        <textarea id="CrimeDetails" [rows]="5" [cols]="100" pInputTextarea [(ngModel)]="reason" placeholder="Provide the reason here." ></textarea>
+    </div>
+        <ng-template pTemplate="footer">
+            {{reason.trim().length}}
+            <p-button icon="pi pi-check" (click)="displayPosition=false" label="Reject" styleClass="p-button-text p-button-danger" [disabled]="reason.trim().length==0" (onClick)="onSubmittedRejectedReason()"></p-button>
+        </ng-template>
+</p-dialog>
