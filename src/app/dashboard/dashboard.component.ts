@@ -4,6 +4,7 @@ import { BoxModel, Chart, Dashboard } from '../Models/Dashboard';
 import { DashboardService } from '../services/dashboard.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
+import { changeColorOnStatus } from '../utilities/shared';
 
 interface Case {
   caseId: number;
@@ -43,13 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   baseline: BaselineModel[] = [];
   isDataLoaded: boolean = false;
   constructor( private dashboardService: DashboardService, public dialogService: DialogService){
-     this.intervalId =setInterval(() => {
-      const list = document.querySelector('.live-updates') as HTMLElement;
-      const firstItem = list.firstElementChild as HTMLElement;
-      const newItem = firstItem.cloneNode(true) as HTMLElement;
-      list.appendChild(newItem);
-      firstItem.remove();
-    }, 4000);
+    this.animateUpdates();
 }
 
   ngOnInit(): void {
@@ -126,6 +121,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.tableData = {}
  
   }
+
+  animateUpdates = () =>{
+    this.intervalId =setInterval(() => {
+      const list = document.querySelector('.live-updates') as HTMLElement;
+      const firstItem = list.firstElementChild as HTMLElement;
+      const newItem = firstItem.cloneNode(true) as HTMLElement;
+      list.appendChild(newItem);
+      firstItem.remove();
+    }, 4000);
+  }
+
   show(baseline:BaselineModel) {
     this.ref = this.dialogService.open(BaselineViewComponent, {
         header: 'Baseline Details',
@@ -140,6 +146,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
    randomCount = ()=>{
     return 4;
+  }
+
+  changeColorOnStatusOfDashboard = (status:any) =>{
+    return changeColorOnStatus(status);
   }
 
   ngOnDestroy(): void {

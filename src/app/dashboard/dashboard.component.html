@@ -88,14 +88,16 @@
           </div>
         </div>
         <div class="p-1">
-          <div class="list-group" #list>
+          <div class="live-updates list-group" #list>
             <div *ngFor="let item of baseline" class="text-grey">
-              <a (click)="viewBaseline(item)" class="live-updates list-group-item list-group-item-action">
+              <a (click)="viewBaseline(item)" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                   <h6 class="mb-1">Case # {{item.caseNo}}</h6>
-                  <small class="text-muted">Crime Date : {{item.crimeDate | date}}</small>
+                  <span [ngClass]="changeColorOnStatusOfDashboard(item.status)" class="customer-badge">{{item.status}}</span>
+                 
                 </div>
                 <p class="mb-1 text">{{item.crimeDetails}}</p>
+                <small class="text-muted">Crime Date : {{item.crimeDate | date}}</small>
               </a>
             </div>
           </div>
@@ -113,7 +115,7 @@
         <ng-template pTemplate="header">
           <tr>
             <th>Case No</th>
-            <th>Name Of Accused</th>
+            <th>Crime Details</th>
             <th>Name Of Officer</th>
             <th>Crime Date</th>
             
@@ -123,7 +125,7 @@
         <ng-template pTemplate="body" let-base>
           <tr>
             <td>{{ base.caseNo }}</td>
-            <td>{{ base.nameOfAccused }}</td>
+            <td>{{ base.crimeDetails }}</td>
             <td>{{ base.officerName }}</td>
             <td>{{ base.crimeDate | date }}</td>
             <td (click)="viewBaseline(base)"><i class="pi pi-eye fs-4"></i></td>

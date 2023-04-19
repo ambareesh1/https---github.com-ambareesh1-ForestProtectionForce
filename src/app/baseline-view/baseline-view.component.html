@@ -9,73 +9,81 @@
         </div>
         <div class="mb-2">
             <label class="text-bold">Names of Accused : </label>
-            <label> {{baseline[0].nameOfAccused}}</label>
+            <label class="pl-2"> {{baseline[0].nameOfAccused}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Officer Name : </label>
-            <label> {{baseline[0].officerName}}</label>
+            <label class="pl-2"> {{baseline[0].officerName}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">FIR No : </label>
-            <label>{{baseline[0].firNo}}</label>
+            <label class="pl-2" >{{baseline[0].firNo}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Section of Law : </label>
-            <label>{{baseline[0].sectionOfLaw}}</label>
+            <label class="pl-2">{{baseline[0].sectionOfLaw}}</label>
         </div>
          </p-card>
     </div>
     <div class="col-lg-7">
         <p-card>
-            <div class="mb-2">
-                <label class="text-bold">Status : </label>
-                <label>{{baseline[0].status}}</label>
+            <div class="mb-2 text-end">
+               
+                <label [ngClass]="changeColorOnStatusOfBaselineView(baseline[0].status)" class="pl-2 text-bold">{{baseline[0].status}}</label>
               </div>
+            
+              <div class="p-0">
+                  <h5> <p-avatar icon="pi pi-map-marker"  shape="circle" size="large" [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Crime Area </h5>
+              </div>
+                 <hr>
         <div class="mb-2">
             <label class="text-bold">Circle Name : </label>
-            <label>{{baseline[0].circleName}}</label>
+            <label class="pl-2">{{baseline[0].circleName}}</label>
         </div>
         
         <div class="mb-2">
             <label class="text-bold">Compartment Name : </label>
-            <label>{{baseline[0].compartmentName}}</label>
+            <label class="pl-2">{{baseline[0].compartmentName}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Forest Division Name : </label>
-            <label>{{baseline[0].forestDivisionName}}</label>
+            <label class="pl-2">{{baseline[0].forestDivisionName}}</label>
         </div>
        
         <div class="mb-2">
             <label class="text-bold">Forest Range Name : </label>
-            <label>{{baseline[0].forestRangeName}}</label>
+            <label class="pl-2">{{baseline[0].forestRangeName}}</label>
         </div>
-       
-        <div class="mb-2">
-            <label class="text-bold">Item Description : </label>
-            <label>{{baseline[0].itemDescription}}</label>
-        </div>
-        
         <div class="mb-2">
             <label class="text-bold">Police Station : </label>
-            <label>{{baseline[0].policeStation}}</label>
+            <label class="pl-2">{{baseline[0].policeStation}}</label>
         </div>
+        <div class="p-0">
+            <h5> <p-avatar icon="pi pi-list"  shape="circle" size="large" [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Recoverd Item Details </h5>
+        </div>
+        <hr>
+        <div class="mb-2">
+            <label class="text-bold">Item Description : </label>
+            <label class="pl-2">{{baseline[0].itemDescription}}</label>
+        </div>
+   
         <div class="mb-2">
             <label class="text-bold">Quantity : </label>
-            <label>{{baseline[0].quantity}}</label>
+            <label class="pl-2">{{baseline[0].quantity}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Species Detected : </label>
-            <label>{{baseline[0].speciesDetected}}</label>
+            <label class="pl-2">{{baseline[0].speciesDetected}}</label>
           </div>
           
           <div class="mb-2">
             <label class="text-bold">Tools Used : </label>
-            <label>{{baseline[0].toolsUsed}}</label>
+            <label class="pl-2">{{baseline[0].toolsUsed}}</label>
           </div>
         
           <div class="mb-2">
             <label class="text-bold">Weight : </label>
-            <label>{{baseline[0].weight}}</label>
+            <label class="pl-2">{{baseline[0].weight}}</label>
           </div>
           
     </p-card>

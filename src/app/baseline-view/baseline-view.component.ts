@@ -6,6 +6,7 @@ import { ManagedataService } from '../services/managedata.service';
 import { Offender } from '../Models/OffenderModel';
 import { OffenderdataService } from '../services/offenderdata.service';
 import { DatePipe } from '@angular/common';
+import { changeColorOnStatus } from '../utilities/shared';
 
 @Component({
   selector: 'app-baseline-view',
@@ -50,6 +51,11 @@ export class BaselineViewComponent implements OnInit {
     const datePipe = new DatePipe('en-US');
     const formattedDate = datePipe.transform(onlyDate, 'yyyy-MM-dd');
     return formattedDate;
+  }
+
+  changeColorOnStatusOfBaselineView = (status:any) =>{
+   
+    return changeColorOnStatus(status);
   }
 
 }

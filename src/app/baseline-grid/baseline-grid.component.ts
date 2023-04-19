@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 import { SharedService } from '../services/shared.service';
-
+import {changeColorOnStatus} from '../utilities/shared';
 @Component({
   selector: 'app-baseline-grid',
   templateUrl: './baseline-grid.component.html',
@@ -86,14 +86,8 @@ export class BaselineGridComponent {
     });
 }
 
-changeColorOnStatus = (status:any)=>{
-  if(status == "Open"){
-    return 'status-proposal';
-  }else if(status == "Approved"){
-    return 'status-approved';
-  }else{
-    return 'status-rejected';
-  }
+changeColorOnStatusOfBaseline = (status:any)=>{
+  return changeColorOnStatus(status);
 }
 
 ngOnDestroy() {
