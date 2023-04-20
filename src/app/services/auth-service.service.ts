@@ -8,22 +8,26 @@ export class AuthServiceService implements OnInit {
   
   private isLoggedInUser = false;
   private loggedIn = false;
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor() {
     this.loggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }
   ngOnInit(): void {
     this.loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
   }
 
-  get isLoggedIn$() {
-    return this.isLoggedInUser;
-  }
+  // get isLoggedIn$() {
+  //   return this.isLoggedInUser;
+  // }
 
   login() {
     // TODO: Replace with actual login logic
     this.loggedIn = true;
     this.isLoggedInUser = true;
+    this.isLoggedInSubject.next(true)
     localStorage.setItem('isLoggedIn', 'true');
   }
 

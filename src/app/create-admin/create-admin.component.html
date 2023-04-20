@@ -142,7 +142,8 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
-            <tr>
+             
+            <tr *ngIf="user.username != this.usernameToCompare">
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_Name }}</td>
                 <td>{{ user.last_Name }}</td>

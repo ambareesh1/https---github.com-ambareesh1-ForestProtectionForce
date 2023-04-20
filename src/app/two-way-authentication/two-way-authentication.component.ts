@@ -64,6 +64,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
       if(this.otp == Number(enteredOtp)){
         this.authService.login();
         this.router.navigate(["/dashboard"]);
+        
        
       }else{
         this.otpIncorrect = true;

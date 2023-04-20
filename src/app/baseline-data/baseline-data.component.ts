@@ -51,7 +51,7 @@ export class BaselineDataComponent implements OnInit {
   isDataLoaded: boolean = false;
   titleText = "Manage Base Line Data";
   buttonText = "Submit";
-  isDutyDirector : boolean = false;
+  isDutyDirectorOrSuperAdmin : boolean = false;
   displayPosition: boolean = false;
   reason : string = "";
   offendars: any[] = [];
@@ -83,7 +83,7 @@ export class BaselineDataComponent implements OnInit {
     // storing the username & typeId in varaibles from local storage.
     this.userName = this.sharedServices.getUserDetails().username;
     this.userTypeId = this.sharedServices.getUserDetails().roleId;
-    this.isDutyDirector = this.sharedServices.isDuptyDirector();
+    this.isDutyDirectorOrSuperAdmin = this.sharedServices.isDuptyDirector() || this.sharedServices.isSuperAdminOrJammuOrKashmir();
     this.id = this.route.snapshot.paramMap.get('id')!;
     if (this.id != null) {
       this.isEdit = true;

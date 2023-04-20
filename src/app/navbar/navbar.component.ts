@@ -21,23 +21,30 @@ export class NavbarComponent {
   districtName :  string = '';
   provisionName : string = '';
   userType : string = '';
-  isUserLoggedIn : boolean = false;
+  isUserLoggedIn : any;
   isLoggedIn$ = this.authService.isLoggedIn$;
   isOnlyDistrictVisibility : boolean = false;
+  subscription : any;
+
   constructor(private authService: AuthServiceService, private sharedService:SharedService, 
     private router : Router, private userDetailsService : UserDetailService, private manageDataService : 
     ManagedataService, private userTypeService : UserTypeService) { 
           this.isOnlyDistrictVisibility = this.sharedService.isUserCaseEntryOperatorOrDuptyDirector();
-          this.isUserLoggedIn = this.authService.isLoggedIn();
+          
     }
 
   ngOnInit() {
+    this.subscription =  this.authService.isLoggedIn$.subscribe((value)=>{
+      this.isUserLoggedIn=localStorage.getItem('isLoggedIn')
+    });
+    console.log(this.isUserLoggedIn)
     if (this.isUserLoggedIn) {
       let details = this.sharedService.getUserDetails()
       this.name = details.name;
       this.userName = details.username;
       if (this.notASuperAdminOfAnyProvince()) {
         this.userDetailsService.getUserDetailsByUserName(this.userName).subscribe((x) => {
+          debugger;
           if (this.isOnlyDistrictVisibility) {
             this.getDistrictName(x);
           } else {
@@ -61,9 +68,13 @@ export class NavbarComponent {
   }
 
   getProvinceName(userDetails:any) {
+    debugger;
       this.manageDataService.getDistricteByid(userDetails.provinceId).subscribe((z)=>{
         this.provisionName = z.name;
       })
+      if(userDetails.userType_Id == 1){
+        this.provisionName = "Jammu & Kashmir";
+      }
   }
 
   getUserTypes(userDetails:any){
@@ -91,6 +102,7 @@ export class NavbarComponent {
 
   logout() {
     this.isUserLoggedIn = false;
+    this.subscription.unsubscribe();
     this.authService.logout();
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.clear();

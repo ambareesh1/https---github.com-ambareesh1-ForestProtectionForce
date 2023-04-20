@@ -15,55 +15,55 @@
                   <span class="pl-3">Dashboard</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'mangeprofile'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('mangeprofile')">
+              <li  class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'mangeprofile'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('mangeprofile')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="mangeprofile">
                   <i class="pi pi-id-card" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Manage Profile</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'createadmin'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('createadmin')">
+              <li *ngIf="createAdminAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'createadmin'" [class.inactive]="activeItem !== 'item1'" (click)="activateItem('createadmin')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="createadmin">
                   <i class="pi pi-user-plus" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Create Users</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'manageparent'" [class.inactive]="activeItem !== 'manageparent'" (click)="activateItem('manageparent')">
+              <li *ngIf="manageDataAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'manageparent'" [class.inactive]="activeItem !== 'manageparent'" (click)="activateItem('manageparent')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="manageparent">
                   <i class="pi pi-bars" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Manage Data</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'baselinegrid'" [class.inactive]="activeItem !== 'baselinegrid'" (click)="activateItem('baselinegrid')">
+              <li *ngIf="baselineAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'baselinegrid'" [class.inactive]="activeItem !== 'baselinegrid'" (click)="activateItem('baselinegrid')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="baselinegrid">
                   <i class="pi pi-database" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Baseline Data</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'offenderprofileData'" [class.inactive]="activeItem !== 'offenderprofileData'" (click)="activateItem('offenderprofileData')">
+              <li *ngIf="offenderAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'offenderprofileData'" [class.inactive]="activeItem !== 'offenderprofileData'" (click)="activateItem('offenderprofileData')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="offenderprofileData">
                   <i class="pi pi-users" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Offender Profile</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'history'" [class.inactive]="activeItem !== 'history'" (click)="activateItem('history')">
+              <li *ngIf="historySheetAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'history'" [class.inactive]="activeItem !== 'history'" (click)="activateItem('history')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="history">
                   <i class="pi pi-history" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">History Sheet</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposed'" [class.inactive]="activeItem !== 'disposed'" (click)="activateItem('disposed')">
+              <li *ngIf="disposedAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposed'" [class.inactive]="activeItem !== 'disposed'" (click)="activateItem('disposed')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="disposed">
                   <i class="pi pi-stop-circle" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Disposed Case</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'seizure'" [class.inactive]="activeItem !== 'seizure'" (click)="activateItem('seizure')">
+              <li *ngIf="seizerAuth"  class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'seizure'" [class.inactive]="activeItem !== 'seizure'" (click)="activateItem('seizure')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="seizure">
                   <i class="pi pi-file-edit" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">seizure</span>
                 </a>
               </li>
-              <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'reports'" [class.inactive]="activeItem !== 'reports'" (click)="activateItem('reports')">
+              <li *ngIf="reports" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'reports'" [class.inactive]="activeItem !== 'reports'" (click)="activateItem('reports')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="reports">
                   <i class="pi pi-file-excel" style="font-size: 1.5rem;"> </i>
                   <span class="pl-3">Reports</span>

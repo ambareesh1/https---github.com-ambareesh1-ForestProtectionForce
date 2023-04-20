@@ -35,13 +35,15 @@ export class CreateAdminComponent implements OnInit {
   editOrCreateText: string = "Create Users";
   userTypeId : number = 1;
   isEditOrCaseEntryOperatorSelected:boolean = false;
+  usernameToCompare : any;
   constructor(private formBuilder: FormBuilder, private userDetailsService: UserDetailService,
     private messageService: MessageService, private manageDataService: ManagedataService, 
-    private confirmationService: ConfirmationService, private sharedService : SharedService) { }
+    private confirmationService: ConfirmationService, private sharedService : SharedService) {
+      
+     }
 
   ngOnInit(): void {
     this.initFormUserDetails({} as UserDetails);
-
     this.getUserTypes();
     this.getUserDetails();
    
@@ -55,6 +57,9 @@ export class CreateAdminComponent implements OnInit {
 
   getUserDetails = () => {
     this.userDetailsService.getUserDetails().subscribe(data => {
+      debugger;
+      const userDetails = JSON.parse(window.localStorage.getItem('userDetails')!);
+     this.usernameToCompare = userDetails.username;
       this.userDetails = data;
     })
   }

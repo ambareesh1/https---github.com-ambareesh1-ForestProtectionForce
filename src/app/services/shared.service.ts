@@ -25,8 +25,20 @@ export class SharedService {
     return (this.userTypeId == UserTypeEnum.CaseEntryOperator || this.userTypeId == UserTypeEnum.DeputyDirector);
   }
 
+  isDirector() {
+    return  this.userTypeId == UserTypeEnum.Director;
+  }
+
+  isJointDirector= () =>{
+    return this.userTypeId == UserTypeEnum.JointDirector;
+  }
+
   isDuptyDirector(){
     return  this.userTypeId == UserTypeEnum.DeputyDirector;
+  }
+
+  isCaseEntryOperator = () =>{
+    return this.userTypeId == UserTypeEnum.CaseEntryOperator;
   }
 
   isSuperAdmin()  {
@@ -64,4 +76,37 @@ export class SharedService {
   getCaseId() {
     return this.caseId;
   }
+
+  createdUserAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir()  || this.isCaseEntryOperator()
+  }
+
+  manageDataAuth = () =>{
+     return this.isSuperAdminOrJammuOrKashmir();
+  }
+
+  baselineAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir()  || this.isUserCaseEntryOperatorOrDuptyDirector()
+  }
+
+  offenderAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+  }
+
+  historySheetAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+  }
+
+  seizerAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+  }
+
+  disposedAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+  }
+
+  reportsAuth = () =>{
+    return this.isSuperAdminOrJammuOrKashmir() || this.isDuptyDirector() || this.isDirector() || this.isJointDirector() 
+  }
+
 }
