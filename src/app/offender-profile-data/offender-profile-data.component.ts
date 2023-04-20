@@ -20,6 +20,7 @@ export class OffenderProfileDataComponent implements OnInit {
   rangeDates: Date[] = [];
   ref: DynamicDialogRef | undefined;
   serverImageUrl : string = environment.fileUploadPath;
+  isDataLoaded : boolean = false;
   
   constructor(private offenderDataService : OffenderdataService, private router : Router, public dialogService: DialogService,){
 
@@ -30,6 +31,7 @@ export class OffenderProfileDataComponent implements OnInit {
 
   getOffenderData = async () =>{
      (await this.offenderDataService.getOffendersData()).subscribe((data)=>{
+      this.isDataLoaded = true;
         this.offerProfileData = data;
         console.log(data);
      })

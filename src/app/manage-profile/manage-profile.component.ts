@@ -16,15 +16,15 @@ import { fadeInEffect } from '../animations/custom-animations';
 })
 export class ManageProfileComponent implements OnInit {
 
-  isSuperAdmin : boolean = false;
+  isSuperAdminOrJammuOrKasmir : boolean = false;
   userForm: FormGroup =new FormGroup({});
   passwordForm: FormGroup = new FormGroup({});
   userDetails : UserDetails[] =[];
   superadminDetails : Superadmin[] = [];
   constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, 
     private sharedServices : SharedService, private messageService : MessageService, private superadminServices : SuperadminService){
-    if(this.sharedServices.getUserDetails().username === 'superadmin'){
-      this.isSuperAdmin = true;
+    if(this.sharedServices.isSuperAdminOrJammuOrKashmir()){
+      this.isSuperAdminOrJammuOrKasmir = true;
     }
   }
 
@@ -35,10 +35,10 @@ export class ManageProfileComponent implements OnInit {
       conformPassword:['',Validators.required]
     })
 
-     if(this.isSuperAdmin){
+     if(this.sharedServices.isSuperAdminOrJammuOrKashmir()){
       this.superadminServices.getSuperadminDetails().subscribe(data=>{
         this.superadminDetails = data.filter(x=>x.username == this.sharedServices.getUserDetails()?.username);
-        this.superadminDetails[0].mobile = data[0].mobile;
+        this.superadminDetails[0].mobile = this.superadminDetails[0].mobile;
         this.initSuperForm(this.superadminDetails[0]);
       })
      }else{
@@ -86,7 +86,7 @@ export class ManageProfileComponent implements OnInit {
 
   onSubmitIserDetails = () =>{
 debugger;
-    if(this.isSuperAdmin){
+    if(this.sharedServices.isSuperAdminOrJammuOrKashmir()){
       if(this.userForm.value){
         let userDetails : Superadmin = {
           id: this.superadminDetails[0].id,
@@ -94,7 +94,7 @@ debugger;
           email: this.userForm.value.email,
           alternativeemail: this.superadminDetails[0].alternativeemail,
           mobile: this.userForm.value.mobile,
-          division: '0',
+          province: 0,
           ipaddress: '10.10.10',
           name: 'superadmin',
           roleId: 0,

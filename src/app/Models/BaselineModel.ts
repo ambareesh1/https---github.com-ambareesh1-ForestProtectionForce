@@ -26,7 +26,7 @@ export interface BaselineModel {
     speciesDetected: string;
     itemDescription: string;
     status:string,
-    Reason:string,
+    reason:string,
     isActive: boolean;
     updatedOn: Date;
     updatedBy: string;

@@ -15,14 +15,14 @@ import {moveFromRightToLeftAnimation} from '../animations/custom-animations';
 })
 export class NavbarComponent {
 
-  isLoggedIn: boolean = false;
+
   name: string = '';
   userName: string = '';
   districtName :  string = '';
   provisionName : string = '';
   userType : string = '';
   isUserLoggedIn : boolean = false;
-
+  isLoggedIn$ = this.authService.isLoggedIn$;
   isOnlyDistrictVisibility : boolean = false;
   constructor(private authService: AuthServiceService, private sharedService:SharedService, 
     private router : Router, private userDetailsService : UserDetailService, private manageDataService : 
@@ -33,7 +33,6 @@ export class NavbarComponent {
 
   ngOnInit() {
     if (this.isUserLoggedIn) {
-      this.isLoggedIn = true;
       let details = this.sharedService.getUserDetails()
       this.name = details.name;
       this.userName = details.username;
@@ -91,9 +90,11 @@ export class NavbarComponent {
   }
 
   logout() {
+    this.isUserLoggedIn = false;
+    this.authService.logout();
+    localStorage.setItem('isLoggedIn', 'false');
     localStorage.clear();
     this.userName = '';
-    this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
 }

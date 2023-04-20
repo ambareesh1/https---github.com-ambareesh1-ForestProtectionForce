@@ -62,14 +62,14 @@
                             <label for="userName" class="block">Upload Photo - Max Size 10K <span class="required-field">*</span></label>
                             <p-fileUpload name="myfile[]" [customUpload]="true"  (uploadHandler)="onUploadImg($event)" accept="image/*"  (onProgress)="onUploadProgress($event)" [maxFileSize]="1000000" >
                                 <ng-template pTemplate="toolbar">
-                                <div *ngIf="isEdit" class="p-fileupload-files ng-star-inserted mt-3">
+                                <div *ngIf="isEdit && this.imageUrlOfEdit != '' " class="p-fileupload-files ng-star-inserted mt-3">
                                     <div class="ng-star-inserted">
                                         <div class="p-fileupload-row ng-star-inserted">
                                 
                                             <img [src]="this.imageUrlOfEdit" width="100"
                                                 class="ng-star-inserted">
                                 
-                                            <button type="button" icon="pi pi-times" pbutton=""
+                                            <button type="button" icon="pi pi-times" pbutton="" (click)="clearTheImage($event)"
                                                 class="p-element p-button p-component p-button-icon-only ml-3" ng-reflect-icon="pi pi-times"><span
                                                     class="p-button-icon pi pi-times" aria-hidden="true"></span></button>
                                         </div>

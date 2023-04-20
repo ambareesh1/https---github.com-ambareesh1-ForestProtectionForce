@@ -10,6 +10,7 @@ export class SharedService {
   caseId : any = '';
   userTypeId : number = 0;
   userName : string = '';
+  isSuperAdminOrJammuOrKashmirVar : boolean = false;
   constructor() { 
     this.userTypeId = this.getUserDetails().roleId;
     this.userName = this.getUserDetails().username;
@@ -28,7 +29,7 @@ export class SharedService {
     return  this.userTypeId == UserTypeEnum.DeputyDirector;
   }
 
-  isSuperAdmin(){
+  isSuperAdmin()  {
      return this.userName === 'superadmin';
   }
 
@@ -38,6 +39,14 @@ export class SharedService {
 
   isSuperAdminOfKashmir(){
     return this.userName === 'superadmin_kashmir';
+  }
+
+  isSuperAdminOrJammuOrKashmir = () =>{
+    return (this.isSuperAdmin() || this.isSuperAdminOfJammu() || this.isSuperAdminOfKashmir());
+  }
+
+  getProvinceForSuperAdminOrNormal =() =>{
+    return this.getUserDetails().province;
   }
 
   setOtp(otp: number) {

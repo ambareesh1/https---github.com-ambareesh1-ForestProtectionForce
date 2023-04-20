@@ -2,7 +2,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    background: darkseagreen;
+    background: #607D8B;
     color: #fff;
     padding: 10px;
 }
@@ -12,5 +12,5 @@
 }
 
 label{
-    font-size: large !important;
+    font-size: medium !important;
 }

@@ -6,6 +6,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 import { changeColorOnStatus } from '../utilities/shared';
 import { fadeInEffect } from '../animations/custom-animations';
+import { NavigationExtras, Router } from '@angular/router';
 
 interface Case {
   caseId: number;
@@ -45,11 +46,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   charts: Chart[] = [];
   baseline: BaselineModel[] = [];
   isDataLoaded: boolean = false;
-  constructor( private dashboardService: DashboardService, public dialogService: DialogService){
+  constructor( private dashboardService: DashboardService, public dialogService: DialogService, private router : Router){
     this.animateUpdates();
 }
 
   ngOnInit(): void {
+
+    const navigationExtras: NavigationExtras = {
+      skipLocationChange: true
+    };
+
+    this.router.navigate([this.router.url], navigationExtras);
    
     this.dashboardService.getDashboardDetails().subscribe(data => {
       this.isDataLoaded = true;

@@ -6,7 +6,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 import { SuperadminService } from '../services/superadmin.service';
-
+import { markAllFieldsAsDirty } from '../utilities/makedirty';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -18,7 +18,7 @@ export class ChangePasswordComponent {
   changeForm!: FormGroup;
   messages: Message[]=[];
   isLoading:boolean = false;
-  isSuperAdmin: boolean = false;
+  isSuperAdminOrJammuOrkashmir: boolean = false;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService : AuthenticationService,
@@ -27,8 +27,8 @@ export class ChangePasswordComponent {
     private superadminServices : SuperadminService
 
   ) {
-       if(this.sharedService.getUserDetails().username === "superadmin"){
-        this.isSuperAdmin = true;
+       if(this.sharedService.isSuperAdminOrJammuOrKashmir()){
+        this.isSuperAdminOrJammuOrkashmir = true;
        }
    }
 
@@ -59,8 +59,8 @@ export class ChangePasswordComponent {
     let userName = this.sharedService.getUserDetails().username;
     let password = this.changeForm.value.password;
     let newpassword = this.changeForm.value.newpassword;
-
-    if(this.isSuperAdmin){
+   if(this.changeForm.valid){
+    if(this.isSuperAdminOrJammuOrkashmir){
       this.superadminServices.changeSuperPassword(userName, password, newpassword).subscribe(x=>{
         if(x !=null ){
           this.isLoading = false;
@@ -91,6 +91,10 @@ export class ChangePasswordComponent {
         }
       })
     }
+  }else{
+    markAllFieldsAsDirty(this.changeForm);
+    this.messages = [{ severity: 'warn', summary: 'Error', detail: 'Please enter the required data. ',   }];
+  }
  
   }
 }

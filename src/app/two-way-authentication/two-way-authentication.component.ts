@@ -6,6 +6,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 import { SuperadminService } from '../services/superadmin.service';
+import { AuthServiceService } from '../services/auth-service.service';
+
 @Component({
   selector: 'app-two-way-authentication',
   templateUrl: './two-way-authentication.component.html',
@@ -23,9 +25,12 @@ export class TwoWayAuthenticationComponent implements OnInit {
 
 
   otpForm !: FormGroup;
-  constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService, private formBuilder: FormBuilder, private superadminServices : SuperadminService){
+  constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService,
+     private formBuilder: FormBuilder, private superadminServices : SuperadminService, private authService : AuthServiceService){
   let username = this.sharedService.getUserDetails().username;
-  if(username == 'superadmin'){
+  let a = this.sharedService.isSuperAdminOrJammuOrKashmir();
+  console.log(a);
+  if(this.sharedService.isSuperAdminOrJammuOrKashmir()){
     this.superadminServices.getSuperadminByUserName(username).subscribe(x=>{
       this.otp = Number(x.otp);
     });
@@ -57,7 +62,9 @@ export class TwoWayAuthenticationComponent implements OnInit {
       let enteredOtp = (this.otpForm.value.one + this.otpForm.value.two+this.otpForm.value.three+this.otpForm.value.four)
       
       if(this.otp == Number(enteredOtp)){
+        this.authService.login();
         this.router.navigate(["/dashboard"]);
+       
       }else{
         this.otpIncorrect = true;
       }

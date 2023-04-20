@@ -1,4 +1,5 @@
 <p-panel header="Offender Profiles" [@fadeIn]>
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="isDataLoaded"></p-progressBar>
     <p-table #dt [value]="offerProfileData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','aadhaarNo','FatherHusbandNameAlias','CaseId']"
     [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
@@ -70,14 +71,14 @@
                 <span class="font-bold ml-2">{{offender.name+' '+offender.surnameAlias}}</span>
             </td>
             <td>{{offender.fatherHusbandNameAlias}}</td>
-            <td>{{offender.aadhaarNo}}</td>
+            <td><b>{{offender.aadhaarNo}}</b></td>
             <td>{{offender.caseId}}</td>
             <td class="p-1">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editOffenderData(offender)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editOffenderData(offender)" pTooltip="Edit Offender"></button>
                 
             </td>
             <td class="p-1">
-                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary" (click)="viewOffenderProfile(offender)"></button>
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary" (click)="viewOffenderProfile(offender)" pTooltip="View Offender"></button>
                 
             </td>
             <td class="p-0">

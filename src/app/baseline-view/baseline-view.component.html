@@ -1,94 +1,107 @@
 <div class="row">
-    <div class="col-lg-5" *ngIf="baseline.length>0">
-         <p-card header={{this.baseline[0].caseNo}} class="card-header-view">
-            <p class="text-bold"> Crime Details : </p>
+    <div class="col-lg-4" *ngIf="baseline.length>0">
+        <p-card header={{this.baseline[0].caseNo}} class="card-header-view">
+            <label class="text-bold"> Crime Details : </label>
             <p> {{baseline[0].crimeDetails}}</p>
             <div class="mb-2">
-            <label class="text-bold">Crime Date : </label>
-            <label> {{baseline[0].crimeDate  | date}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Names of Accused : </label>
-            <label class="pl-2"> {{baseline[0].nameOfAccused}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Officer Name : </label>
-            <label class="pl-2"> {{baseline[0].officerName}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">FIR No : </label>
-            <label class="pl-2" >{{baseline[0].firNo}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Section of Law : </label>
-            <label class="pl-2">{{baseline[0].sectionOfLaw}}</label>
-        </div>
-         </p-card>
+                <label class="text-bold">Crime Date : </label>
+                <label> {{baseline[0].crimeDate | date}}</label>
+            </div>
+           
+            <div class="mb-2">
+                <label class="text-bold">Officer Name : </label>
+                <label class="pl-2"> {{baseline[0].officerName}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">FIR No : </label>
+                <label class="pl-2">{{baseline[0].firNo}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Section of Law : </label>
+                <label class="pl-2">{{baseline[0].sectionOfLaw}}</label>
+            </div>
+        </p-card>
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-4">
         <p-card>
+            <div class="mb-2 text-start" *ngIf="baseline[0].status == 'Rejected'">
+                  <label>Reason for Rejection : </label>
+                  <label class="pl-2"><b>{{this.reasonForrejection}}</b>  </label> 
+              </div>
+  
             <div class="mb-2 text-end">
-               
-                <label [ngClass]="{'status-proposal': baseline[0].status === 'Open' || baseline[0].status === 'Approved'}" class="pl-2 text-bold">{{baseline[0].status}}</label>
+             
+                <label
+                    [ngClass]="changeColorOnStatusOfBaselineView(baseline[0].status)"
+                    class="pl-2 text-bold customer-badge">{{baseline[0].status}}
+                </label>
 
-              </div>
-            
-              <div class="p-0">
-                  <h5> <p-avatar icon="pi pi-map-marker"  shape="circle" size="large" [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Crime Area </h5>
-              </div>
-                 <hr>
-        <div class="mb-2">
-            <label class="text-bold">Circle Name : </label>
-            <label class="pl-2">{{baseline[0].circleName}}</label>
-        </div>
-        
-        <div class="mb-2">
-            <label class="text-bold">Compartment Name : </label>
-            <label class="pl-2">{{baseline[0].compartmentName}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Forest Division Name : </label>
-            <label class="pl-2">{{baseline[0].forestDivisionName}}</label>
-        </div>
+            </div>
+
+            <div class="p-0">
+                <h5> <p-avatar icon="pi pi-map-marker" shape="circle" size="large"
+                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Crime Area </h5>
+            </div>
+            <hr>
+            <div class="mb-2">
+                <label class="text-bold">Circle Name : </label>
+                <label class="pl-2">{{baseline[0].circleName}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Compartment Name : </label>
+                <label class="pl-2">{{baseline[0].compartmentName}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Forest Division Name : </label>
+                <label class="pl-2">{{baseline[0].forestDivisionName}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Forest Range Name : </label>
+                <label class="pl-2">{{baseline[0].forestRangeName}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Police Station : </label>
+                <label class="pl-2">{{baseline[0].policeStation}}</label>
+            </div>
        
-        <div class="mb-2">
-            <label class="text-bold">Forest Range Name : </label>
-            <label class="pl-2">{{baseline[0].forestRangeName}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Police Station : </label>
-            <label class="pl-2">{{baseline[0].policeStation}}</label>
-        </div>
-        <div class="p-0">
-            <h5> <p-avatar icon="pi pi-list"  shape="circle" size="large" [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Recoverd Item Details </h5>
-        </div>
-        <hr>
-        <div class="mb-2">
-            <label class="text-bold">Item Description : </label>
-            <label class="pl-2">{{baseline[0].itemDescription}}</label>
-        </div>
-   
-        <div class="mb-2">
-            <label class="text-bold">Quantity : </label>
-            <label class="pl-2">{{baseline[0].quantity}}</label>
-        </div>
-        <div class="mb-2">
-            <label class="text-bold">Species Detected : </label>
-            <label class="pl-2">{{baseline[0].speciesDetected}}</label>
-          </div>
-          
-          <div class="mb-2">
-            <label class="text-bold">Tools Used : </label>
-            <label class="pl-2">{{baseline[0].toolsUsed}}</label>
-          </div>
-        
-          <div class="mb-2">
-            <label class="text-bold">Weight : </label>
-            <label class="pl-2">{{baseline[0].weight}}</label>
-          </div>
-          
-    </p-card>
+        </p-card>
     </div>
+    <div class="col-lg-4">
+        <p-card>
+            <div class="p-0">
+                <h5> <p-avatar icon="pi pi-list" shape="circle" size="large"
+                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Recoverd Item Details
+                </h5>
+            </div>
+            <hr>
+            <div class="mb-2">
+                <label class="text-bold">Item Description : </label>
+                <label class="pl-2">{{baseline[0].itemDescription}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Quantity : </label>
+                <label class="pl-2">{{baseline[0].quantity}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Species Detected : </label>
+                <label class="pl-2">{{baseline[0].speciesDetected}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Tools Used : </label>
+                <label class="pl-2">{{baseline[0].toolsUsed}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Weight : </label>
+                <label class="pl-2">{{baseline[0].weight}}</label>
+            </div>
+        </p-card>
+    </div>
+
 
     <p-card header = "Offender Details">
         <p-table [value]="offender" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines">
@@ -99,14 +112,12 @@
                 <th pSortableColumn="FatherHusbandNameAlias">Father's / Husband's Name  <p-sortIcon field="FatherHusbandNameAlias"></p-sortIcon></th>
                 <th pSortableColumn="crimeDate">DOB <p-sortIcon field="dateOfBirth"></p-sortIcon></th>
                 <th pSortableColumn="Aadhar">Aadhar <p-sortIcon field="aadhaarNo"></p-sortIcon></th>
-               
-                <th></th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-offender>
                 <tr>
                 <td>
-                    <img [alt]="offender.name" [src]="offender.photo" width="32" style="vertical-align: middle; border-radius:20%" />
+                    <img [alt]="offender.name" [src]="this.offenderProfilePicUrl+offender.photo_Url" width="32" style="vertical-align: middle; border-radius:20%" />
                     <span class="font-bold ml-2">{{offender.name}}</span>
                 </td>
                 <td>{{offender.surnameAlias}}</td>

@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
   
-    if(username.trim() === 'superadmin'){
+    if(username.trim() === 'superadmin' || username.trim() === 'superadmin_jammu' || username.trim() === 'superadmin_kashmir'){
      this.superadminService.validateCredentials(username, password).subscribe(data=>{
      this.afterLoginVerified(data,true);
      })
@@ -76,49 +76,63 @@ export class LoginComponent implements OnInit {
     }
   }
 
-   afterLoginVerified = (data:any, isSuperAdmin : boolean) =>{
+  afterLoginVerified = (data: any, isSuperAdmin: boolean) => {
     debugger;
-    if(data){
+    if (data) {
       this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
-    if(isSuperAdmin){
-      let superadmin: Superadmin = {
-        username: data.username,
-        email: data.email,
-        mobile: data.mobile,
-        alternativeemail: data.alternativeemail,
-        roleName: 'superadmin',
-        id: 0,
-        division: '',
-        ipaddress: '',
-        name: 'superadmin',
-        roleId: 0,
-        otp:0,
-        password:'',
-        lastupdatedOn: new Date()
-      };
-      localStorage.setItem('userDetails', JSON.stringify(superadmin));
-    }else{
-      let user: User = {
-        username: data.username,
-        name : data.first_Name+" "+data.last_Name,
-        email: data.email,
-        mobileNo: data.mobile,
-        alternativeEmail: data.alternate_Email,
-        address: data.address,
-        department: data.userType_Name,
-        roleId: data.userType_Id,
-        roleName: data.userType_Name,
-        isActive: true
-      };
-      localStorage.setItem('userDetails', JSON.stringify(user));
+      if (isSuperAdmin) {
+        let superadmin = this.setSuperAdminData(data);
+        localStorage.setItem('userDetails', JSON.stringify(superadmin));
+        localStorage.setItem('isLoggedIn', 'true');
+        this.router.navigate(['/TwoWayAuthentication']);
+      } else {
+        if (data.isActive == true) {
+          let user: User = {
+            username: data.username,
+            name: data.first_Name + " " + data.last_Name,
+            email: data.email,
+            mobileNo: data.mobile,
+            alternativeEmail: data.alternate_Email,
+            address: data.address,
+            district: data.districtId,
+            province : data.provinceId,
+            department: data.userType_Name,
+            roleId: data.userType_Id,
+            roleName: data.userType_Name,
+            isActive: true
+          };
+          localStorage.setItem('userDetails', JSON.stringify(user));
+          localStorage.setItem('isLoggedIn', 'true');
+          
+          this.router.navigate(['/TwoWayAuthentication']);
+        }
+        else {
+          this.messages = [{ severity: 'error', summary: 'Error', detail: 'Your account is locked. Please contact super admin to unlock.' }];
+        }
+      }
+    } else {
+      this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password . Please provide valid credentails' }];
     }
-   
- 
-    localStorage.setItem('isLoggedIn','true');
-    this.router.navigate(['/TwoWayAuthentication']);
-  }else{
-    this.messages = [{ severity: 'error', summary: 'Error', detail: 'Invalid user name or Password. Please provide valid credentails' }];
   }
+
+   setSuperAdminData = (data:any) =>{
+    let superadmin: Superadmin = {
+      username: data.username,
+      email: data.email,
+      mobile: data.mobile,
+      alternativeemail: data.alternativeemail,
+      roleName:  this.sharedService.isSuperAdmin() ? 'superadmin' : this.sharedService.isSuperAdminOfJammu() ? "Super Admin of Jammu" : "Super Admin of Kashmir" ,
+      id: 0,
+      province: data.province,
+      ipaddress: '',
+      name: data.username,
+      roleId: 0,
+      otp: 0,
+      password: '',
+      lastupdatedOn: new Date()
+    };
+
+    return superadmin;
    }
 
   toggleShowPassword() {

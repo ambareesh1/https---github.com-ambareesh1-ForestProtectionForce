@@ -82,11 +82,11 @@
             <td>{{this.convertToDate(Baseline.crimeDate)}}</td>
             <td> <span [ngClass]="changeColorOnStatusOfBaseline(Baseline.status)" class="customer-badge">{{Baseline.status}}</span></td>
             <td class="p-1">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editBaseline(Baseline)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editBaseline(Baseline)"  pTooltip="Edit Baseline Data"></button>
                 
             </td>
             <td class="p-1">
-                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"  (click)="viewBaseline(Baseline)"></button>
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"  (click)="viewBaseline(Baseline)"  pTooltip="View Basline Data"></button>
                 
             </td>
             <td class="p-1">

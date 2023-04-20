@@ -177,12 +177,16 @@ export class OffenderProfileComponent {
       
   
       if(this.isEdit){
-        this.formOffender.value.photo == '' ? this.formOffender.controls['photo'].setValue(this.previousImageOnEdit) : '';
+         this.formOffender.value.photo == '' ? this.formOffender.controls['photo'].setValue(this.previousImageOnEdit) : this.formOffender.value.photo;
+         if(offenderData.Photo === ""){
+          offenderData.Photo = this.previousImageOnEdit;
+         }else{
+          this.formOffender.value.photo;
+         }
+         
         this.offenderDataService.UpdateOffendersDetails(parseInt(this.id), offenderData).subscribe(data=>{
-          if(data){
           let provinceAddmsg = "Offender details updated successfully"
           this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
-        }
         })
       }else{
       this.offenderDataService.createOffender(offenderData).subscribe((x)=>{
@@ -227,6 +231,10 @@ export class OffenderProfileComponent {
   }
   onSubmit(): void {
     // Do something with the form data
+  }
+
+  clearTheImage = (event : any) =>{
+    this.imageUrlOfEdit = '';
   }
 
   searchCountries(event:any) {

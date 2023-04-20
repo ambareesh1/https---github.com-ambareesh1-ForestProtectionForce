@@ -17,6 +17,7 @@ import { UserDetailService } from '../services/user-detail.service';
 import { UserTypeEnum } from '../enums/UsereTypes';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
 import { fadeInEffect } from '../animations/custom-animations';
+import { SuperadminService } from '../services/superadmin.service';
 
 @Component({
   selector: 'app-baseline-data',
@@ -54,7 +55,7 @@ export class BaselineDataComponent implements OnInit {
   displayPosition: boolean = false;
   reason : string = "";
   offendars: any[] = [];
-
+  offenderProfilePicPath = environment.fileUploadPath;
   selectedOffenders: any[] = [];
 
   filteredOffenders: any[] = [];
@@ -69,7 +70,8 @@ export class BaselineDataComponent implements OnInit {
     private spinnerService: SpinnerService,
     private confirmationService: ConfirmationService, 
     private sharedServices : SharedService, 
-    private userDetailsServices : UserDetailService) {
+    private userDetailsServices : UserDetailService,
+    private superAdminService : SuperadminService) {
     this.units.push(
       { id: 1, isActive: true, name: 'Kilogram (kg)', provinceId: 0 },
       { id: 2, isActive: true, name: 'Tonne (t)', provinceId: 0 },
@@ -91,7 +93,7 @@ export class BaselineDataComponent implements OnInit {
       this.loadDistrictData();
       this.loadDRangeData();
       this.loadComppartmentData();
-      this.setCircleIdAndDistrictId();
+      this.sharedServices.isSuperAdminOrJammuOrKashmir() ? this.setCircleIdAndDistrictIdForSuperAdmins() : this.setCircleIdAndDistrictId();
       this.baselineDataService.getBaseline().subscribe(async (data) => {
         this.baseLineData = data.filter(x => x.id == parseInt(this.id))[0];
         this.isDataLoaded = true;
@@ -105,6 +107,7 @@ export class BaselineDataComponent implements OnInit {
       this.initFormBaseline({} as BaselineModel);
       this.loadData();
       this.setDistrictOnAndDisableOtherControls();
+      this.sharedServices.isSuperAdminOrJammuOrKashmir() ? this.setCircleIdAndDistrictIdForSuperAdmins() : this.setCircleIdAndDistrictId();
     }
 
   }
@@ -127,7 +130,7 @@ export class BaselineDataComponent implements OnInit {
       ForestRangeId: [baseline.forestRangeId || '', Validators.required],
       CompartmentId: [baseline.compartmentId || '', Validators.required],
       CompartmentName: [baseline.compartmentName || ''],
-      CaseNo: [baseline.caseNo || '', Validators.required],
+      CaseNo: [baseline.caseNo || ''],
       PoliceStation: [baseline.policeStation || '', Validators.required],
       FIRNo: [baseline.firNo || '', Validators.required],
       CrimeDate: [Object.keys(baseline).length !== 0 ? new Date(baseline.crimeDate) : '' || '', Validators.required],
@@ -145,12 +148,15 @@ export class BaselineDataComponent implements OnInit {
   loadData = () => {
     this.spinnerService.setLoading(false);
     this.manageDataService.getCircle().subscribe((data) => {
+      let province = this.sharedServices.getProvinceForSuperAdminOrNormal();
+       data = province == 0 ? data : data.filter(x=>x.provinceId === province);
       this.spinnerService.setLoading(false);
       data.unshift({
         id: -1, name: 'Select',
         provinceId: 0,
         isActive: false,
-        province: { id: -1, name: "", isActive: true }
+        province: { id: -1, name: 
+          "", isActive: true }
       });
       this.circles = data;
     })
@@ -216,8 +222,12 @@ export class BaselineDataComponent implements OnInit {
       this.provinceId = x.provinceId;
     });
   }
-
-
+  setCircleIdAndDistrictIdForSuperAdmins = () =>{
+    this.superAdminService.getSuperadminByUserName(this.userName).subscribe((x)=>{
+      this.provinceId = x.province;
+    });
+  }
+   
   onChipAdd(event: any) {
     const chip = event.value;
     const icon = '<i class="pi pi-user"></i> ';
@@ -256,9 +266,9 @@ export class BaselineDataComponent implements OnInit {
       isActive: this.formBaseline.value.IsActive,
       updatedOn: new Date(),
       updatedBy: this.userName,
-      provinceId: this.provinceId,
+      provinceId: this.provinceId == 0 ? 1 : this.provinceId,
       provinceName: "",
-      Reason: ''
+      reason: ''
     };
     if(this.checkValidDistrictAndCircleIsSelected(baseLineData)){return;};
     if (this.isEdit) {
@@ -491,7 +501,7 @@ onRejectCase = () =>{
 onSubmittedRejectedReason = () =>{
   let rejectedBaseLineData = this.baseLineData;
   rejectedBaseLineData.status = 'Rejected';
-  rejectedBaseLineData.Reason = this.reason;
+  rejectedBaseLineData.reason = this.reason;
   this.baselineDataService.updateBaselinet(rejectedBaseLineData.id, rejectedBaseLineData).subscribe((x)=>{
     let provinceDeltedItem = "Baseline Data is Rejected.";
     this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceDeltedItem, life: 3000 });

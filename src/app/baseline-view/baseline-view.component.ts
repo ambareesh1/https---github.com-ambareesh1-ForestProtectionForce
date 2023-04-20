@@ -7,7 +7,7 @@ import { Offender } from '../Models/OffenderModel';
 import { OffenderdataService } from '../services/offenderdata.service';
 import { DatePipe } from '@angular/common';
 import { changeColorOnStatus } from '../utilities/shared';
-
+import { environment } from 'src/environments/environment.development';
 @Component({
   selector: 'app-baseline-view',
   templateUrl: './baseline-view.component.html',
@@ -19,6 +19,8 @@ export class BaselineViewComponent implements OnInit {
   baseline:BaselineModel[] = [];
   offender : Offender[] = [];
   caseId : any = "";
+  reasonForrejection : string = "";
+  offenderProfilePicUrl : string = environment.fileUploadPath;
   constructor(private baselineService : BaselinedataService, private ref: DynamicDialogRef, private config: DynamicDialogConfig, private manageService : ManagedataService, private offenderService : OffenderdataService){
 
   }
@@ -28,6 +30,7 @@ export class BaselineViewComponent implements OnInit {
       this.baselineService.getBaseline().subscribe(data=>{
         this.baseline = data.filter(x=>x.id == this.baselineId);
         this.caseId = this.baseline[0].caseNo;
+        this.reasonForrejection = this.baseline[0].reason;
         this.bindOffenderData();
       })
 
@@ -55,7 +58,7 @@ export class BaselineViewComponent implements OnInit {
 
   changeColorOnStatusOfBaselineView = (status:any) =>{
    
-    return changeColorOnStatus(status);
+    return  changeColorOnStatus(status);
   }
 
 }

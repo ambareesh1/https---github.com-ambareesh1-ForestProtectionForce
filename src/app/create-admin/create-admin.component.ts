@@ -11,6 +11,7 @@ import { emailValidator, phoneValidator, usernameTakenValidator } from '../custo
 import {UserTypeEnum} from '../enums/UsereTypes';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
 import { fadeInEffect } from '../animations/custom-animations';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-create-admin',
@@ -35,14 +36,15 @@ export class CreateAdminComponent implements OnInit {
   userTypeId : number = 1;
   isEditOrCaseEntryOperatorSelected:boolean = false;
   constructor(private formBuilder: FormBuilder, private userDetailsService: UserDetailService,
-    private messageService: MessageService, private manageDataService: ManagedataService, private confirmationService: ConfirmationService) { }
+    private messageService: MessageService, private manageDataService: ManagedataService, 
+    private confirmationService: ConfirmationService, private sharedService : SharedService) { }
 
   ngOnInit(): void {
     this.initFormUserDetails({} as UserDetails);
 
     this.getUserTypes();
     this.getUserDetails();
-    this.getProvinceData();
+   
   }
 
   getUserTypes = () => {
@@ -59,6 +61,14 @@ export class CreateAdminComponent implements OnInit {
 
   getProvinceData() {
     this.manageDataService.getProvince().subscribe((data) => {
+      let userProvince = this.sharedService.getProvinceForSuperAdminOrNormal();
+      data = userProvince == 0 ? data :  data.filter(x=>x.id === userProvince)
+      data.unshift({
+        id: -1,
+         name: 'Select',
+        isActive: false
+      });
+    
       this.province = data;
     })
   }
@@ -75,8 +85,7 @@ export class CreateAdminComponent implements OnInit {
   }
 
   onChangeUserType = (event: any) => {
-     //this.userForm.controls['email'].setValue('');
-     //this.userForm.controls['mobile'].setValue('');
+    this.getProvinceData();
     this.userTypeId = event.value;
     this.userTypeId == UserTypeEnum.CaseEntryOperator ? this.removeValidator() : this.addValidator();
     this.ProvinceCircleDistrictDDlVisibility(event.value);

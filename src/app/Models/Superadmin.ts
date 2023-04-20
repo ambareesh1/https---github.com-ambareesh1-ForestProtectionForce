@@ -5,7 +5,7 @@ export interface Superadmin {
     mobile: string;
     email: string;
     alternativeemail: string;
-    division: string;
+    province: number;
     ipaddress: string;
     name : string,
     roleId : number,

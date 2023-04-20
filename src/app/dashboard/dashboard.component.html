@@ -119,7 +119,7 @@
             <th>Crime Details</th>
             <th>Name Of Officer</th>
             <th>Crime Date</th>
-            
+            <th>Status</th>
             <th></th>
           </tr>
         </ng-template>
@@ -129,6 +129,7 @@
             <td>{{ base.crimeDetails }}</td>
             <td>{{ base.officerName }}</td>
             <td>{{ base.crimeDate | date }}</td>
+            <td> <span [ngClass]="changeColorOnStatusOfDashboard(base.status)" class="customer-badge">{{base.status}}</span></td>
             <td (click)="viewBaseline(base)"><i class="pi pi-eye fs-4"></i></td>
           </tr>
         </ng-template>
