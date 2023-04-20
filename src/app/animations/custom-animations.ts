@@ -1,4 +1,4 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 
 export const moveFromRightToLeftAnimation = trigger('moveFromRightToLeft', [
   transition(':enter', [
@@ -9,3 +9,8 @@ export const moveFromRightToLeftAnimation = trigger('moveFromRightToLeft', [
     animate('1500ms', style({ transform: 'translateX(100%)' }))
   ])
 ]);
+
+export const fadeInEffect = trigger('fadeIn', [
+  state('void', style({ opacity: 0 })),
+  transition(':enter', animate('0.5s', style({ opacity: 1 }))),
+])

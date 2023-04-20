@@ -60,3 +60,16 @@ body{
     font-size: 12px;
     letter-spacing: .3px;
 }
+
+.fade-in {
+  opacity: 0;
+}
+
+.fade-in.ng-enter {
+  opacity: 0;
+}
+
+.fade-in.ng-enter-active {
+  opacity: 1;
+  transition: opacity 0.5s;
+}

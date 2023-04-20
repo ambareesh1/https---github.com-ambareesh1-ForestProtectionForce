@@ -1,4 +1,4 @@
-<p-panel header="Baseline Data">
+<p-panel header="Baseline Data" [@fadeIn]>
     <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="!isDataLoaded"></p-progressBar>
     <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true" [globalFilterFields]="['caseNo','dateOfDetection','officerName','firNo', 'DateOfCrime','Status']"
     [rowHover]="true" dataKey="id"

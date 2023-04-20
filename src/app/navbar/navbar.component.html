@@ -4,7 +4,7 @@
           <a class="navbar-brand" [routerLink]="this.isLoggedIn?'/dashboard':''">
             <img src="../../assets/logo.png" alt="Logo" height="80"> <span class="brand-custom">Jammu & Kashmir Forest Protection Force</span>
           </a>
-          <ul [@moveFromRightToLeft] class="list-group list-group-horizontal">
+          <ul *ngIf="this.isUserLoggedIn" [@moveFromRightToLeft] class="list-group list-group-horizontal">
             <!-- <li class="list-group-item"><p-avatar icon="pi pi-bell" pBadge value="4" severity="success" styleClass="mr-2" ></p-avatar> </li> -->
             <li class="list-group-item"> <p-avatar icon="pi pi-user" shape="circle" [style]="{'background-color': '#00bcd475'}"></p-avatar></li>
             <li class="list-group-item"> <span  class="profile-text bold"

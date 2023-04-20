@@ -4,12 +4,14 @@ import { OffenderdataService } from '../services/offenderdata.service';
 import { Router } from '@angular/router';
 import { OffenderViewComponent } from '../offender-view/offender-view.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-
+import { fadeInEffect } from '../animations/custom-animations';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-offender-profile-data',
   templateUrl: './offender-profile-data.component.html',
-  styleUrls: ['./offender-profile-data.component.css']
+  styleUrls: ['./offender-profile-data.component.css'],
+  animations:[fadeInEffect]
 })
 export class OffenderProfileDataComponent implements OnInit {
 
@@ -17,6 +19,8 @@ export class OffenderProfileDataComponent implements OnInit {
   searchValue : any = null;
   rangeDates: Date[] = [];
   ref: DynamicDialogRef | undefined;
+  serverImageUrl : string = environment.fileUploadPath;
+  
   constructor(private offenderDataService : OffenderdataService, private router : Router, public dialogService: DialogService,){
 
   }

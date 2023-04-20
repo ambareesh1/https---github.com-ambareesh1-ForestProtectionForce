@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RefreshService } from '../services/refresh.service';
 import { SharedService } from '../services/shared.service';
+import { fadeInEffect } from '../animations/custom-animations';
 
 @Component({
   selector: 'app-manage-parent',

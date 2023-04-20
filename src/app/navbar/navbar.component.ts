@@ -21,31 +21,38 @@ export class NavbarComponent {
   districtName :  string = '';
   provisionName : string = '';
   userType : string = '';
+  isUserLoggedIn : boolean = false;
 
   isOnlyDistrictVisibility : boolean = false;
   constructor(private authService: AuthServiceService, private sharedService:SharedService, 
     private router : Router, private userDetailsService : UserDetailService, private manageDataService : 
     ManagedataService, private userTypeService : UserTypeService) { 
           this.isOnlyDistrictVisibility = this.sharedService.isUserCaseEntryOperatorOrDuptyDirector();
+          this.isUserLoggedIn = this.authService.isLoggedIn();
     }
 
   ngOnInit() {
-        if (this.authService.isLoggedIn()) {
-          this.isLoggedIn = true;
-          let details = this.sharedService.getUserDetails()
-          this.name = details.name;
-          this.userName = details.username;
-          this.userDetailsService.getUserDetailsByUserName(this.userName).subscribe((x)=>{
-           if(this.isOnlyDistrictVisibility){
-              this.getDistrictName(x);
-           }else{
-               this.getProvinceName(x);
-           }
-            this.getUserTypes(x);
-          })
-        } else {
-          this.name = '';
-        }
+    if (this.isUserLoggedIn) {
+      this.isLoggedIn = true;
+      let details = this.sharedService.getUserDetails()
+      this.name = details.name;
+      this.userName = details.username;
+      if (this.notASuperAdminOfAnyProvince()) {
+        this.userDetailsService.getUserDetailsByUserName(this.userName).subscribe((x) => {
+          if (this.isOnlyDistrictVisibility) {
+            this.getDistrictName(x);
+          } else {
+            this.getProvinceName(x);
+          }
+          this.getUserTypes(x);
+        })
+      }else {
+        this.setProvinceAndUserTypeForSuperadmin();
+      }
+    }else{
+      this.userName = '';
+    }
+
   }
 
   getDistrictName (userDetails: any) {
@@ -55,15 +62,32 @@ export class NavbarComponent {
   }
 
   getProvinceName(userDetails:any) {
-    this.manageDataService.getDistricteByid(userDetails.provinceId).subscribe((z)=>{
-      this.provisionName = z.name;
-    })
+      this.manageDataService.getDistricteByid(userDetails.provinceId).subscribe((z)=>{
+        this.provisionName = z.name;
+      })
   }
 
   getUserTypes(userDetails:any){
     this.userTypeService.getUserTypesById(userDetails.userType_Id).subscribe((x)=>{
       this.userType = x.name;
     })
+  }
+
+  notASuperAdminOfAnyProvince = () =>{
+    return !(this.sharedService.isSuperAdmin() || this.sharedService.isSuperAdminOfJammu()  || this.sharedService.isSuperAdminOfKashmir() )
+  }
+ 
+  setProvinceAndUserTypeForSuperadmin = () => {
+    if (this.userName === 'superadmin') {
+      this.provisionName = 'Jammu & Kashmir';
+      this.userType = 'Super Admin'
+    } else if (this.userName === 'superadmin_kashmir') {
+      this.provisionName = 'Kashmir';
+      this.userType = 'Super Admin of Kashmir'
+    } else {
+      this.provisionName = 'Jammu';
+      this.userType = 'Super Admin of Jammu'
+    }
   }
 
   logout() {

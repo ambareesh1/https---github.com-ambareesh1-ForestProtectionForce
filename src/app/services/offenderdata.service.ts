@@ -15,6 +15,15 @@ export class OffenderdataService {
     return this.http.post<any>(this.baseUrl+'/Offenders/upload', file);
   }
 
+  // uploadImg(file: FormData) : Observable<any> {
+
+  //   return this.http.post<any>(this.baseUrl+'/Offenders/upload', file);
+  // }
+  uploadImg(formData: FormData): Observable<any> {
+    const url = `${this.baseUrl}/Offenders/upload`;
+    return this.http.post<any>(url, formData);
+  }
+
   async getOffendersData(){
     return  this.http.get<Offender[]>(this.baseUrl+'/Offenders');
   }
@@ -33,7 +42,7 @@ export class OffenderdataService {
   }
   
   getOffenderWithAdhar(aadhaarNo:any){
-    return  this.http.get<Offender[]>(this.baseUrl+'/Offenders/GetOffenderWithAadhar/?aadhar='+aadhaarNo);
+    return  this.http.get<Offender>(this.baseUrl+'/Offenders/GetOffenderWithAadhar/?aadhar='+aadhaarNo);
   }
 
   removeCaseId(caseId : any,offendars: Offender[]): Observable<any> {

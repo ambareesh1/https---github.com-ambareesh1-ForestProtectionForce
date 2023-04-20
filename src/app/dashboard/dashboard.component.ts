@@ -5,6 +5,7 @@ import { DashboardService } from '../services/dashboard.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 import { changeColorOnStatus } from '../utilities/shared';
+import { fadeInEffect } from '../animations/custom-animations';
 
 interface Case {
   caseId: number;
@@ -16,7 +17,8 @@ interface Case {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  animations:[fadeInEffect]
 })
 
 

@@ -9,8 +9,10 @@ export class SharedService {
   otp : number  = 0;
   caseId : any = '';
   userTypeId : number = 0;
+  userName : string = '';
   constructor() { 
     this.userTypeId = this.getUserDetails().roleId;
+    this.userName = this.getUserDetails().username;
   }
 
   getUserDetails=()=>{
@@ -24,6 +26,18 @@ export class SharedService {
 
   isDuptyDirector(){
     return  this.userTypeId == UserTypeEnum.DeputyDirector;
+  }
+
+  isSuperAdmin(){
+     return this.userName === 'superadmin';
+  }
+
+  isSuperAdminOfJammu() {
+    return this.userName === 'superadmin_jammu';
+  }
+
+  isSuperAdminOfKashmir(){
+    return this.userName === 'superadmin_kashmir';
   }
 
   setOtp(otp: number) {

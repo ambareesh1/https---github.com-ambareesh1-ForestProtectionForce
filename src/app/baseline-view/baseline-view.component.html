@@ -29,7 +29,8 @@
         <p-card>
             <div class="mb-2 text-end">
                
-                <label [ngClass]="changeColorOnStatusOfBaselineView(baseline[0].status)" class="pl-2 text-bold">{{baseline[0].status}}</label>
+                <label [ngClass]="{'status-proposal': baseline[0].status === 'Open' || baseline[0].status === 'Approved'}" class="pl-2 text-bold">{{baseline[0].status}}</label>
+
               </div>
             
               <div class="p-0">

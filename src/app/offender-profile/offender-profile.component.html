@@ -1,5 +1,5 @@
-<div class="container-fluid">
-    <form *ngIf="districtData.length>0" [formGroup]="formOffender" (ngSubmit)="onSubmitOffender()">
+<div class="container-fluid" [@fadeIn]>
+    <form *ngIf="(isEdit && isDataLoaded && districtData.length>0) || (!isEdit && formOffender && districtData.length>0)" [formGroup]="formOffender" (ngSubmit)="onSubmitOffender()">
         <p-panel header={{titleText}}>
             <p-card subheader="Personal Profile">
                 <div class="formgrid">
@@ -15,13 +15,13 @@
                                 required.</small>
                         </div>
                         <div class="field">
-                           <label for="Name" class="block">Name <span class="required-field">*</span></label>
-                            <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="name" />
-                            <small class="p-error block"
-                                *ngIf="formOffender.get('name')?.invalid && formOffender.get('name')?.dirty"> Name is
-                                required.</small>
-                               
-                        </div>
+                            <label for="Name" class="block">Name <span class="required-field">*</span></label>
+                             <input id="Name" pInputText mode="text" class="offender-input-width" formControlName="name" />
+                             <small class="p-error block"
+                                 *ngIf="formOffender.get('name')?.invalid && formOffender.get('name')?.dirty"> Name is
+                                 required.</small>
+                         </div>
+
                         <div class="field">
                             <label for="surNameAlias" class="block text-bold">SurName/Alias<span class="required-field">*</span></label>
                             <input id="surNameAlias" pInputText mode="text" class="offender-input-width" formControlName="surNameAlias"  />
@@ -60,9 +60,23 @@
     
                         <div class="field">
                             <label for="userName" class="block">Upload Photo - Max Size 10K <span class="required-field">*</span></label>
-                            <p-fileUpload name="myfile[]"  url={{this.imageUploadUrl}} (onUpload)="onUpload($event)" [maxFileSize]="1000000" >
-                                <ng-template pTemplate="content">
-                                <ul *ngIf="uploadedFiles && uploadedFiles.length">
+                            <p-fileUpload name="myfile[]" [customUpload]="true"  (uploadHandler)="onUploadImg($event)" accept="image/*"  (onProgress)="onUploadProgress($event)" [maxFileSize]="1000000" >
+                                <ng-template pTemplate="toolbar">
+                                <div *ngIf="isEdit" class="p-fileupload-files ng-star-inserted mt-3">
+                                    <div class="ng-star-inserted">
+                                        <div class="p-fileupload-row ng-star-inserted">
+                                
+                                            <img [src]="this.imageUrlOfEdit" width="100"
+                                                class="ng-star-inserted">
+                                
+                                            <button type="button" icon="pi pi-times" pbutton=""
+                                                class="p-element p-button p-component p-button-icon-only ml-3" ng-reflect-icon="pi pi-times"><span
+                                                    class="p-button-icon pi pi-times" aria-hidden="true"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <ul *ngIf="uploadedFiles && uploadedFiles.length>0">
                                     <li style="font-weight: bold; color:darkkhaki" class="text-bold" *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
                                 </ul>
                             </ng-template>

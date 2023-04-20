@@ -8,6 +8,7 @@ export interface Offender {
     TradeProfession: string;
     DateOfPhotography: Date;
     Photo: any;
+    Photo_Url:any;
     DateOfBirth: Date;
     Age: number;
     Sex: string;

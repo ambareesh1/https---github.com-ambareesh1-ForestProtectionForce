@@ -10,11 +10,13 @@ import { ManagedataService } from '../services/managedata.service';
 import { emailValidator, phoneValidator, usernameTakenValidator } from '../custom-validators/customvalidators';
 import {UserTypeEnum} from '../enums/UsereTypes';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
+import { fadeInEffect } from '../animations/custom-animations';
 
 @Component({
   selector: 'app-create-admin',
   templateUrl: './create-admin.component.html',
-  styleUrls: ['./create-admin.component.css']
+  styleUrls: ['./create-admin.component.css'],
+  animations:[fadeInEffect]
 })
 export class CreateAdminComponent implements OnInit {
   userForm: FormGroup = new FormGroup({});

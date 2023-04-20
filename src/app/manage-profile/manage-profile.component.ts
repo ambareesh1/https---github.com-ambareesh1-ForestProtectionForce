@@ -6,11 +6,13 @@ import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 import { Superadmin } from '../Models/Superadmin';
 import { SuperadminService } from '../services/superadmin.service';
+import { fadeInEffect } from '../animations/custom-animations';
 
 @Component({
   selector: 'app-manage-profile',
   templateUrl: './manage-profile.component.html',
-  styleUrls: ['./manage-profile.component.css']
+  styleUrls: ['./manage-profile.component.css'],
+  animations:[fadeInEffect]
 })
 export class ManageProfileComponent implements OnInit {
 

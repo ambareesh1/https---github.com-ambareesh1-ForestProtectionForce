@@ -16,11 +16,13 @@ import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 import { UserTypeEnum } from '../enums/UsereTypes';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
+import { fadeInEffect } from '../animations/custom-animations';
 
 @Component({
   selector: 'app-baseline-data',
   templateUrl: './baseline-data.component.html',
-  styleUrls: ['./baseline-data.component.css']
+  styleUrls: ['./baseline-data.component.css'],
+  animations:[fadeInEffect]
 })
 export class BaselineDataComponent implements OnInit {
 

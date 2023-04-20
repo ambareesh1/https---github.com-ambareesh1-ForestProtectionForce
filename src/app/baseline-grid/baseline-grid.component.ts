@@ -8,10 +8,12 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 import { SharedService } from '../services/shared.service';
 import {changeColorOnStatus} from '../utilities/shared';
+import { fadeInEffect } from '../animations/custom-animations';
 @Component({
   selector: 'app-baseline-grid',
   templateUrl: './baseline-grid.component.html',
-  styleUrls: ['./baseline-grid.component.css']
+  styleUrls: ['./baseline-grid.component.css'],
+  animations:[fadeInEffect]
 })
 export class BaselineGridComponent {
 

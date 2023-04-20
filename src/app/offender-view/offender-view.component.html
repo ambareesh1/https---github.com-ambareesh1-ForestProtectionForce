@@ -2,77 +2,108 @@
   <div class="col-lg-2">
    <p-card>
     <ng-template pTemplate="header">
-        <img [alt]="offender[0].name" [src]="offender[0].photo" height="300" />
+        <img [alt]="offender[0].name" [src]="this.serverImageUrl+offender[0].photo_Url" height="250" />
+        
     </ng-template>
-    <h5> {{offender[0].surnameAlias}} {{offender[0].name}} </h5>
+    <h5>{{offender[0].name}} {{offender[0].surnameAlias}}  </h5>
    </p-card>
   </div>
-  <div class="col-lg-8">
+  <div class="col-lg-3">
+    <p-card>
+        <div class="p-card-header mb-3">
+            <p-avatar icon="pi pi-user"  shape="circle"  [style]="{'background-color': '#f44336a3', 'color':'#fff', 'padding':'5px'}"></p-avatar>
+            <span class="pl-2 p-card-title ng-star-inserted">Profile Details</span>
+        </div>
     <div class="mb-2">
         <label class="text-bold">Name : </label>
-        <label> {{offender[0].name}}</label>
+        <label class="pl-2"> {{offender[0].name}}</label>
     </div>
     <div class="mb-2">
         <label class="text-bold">Surname / Alias : </label>
-        <label> {{offender[0].surnameAlias}}</label>
+        <label class="pl-2"> {{offender[0].surnameAlias}}</label>
     </div>
 
     <div class="mb-2">
         <label class="text-bold">DOB : </label>
-        <label> {{this.convertToDate(offender[0].dateOfBirth)}}</label>
+        <label class="pl-2"> {{this.convertToDate(offender[0].dateOfBirth)}}</label> | <label class="pl-2"> {{offender[0].age}}</label>
     </div>
     <div class="mb-2">
         <label class="text-bold">Aadhar No : </label>
-        <label> {{offender[0].aadhaarNo}}</label>
+        <label class="pl-2"> {{offender[0].aadhaarNo}}</label>
     </div>
     <div class="mb-2">
         <label class="text-bold">Phone No : </label>
-        <label> {{offender[0].telephoneMobileNo}}</label>
+        <label class="pl-2"> {{offender[0].telephoneMobileNo}}</label>
     </div>
     <div class="mb-2">
         <label class="text-bold">Email : </label>
-        <label> {{offender[0].email}}</label>
+        <label class="pl-2"> {{offender[0].email}}</label>
     </div>
+    </p-card>
   </div>
 
-  <div class="col-lg-6 mt-2">
-    <p-card header="Personal Details">
+  <div class="col-lg-4">
+    <p-card>
+        <div class="p-card-header mb-3">
+            <p-avatar icon="pi pi-list"  shape="circle"  [style]="{'background-color': '#ff9800b8', 'color':'#fff', 'padding':'5px'}"></p-avatar>
+            <span class="pl-2 p-card-title ng-star-inserted">Personal Details</span>
+        </div>
         <div class="mb-2">
             <label class="text-bold">Father / Husband Name: </label>
-            <label> {{offender[0].fatherHusbandNameAlias}}</label>
+            <label class="pl-2"> {{offender[0].fatherHusbandNameAlias}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Back Account : </label>
-            <label> {{offender[0].bankAccountNo}}</label>
+            <label class="pl-2"> {{offender[0].bankAccountNo}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Passport : </label>
+            <label class="pl-2"> {{offender[0].passportNo}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Citizenship : </label>
-            <label> {{offender[0].citizenship}}</label>
+            <label class="pl-2"> {{offender[0].citizenship}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Caste : </label>
+            <label class="pl-2"> {{offender[0].caste}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">Date of Photography : </label>
-            <label> {{offender[0].dateOfPhotography}}</label>
+            <label class="pl-2"> {{offender[0].dateOfPhotography | date:'dd-MM-yyyy'}}</label>
         </div>
     </p-card>
   </div>
   
-  <div class="col-lg-6" >
-    <p-card header="Residence Details">
-        <div class="mb-2">
-            <label class="text-bold">street : </label>
-            <label> {{offender[0].street}}</label>
+  <div class="col-lg-3" >
+    <p-card>
+        <div class="p-card-header mb-3">
+            <p-avatar icon="pi pi-map-marker"  shape="circle"  [style]="{'background-color': '#3f51b5ab', 'color':'#fff', 'padding':'5px'}"></p-avatar>
+            <span class="pl-2 p-card-title ng-star-inserted">Residence Details</span>
         </div>
         <div class="mb-2">
-            <label class="text-bold">PoliceStation : </label>
-            <label> {{offender[0].policeStation}}</label>
+            <label class="text-bold">House No : </label>
+            <label class="pl-2"> {{offender[0].houseNo}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Village : </label>
+            <label class="pl-2"> {{offender[0].village}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">District : </label>
+            <label class="pl-2"> {{this.districtName}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">City : </label>
-            <label> {{offender[0].city}}</label>
+            <label class="pl-2"> {{offender[0].city}}</label>
         </div>
         <div class="mb-2">
             <label class="text-bold">PinCode: </label>
-            <label> {{offender[0].pinCode}}</label>
+            <label class="pl-2"> {{offender[0].pinCode}}</label>
+        </div>
+        <div class="mb-2">
+            <label class="text-bold">Police Station : </label>
+            <label class="pl-2"> {{offender[0].policeStation}}</label>
         </div>
     </p-card>
   </div>

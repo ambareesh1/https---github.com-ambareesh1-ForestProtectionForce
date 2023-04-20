@@ -11,19 +11,24 @@ import { BaselineModel } from '../Models/BaselineModel';
 import { BaselinedataService } from '../services/baselinedata.service';
 import { ActivatedRoute } from '@angular/router';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
+import { fadeInEffect } from '../animations/custom-animations';
+
 @Component({
   selector: 'app-offender-profile',
   templateUrl: './offender-profile.component.html',
-  styleUrls: ['./offender-profile.component.css']
+  styleUrls: ['./offender-profile.component.css'],
+  animations:[fadeInEffect]
 })
 export class OffenderProfileComponent {
   formOffender: FormGroup =new FormGroup({});
   maxDate: Date = new Date();
   districtData : District[]=[];
-  imageUploadUrl : any = environment.apiBaseUrl+'/Offenders/upload';
+  formData : FormData = new FormData();
+  imageUploadUrl : any = environment.apiBaseUrl+'/Offenders/upload'+this.formData;
   fileUploadPath : any = "";
   caseId : any = "";
   uploadedFiles: any[] = [];
+  progress:number = 0;
   caseIds: BaselineModel[] = [];
   filteredCaseIds: BaselineModel[]=[];
   isItNavigatedFromBaeline : boolean = false;
@@ -38,7 +43,9 @@ export class OffenderProfileComponent {
   aadharName : string = "";
   aadharDistrict : string = "";
   aadharCaseId : string = "";
-  
+  imageUrlOfEdit : string = '';
+  previousImageOnEdit : any;
+
   constructor(private fb: FormBuilder, 
     private manageDataService : ManagedataService,
     private offenderDataService: OffenderdataService,
@@ -66,6 +73,9 @@ export class OffenderProfileComponent {
       (await this.offenderDataService.getOffendersData()).subscribe((data:any)=>{
         let offender = data.filter((x:any)=>x.id == parseInt(this.id))[0];
         this.isDataLoaded = true;
+        this.imageUrlOfEdit = environment.fileUploadPath + offender.photo_Url;
+        this.previousImageOnEdit = offender.photo;
+        this.formData.append('file', this.imageUrlOfEdit);
         this.initFormOffender(offender);
       })
     }
@@ -97,7 +107,7 @@ export class OffenderProfileComponent {
       caste: [offender.caste ||'', Validators.required],
       trade: [offender.tradeProfession ||'', Validators.required],
       dateOfPhotography: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfPhotography):''||'', Validators.required],
-      photo: [''],
+      photo: [offender.Photo|| ''],
 
       dateOfBirth: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfBirth):''||'', Validators.required],
       age: [offender.age ||0, Validators.required],
@@ -131,8 +141,8 @@ export class OffenderProfileComponent {
       markAllFieldsAsDirty(this.formOffender);
     if(this.formOffender.valid){
       let offenderData: Offender = {
-        Id: this.isEdit?  parseInt(this.id) : 0,
-        caseId: this.caseId, //this.formOffender.value.caseId,
+        Id: this.isEdit ? parseInt(this.id) : 0,
+        caseId: this.caseId,
         Name: this.formOffender.value.name,
         SurnameAlias: this.formOffender.value.surNameAlias,
         FatherHusbandNameAlias: this.formOffender.value.fatherName,
@@ -140,7 +150,7 @@ export class OffenderProfileComponent {
         TradeProfession: this.formOffender.value.trade,
         DateOfPhotography: this.formOffender.value.dateOfPhotography,
         Photo: this.formOffender.value.photo,
-  
+
         DateOfBirth: this.formOffender.value.dateOfBirth,
         Age: this.formOffender.value.age,
         Sex: this.formOffender.value.sex,
@@ -150,7 +160,7 @@ export class OffenderProfileComponent {
         TelephoneMobileNo: this.formOffender.value.mobileNo,
         AadhaarNo: this.formOffender.value.aadharNo,
         BankAccountNo: this.formOffender.value.backAccountNo,
-  
+
         HouseNo: this.formOffender.value.houseNo,
         Village: this.formOffender.value.village,
         City: this.formOffender.value.city,
@@ -161,14 +171,18 @@ export class OffenderProfileComponent {
         UpdatedOn: new Date(),
         IsActive: true,
         PinCode: this.formOffender.value.pincode,
+        Photo_Url: this.imageUrlOfEdit
       };
   
       
   
       if(this.isEdit){
+        this.formOffender.value.photo == '' ? this.formOffender.controls['photo'].setValue(this.previousImageOnEdit) : '';
         this.offenderDataService.UpdateOffendersDetails(parseInt(this.id), offenderData).subscribe(data=>{
+          if(data){
           let provinceAddmsg = "Offender details updated successfully"
           this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+        }
         })
       }else{
       this.offenderDataService.createOffender(offenderData).subscribe((x)=>{
@@ -198,6 +212,19 @@ export class OffenderProfileComponent {
   this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
+  onUploadImg(event: any) {
+    const file = event.files[0];
+     this.formData.append('file', file);
+   
+    this.offenderDataService.uploadImg(this.formData).subscribe((x)=>{
+      this.formOffender.controls['photo'].setValue(x.data);
+      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    })
+
+  }
+  onUploadProgress(event: any) {
+    this.progress = Math.round((100 * event.loaded) / event.total);
+  }
   onSubmit(): void {
     // Do something with the form data
   }

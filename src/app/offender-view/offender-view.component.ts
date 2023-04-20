@@ -4,7 +4,7 @@ import { OffenderdataService } from '../services/offenderdata.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ManagedataService } from '../services/managedata.service';
 import { DatePipe } from '@angular/common';
-
+import { environment } from 'src/environments/environment.development';
 @Component({
   selector: 'app-offender-view',
   templateUrl: './offender-view.component.html',
@@ -14,6 +14,9 @@ export class OffenderViewComponent {
  offenderId : number = 0;
   offender : any[] = [];
   caseId : any = "";
+  serverImageUrl:string = environment.fileUploadPath;
+  districtName : string = '';
+
   constructor(private offenderService : OffenderdataService, private ref: DynamicDialogRef, private config: DynamicDialogConfig, private manageService : ManagedataService){
 
   }
@@ -22,6 +25,9 @@ export class OffenderViewComponent {
     this.offenderId = this.config.data;
       (await this.offenderService.getOffendersData()).subscribe((data:any)=>{
         this.offender = data.filter((x:any)=>x.id == this.offenderId);
+        this.manageService.getDistricteByid(this.offender[0].districtId).subscribe((x)=>{
+          this.districtName = x.name;
+        })
         console.log(this.offender);
       })
 

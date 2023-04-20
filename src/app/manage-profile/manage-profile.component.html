@@ -1,4 +1,4 @@
-<div class="row">
+<div [@fadeIn] class="row">
   <div class="col-lg-6" *ngIf="isSuperAdmin? this.superadminDetails.length>0 :this.userDetails.length>0">
     <p-panel header="Manage Profile">
           <form  [formGroup]="userForm"  (ngSubmit)="onSubmitIserDetails()">

@@ -1,5 +1,5 @@
-<p-panel header="Offender Profiles">
-    <p-table #dt [value]="offerProfileData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']"
+<p-panel header="Offender Profiles" [@fadeIn]>
+    <p-table #dt [value]="offerProfileData" [rows]="10" [paginator]="true" [globalFilterFields]="['name','aadhaarNo','FatherHusbandNameAlias','CaseId']"
     [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
     [showCurrentPageReport]="true" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
@@ -28,8 +28,8 @@
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-            <th pSortableColumn="SurnameAlias">Surname / Alias <p-sortIcon field="SurnameAlias"></p-sortIcon></th>
             <th pSortableColumn="FatherHusbandNameAlias">Father's / Husband's Name  <p-sortIcon field="FatherHusbandNameAlias"></p-sortIcon></th>
+            <th pSortableColumn="aadhaarNo">Aadhar No <p-sortIcon field="aadhaarNo"></p-sortIcon></th>
             <th pSortableColumn="CaseId">Case Id <p-sortIcon field="CaseId"></p-sortIcon></th>
             <th> </th>
             <th> </th>
@@ -39,12 +39,13 @@
 			<th>
 				<p-columnFilter type="text" field="name"></p-columnFilter>
 			</th>
-			<th>
-				<p-columnFilter type="text" field="SurnameAlias"></p-columnFilter>
-			</th>
-			<th>
+            <th>
 				<p-columnFilter type="text" field="FatherHusbandNameAlias"></p-columnFilter>
 			</th>
+			<th>
+				<p-columnFilter type="text" field="aadhaarNo"></p-columnFilter>
+			</th>
+			
 			
 			<th>
 				<p-columnFilter type="text" field="CaseId"></p-columnFilter>
@@ -65,11 +66,11 @@
         <tr>
            
             <td>
-                <img [alt]="offender.name" [src]="offender.photo" width="32" style="vertical-align: middle; border-radius:20%" />
-                <span class="font-bold ml-2">{{offender.name}}</span>
+                <img [alt]="offender.name" [src]="this.serverImageUrl+offender.photo_Url" width="32" style="vertical-align: middle; border-radius:20%" />
+                <span class="font-bold ml-2">{{offender.name+' '+offender.surnameAlias}}</span>
             </td>
-            <td>{{offender.surnameAlias}}</td>
             <td>{{offender.fatherHusbandNameAlias}}</td>
+            <td>{{offender.aadhaarNo}}</td>
             <td>{{offender.caseId}}</td>
             <td class="p-1">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editOffenderData(offender)"></button>
