@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Seizures_Form_A } from '../Models/Seizures_Form_A';
+import { SeizureService } from '../services/seizure.service';
+import { MessageService } from 'primeng/api';
+import { catchError, throwError } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import {dateFormate} from '../utilities/shared';
 @Component({
   selector: 'app-seizure',
   templateUrl: './seizure.component.html',
@@ -10,8 +15,12 @@ import { Component, OnInit } from '@angular/core';
 export class SeizureComponent implements OnInit {
 
   formsTypes:any = []
+  formA : Seizures_Form_A[] = [];
+  editing : boolean = false;
+  clonedProducts: { [s: string]: Seizures_Form_A } = {};
+  value: Date =  new Date();
 
-  constructor(){
+  constructor( private seizureService : SeizureService, private messageService : MessageService ){
     this.formsTypes = [
       {name: 'Form A', code: 1},
       {name: 'Form B', code: 2},
@@ -26,21 +35,9 @@ export class SeizureComponent implements OnInit {
     thisYearTotal: number=0;
 
     ngOnInit() {
-        this.sales = [
-            {product: 'Bamboo Watch', lastYearSale: 51, thisYearSale: 40, lastYearProfit: 54406, thisYearProfit: 43342},
-            {product: 'Black Watch', lastYearSale: 83, thisYearSale: 9, lastYearProfit: 423132, thisYearProfit: 312122},
-            {product: 'Blue Band', lastYearSale: 38, thisYearSale: 5, lastYearProfit: 12321, thisYearProfit: 8500},
-            {product: 'Blue T-Shirt', lastYearSale: 49, thisYearSale: 22, lastYearProfit: 745232, thisYearProfit: 65323},
-            {product: 'Brown Purse', lastYearSale: 17, thisYearSale: 79, lastYearProfit: 643242, thisYearProfit: 500332},
-            {product: 'Chakra Bracelet', lastYearSale: 52, thisYearSale:  65, lastYearProfit: 421132, thisYearProfit: 150005},
-            {product: 'Galaxy Earrings', lastYearSale: 82, thisYearSale: 12, lastYearProfit: 131211, thisYearProfit: 100214},
-            {product: 'Game Controller', lastYearSale: 44, thisYearSale: 45, lastYearProfit: 66442, thisYearProfit: 53322},
-            {product: 'Gaming Set', lastYearSale: 90, thisYearSale: 56, lastYearProfit: 765442, thisYearProfit: 296232},
-            {product: 'Gold Phone Case', lastYearSale: 75, thisYearSale: 54, lastYearProfit: 21212, thisYearProfit: 12533}
-        ];
-
-        this.calculateLastYearTotal();
-        this.calculateThisYearTotal();
+       this.seizureService.getFormA().subscribe((data)=>{
+        this.formA = data;
+       })
     }
 
     calculateLastYearTotal() {
@@ -61,6 +58,32 @@ export class SeizureComponent implements OnInit {
         this.thisYearTotal = total;
     }
 
+    onRowEditInit = (formA :Seizures_Form_A) =>{
+      this.clonedProducts[formA.id] = { ...formA };
+      this.editing = true;
+    }
+
+    onRowEditSave = (formA :Seizures_Form_A) =>{
+      console.log(formA);
+  if (formA.id > 0) {
+           // delete this.clonedProducts[product.id];
+           this.seizureService.updateFormA(formA.id, formA).pipe(
+            catchError((error) => {
+              // Handle error
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+              return throwError(() => error);
+            })
+          ).subscribe((data)=>{
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data is updated' });
+           })
+        } 
+        this.editing = !this.editing;
+    }
+    onRowEditCancel = (formA :Seizures_Form_A, index: number) =>{
+      this.formA[index] = this.clonedProducts[formA.id];
+      delete this.clonedProducts[formA.id];
+      this.editing = !this.editing;
+    }
 }
 
 interface Forms {

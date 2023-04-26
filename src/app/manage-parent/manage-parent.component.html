@@ -1,22 +1,28 @@
 <p-card header="Manage Data">
     <p-accordion>
-        <p-accordionTab header="Manage Province">
-         <app-manage-province></app-manage-province>
+        <p-accordionTab header="Manage Province" (click)="refreshChildComponents($event)">
+         <!-- <app-manage-province></app-manage-province> -->
+         <ng-template #provinceContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Circle" (click)="refreshChildComponents($event)">
-          <app-manage-circle></app-manage-circle>
+          <!-- <app-manage-circle></app-manage-circle> -->
+          <ng-template #circleContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Forest District/ Division"  (click)="refreshChildComponents($event)">
-           <app-manage-district></app-manage-district>
+           <!-- <app-manage-district></app-manage-district> -->
+           <ng-template #districtContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Forest Range"  (click)="refreshChildComponents($event)">
-            <app-manage-division></app-manage-division>
+            <!-- <app-manage-division></app-manage-division> -->
+            <ng-template #divisionContainer></ng-template>
          </p-accordionTab>
          <p-accordionTab header="Manage Compartment"  (click)="refreshChildComponents($event)">
-            <app-manage-compartment></app-manage-compartment>
+            <!-- <app-manage-compartment></app-manage-compartment> -->
+            <ng-template #compartmentContainer></ng-template>
          </p-accordionTab>
          <p-accordionTab header="Manage User Types"  (click)="refreshChildComponents($event)" [ngClass]="isSuperAdmin?'d-block':'d-none'">
-            <app-manage-user-types></app-manage-user-types>
+            <!-- <app-manage-user-types></app-manage-user-types> -->
+            <ng-template #userTypesContainer></ng-template>
          </p-accordionTab>
     </p-accordion>
     

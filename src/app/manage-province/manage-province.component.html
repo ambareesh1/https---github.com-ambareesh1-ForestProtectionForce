@@ -3,7 +3,7 @@
 
 <div class="grid">
     <div class="col-8 p-3">
-        <p-card header="Add Province"  styleClass="p-fluid">
+        <p-card header="{{btnTitle}} Province"  styleClass="p-fluid">
             <form [formGroup]="formProvince" (ngSubmit)="onSubmitProvince()">
                 <div class="formgrid">
          
@@ -22,7 +22,7 @@
                     <div class="flex align-items-end  col-6 gap-3 ">
                         <button pButton pRipple label="Save" type="submit" icon="pi pi-check" class="p-button-success"
                             [disabled]="formProvince.invalid"></button>
-                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary"
+                        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-secondary" (click)="onReset()"
                             type="reset"></button>
                     </div>
 
@@ -49,7 +49,7 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" 
+    <p-table #dt [value]="province" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" styleClass="p-datatable-gridlines"
          [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
    
@@ -64,7 +64,7 @@
             <tr>
                 <td>{{province.name}}</td>
               
-                <td class="pl-2">
+                <td class="pl-2 gap-3">
                     <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5" (click)="editProvince(province)"></button>
                     <button pButton pRipple icon="pi pi-trash" iconPos="left" class="p-button-rounded p-button-warning" (click)="deleteProvince(province)"></button>
                 </td>

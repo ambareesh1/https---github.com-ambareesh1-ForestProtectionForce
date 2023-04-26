@@ -7,6 +7,7 @@ import { ManagedataService } from '../services/managedata.service';
 import { CircleView, Compartment, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
 import { compartmentValidator } from '../custom-validators/customvalidators';
+import { Observable, forkJoin } from 'rxjs';
 
 
 @Component({
@@ -18,12 +19,15 @@ export class ManageCompartmentComponent {
 
   productDialog: boolean = false;
   Delete : any = "Delete";
+  btnTitle : any = "Add";
+  compartmentDataOnEdit : Compartment = {} as Compartment;
   compartment : Compartment[] = [];
   divisontData : Division[]=[];
   districtData : District[]=[];
   provinceData : Province[]=[];
   circleData : CircleView[] =[];
   submitted: boolean = true;
+  isDataLoaded : boolean = false;
   search : any = "";
 
  formCompartment: FormGroup =new FormGroup({});
@@ -34,71 +38,108 @@ export class ManageCompartmentComponent {
      }
 
  ngOnInit() {
-  this.refreshServie.refreshEvent.subscribe(() => {
-   this.getCompartmentData();
+
+   
    this.getDivisionData();
    this.getDistrictData();
    this.getCircleData();
    this.getProvinceData();
+ 
+
+
+   const sources$: Observable<any>[] = [
+    this.getDivisionData(),
+    this.getDistrictData(),
+    this.getCircleData(),
+    this.getProvinceData(),
+    this.getCompartmentData()
+  ];
+
+  forkJoin(sources$).subscribe((data: any[]) => {
+    this.divisontData = data[0];
+    this.districtData = data[1];
+    this.circleData = data[2];
+    this.provinceData = data[3];
+    this.compartment = data[4];
+    this.isDataLoaded = true;
+    this.initForm();
   });
+  
  }
  initForm(compartment: Compartment = {} as Compartment){
   
    this.formCompartment = this.fb.group({
-    compartmentName: [compartment.name || '', Validators.required, [compartmentValidator(this.manageDataService)]],
-    division : [compartment.divisionId || this.divisontData[0].id]
+    compartmentName: ['' || compartment.name , Validators.required, [compartmentValidator(this.manageDataService)]],
+    division : ['' || compartment.divisionId ],
+    province : ['' || compartment.provinceId],
+    circle : ['' || compartment.circleId],
+    district : ['' || compartment.districtId]
    });
 }
 
 getCompartmentData(){
- this.manageDataService.getCompartment().subscribe((data)=>{
-   this.compartment = data;
- })
+ return this.manageDataService.getCompartment();
 }
 
 getDivisionData = () => {
-  this.manageDataService.getDivison().subscribe((data) =>{
-     this.divisontData = data;
-     this.initForm();
-    });
+ return  this.manageDataService.getDivison();
 }
+
 getDistrictData = () => {
-  this.manageDataService.getDistrict().subscribe((data) =>{
-     this.districtData = data;
-     this.initForm();
-    });
+  return this.manageDataService.getDistrict();
 }
+
 getProvinceData(){
-  this.manageDataService.getProvince().subscribe((data)=>{
-    this.provinceData = data;
-  })
+  return this.manageDataService.getProvince();
  }
 
  getCircleData(){
-  this.manageDataService.getCircle().subscribe((data)=>{
-    this.circleData = data;
-  })
+  return this.manageDataService.getCircle();
  }
+
 onSubmitCompartment() {
-  console.log(this.formCompartment.value);
+  this.btnTitle = "Add";
+  if(Object.keys(this.compartmentDataOnEdit).length === 0){
    let compartmentData: Compartment = {
      id: 0,
      name: this.formCompartment.value.compartmentName,
      isActive: true,
-     divisionId: this.formCompartment.value.division
+     divisionId: this.formCompartment.value.division,
+     circleId:  this.formCompartment.value.circle,
+     districtId:  this.formCompartment.value.district,
+     provinceId:  this.formCompartment.value.province
    };
   
    this.manageDataService.createCompartment(compartmentData).subscribe((x)=>{
     if(x){
      let compartmentAddmsg = "compartment "+this.formCompartment.value.compartmentName+ " saved"
      this.messageService.add({severity:'success', summary: 'Successful', detail: compartmentAddmsg, life: 5000});
-     this.getCompartmentData();
+     this.refreshCompartmentData();
      this.formCompartment.reset();
     }
    })
+  }else{
+    this.compartmentDataOnEdit.name = this.formCompartment.value.compartmentName;
+    this.manageDataService.updateCompartment(this.compartmentDataOnEdit.id, this.compartmentDataOnEdit).subscribe((x)=>{
+     
+       let provinceAddmsg = "compartment "+this.formCompartment.value.compartmentName+ " updated"
+       this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+       this.formCompartment.reset();
+       this.refreshCompartmentData();
+      this.compartmentDataOnEdit = {} as Compartment;
+     })
+  }
+}
+
+refreshCompartmentData = () =>{
+  this.getCompartmentData().subscribe((x)=>{
+    this.compartment = x;
+  })
 }
 
  editCompartment(compartment: Compartment) {
+  this.btnTitle = "Update";
+  this.compartmentDataOnEdit = compartment;
     this.initForm(compartment);
      this.productDialog = true;
  }

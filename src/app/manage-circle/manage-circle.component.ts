@@ -18,10 +18,13 @@ export class ManageCircleComponent {
 
   productDialog: boolean = false;
   Delete : any = "Delete";
+  btnTitle : any = "Add";
   circle : Circle[] = [];
   ProvinceData : Province[]=[];
+  circleDataOnEdit : Circle = {} as Circle;
   submitted: boolean = true;
   search : any = "";
+  
 
  formCircle: FormGroup =new FormGroup({});
  constructor(private manageDataService: ManagedataService,
@@ -31,10 +34,10 @@ export class ManageCircleComponent {
      }
 
  ngOnInit() {
-  this.refreshService.refreshEvent.subscribe(() => {
+
    this.getCircleData();
    this.getProvisionData();
-  });
+  
  }
  initForm(circle: Circle = {} as Circle){
   
@@ -58,7 +61,8 @@ getProvisionData = () => {
 }
 
 onSubmitCircle() {
-  console.log(this.formCircle.value);
+  this.btnTitle = "Add";
+  if(Object.keys(this.circleDataOnEdit).length === 0){
    let circleData: Circle = {
      id: 0,
      name: this.formCircle.value.circleName,
@@ -73,12 +77,33 @@ onSubmitCircle() {
      this.getCircleData();
     }
    })
+  }else{
+    this.circleDataOnEdit.name = this.formCircle.value.circleName;
+      this.manageDataService.updateCircle(this.circleDataOnEdit.id, this.circleDataOnEdit).subscribe((x)=>{
+       
+         let provinceAddmsg = "circle "+this.formCircle.value.circleName+ " updated"
+         this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+         this.formCircle.reset();
+         this.getCircleData();
+        this.circleDataOnEdit = {} as Circle;
+       
+       })
+  }
+  
 }
 
  editCircle(circle: Circle) {
+  this.circleDataOnEdit = circle;
+  this.btnTitle = "Update";
     this.initForm(circle);
      this.productDialog = true;
  }
+
+ 
+ onReset(){
+  this.formCircle.reset();
+  this.btnTitle = "Add";
+}
 
  deleteCircle(circle: Circle) {
          this.confirmationService.confirm({

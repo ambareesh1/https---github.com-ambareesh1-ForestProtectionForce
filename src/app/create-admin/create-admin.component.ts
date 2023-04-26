@@ -128,7 +128,8 @@ export class CreateAdminComponent implements OnInit {
         id: -1, name: 'Select',
         circleId: -1,
         isActive: false,
-        circle: { id: -1, name: "", isActive: false, provinceId: -1 }
+        circle: { id: -1, name: "", isActive: false, provinceId: -1 },
+        provinceId: 0
       });
       this.district = data;
     })

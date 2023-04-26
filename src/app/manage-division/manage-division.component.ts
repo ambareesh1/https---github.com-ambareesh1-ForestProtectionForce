@@ -7,6 +7,7 @@ import { ManagedataService } from '../services/managedata.service';
 import { Circle, CircleView, District, Division, Province } from '../Models/ManageDataModels';
 import { RefreshService } from '../services/refresh.service';
 import { divisionValidator } from '../custom-validators/customvalidators';
+import { Observable, forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-manage-division',
@@ -18,6 +19,8 @@ export class ManageDivisionComponent {
 
   productDialog: boolean = false;
   Delete : any = "Delete";
+  btnTitle : any = "Add";
+  divisionDataOnEdit : Division = {} as Division;
   division : Division[] = [];
   districtData : District[]=[];
   provinceData : Province[]=[];
@@ -25,81 +28,105 @@ export class ManageDivisionComponent {
   submitted: boolean = true;
   search : any = "";
   isDivisionConf : boolean = true;
-
+  isDataLoaded : boolean = false;
  formDivision: FormGroup =new FormGroup({});
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
       private fb: FormBuilder, private refreshService: RefreshService) { 
-        this.getDivisionData();
-        this.getDistrictData();
-        this.getCircleData();
-        this.getProvinceData();
+      
      }
 
- ngOnInit() {
-  this.refreshService.refreshEvent.subscribe(() => {
-   this.getDivisionData();
-   this.getDistrictData();
-   this.getCircleData();
-   this.getProvinceData();
-  })
- }
+     ngOnInit() {
+      const sources$: Observable<any>[] = [
+        this.getDivisionData(),
+        this.getDistrictData(),
+        this.getCircleData(),
+        this.getProvinceData()
+      ];
+    
+      forkJoin(sources$).subscribe((data: any[]) => {
+        this.division = data[0];
+        this.districtData = data[1];
+        this.circleData = data[2];
+        this.provinceData = data[3];
+        this.isDataLoaded = true;
+        this.initForm();
+      });
+    }
+
  initForm(division: Division = {} as Division){
   debugger;
    this.formDivision = this.fb.group({
-    divisionName: [division.name || '', Validators.required,[divisionValidator(this.manageDataService)]], //, 
-    district : [0 || this.districtData[0].id],
-    province : [0 || this.provinceData[0].id],
-    circle : [0 || this.circleData[0].id]
+    divisionName: [ ''|| division.name, Validators.required,[divisionValidator(this.manageDataService)]], //, 
+    district : ['' || division.districtId],
+    province : ['' || division.provinceId],
+    circle : ['' || division.circleId]
    });
 }
 
-getDivisionData(){
- this.manageDataService.getDivison().subscribe((data)=>{
-   this.division = data;
- })
+getDivisionData(): Observable<any> {
+  return this.manageDataService.getDivison();
 }
 
-getDistrictData = () => {
-  this.manageDataService.getDistrict().subscribe((data) =>{
-     this.districtData = data;
-
-    });
+refreshDivisionData = () =>{
+  this.getDivisionData().subscribe((x)=>{
+    this.division = x;
+  })
 }
-getProvinceData(){
-  this.manageDataService.getProvince().subscribe((data)=>{
-    this.provinceData = data;
-    this.initForm();
-  })
- }
 
- getCircleData(){
-  this.manageDataService.getCircle().subscribe((data)=>{
-    this.circleData = data;
-  })
+getDistrictData(): Observable<any> {
+  return this.manageDataService.getDistrict();
+}
+
+getProvinceData(): Observable<any> {
+  return this.manageDataService.getProvince().pipe(
+    tap((data) => {
+      this.provinceData = data;
+    })
+  );
+}
+
+ getCircleData(): Observable<any> {
+  return this.manageDataService.getCircle();
  }
 
 onSubmitDivision() {
-  console.log(this.formDivision.value);
+  this.btnTitle = "Add";
+  if(Object.keys(this.divisionDataOnEdit).length === 0){
    let divisionData: Division = {
      id: 0,
      name: this.formDivision.value.divisionName,
      isActive: true,
-     districtId: this.formDivision.value.district
+     districtId: this.formDivision.value.district,
+     circleId: this.formDivision.value.circle,
+     provinceId: this.formDivision.value.province
    };
   
    this.manageDataService.createDivison(divisionData).subscribe((x)=>{
     if(x){
-     let divisionAddmsg = "division "+this.formDivision.value.divisionName+ " saved"
+     let divisionAddmsg = "Forest Range "+this.formDivision.value.divisionName+ " saved"
      this.messageService.add({severity:'success', summary: 'Successful', detail: divisionAddmsg, life: 5000});
-     this.getDivisionData();
+     this.refreshDivisionData();
      this.formDivision.reset();
     }
    })
+  }else{
+    this.divisionDataOnEdit.name = this.formDivision.value.divisionName;
+    this.manageDataService.updateDivision(this.divisionDataOnEdit.id, this.divisionDataOnEdit).subscribe((x)=>{
+     
+       let provinceAddmsg = "Forest Range "+this.formDivision.value.divisionName+ " updated"
+       this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+       this.formDivision.reset();
+       this.refreshDivisionData();
+      this.divisionDataOnEdit = {} as Division;
+     })
+   }
 }
 
  editDivision(division: Division) {
+  this.divisionDataOnEdit = division;
+  this.btnTitle = "Update";
     this.initForm(division);
      this.productDialog = true;
  }
@@ -130,7 +157,11 @@ onSubmitDivision() {
      this.productDialog = false;
      this.submitted = false;
  }
- 
+ onReset(){
+  this.formDivision.reset();
+  this.btnTitle = "Add";
+}
+
  onChangeProvince = (event:any)=>{
   this.manageDataService.getCircle().subscribe((data)=>{
     debugger;

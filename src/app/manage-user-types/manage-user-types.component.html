@@ -53,6 +53,7 @@
    
         <ng-template pTemplate="header">
             <tr>
+                <th pSortableColumn="id">Role Id<p-sortIcon field="id"></p-sortIcon></th>
                 <th pSortableColumn="name">User Type<p-sortIcon field="name"></p-sortIcon></th>
                
                 <th></th>  <th></th>
@@ -60,10 +61,11 @@
         </ng-template>
         <ng-template pTemplate="body" let-userTypes>
             <tr>
+                <td>{{userTypes.id}}</td>
                 <td>{{userTypes.name}}</td>
               
                 <td class="pl-2">
-                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5" (click)="editUserTypes(userTypes)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5 d-none" (click)="editUserTypes(userTypes)"></button>
                     <button pButton pRipple icon="pi pi-trash" iconPos="left" class="p-button-rounded p-button-warning" (click)="deleteUserTypes(userTypes)"></button>
                 </td>
             </tr>

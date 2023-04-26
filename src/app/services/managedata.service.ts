@@ -19,6 +19,11 @@ export class ManagedataService {
    getProvince(){
     return  this.http.get<Province[]>(this.baseUrl+'/Provinces');
   }
+
+  updateProvince(id: number, province: Province): Observable<any>{
+    return this.http.put(this.baseUrl+'/Provinces/'+id+'', province);
+  }
+
   getProvinceByid = (id:any) =>{
     return  this.http.get<Province>(this.baseUrl+'/Provinces/'+id+'');
   }
@@ -39,6 +44,10 @@ export class ManagedataService {
   // -------------------- CIRCLE -----------------------
   getCircle(){
     return  this.http.get<CircleView[]>(this.baseUrl+'/Circles');
+  }
+
+  updateCircle(id: number, circle: Circle): Observable<any>{
+    return this.http.put(this.baseUrl+'/Circles/'+id+'', circle);
   }
 
   getCircleByid = (id:any) =>{
@@ -64,9 +73,13 @@ getDistrict(){
 }
 
 getDistrictByName(name:any){
-  return  this.http.get<DistrictView[]>(this.baseUrl+'/Districts/GetDistrictByName/?name='+name);
-
+  return  this.http.get<DistrictView>(this.baseUrl+'/Districts/GetDistrictByName/?name='+name);
 }
+
+updateDistrict(id: number, district: District): Observable<any>{
+  return this.http.put(this.baseUrl+'/Districts/'+id+'', district);
+}
+
 getDistricteByid = (id:any) =>{
   return  this.http.get<DistrictView>(this.baseUrl+'/Districts/'+id+'');
 }
@@ -90,6 +103,10 @@ getDivisonByName(name:any){
 
 }
 
+updateDivision(id: number, division: Division): Observable<any>{
+  return this.http.put(this.baseUrl+'/Divisions/'+id+'', division);
+}
+
 createDivison(division: Division): Observable<Division> {
 
   return this.http.post<Division>(this.baseUrl+'/Divisions', division);
@@ -108,6 +125,10 @@ getCompartment(){
 getCompartmentByName(name:any){
   return  this.http.get<DivisionView[]>(this.baseUrl+'/Compartments/GetCompartmentByName/?name='+name);
 
+}
+
+updateCompartment(id: number, compartment: Compartment): Observable<any>{
+  return this.http.put(this.baseUrl+'/Compartments/'+id+'', compartment);
 }
 
 createCompartment(compartment: Compartment): Observable<Compartment> {

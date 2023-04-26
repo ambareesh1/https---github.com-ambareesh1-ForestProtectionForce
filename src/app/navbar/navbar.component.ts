@@ -24,7 +24,7 @@ export class NavbarComponent {
   isUserLoggedIn : any;
   isLoggedIn$ = this.authService.isLoggedIn$;
   isOnlyDistrictVisibility : boolean = false;
-  subscription : any;
+
 
   constructor(private authService: AuthServiceService, private sharedService:SharedService, 
     private router : Router, private userDetailsService : UserDetailService, private manageDataService : 
@@ -34,7 +34,7 @@ export class NavbarComponent {
     }
 
   ngOnInit() {
-    this.subscription =  this.authService.isLoggedIn$.subscribe((value)=>{
+     this.authService.isLoggedIn$.subscribe((value)=>{
       this.isUserLoggedIn=localStorage.getItem('isLoggedIn')
     });
     console.log(this.isUserLoggedIn)
@@ -102,7 +102,7 @@ export class NavbarComponent {
 
   logout() {
     this.isUserLoggedIn = false;
-    this.subscription.unsubscribe();
+ 
     this.authService.logout();
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.clear();

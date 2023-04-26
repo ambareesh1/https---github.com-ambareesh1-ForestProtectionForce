@@ -5,6 +5,7 @@ import { Message } from 'primeng/api';
 import { CaptchaComponent } from '../captcha/captcha.component';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserDetailService } from '../services/user-detail.service';
+import { AuthServiceService } from '../services/auth-service.service';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -22,10 +23,14 @@ export class ForgotpasswordComponent implements OnInit {
   isLoading : boolean = false;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private authService : AuthenticationService,
+    private authService : AuthServiceService,
     private userDetailsService : UserDetailService
 
-  ) { }
+  ) {
+    if(this.authService.isLoggedIn()){
+      this.router.navigate(['/dashboard']);
+     }
+   }
   ngOnInit(): void {
     this.forgotForm = this.formBuilder.group({
       username: ['', Validators.required],

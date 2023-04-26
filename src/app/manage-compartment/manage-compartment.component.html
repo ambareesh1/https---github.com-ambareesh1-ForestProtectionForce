@@ -2,15 +2,15 @@
 
 <div class="grid">
     <div class="col-8 p-3">
-        <p-card header="Add Compartment" styleClass="p-fluid">
-            <form *ngIf="formCompartment && this.divisontData.length>0"  [formGroup]="formCompartment"  (ngSubmit)="onSubmitCompartment()">
+        <p-card header="{{btnTitle}} Compartment" styleClass="p-fluid">
+            <form *ngIf="formCompartment && isDataLoaded"  [formGroup]="formCompartment"  (ngSubmit)="onSubmitCompartment()">
                 <div class="formgrid">
          
                     <div class="field">
                         <label for="CompartmentName">Compartment Name</label>
                         <input id="CompartmentName" pInputText mode="text" formControlName="compartmentName" />
                         <small class="p-error block"
-                            *ngIf="formCompartment.get('compartmentName')?.invalid && formCompartment.get('compartmentName')?.dirty"> Compartment is
+                            *ngIf="formCompartment.get('compartmentName')?.invalid && formCompartment.get('compartmentName')?.dirty && !this.compartmentControl?.hasError('compartmentTaken')"> Compartment is
                             required.</small>
                             <small class="p-error block"
                             *ngIf="this.compartmentControl?.hasError('compartmentTaken')"> Compartment is
@@ -33,7 +33,7 @@
                   
                     <div class="field">
                         <label for="name">Forest Range</label>
-                        <p-dropdown [options]="divisontData" formControlName="district" optionLabel="name" optionValue="id"></p-dropdown>
+                        <p-dropdown [options]="divisontData" formControlName="division" optionLabel="name" optionValue="id"></p-dropdown>
 
                     </div>
                     <div class="flex align-items-end  col-6 gap-3 ">

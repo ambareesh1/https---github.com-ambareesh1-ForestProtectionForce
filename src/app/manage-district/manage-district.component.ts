@@ -19,6 +19,8 @@ export class ManageDistrictComponent {
 
   productDialog: boolean = false;
   Delete : any = "Delete";
+  btnTitle : any = "Add";
+  districtDataOnEdit : District = {} as District;
   district : District[] = [];
   circleData : CircleView[]=[];
   provinceData : Province[] = [];
@@ -33,18 +35,16 @@ export class ManageDistrictComponent {
      }
 
  ngOnInit() {
-  this.refreshService.refreshEvent.subscribe(() => {
    this.getDistrictData();
    this.getCircleData();
    this.getProvinceData();
-  })
  }
  initForm(district: District = {} as District){
   
    this.formDistrict = this.fb.group({
     districtName: [district.name || '', Validators.required, [districtValidator(this.manageDataService)]],
-    circle : [district.circleId || this.circleData.length>0 ? this.circleData[0].id:''],
-    province : [this.provinceData[0].id || this.circleData[0].id]
+    circle : [district.circleId || ''],
+    province : [district.provinceId|| '']
    });
 }
 
@@ -69,12 +69,14 @@ getProvinceData = () =>{
 }
 
 onSubmitDistrict() {
-  console.log(this.formDistrict.value);
+  this.btnTitle = "Add";
+  if(Object.keys(this.districtDataOnEdit).length === 0){
    let districtData: District = {
      id: 0,
      name: this.formDistrict.value.districtName,
      isActive: true,
-     circleId: this.formDistrict.value.circle
+     circleId: this.formDistrict.value.circle,
+     provinceId: this.formDistrict.value.province
    };
   
    this.manageDataService.createDistrict(districtData).subscribe((x)=>{
@@ -85,9 +87,22 @@ onSubmitDistrict() {
      this.formDistrict.reset();
     }
    })
+  }else{
+    this.districtDataOnEdit.name = this.formDistrict.value.districtName;
+      this.manageDataService.updateDistrict(this.districtDataOnEdit.id, this.districtDataOnEdit).subscribe((x)=>{
+       
+         let provinceAddmsg = "District  "+this.formDistrict.value.districtName+ " updated"
+         this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+         this.formDistrict.reset();
+         this.getProvinceData();
+        this.districtDataOnEdit = {} as District;
+       })
+  }
 }
 
  editDistrict(district: District) {
+  this.btnTitle = "Update";
+  this.districtDataOnEdit = district;
     this.initForm(district);
      this.productDialog = true;
  }
@@ -117,7 +132,11 @@ onSubmitDistrict() {
      this.circleData = data;
    })
  }
- 
+
+ onReset(){
+  this.formDistrict.reset();
+  this.btnTitle = "Add";
+}
 
  hideDialog() {
      this.productDialog = false;

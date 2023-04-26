@@ -12,7 +12,7 @@
             <div class="col-lg-6">
                 <div class="field col-12 md:col-4">
                     <label for="icon">Select Month</label>
-                    <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [showIcon]="true" inputId="icon"></p-calendar>
+                    <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)] = "value"  [showIcon]="true" inputId="icon"></p-calendar>
                 </div>
             </div>
         </div>
@@ -20,45 +20,86 @@
     <p-card header="Under Construction. Will be available soon">
 
     </p-card>
-    <p-card class="d-none">
-        <p-table [value]="sales" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '50rem'}">
-            <ng-template pTemplate="header">
-             
-                <tr>
-                    <th ></th>
-                    <th ></th>
-                    <th colspan="3">Independent Seizure</th>
-                    <th colspan="3">Joint Seizure</th>
-                </tr>
-                <tr>
-                    <th>OB</th>
-                    <th>During the month</th>
-                    <th>Total Seizure</th>
-                </tr>
-                <tr>
-                    <th>OB</th>
-                    <th>During the month</th>
-                    <th>Total Seizure</th>
-                </tr>
+    <p-card >
+        <p-table  #dt [value]="formA" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header" let-editing="editing" let-ri="rowIndex">
+              <tr >
+                <th rowspan="2">S.No</th>
+                <th rowspan="2"></th>
+                <th colspan="3">Independent Seizure</th>
+                <th colspan="3">Joint Seizure</th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>O.B</th>
+                <th>During the Month</th>
+                <th>Total</th>
+                <th>O.B</th>
+                <th>During the Month</th>
+                <th>Total</th>
+                <th></th>
+               
+              </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-sale>
-                <tr>
-                    <td>{{sale.product}}</td>
-                    <td>{{sale.lastYearSale}}%</td>
-                    <td>{{sale.thisYearSale}}%</td>
-                    <td>{{sale.lastYearProfit | currency: 'USD'}}</td>
-                    <td>{{sale.thisYearProfit | currency: 'USD'}}</td>
-                </tr>
+            <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+              <tr [pEditableRow]="seizure">
+                <td hidden="true">{{ seizure.id }}</td>
+                <td>{{ seizure.serialNo }}</td>
+                <td><b>{{seizure.name}}</b></td>
+                <td><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="seizure.ob_independent" (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.ob_independent}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="number" [(ngModel)]="seizure.during_month_independent" (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.during_month_independent}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+              
+                <td>{{ seizure.total_independent}}</td>
+                <td><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="seizure.ob_joint" (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.ob_joint}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+                
+            <td><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="number" [(ngModel)]="seizure.during_month_joint" (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.during_month_joint}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+                <td>{{ seizure.total_joint}}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(seizure)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(seizure, i)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </div>
+                </td>
+              </tr>
             </ng-template>
-            <ng-template pTemplate="footer">
-                <tr>
-                    <td colspan="3" class="text-right">Totals</td>
-                    <td>{{lastYearTotal | currency: 'USD'}}</td>
-                    <td>{{thisYearTotal | currency: 'USD'}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
+          </p-table>
+          
         
     </p-card>
 
 </p-panel>
+
+<p-toast></p-toast>

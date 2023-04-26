@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Circle, Compartment, District, Division } from '../Models/ManageDataModels';
+import { Circle, Compartment, District, Division, Province } from '../Models/ManageDataModels';
 import { ManagedataService } from '../services/managedata.service';
 import { environment } from 'src/environments/environment.development';
 import { OffenderdataService } from '../services/offenderdata.service';
@@ -32,12 +32,14 @@ export class BaselineDataComponent implements OnInit {
   numberOfTextboxes: number = 0;
   public separatorExp: RegExp = /,| /;
   baseLineData : BaselineModel = {} as BaselineModel;
+  provinceData : Province[] = [];
   circles: Circle[] = [];
   forestDivisions: District[] = [];
   forestRanges: Division[] = [];
   compartments: Compartment[] = [];
-  units: Circle[] = [];
-  provinceId : number = 0;
+  units: any[] = [];
+  provinceId : number = 1;
+  dummy : number = 1;
   provinceName : string = "";
   circleId : number = 0;
   circleName: string = "";
@@ -60,7 +62,8 @@ export class BaselineDataComponent implements OnInit {
 
   filteredOffenders: any[] = [];
 
-
+  isSuperAdmin : boolean = false;
+  ingredient : string = "";
   constructor(private fb: FormBuilder,
     private manageDataService: ManagedataService,
     private offenderDataService: OffenderdataService,
@@ -73,13 +76,15 @@ export class BaselineDataComponent implements OnInit {
     private userDetailsServices : UserDetailService,
     private superAdminService : SuperadminService) {
     this.units.push(
-      { id: 1, isActive: true, name: 'Kilogram (kg)', provinceId: 0 },
-      { id: 2, isActive: true, name: 'Tonne (t)', provinceId: 0 },
-      { id: 3, isActive: true, name: 'Grams (g)', provinceId: 0 })
+      { id: 1, isActive: true, name: 'Kilogram (kg)', provinceId: 1 },
+      { id: 2, isActive: true, name: 'Tonne (t)', provinceId: 1 },
+      { id: 3, isActive: true, name: 'Grams (g)', provinceId: 1 })
   }
 
 
   async ngOnInit(): Promise<void> {
+ 
+
     // storing the username & typeId in varaibles from local storage.
     this.userName = this.sharedServices.getUserDetails().username;
     this.userTypeId = this.sharedServices.getUserDetails().roleId;
@@ -109,7 +114,10 @@ export class BaselineDataComponent implements OnInit {
       this.setDistrictOnAndDisableOtherControls();
       this.sharedServices.isSuperAdminOrJammuOrKashmir() ? this.setCircleIdAndDistrictIdForSuperAdmins() : this.setCircleIdAndDistrictId();
     }
-
+     this.loadProvince();
+     this.isSuperAdmin = this.sharedServices.isSuperAdmin();
+      //set default province to 1 when super admin logins
+    this.provinceId = this.isSuperAdmin ? 1 : this.provinceId;
   }
 
   formBaseline: FormGroup = new FormGroup({});
@@ -159,6 +167,13 @@ export class BaselineDataComponent implements OnInit {
           "", isActive: true }
       });
       this.circles = data;
+      this.circleName = data[1].name;
+    })
+  }
+
+  loadProvince = () =>{
+    this.manageDataService.getProvince().subscribe((x)=>{
+      this.provinceData = x;
     })
   }
 
@@ -175,9 +190,11 @@ export class BaselineDataComponent implements OnInit {
         let data = this.forestRanges.filter(y=>y.districtId == this.districtId);
         data.unshift({
           id: -1,
-           name: 'Select',
-           districtId : -1,
-          isActive: false
+          name: 'Select',
+          districtId: -1,
+          isActive: false,
+          circleId: -1,
+          provinceId: -1
         });
         this.forestRanges = data;
       }
@@ -206,9 +223,11 @@ export class BaselineDataComponent implements OnInit {
           let data = this.forestRanges.filter(y=>y.districtId == x.districtId);
           data.unshift({
             id: -1,
-             name: 'Select',
-             districtId : -1,
-            isActive: false
+            name: 'Select',
+            districtId: -1,
+            isActive: false,
+            circleId: 0,
+            provinceId: 0
           });
           this.forestRanges = data;
        })
@@ -224,7 +243,7 @@ export class BaselineDataComponent implements OnInit {
   }
   setCircleIdAndDistrictIdForSuperAdmins = () =>{
     this.superAdminService.getSuperadminByUserName(this.userName).subscribe((x)=>{
-      this.provinceId = x.province;
+      this.provinceId = this.isSuperAdmin ? this.provinceId : x.province;
     });
   }
    
@@ -235,6 +254,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onSubmitBaseline = () => {
+    debugger;
     markAllFieldsAsDirty(this.formBaseline);
     if(this.formBaseline.valid) {
     let baseLineData: BaselineModel = {
@@ -244,13 +264,13 @@ export class BaselineDataComponent implements OnInit {
       crimeDetails: this.formBaseline.value.CrimeDetails,
       toolsUsed: this.formBaseline.value.ToolsUsed.join(","),
       circleId: this.formBaseline.value.CircleId,
-      circleName: this.circleName ?? "",
+      circleName: this.circleName,
       forestDivisionName: this.forestDivisionName,
       forestDivisionId: this.formBaseline.value.ForestDivisionId,
       forestRangeName: this.forestRangeName,
       forestRangeId: this.formBaseline.value.ForestRangeId,
       compartmentId: this.formBaseline.value.CompartmentId,
-      compartmentName: this.compartmentName ?? "",
+      compartmentName: this.compartmentName,
       caseNo: this.formBaseline.value.CaseNo,
       policeStation: this.formBaseline.value.PoliceStation,
       firNo: this.formBaseline.value.FIRNo,
@@ -266,11 +286,11 @@ export class BaselineDataComponent implements OnInit {
       isActive: this.formBaseline.value.IsActive,
       updatedOn: new Date(),
       updatedBy: this.userName,
-      provinceId: this.provinceId == 0 ? 1 : this.provinceId,
-      provinceName: "",
+      provinceId: this.provinceId,
+      provinceName: this.provinceData.filter((x)=>x.id == this.provinceId)[0].name == null ? '' : '',
       reason: ''
     };
-    if(this.checkValidDistrictAndCircleIsSelected(baseLineData)){return;};
+  
     if (this.isEdit) {
       this.baselineDataService.updateBaselinet(parseInt(this.id), baseLineData).subscribe(data => {
         let provinceAddmsg = "Baseline details are updated";
@@ -322,7 +342,8 @@ export class BaselineDataComponent implements OnInit {
         id: -1, name: 'Select',
         circleId: 0,
         isActive: false,
-        circle: { id: -1, name: "", isActive: true, provinceId: -1 }
+        circle: { id: -1, name: "", isActive: true, provinceId: -1 },
+        provinceId: 0
       });
       this.forestDivisions = data;
       this.circleName = this.circles.filter(x => x.id == event.value)[0].name;
@@ -337,7 +358,9 @@ export class BaselineDataComponent implements OnInit {
         id: -1, name: 'Select',
         districtId: 0,
         isActive: false,
-        district: { id: -1, name: "", isActive: true, circleId: -1 }
+        district: { id: -1, name: "", isActive: true, circleId: -1, provinceId: -1 },
+        circleId: 0,
+        provinceId: 0
       });
       this.forestRanges = data;
       this.forestDivisionName = this.forestDivisions.filter(x => x.id == event.value)[0].name;
@@ -351,7 +374,10 @@ export class BaselineDataComponent implements OnInit {
         id: -1, name: 'Select',
         divisionId: 0,
         isActive: false,
-        division: { id: -1, name: "", isActive: true, districtId: -1 }
+        circleId: -1,
+        districtId: -1,
+        division: { id: -1, name: "", isActive: true, districtId: -1, circleId: -1, provinceId: -1 },
+        provinceId: -1
       });
       this.compartments = data;
       this.forestRangeName = this.forestRanges.filter(x => x.id == event.value)[0].name;
@@ -508,5 +534,9 @@ onSubmittedRejectedReason = () =>{
   });
 }
 
+onProvinceChanged = (event : any) =>{
+  debugger;
+ this.circles = this.circles.filter(x=>x.provinceId == this.dummy);
+}
 
 }

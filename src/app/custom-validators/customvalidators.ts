@@ -36,7 +36,6 @@ export function emailValidator(userService: UserDetailService): AsyncValidatorFn
 
   export function provinceValidator(manageDataService: ManagedataService): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      debugger;
       const province = control.value;
       return manageDataService.getProvinceByName(province).pipe(
         map(isTaken => (isTaken ? { provinceTaken: true } : null))

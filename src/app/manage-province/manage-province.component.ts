@@ -17,7 +17,9 @@ export class ManageProvinceComponent {
 
     productDialog: boolean = false;
      Delete : any = "Delete";
+     btnTitle : any = "Add";
      province : Province[] = [];
+     provinceDataOnEdit : Province = {} as Province;
     submitted: boolean = true;
     search : any = "";
     isProvinceTaken : boolean = false;
@@ -46,6 +48,8 @@ export class ManageProvinceComponent {
   }
   
   onSubmitProvince() {
+    this.btnTitle = "Add";
+     if(Object.keys(this.provinceDataOnEdit).length === 0){
       let provinceData: Province = {
         id: 0,
         name: this.formProvince.value.provinceName,
@@ -60,10 +64,25 @@ export class ManageProvinceComponent {
         this.getProvinceData();
        }
       })
+     }else{
+      this.provinceDataOnEdit.name = this.formProvince.value.provinceName;
+      this.manageDataService.updateProvince(this.provinceDataOnEdit.id, this.provinceDataOnEdit).subscribe((x)=>{
+       
+         let provinceAddmsg = "Province "+this.formProvince.value.provinceName+ " updated"
+         this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
+         this.formProvince.reset();
+         this.getProvinceData();
+        this.provinceDataOnEdit = {} as Province;
+       })
+     }
+
+     
   }
 
     editProvince(province: Province) {
+      this.btnTitle = "Update"
        this.initForm(province);
+       this.provinceDataOnEdit = province;
         this.productDialog = true;
     }
 
@@ -90,6 +109,11 @@ export class ManageProvinceComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
+    }
+
+    onReset(){
+      this.formProvince.reset();
+      this.btnTitle = "Add";
     }
     
     onFocusOutProvince (event:any){

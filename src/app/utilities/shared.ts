@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 
 
 export function changeColorOnStatus(status:any){
@@ -10,3 +11,8 @@ export function changeColorOnStatus(status:any){
     }
   }
   
+  export function dateFormate (onlyDate: any){
+      const datePipe = new DatePipe('en-US');
+      const formattedDate = datePipe.transform(onlyDate, 'yyyy-MM-dd');
+      return formattedDate;
+  }

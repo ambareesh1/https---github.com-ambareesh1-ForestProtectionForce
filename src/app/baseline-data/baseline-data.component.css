@@ -67,3 +67,13 @@
     background: #009688 !important;
     border: 1px solid #009688 !important;
 }
+
+.p-radiobutton .p-radiobutton-box {
+    border: 2px solid #ced4da;
+    background: #ffffff;
+    width: 22px;
+    height: 22px;
+    color: #495057;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}

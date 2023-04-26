@@ -9,6 +9,8 @@ import { Message } from 'primeng/api';
 import { Superadmin } from '../Models/Superadmin';
 import { SuperadminService } from '../services/superadmin.service';
 import { SharedService } from '../services/shared.service';
+import { environment } from 'src/environments/environment.development';
+import { AuthServiceService } from '../services/auth-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,12 +27,16 @@ export class LoginComponent implements OnInit {
   @ViewChild('captchaImage') captchaImage!: CaptchaComponent;
   constructor(private router: Router,
     private formBuilder: FormBuilder,
-    private authService : AuthenticationService,
+    private authService : AuthServiceService,
     private userDetailsService : UserDetailService,
     private superadminService : SuperadminService,
     private sharedService : SharedService
 
-  ) { }
+  ) { 
+         if(this.authService.isLoggedIn()){
+          this.router.navigate(['/dashboard']);
+         }
+   }
 
 
   ngOnInit(): void {
@@ -84,7 +90,11 @@ export class LoginComponent implements OnInit {
         let superadmin = this.setSuperAdminData(data);
         localStorage.setItem('userDetails', JSON.stringify(superadmin));
         localStorage.setItem('isLoggedIn', 'true');
-        this.router.navigate(['/TwoWayAuthentication']);
+        if(environment.otpFlag){
+          this.router.navigate(['/TwoWayAuthentication']);
+        }else{
+          this.router.navigate(['/dashboard']);
+        }
       } else {
         if (data.isActive == true) {
           let user: User = {
@@ -103,8 +113,12 @@ export class LoginComponent implements OnInit {
           };
           localStorage.setItem('userDetails', JSON.stringify(user));
           localStorage.setItem('isLoggedIn', 'true');
-          
-          this.router.navigate(['/TwoWayAuthentication']);
+          if(environment.otpFlag){
+            this.router.navigate(['/TwoWayAuthentication']);
+          }else{
+            this.router.navigate(['/dashboard']);
+          }
+         
         }
         else {
           this.messages = [{ severity: 'error', summary: 'Error', detail: 'Your account is locked. Please contact super admin to unlock.' }];

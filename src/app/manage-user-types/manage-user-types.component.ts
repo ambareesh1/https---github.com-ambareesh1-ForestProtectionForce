@@ -20,6 +20,8 @@ export class ManageUserTypesComponent {
   userTypes : UserTypes[] = [];
  submitted: boolean = true;
  search : any = "";
+ btnTitle : any = "Add";
+ userTypesDataOnEdit : UserTypes = {} as UserTypes;
 
  formUserTypes: FormGroup =new FormGroup({});
  constructor(private userTypeDataService: UserTypeService,

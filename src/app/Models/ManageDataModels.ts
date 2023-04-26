@@ -23,6 +23,7 @@ export interface Province {
     id: number;
     name: string;
     circleId: number;
+    provinceId : number;
     isActive: boolean;
     circle : Circle
   }
@@ -33,6 +34,7 @@ export interface Province {
     id: number;
     name: string;
     circleId: number;
+    provinceId : number;
     isActive: boolean;
   }
 
@@ -41,6 +43,8 @@ export interface Province {
     name: string;
     districtId: number;
     isActive: boolean;
+    circleId : number;
+    provinceId : number;
     district : District
   }
 
@@ -48,6 +52,8 @@ export interface Province {
     id: number;
     name: string;
     districtId: number;
+    circleId : number;
+    provinceId : number;
     isActive: boolean;
   }
 
@@ -56,6 +62,9 @@ export interface Province {
     name: string;
     divisionId: number;
     isActive: boolean;
+    circleId : number;
+    districtId : number;
+    provinceId : number;
     division : Division
   }
 
@@ -64,5 +73,8 @@ export interface Province {
     name: string;
     divisionId: number;
     isActive: boolean;
+    circleId : number;
+    districtId : number;
+    provinceId : number;
   }
     

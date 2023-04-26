@@ -55,6 +55,18 @@
                             Used is required.</small>
                     </div>
                     <div class="field">
+                        <label for="CircleId" class="block">Province <span class="required-field">*</span></label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="jammu" value="1" [(ngModel)]="provinceId" name="province" (change)="onProvinceChanged($event)">
+                            <label class="form-check-label" for="jammu">Jammu Division</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="kashmir" value="2" [(ngModel)]="provinceId" name="province" (change)="onProvinceChanged($event)">
+                            <label class="form-check-label" for="kashmir">Kashmir Division</label>
+                          </div>
+                      </div>
+
+                    <div class="field">
                         <label for="CircleId" class="block">Circle <span class="required-field">*</span></label>
                         <p-dropdown id="CircleId" [options]="circles" [showClear]="true" formControlName="CircleId" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)"> </p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('CircleId')?.invalid && formBaseline.get('CircleId')?.dirty">Circle ID is required.</small>
