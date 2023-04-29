@@ -68,12 +68,12 @@
 
                     <div class="field">
                         <label for="CircleId" class="block">Circle <span class="required-field">*</span></label>
-                        <p-dropdown id="CircleId" [options]="circles" [showClear]="true" formControlName="CircleId" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)"> </p-dropdown>
+                        <p-dropdown id="CircleId" [options]="circles" [showClear]="true" formControlName="CircleId" optionLabel="name" optionValue="id" (onChange)="onCircleChange($event)" [readonly]="isUserCaseEntryOperatorOrDuptyDirector()"> </p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('CircleId')?.invalid && formBaseline.get('CircleId')?.dirty">Circle ID is required.</small>
                       </div>
                       <div class="field">
                         <label for="ForestDivisionId" class="block">Forest District / Division <span class="required-field">*</span></label>
-                        <p-dropdown id="ForestDivisionId" [options]="forestDivisions" [showClear]="true" formControlName="ForestDivisionId" optionLabel="name" optionValue="id" (onChange)="onForestDivisionChange($event)"></p-dropdown>
+                        <p-dropdown id="ForestDivisionId" [options]="forestDivisions" [showClear]="true" formControlName="ForestDivisionId" optionLabel="name" optionValue="id" (onChange)="onForestDivisionChange($event)" [readonly]="isUserCaseEntryOperatorOrDuptyDirector()"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('ForestDivisionId')?.invalid && formBaseline.get('ForestDivisionId')?.dirty">Forest Division ID is required.</small>
                       </div>
                       <div class="field">

@@ -27,22 +27,24 @@ export class TwoWayAuthenticationComponent implements OnInit {
   otpForm !: FormGroup;
   constructor(private router: Router, private sharedService : SharedService, private userDetailsService:UserDetailService,
      private formBuilder: FormBuilder, private superadminServices : SuperadminService, private authService : AuthServiceService){
-  let username = this.sharedService.getUserDetails().username;
-  let a = this.sharedService.isSuperAdminOrJammuOrKashmir();
-  console.log(a);
-  if(this.sharedService.isSuperAdminOrJammuOrKashmir()){
-    this.superadminServices.getSuperadminByUserName(username).subscribe(x=>{
-      this.otp = Number(x.otp);
-    });
-  }else{
-    this.userDetailsService.getUserDetailsByUserName(username).subscribe(x=>{
-      this.otp = Number(x.otp);
-    });
-  }
+
 
   }
   ngOnInit(): void {
     debugger;
+
+    let username = this.sharedService.getUserName();
+    if(this.sharedService.isSuperAdminOrJammuOrKashmir()){
+      this.superadminServices.getSuperadminByUserName(username).subscribe(x=>{
+        this.otp = Number(x.otp);
+      });
+    }else{
+      this.userDetailsService.getUserDetailsByUserName(username).subscribe(x=>{
+        this.otp = Number(x.otp);
+      });
+    }
+
+
     this.otpForm = this.formBuilder.group({
       one: ['', Validators.required],
       two: ['', Validators.required],

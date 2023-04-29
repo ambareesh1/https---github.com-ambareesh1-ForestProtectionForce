@@ -36,7 +36,7 @@ export class ManageDistrictComponent {
 
  ngOnInit() {
    this.getDistrictData();
-   this.getCircleData();
+   //this.getCircleData();
    this.getProvinceData();
  }
  initForm(district: District = {} as District){
@@ -56,6 +56,12 @@ getDistrictData(){
 
 getCircleData = () => {
   this.manageDataService.getCircle().subscribe((data) =>{
+     data.unshift({
+        id: -1, name: 'Select',
+        isActive: false,
+        province: { id: -1, name: "", isActive: true },
+        provinceId: 0
+      });
      this.circleData = data;
      this.initForm();
     });
@@ -63,6 +69,11 @@ getCircleData = () => {
 
 getProvinceData = () =>{
   this.manageDataService.getProvince().subscribe((data) =>{
+    data.unshift({
+      id: -1,
+      name: 'Select',
+      isActive: false,
+    });
     this.provinceData = data;
     this.initForm();
    });
@@ -129,6 +140,12 @@ onSubmitDistrict() {
   this.manageDataService.getCircle().subscribe((data)=>{
     debugger;
     data= data.filter(x=>x.provinceId == event.value);
+    data.unshift({
+      id: -1, name: 'Select',
+      isActive: false,
+      province: { id: -1, name: "", isActive: true },
+      provinceId: 0
+    });
      this.circleData = data;
    })
  }

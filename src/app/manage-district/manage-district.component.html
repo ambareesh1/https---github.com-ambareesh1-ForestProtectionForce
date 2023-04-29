@@ -3,7 +3,7 @@
 <div class="grid">
     <div class="col-8 p-3">
         <p-card header="{{btnTitle}} District/Division" styleClass="p-fluid">
-            <form *ngIf="this.circleData.length>0"  [formGroup]="formDistrict"  (ngSubmit)="onSubmitDistrict()">
+            <form *ngIf="formDistrict"  [formGroup]="formDistrict"  (ngSubmit)="onSubmitDistrict()">
                 <div class="formgrid">
          
                     <div class="field">

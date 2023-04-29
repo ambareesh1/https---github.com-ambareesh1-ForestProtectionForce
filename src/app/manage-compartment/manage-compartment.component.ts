@@ -48,19 +48,27 @@ export class ManageCompartmentComponent {
 
 
    const sources$: Observable<any>[] = [
-    this.getDivisionData(),
-    this.getDistrictData(),
-    this.getCircleData(),
+    //this.getDivisionData(),
+    //this.getDistrictData(),
+    //this.getCircleData(),
     this.getProvinceData(),
     this.getCompartmentData()
   ];
 
   forkJoin(sources$).subscribe((data: any[]) => {
-    this.divisontData = data[0];
-    this.districtData = data[1];
-    this.circleData = data[2];
-    this.provinceData = data[3];
-    this.compartment = data[4];
+   // this.divisontData = data[0];
+   // this.districtData = data[1];
+    //this.circleData = data[2];
+    data[0].unshift({
+      id: -1,
+      name: 'Select',
+      districtId: -1,
+      isActive: false,
+      circleId: 0,
+      provinceId: 0
+    });
+    this.provinceData = data[0];
+    this.compartment = data[1];
     this.isDataLoaded = true;
     this.initForm();
   });
@@ -169,7 +177,12 @@ refreshCompartmentData = () =>{
  
  onChangeProvince = (event:any)=>{
   this.manageDataService.getCircle().subscribe((data)=>{
-    
+    data.unshift({
+      id: -1, name: 'Select',
+      isActive: false,
+      province: { id: -1, name: "", isActive: true },
+      provinceId: 0
+    });
     data= data.filter(x=>x.provinceId == event.value);
      this.circleData = data;
    })
@@ -177,8 +190,14 @@ refreshCompartmentData = () =>{
  
  onChangeCircle = (event:any) =>{
   this.manageDataService.getDistrict().subscribe((data)=>{
-    
     data= data.filter(x=>x.circleId == event.value);
+    data.unshift({
+      id: -1, name: 'Select',
+      circleId: 0,
+      isActive: false,
+      circle: { id: -1, name: "", isActive: true, provinceId: -1 },
+      provinceId: 0
+    });
      this.districtData = data;
    })
  }

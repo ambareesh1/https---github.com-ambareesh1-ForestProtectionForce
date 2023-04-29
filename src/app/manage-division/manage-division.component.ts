@@ -40,16 +40,25 @@ export class ManageDivisionComponent {
      ngOnInit() {
       const sources$: Observable<any>[] = [
         this.getDivisionData(),
-        this.getDistrictData(),
-        this.getCircleData(),
+       // this.getDistrictData(),
+      //  this.getCircleData(),
         this.getProvinceData()
       ];
     
       forkJoin(sources$).subscribe((data: any[]) => {
+        debugger;
         this.division = data[0];
-        this.districtData = data[1];
-        this.circleData = data[2];
-        this.provinceData = data[3];
+       // this.districtData = data[1];
+       // this.circleData = data[2];
+        data[1].unshift({
+        id: -1,
+        name: 'Select',
+        districtId: -1,
+        isActive: false,
+        circleId: 0,
+        provinceId: 0
+      });
+        this.provinceData = data[1];
         this.isDataLoaded = true;
         this.initForm();
       });
@@ -166,6 +175,12 @@ onSubmitDivision() {
   this.manageDataService.getCircle().subscribe((data)=>{
     debugger;
     data= data.filter(x=>x.provinceId == event.value);
+    data.unshift({
+      id: -1, name: 'Select',
+      isActive: false,
+      province: { id: -1, name: "", isActive: true },
+      provinceId: 0
+    });
      this.circleData = data;
    })
  }
@@ -174,6 +189,13 @@ onSubmitDivision() {
   this.manageDataService.getDistrict().subscribe((data)=>{
     debugger;
     data= data.filter(x=>x.circleId == event.value);
+    data.unshift({
+      id: -1, name: 'Select',
+      circleId: 0,
+      isActive: false,
+      circle: { id: -1, name: "", isActive: true, provinceId: -1 },
+      provinceId: 0
+    });
      this.districtData = data;
    })
  }

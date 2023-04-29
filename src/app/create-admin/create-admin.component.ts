@@ -42,16 +42,19 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       
      }
   ngAfterViewInit(): void {
-    this.userForm.controls['province'].disable();
-          this.userForm.controls['circle'].disable();
-          this.userForm.controls['district'].disable();
+    if(this.isEditOrCaseEntryOperatorSelected){
+      // this.userForm.controls['province'].disable();
+      // this.userForm.controls['circle'].disable();
+      // this.userForm.controls['district'].disable();
+    }
+
   }
 
   ngOnInit(): void {
     this.initFormUserDetails({} as UserDetails);
     this.getUserTypes();
     this.getUserDetails();
-   
+    this.isEditOrCaseEntryOperatorSelected = this.sharedService.isUserCaseEntryOperatorOrDuptyDirector();
   }
 
   getUserTypes = () => {
@@ -98,7 +101,6 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
     this.getProvinceData();
     this.userTypeId = event.value;
     this.userTypeId == UserTypeEnum.CaseEntryOperator ? this.removeValidator() : this.addValidator();
-    this.isEditOrCaseEntryOperatorSelected = this.sharedService.isUserCaseEntryOperatorOrDuptyDirector() ? true : false;
     this.ProvinceCircleDistrictDDlVisibility(event.value);
   }
 
@@ -149,7 +151,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       userType_Id: this.userForm.value.userType_Id,
       userType_Name: this.userTypes.filter(x => x.id == this.userForm.value.userType_Id)[0].name,
       username: this.userForm.value.username,
-      password: '',
+      password:  this.userForm.value.password,
       first_Name: this.userForm.value.firstName,
       last_Name: this.userForm.value.lastName,
       email: this.userForm.value.email,
@@ -193,6 +195,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
           this.userForm.reset();
           this.getUserDetails();
           this.isEdit = false;
+          
         })
       } else {
         this.userDetailsService.createUserDetails(userDetails).subscribe(data => {
@@ -218,7 +221,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       circle: [userDetails.circleId || 0],
       district: [userDetails.districtId || 0],
       username: [userDetails.username || '',  Validators.required ,this.isEdit ? '' :  usernameTakenValidator(this.userDetailsService)],
-      password: [''],
+      password: ['' || userDetails.password],
       firstName: [userDetails.first_Name || '', Validators.required],
       lastName: [userDetails.last_Name || '', Validators.required],
       email: [userDetails.email || '', [Validators.required, Validators.email], this.isEdit ? '' : [emailValidator(this.userDetailsService)]],

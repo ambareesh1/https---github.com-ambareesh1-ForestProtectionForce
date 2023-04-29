@@ -214,8 +214,8 @@ export class BaselineDataComponent implements OnInit {
        this.userDetailsServices.getUserDetailsByUserName(this.userName).subscribe((x)=>{
           this.formBaseline.controls['CircleId'].setValue(x.circleId);
           this.formBaseline.controls['ForestDivisionId'].setValue(x.circleId);
-          this.formBaseline.controls['CircleId'].disable();
-          this.formBaseline.controls['ForestDivisionId'].disable();
+         // this.formBaseline.controls['CircleId'].disable();
+        //  this.formBaseline.controls['ForestDivisionId'].disable();
           this.districtId = x.districtId;
           this.circleId = x.circleId;
           this.provinceId = x.provinceId;
