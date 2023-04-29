@@ -10,6 +10,7 @@ export class SharedService {
   caseId : any = '';
   userTypeId : number = 0;
   userName : string = '';
+  userDetails : any;
   isSuperAdminOrJammuOrKashmirVar : boolean = false;
   constructor() { 
     this.userTypeId = this.getUserDetails().roleId;
@@ -18,6 +19,7 @@ export class SharedService {
 
   getUserDetails=()=>{
     const user = window.localStorage.getItem('userDetails')
+    this.userDetails =  user ? JSON.parse(user) : [];
     return user ? JSON.parse(user) : [];
   }
 
@@ -75,6 +77,14 @@ export class SharedService {
 
   getCaseId() {
     return this.caseId;
+  }
+
+  getDistrictId(){
+    return this.userDetails.districtId;
+  }
+
+  getUserName (){
+    return this.userDetails.username;
   }
 
   createdUserAuth = () =>{

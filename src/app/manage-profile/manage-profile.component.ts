@@ -21,6 +21,8 @@ export class ManageProfileComponent implements OnInit {
   passwordForm: FormGroup = new FormGroup({});
   userDetails : UserDetails[] =[];
   superadminDetails : Superadmin[] = [];
+  isEdit : boolean = false;
+
   constructor(private formBuilder: FormBuilder, private userDetailsService : UserDetailService, 
     private sharedServices : SharedService, private messageService : MessageService, private superadminServices : SuperadminService){
     if(this.sharedServices.isSuperAdminOrJammuOrKashmir()){
@@ -94,7 +96,7 @@ debugger;
           email: this.userForm.value.email,
           alternativeemail: this.superadminDetails[0].alternativeemail,
           mobile: this.userForm.value.mobile,
-          province: 0,
+          province: this.userForm.value.province,
           ipaddress: '10.10.10',
           name: 'superadmin',
           roleId: 0,
@@ -106,6 +108,7 @@ debugger;
         this.superadminServices.editSuperAdminDetails(userDetails, userDetails.id).subscribe(data=>{
       
           this.messageService.add({severity:'success', summary: 'Successful', detail: "Details Updated Successfully.", life: 10000});
+          this.isEdit = false;
        
       })
   
@@ -127,13 +130,13 @@ debugger;
           isActive: true,
           createdOn: new Date(),
           updatedOn: new Date(),
-          provinceId: 0,
-          circleId: 0,
-          districtId: 0,
+          provinceId: this.userDetails[0].provinceId,
+          circleId: this.userDetails[0].circleId,
+          districtId: this.userDetails[0].districtId,
           otp:0
         }
         this.userDetailsService.editUserDetails(userDetails, userDetails.id).subscribe(data=>{
-        
+          this.isEdit = false;
           this.messageService.add({severity:'success', summary: 'Successful', detail: "Details Updated Successfully.", life: 10000});
        
       })
@@ -143,6 +146,12 @@ debugger;
 
   }
 
+  onEdit = () =>{
+    this.isEdit = true;
+  }
+  onCancel = () =>{
+    this.isEdit = false;
+  }
   onSubmitPassword = () =>{
     
   }

@@ -69,7 +69,7 @@ export class NavbarComponent {
 
   getProvinceName(userDetails:any) {
     debugger;
-      this.manageDataService.getDistricteByid(userDetails.provinceId).subscribe((z)=>{
+      this.manageDataService.getProvinceByid(userDetails.provinceId).subscribe((z)=>{
         this.provisionName = z.name;
       })
       if(userDetails.userType_Id == 1){

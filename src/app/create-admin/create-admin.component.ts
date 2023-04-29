@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UserDetails } from '../Models/UserDetails';
@@ -19,7 +19,7 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./create-admin.component.css'],
   animations:[fadeInEffect]
 })
-export class CreateAdminComponent implements OnInit {
+export class CreateAdminComponent implements OnInit, AfterViewInit {
   userForm: FormGroup = new FormGroup({});
   userTypes: UserTypes[] = [];
   province: Province[] = [];
@@ -41,6 +41,11 @@ export class CreateAdminComponent implements OnInit {
     private confirmationService: ConfirmationService, private sharedService : SharedService) {
       
      }
+  ngAfterViewInit(): void {
+    this.userForm.controls['province'].disable();
+          this.userForm.controls['circle'].disable();
+          this.userForm.controls['district'].disable();
+  }
 
   ngOnInit(): void {
     this.initFormUserDetails({} as UserDetails);
@@ -93,6 +98,7 @@ export class CreateAdminComponent implements OnInit {
     this.getProvinceData();
     this.userTypeId = event.value;
     this.userTypeId == UserTypeEnum.CaseEntryOperator ? this.removeValidator() : this.addValidator();
+    this.isEditOrCaseEntryOperatorSelected = this.sharedService.isUserCaseEntryOperatorOrDuptyDirector() ? true : false;
     this.ProvinceCircleDistrictDDlVisibility(event.value);
   }
 
@@ -154,8 +160,8 @@ export class CreateAdminComponent implements OnInit {
       createdOn: new Date(),
       updatedOn: new Date(),
       provinceId: this.userForm.value.province,
-      circleId: this.userForm.value.circle ?? -1,
-      districtId: this.userForm.value.district ?? -1,
+      circleId: this.userForm.value.circle,
+      districtId: this.userForm.value.district,
       otp: 0
     }
 
@@ -221,7 +227,7 @@ export class CreateAdminComponent implements OnInit {
       address: [userDetails.address || '', Validators.required],
       isActive: [true]
     });
-
+    this.setDistrictOnAndDisableOtherControls();
   }
 
   editUserDetails = (userDetails: UserDetails) => {
@@ -300,6 +306,24 @@ export class CreateAdminComponent implements OnInit {
         this.saveAndUpdateTheData(userDetails);
       }
     })
+  }
+
+
+  setDistrictOnAndDisableOtherControls = () =>{
+    debugger;
+    
+      if(this.sharedService.isUserCaseEntryOperatorOrDuptyDirector()){
+        this.getDistrictData();
+        this.getCircleData();
+        this.getProvinceData();
+       this.userDetailsService.getUserDetailsByUserName(this.sharedService.getUserName()).subscribe((x)=>{
+        
+        this.userForm.controls['province'].setValue(x.provinceId);
+          this.userForm.controls['circle'].setValue(x.circleId);
+          this.userForm.controls['district'].setValue(x.districtId);
+         
+       })
+      }
   }
 
  // Remove the validator from the form control

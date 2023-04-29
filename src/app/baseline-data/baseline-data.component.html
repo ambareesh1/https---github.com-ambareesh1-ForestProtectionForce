@@ -54,7 +54,7 @@
                             *ngIf="formBaseline.get('ToolsUsed')?.invalid && formBaseline.get('ToolsUsed')?.dirty">Tools
                             Used is required.</small>
                     </div>
-                    <div class="field">
+                    <div class="field" *ngIf="isSuperAdmin">
                         <label for="CircleId" class="block">Province <span class="required-field">*</span></label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="jammu" value="1" [(ngModel)]="provinceId" name="province" (change)="onProvinceChanged($event)">

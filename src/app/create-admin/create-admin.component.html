@@ -14,7 +14,7 @@
                 </div>
                 <div class="field" [ngClass]="isProvinceRequired?'d-block':'d-none'">
                     <label for="userType_Name" class="block">Province<span class="required-field">*</span></label>
-                    <p-dropdown  [options]="province" [showClear]="true" class="offender-input-width" formControlName="province" optionLabel="name" optionValue="id"  (onChange)="onProvinceChange($event)"> </p-dropdown>
+                    <p-dropdown  [options]="province" [showClear]="true" class="offender-input-width" formControlName="province" optionLabel="name" optionValue="id"  (onChange)="onProvinceChange($event)" [readonly]="isEditOrCaseEntryOperatorSelected"> </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('province')?.invalid && userForm.get('province')?.dirty">
@@ -24,7 +24,7 @@
                 <div [ngClass]="isDistrictRequired?'d-block':'d-none'">
                 <div class="field" >
                     <label for="userType_Name" class="block">Circle <span class="required-field">*</span></label>
-                    <p-dropdown  [options]="circle" [showClear]="true" class="offender-input-width" formControlName="circle" optionLabel="name" optionValue="id"   (onChange)="onCircleChange($event)">  </p-dropdown>
+                    <p-dropdown  [options]="circle" [showClear]="true" class="offender-input-width" formControlName="circle" optionLabel="name" optionValue="id"   (onChange)="onCircleChange($event)" [readonly]="isEditOrCaseEntryOperatorSelected">  </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('circle')?.invalid && userForm.get('circle')?.dirty">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="field">
                     <label for="userType_Name" class="block">District<span class="required-field">*</span></label>
-                    <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id" > </p-dropdown>
+                    <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id" [readonly]="isEditOrCaseEntryOperatorSelected" > </p-dropdown>
                    
                     <small class="p-error block"
                         *ngIf="userForm.get('district')?.invalid && userForm.get('district')?.dirty">

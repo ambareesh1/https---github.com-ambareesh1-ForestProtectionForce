@@ -25,7 +25,7 @@ export class ManagedataService {
   }
 
   getProvinceByid = (id:any) =>{
-    return  this.http.get<Province>(this.baseUrl+'/Provinces/'+id+'');
+    return  this.http.get<Province>(this.baseUrl+'/Provinces/'+id);
   }
   getProvinceByName(name:any){
     return  this.http.get<Province>(this.baseUrl+'/Provinces/GetProvinceByName/?name='+name);

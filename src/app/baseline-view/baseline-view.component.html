@@ -22,84 +22,87 @@
             </div>
         </p-card>
     </div>
-    <div class="col-lg-4">
-        <p-card>
-            <div class="mb-2 text-start" *ngIf="baseline[0].status == 'Rejected'">
-                  <label>Reason for Rejection : </label>
-                  <label class="pl-2"><b>{{this.reasonForrejection}}</b>  </label> 
+    <div class="col-lg-8">
+        <div class="row">
+            <div>
+                <div class="mb-2 text-start" *ngIf="baseline[0].status == 'Rejected'">
+                    <label>Reason for Rejection : </label>
+                    <label class="pl-2"><b>{{this.reasonForrejection}}</b>  </label> 
+                </div>
+    
+              <div class="mb-2 text-end">
+                  <label
+                      [ngClass]="changeColorOnStatusOfBaselineView(baseline[0].status)"
+                      class="pl-2 text-bold customer-badge">{{baseline[0].status}}
+                  </label>
               </div>
-  
-            <div class="mb-2 text-end">
-             
-                <label
-                    [ngClass]="changeColorOnStatusOfBaselineView(baseline[0].status)"
-                    class="pl-2 text-bold customer-badge">{{baseline[0].status}}
-                </label>
-
             </div>
-
-            <div class="p-0">
-                <h5> <p-avatar icon="pi pi-map-marker" shape="circle" size="large"
-                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Crime Area </h5>
-            </div>
-            <hr>
-            <div class="mb-2">
-                <label class="text-bold">Circle Name : </label>
-                <label class="pl-2">{{baseline[0].circleName}}</label>
-            </div>
-
-            <div class="mb-2">
-                <label class="text-bold">Compartment Name : </label>
-                <label class="pl-2">{{baseline[0].compartmentName}}</label>
-            </div>
-            <div class="mb-2">
-                <label class="text-bold">Forest Division Name : </label>
-                <label class="pl-2">{{baseline[0].forestDivisionName}}</label>
-            </div>
-
-            <div class="mb-2">
-                <label class="text-bold">Forest Range Name : </label>
-                <label class="pl-2">{{baseline[0].forestRangeName}}</label>
-            </div>
-            <div class="mb-2">
-                <label class="text-bold">Police Station : </label>
-                <label class="pl-2">{{baseline[0].policeStation}}</label>
-            </div>
-       
-        </p-card>
+        <div class="col-lg-6">
+            <p-card>
+                <div class="p-0">
+                    <h5> <p-avatar icon="pi pi-map-marker" shape="circle" size="large"
+                            [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Crime Area </h5>
+                </div>
+                <hr>
+                <div class="mb-2">
+                    <label class="text-bold">Circle Name : </label>
+                    <label class="pl-2">{{baseline[0].circleName}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Compartment Name : </label>
+                    <label class="pl-2">{{baseline[0].compartmentName}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Forest Division Name : </label>
+                    <label class="pl-2">{{baseline[0].forestDivisionName}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Forest Range Name : </label>
+                    <label class="pl-2">{{baseline[0].forestRangeName}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Police Station : </label>
+                    <label class="pl-2">{{baseline[0].policeStation}}</label>
+                </div>
+           
+            </p-card>
+        </div>
+        <div class="col-lg-6">
+            <p-card>
+                <div class="p-0">
+                    <h5> <p-avatar icon="pi pi-list" shape="circle" size="large"
+                            [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Recoverd Item Details
+                    </h5>
+                </div>
+                <hr>
+                <div class="mb-2">
+                    <label class="text-bold">Item Description : </label>
+                    <label class="pl-2">{{baseline[0].itemDescription}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Quantity : </label>
+                    <label class="pl-2">{{baseline[0].quantity}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Species Detected : </label>
+                    <label class="pl-2">{{baseline[0].speciesDetected}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Tools Used : </label>
+                    <label class="pl-2">{{baseline[0].toolsUsed}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Weight : </label>
+                    <label class="pl-2">{{baseline[0].weight}}</label>
+                </div>
+            </p-card>
+        </div>
     </div>
-    <div class="col-lg-4">
-        <p-card>
-            <div class="p-0">
-                <h5> <p-avatar icon="pi pi-list" shape="circle" size="large"
-                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Recoverd Item Details
-                </h5>
-            </div>
-            <hr>
-            <div class="mb-2">
-                <label class="text-bold">Item Description : </label>
-                <label class="pl-2">{{baseline[0].itemDescription}}</label>
-            </div>
-
-            <div class="mb-2">
-                <label class="text-bold">Quantity : </label>
-                <label class="pl-2">{{baseline[0].quantity}}</label>
-            </div>
-            <div class="mb-2">
-                <label class="text-bold">Species Detected : </label>
-                <label class="pl-2">{{baseline[0].speciesDetected}}</label>
-            </div>
-
-            <div class="mb-2">
-                <label class="text-bold">Tools Used : </label>
-                <label class="pl-2">{{baseline[0].toolsUsed}}</label>
-            </div>
-
-            <div class="mb-2">
-                <label class="text-bold">Weight : </label>
-                <label class="pl-2">{{baseline[0].weight}}</label>
-            </div>
-        </p-card>
     </div>
 
 

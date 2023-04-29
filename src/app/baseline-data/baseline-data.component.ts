@@ -39,7 +39,6 @@ export class BaselineDataComponent implements OnInit {
   compartments: Compartment[] = [];
   units: any[] = [];
   provinceId : number = 1;
-  dummy : number = 1;
   provinceName : string = "";
   circleId : number = 0;
   circleName: string = "";
@@ -157,7 +156,7 @@ export class BaselineDataComponent implements OnInit {
     this.spinnerService.setLoading(false);
     this.manageDataService.getCircle().subscribe((data) => {
       let province = this.sharedServices.getProvinceForSuperAdminOrNormal();
-       data = province == 0 ? data : data.filter(x=>x.provinceId === province);
+       data = province == 0 || -1 ? data : data.filter(x=>x.provinceId === province);
       this.spinnerService.setLoading(false);
       data.unshift({
         id: -1, name: 'Select',
@@ -536,7 +535,11 @@ onSubmittedRejectedReason = () =>{
 
 onProvinceChanged = (event : any) =>{
   debugger;
- this.circles = this.circles.filter(x=>x.provinceId == this.dummy);
+  this.manageDataService.getCircle().subscribe((data) => {
+    this.provinceId = Number(event.target.value);
+    this.circles = data.filter(x=>x.provinceId == this.provinceId);
+  });
+
 }
 
 }
