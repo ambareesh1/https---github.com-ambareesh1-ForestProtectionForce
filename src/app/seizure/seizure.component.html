@@ -1,104 +1,362 @@
 <p-panel header="Seizure Forms">
+    <p-message *ngIf="isSuperAdminOfJammuOrKashmir && enableMessage" severity="warn"
+        text="Please select the district to view the seizure report" styleClass="mr-2"></p-message>
+    <p-card class="mb-2">
 
-    <p-card>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Select Form</label>
-                <p-dropdown [options]="formsTypes" class="offender-input-width" optionLabel="name" optionValue="code"></p-dropdown>
+                    <label for="name" class="block">Province</label>
+                    <p-dropdown [options]="provinceData" [(ngModel)]="provinceId" optionLabel="name" optionValue="id"
+                        (onChange)="onChangeProvince($event)"></p-dropdown>
                 </div>
-
             </div>
-            <div class="col-lg-6">
-                <div class="field col-12 md:col-4">
-                    <label for="icon">Select Month</label>
-                    <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)] = "value"  [showIcon]="true" inputId="icon"></p-calendar>
+            <div class="col-lg-4">
+                <div class="field">
+                    <label for="name" class="block">Circle</label>
+                    <p-dropdown [options]="circleData" [(ngModel)]="circleId" optionLabel="name" optionValue="id"
+                        (onChange)="onChangeCircle($event)"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="field">
+                    <label for="name" class="block">Forest District / Division</label>
+                    <p-dropdown [options]="districtData" [(ngModel)]="districtId" optionLabel="name" optionValue="id"
+                        (onChange)="onChangeDistrict($event)"></p-dropdown>
+
                 </div>
             </div>
         </div>
     </p-card>
-    <p-card header="Under Construction. Will be available soon">
+    <p-progressBar *ngIf="!showSeizureReport" mode="indeterminate"
+        [style]="{'height': '6px', 'background' : 'tomoato'}"></p-progressBar>
+
+    <p-card *ngIf="districtId > 0">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="field">
+                    <label for="ItemDescription" class="block">Select Form</label>
+                    <p-dropdown [options]="formsTypes" class="offender-input-width" [(ngModel)]=" formTypeValue"
+                        optionLabel="name" (onChange)="onChangeForm()" optionValue="code"></p-dropdown>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="field col-12 md:col-4">
+                    <label for="icon">Select Month</label>
+                    <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value"
+                        [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+            </div>
+        </div>
+    </p-card>
+
+    <div *ngIf="isSuperAdminOfJammuOrKashmir && districtId > 0 ">
+        <p-card *ngIf="formAVisibility">
+    
+            <p-table #dt [value]="formA" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                            pTooltip="CSV" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                            class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-filter"
+                            (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-editing="editing" let-ri="rowIndex">
+                    <tr>
+                        <th rowspan="2">S.No</th>
+                        <th rowspan="2"></th>
+                        <th colspan="3">Independent Seizure</th>
+                        <th colspan="3">Joint Seizure</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>O.B</th>
+                        <th>During the Month</th>
+                        <th>Total</th>
+                        <th>O.B</th>
+                        <th>During the Month</th>
+                        <th>Total</th>
+                        <th></th>
+    
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+                    <tr [pEditableRow]="seizure">
+                        <td hidden="true">{{ seizure.id }}</td>
+                        <td>{{ seizure.serialNo }}</td>
+                        <td><b>{{seizure.name}}</b></td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.ob_independent"
+                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.ob_independent}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.during_month_independent"
+                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.during_month_independent}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+    
+                        <td>{{ seizure.total_independent}}</td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.ob_joint"
+                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.ob_joint}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+    
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.during_month_joint"
+                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.during_month_joint}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>{{ seizure.total_joint}}</td>
+                        <td>
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                    (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                    (click)="onRowEditSave(seizure)"
+                                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                    (click)="onRowEditCancel(seizure, i)"
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+        <p-card  *ngIf="formBVisibility">
+            <p-table #dt [value]="formB" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                            pTooltip="CSV" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                            class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-filter"
+                            (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th rowspan="2">S. No</th>
+                        <th rowspan="2">Gamma Unit</th>
+                        <th rowspan="2">No. of Nakas Laid</th>
+                        <th rowspan="2">No. Of Patrollings Performed</th>
+                        <th rowspan="2">No. Of Jungle Gashts Performed</th>
+                        <th rowspan="2">No of JOP Reports Received</th>
+                        <th rowspan="2">No. Of Fire fighting Operations</th>
+                        <th colspan="2">No. Of Complaints</th>
+                        <th colspan="2">No. Of Requisitions</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Received </th>
+                        <th>Verified</th>
+                        <th>Made </th>
+                        <th>Attended</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+    
+                <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+                    <tr [pEditableRow]="seizure">
+                        <td hidden="true">{{ seizure.id }}</td>
+                        <td>{{ seizure.serialNo }}</td>
+                        <td><b>{{seizure.gamma_Unit}}</b></td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.nakas_Laid">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.nakas_Laid}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.patrollings_Performed">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.patrollings_Performed}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+    
+    
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.jungle_Gashts_Performed">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.jungle_Gashts_Performed}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.joP_Reports_Received">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.joP_Reports_Received}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.no_Of_Fire_Fighting_Operations">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.no_Of_Fire_Fighting_Operations}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.complaints_Received">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.complaints_Received}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.complaints_Verified">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.complaints_Verified}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.requisitions_Made">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.requisitions_Made}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.requisitions_Attended">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.requisitions_Attended}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                    (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                    (click)="onRowEditSave(seizure)"
+                                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                    (click)="onRowEditCancel(seizure, i)"
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+    
+        </p-card>
+    </div>
+    <p-card *ngIf="!showSeizureReport">
+        <div class="custom-skeleton p-4">
+            <ul class="m-0 o-0" style="list-style-type: none;">
+                <li class="mb-3">
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex">
+
+                        <div style="flex: 1">
+                            <p-skeleton width="75%" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="75%"></p-skeleton>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
     </p-card>
-    <p-card >
-        <p-table  #dt [value]="formA" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
-            <ng-template pTemplate="header" let-editing="editing" let-ri="rowIndex">
-              <tr >
-                <th rowspan="2">S.No</th>
-                <th rowspan="2"></th>
-                <th colspan="3">Independent Seizure</th>
-                <th colspan="3">Joint Seizure</th>
-                <th></th>
-              </tr>
-              <tr>
-                <th>O.B</th>
-                <th>During the Month</th>
-                <th>Total</th>
-                <th>O.B</th>
-                <th>During the Month</th>
-                <th>Total</th>
-                <th></th>
-               
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
-              <tr [pEditableRow]="seizure">
-                <td hidden="true">{{ seizure.id }}</td>
-                <td>{{ seizure.serialNo }}</td>
-                <td><b>{{seizure.name}}</b></td>
-                <td><p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="number" [(ngModel)]="seizure.ob_independent" (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        {{seizure.ob_independent}}
-                    </ng-template>
-                </p-cellEditor>
-            </td>
-            <td><p-cellEditor>
-                <ng-template pTemplate="input">
-                    <input pInputText type="number" [(ngModel)]="seizure.during_month_independent" (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
-                </ng-template>
-                <ng-template pTemplate="output">
-                    {{seizure.during_month_independent}}
-                </ng-template>
-            </p-cellEditor>
-        </td>
-              
-                <td>{{ seizure.total_independent}}</td>
-                <td><p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="number" [(ngModel)]="seizure.ob_joint" (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        {{seizure.ob_joint}}
-                    </ng-template>
-                </p-cellEditor>
-            </td>
-                
-            <td><p-cellEditor>
-                <ng-template pTemplate="input">
-                    <input pInputText type="number" [(ngModel)]="seizure.during_month_joint" (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
-                </ng-template>
-                <ng-template pTemplate="output">
-                    {{seizure.during_month_joint}}
-                </ng-template>
-            </p-cellEditor>
-        </td>
-                <td>{{ seizure.total_joint}}</td>
-                <td>
-                    <div class="flex align-items-center justify-content-center gap-2">
-                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(seizure)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(seizure, i)" class="p-button-rounded p-button-text p-button-danger"></button>
-                    </div>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-          
-        
-    </p-card>
+
 
 </p-panel>
 
