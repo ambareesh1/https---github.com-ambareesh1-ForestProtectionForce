@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import { Seizures_Form_A } from '../Models/Seizures_Form_A';
 import { Observable } from 'rxjs';
 import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
+import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Form_C';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,19 @@ updateFormB(id: number, formA: Seizure_GammaUni_FormB): Observable<any> {
 
  return this.http.put(this.baseUrl+'/Seizures/UpdateGammaUnitFromB'+id, formA);
 }
+
+// FORM C - Cases of Month
+CheckSeizureClreadyExistForDistrictAndMonth (id:any){
+  return  this.http.get<Seizure_CasesOfMonth_FormC[]>(this.baseUrl+'/Seizures/CheckSeizureClreadyExistForDistrictAndMonth/?id='+id);
+}
+
+createSeizureReport_C(formC: Seizure_CasesOfMonth_FormC): Observable<Seizure_CasesOfMonth_FormC> {
+  return this.http.post<Seizure_CasesOfMonth_FormC>(this.baseUrl+'/Seizures/PostCasesOfMonthFormC', formC);
+ } 
+ 
+ updateFormC(id: number, formC: Seizure_CasesOfMonth_FormC[]): Observable<any> {
+ 
+  return this.http.put(this.baseUrl+'/Seizures/UpdateCaseOfMonthFromC/?id='+id, formC);
+ }
 
 }

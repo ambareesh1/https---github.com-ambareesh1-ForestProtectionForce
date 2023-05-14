@@ -86,6 +86,7 @@ import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.component';
 import { OffenderViewComponent } from './offender-view/offender-view.component';
+import { SumPipe } from './pipes/sumPipe';
 
 
 
@@ -122,6 +123,7 @@ import { OffenderViewComponent } from './offender-view/offender-view.component';
     CreateAdminComponent,
     ManageUserTypesComponent,
     OffenderViewComponent,
+     SumPipe
   ],
   imports: [
     BrowserModule,

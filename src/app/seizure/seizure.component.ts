@@ -10,6 +10,9 @@ import { ManagedataService } from '../services/managedata.service';
 import { SharedService } from '../services/shared.service';
 import * as FileSaver from 'file-saver';
 import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
+import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Form_C';
+import {SumPipe} from '../pipes/sumPipe';
+
 
 
 @Component({
@@ -18,7 +21,6 @@ import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
   styleUrls: ['./seizure.component.css']
 })
 
-
 export class SeizureComponent implements OnInit {
 
   formsTypes:any = []
@@ -26,8 +28,11 @@ export class SeizureComponent implements OnInit {
   formTypeValue : any ;
   formA : Seizures_Form_A[] = [];
   formB : Seizure_GammaUni_FormB[] = [];
+  formC : any[] = [];
   editing : boolean = false;
   clonedProducts: { [s: string]: Seizures_Form_A } = {};
+  clonedFormB : {[s:string] : Seizure_GammaUni_FormB } = {};
+  clonedFormC: {[s: string]: Seizure_CasesOfMonth_FormC} = {};
   value: Date =  new Date();
   districtData : District[]=[];
   provinceData : Province[]=[];
@@ -51,6 +56,10 @@ export class SeizureComponent implements OnInit {
   cols: any[]=[];
 
   exportColumns_FormA: any[]=[];
+
+  //sum
+  totalOpeningBalance : any;
+  
 
   constructor( private seizureService : SeizureService, private messageService : MessageService,
      private manageDataService : ManagedataService, private sharedServices : SharedService ){
@@ -148,6 +157,16 @@ export class SeizureComponent implements OnInit {
       this.editing = true;
     }
 
+    onRowEditInitFormB = (formB : any) =>{
+      this.clonedFormB[formB.id] = {... formB};
+      
+  }
+
+    onRowEditInitFormC = (formC : any) =>{
+        this.clonedFormC[formC.id] = {... formC};
+        
+    }
+
     onRowEditSave = (formA :Seizures_Form_A) =>{
       console.log(formA);
   if (formA.id > 0) {
@@ -164,9 +183,74 @@ export class SeizureComponent implements OnInit {
         } 
         this.editing = !this.editing;
     }
+
+    onRowEditSaveFormB = (formB :Seizure_GammaUni_FormB) =>{
+ 
+  if (formB.id > 0) {
+           // delete this.clonedProducts[product.id];
+           this.seizureService.updateFormB(formB.id, formB).pipe(
+            catchError((error) => {
+              // Handle error
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+              return throwError(() => error);
+            })
+          ).subscribe((data)=>{
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data is updated' });
+           })
+        } 
+        this.editing = !this.editing;
+    }
+
+
+    onRowEditSaveFormC = (formCDetails : any)=>{
+      debugger;
+      let formcAdded : any[] = []; 
+  // adding the sum of two rows in database
+      this.formC[2].opening_Balance = this.formC[0].opening_Balance + this.formC[1].opening_Balance;
+      this.formC[2].total = this.formC[0].total + this.formC[1].total;
+      this.formC[2].balance = this.formC[0].balance + this.formC[1].balance;
+      this.formC[2].court = this.formC[0].court + this.formC[1].court;
+      this.formC[2].cases_Registered_Month = this.formC[0].cases_Registered_Month + this.formC[1].cases_Registered_Month
+      this.formC[2].disposed_Cases_Month = this.formC[0].disposed_Cases_Month + this.formC[1].disposed_Cases_Month;
+      this.formC[2].authorized_Officer_FD = this.formC[0].authorized_Officer_FD + this.formC[1].authorized_Officer_FD;
+      this.formC[2].under_Investigation = this.formC[0].under_Investigation + this.formC[1].under_Investigation;
+      this.formC[2].pccf = this.formC[0].pccf + this.formC[1].pccf;
+      this.formC[2].session_Court = this.formC[0].session_Court + this.formC[1].session_Court;
+      this.formC[2].high_Court = this.formC[0].high_Court + this.formC[1].high_Court;
+      this.formC[2].others = this.formC[0].others + this.formC[1].others
+      formcAdded.push(formCDetails);
+      formcAdded.push(this.formC[2]);
+  // adding to array
+       if(formCDetails.id > 0){
+        this.seizureService.updateFormC(formCDetails.id, this.formC).pipe(
+          catchError((error) => {
+            // Handle error
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+            return throwError(() => error);
+          })
+        ).subscribe((data)=>{
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data is updated' });
+         })
+       }
+    }
+
+
+
     onRowEditCancel = (formA :Seizures_Form_A, index: number) =>{
       this.formA[index] = this.clonedProducts[formA.id];
       delete this.clonedProducts[formA.id];
+      this.editing = !this.editing;
+    }
+
+    onRowEditCancelFormB = (formB :Seizure_GammaUni_FormB, index: number) =>{
+      this.formB[index] = this.clonedFormB[formB.id];
+      delete this.clonedFormB[formB.id];
+      this.editing = !this.editing;
+    }
+
+    onRowEditCancelFormC = (formC :Seizure_CasesOfMonth_FormC, index: number) =>{
+      this.formC[index] = this.clonedFormC[formC.id || 0];
+      delete this.clonedFormC[formC.id || 0];
       this.editing = !this.editing;
     }
 
@@ -233,13 +317,24 @@ export class SeizureComponent implements OnInit {
  if(this.formTypeValue == 1){
   this.formAVisibility = true;
   this.formBVisibility = false;
+  this.formCVisibility = false;
   return this.FormAExecution(this.districtId);
  }
  if(this.formTypeValue == 2){
   this.formAVisibility = false;
   this.formBVisibility = true;
+  this.formCVisibility = false;
   return this.FormBGammaUnit(this.districtId);
  }
+
+ if(this.formTypeValue == 3){
+  this.formAVisibility = false;
+  this.formBVisibility = false;
+  this.formCVisibility = true;
+
+  return this.FormCGammaUnit(this.districtId);
+ }
+
     }
 
     FormAExecution = (event : any) =>{
@@ -414,6 +509,80 @@ export class SeizureComponent implements OnInit {
 })
     }
 
+    FormCGammaUnit = (event:any)=>{
+      this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.formC = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: Seizure_CasesOfMonth_FormC = {
+            id: 0,
+            provinceId: this.provinceId,
+            districtId: this.districtId,
+            month: 0,
+            year: 0,
+            isActive: false,
+            lastUpdatedOn: new Date(),
+          };
+
+          this.seizureService.createSeizureReport_C(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.formC = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter here
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.formC = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
+
     exportedColumns_FormA = () =>{
      this.exportColumns_FormA = [
         { field: 'sno', header: 'S.No' },
@@ -467,11 +636,55 @@ export class SeizureComponent implements OnInit {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
 }
 
+exportExcelFormB(){
+  import('xlsx').then((xlsx) => {
+    debugger;
+    const worksheet = xlsx.utils.json_to_sheet(this.formB);
+  
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data']};
+    const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'Form_B_Seizure_Report');
+  });
+}
+
+exportExcelFormC(){
+  import('xlsx').then((xlsx) => {
+    debugger;
+    const worksheet = xlsx.utils.json_to_sheet(this.formC);
+  
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data']};
+    const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'Form_C_Seizure_Report');
+  });
+}
+
 changeVisibilityofSeizureReport = (formValue : number)=>{
 
  
   
 }
+getTotal(type: keyof Seizure_CasesOfMonth_FormC): number {
+  const total = this.formC.reduce((sum, item) => {
+    if (item[type] !== undefined) {
+      return sum + Number(item[type]);
+    }
+    return sum;
+  }, 0);
+  return total;
+}
+
+
+
+  getTotalOpeningBalance(): any {
+      const total = this.formC.reduce((sum, item) => sum + (item.opening_Balance || 0), 0);
+    return total;
+}
+
+getCasesRegistered():any {
+  const total = this.formC.reduce((sum, item) => sum + (item.cases_Registered_Month || 0), 0);
+    return total;
+}
+
 
 }
 

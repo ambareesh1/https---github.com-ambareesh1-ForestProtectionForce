@@ -90,9 +90,9 @@
                 <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
-                        <td>{{ seizure.serialNo }}</td>
+                        <td class="text-center">{{ seizure.serialNo }}</td>
                         <td><b>{{seizure.name}}</b></td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.ob_independent"
                                         (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
@@ -102,7 +102,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_independent"
                                         (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
@@ -113,8 +113,8 @@
                             </p-cellEditor>
                         </td>
     
-                        <td>{{ seizure.total_independent}}</td>
-                        <td><p-cellEditor>
+                        <td class="text-center">{{ seizure.total_independent}}</td>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.ob_joint"
                                         (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
@@ -125,7 +125,7 @@
                             </p-cellEditor>
                         </td>
     
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_joint"
                                         (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
@@ -135,7 +135,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td>{{ seizure.total_joint}}</td>
+                        <td class="text-center">{{ seizure.total_joint}}</td>
                         <td>
                             <div class="flex align-items-center justify-content-center gap-2">
                                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
@@ -158,7 +158,7 @@
                     <div class="flex">
                         <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                             pTooltip="CSV" tooltipPosition="bottom"></button>
-                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormB()"
                             class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
                             class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
@@ -192,9 +192,9 @@
                 <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
-                        <td>{{ seizure.serialNo }}</td>
-                        <td><b>{{seizure.gamma_Unit}}</b></td>
-                        <td><p-cellEditor>
+                        <td class="text-center">{{ seizure.serialNo }}</td>
+                        <td class="text-center"><b>{{seizure.gamma_Unit}}</b></td>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.nakas_Laid">
                                 </ng-template>
@@ -203,7 +203,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.patrollings_Performed">
                                 </ng-template>
@@ -214,7 +214,7 @@
                         </td>
     
     
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.jungle_Gashts_Performed">
                                 </ng-template>
@@ -223,7 +223,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.joP_Reports_Received">
                                 </ng-template>
@@ -232,7 +232,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.no_Of_Fire_Fighting_Operations">
                                 </ng-template>
@@ -241,7 +241,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.complaints_Received">
                                 </ng-template>
@@ -250,7 +250,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.complaints_Verified">
                                 </ng-template>
@@ -259,7 +259,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.requisitions_Made">
                                 </ng-template>
@@ -268,7 +268,7 @@
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td><p-cellEditor>
+                        <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.requisitions_Attended">
                                 </ng-template>
@@ -280,12 +280,12 @@
                         <td>
                             <div class="flex align-items-center justify-content-center gap-2">
                                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                                    (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                                    (click)="onRowEditInitFormB(seizure)" class="p-button-rounded p-button-text"></button>
                                 <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                                    (click)="onRowEditSave(seizure)"
+                                    (click)="onRowEditSaveFormB(seizure)"
                                     class="p-button-rounded p-button-text p-button-success mr-2"></button>
                                 <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                                    (click)="onRowEditCancel(seizure, i)"
+                                    (click)="onRowEditCancelFormB(seizure, i)"
                                     class="p-button-rounded p-button-text p-button-danger"></button>
                             </div>
                         </td>
@@ -293,6 +293,176 @@
                 </ng-template>
             </p-table>
     
+        </p-card>
+
+        <p-card *ngIf="formCVisibility">
+    
+            <p-table #dt [value]="formC" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                            pTooltip="CSV" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormC()"
+                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                            class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-filter"
+                            (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th rowspan="2">S.No</th>
+                      <th rowspan="2">Gamma Unit K-06</th>
+                      <th rowspan="2">Opening Balance as on 1st day of each month</th>
+                      <th rowspan="2">Cases Registered During the Month</th>
+                      <th rowspan="2">Total</th>
+                      <th rowspan="2">Case Disposed off During the Month</th>
+                      <th rowspan="2">Balance</th>
+                      <th class="text-center" colspan="7">Status of Pendency Cases</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <th class="text-center" colspan="3">Pendency of Registered Cases</th>
+                      <th class="text-center" colspan="4">Pendency of Appeals</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                     <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                      <th >Authorized officer Kamraj F.D</th>
+                      <th>Session Court / CJM</th>
+                      <th>Under Investigation</th>
+                      <th>PCCF</th>
+                      <th>Sessions Court</th>
+                      <th>High Court</th>
+                      <th>Others</th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+                    
+                    <tr [pEditableRow]="seizure">
+                        <td hidden="true">{{ seizure.id }}</td>
+                        <td >{{ seizure.sno }}</td>
+                        <td class="fw-bold">{{seizure.gamma_Unit}}</td>
+                        <td class="text-center"><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.opening_Balance"
+                                        (ngModelChange)="seizure.total = (seizure.opening_Balance ) + (seizure.cases_Registered_Month )">
+                                </ng-template>
+                           
+                                <ng-template pTemplate="output">
+                                    {{ seizure.gamma_Unit !== 'Total' ? seizure.opening_Balance : formC[0].opening_Balance + formC[1].opening_Balance }}
+                                  </ng-template>
+                                  
+                            </p-cellEditor>
+                        </td>
+                        <td class="text-center"><p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="seizure.cases_Registered_Month"
+                                        (ngModelChange)="seizure.total = (seizure.opening_Balance ) + (seizure.cases_Registered_Month )">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{seizure.gamma_Unit != 'Total' ? seizure.cases_Registered_Month : formC[0].cases_Registered_Month + formC[1].cases_Registered_Month }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+    
+                        <td class="text-center">  {{seizure.gamma_Unit != 'Total' ? seizure.total : formC[0].total + formC[1].total }}</td>
+                        <td class="text-center"><p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="seizure.disposed_Cases_Month"
+                                (ngModelChange)="seizure.balance = (seizure.total ) - (seizure.disposed_Cases_Month )" >
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{seizure.gamma_Unit != 'Total' ? seizure.disposed_Cases_Month : formC[0].disposed_Cases_Month + formC[1].disposed_Cases_Month}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                        <td class="text-center">
+                             {{ seizure.gamma_Unit != 'Total' ? seizure.balance : formC[0].balance + formC[1].balance }}
+                               
+                        </td>
+                        <td class="text-center"><p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="number" [(ngModel)]="seizure.authorized_Officer_FD"
+                                    (ngModelChange)="seizure.authorized_Officer_FD = seizure.balance ">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{seizure.gamma_Unit != 'Total' ? seizure.authorized_Officer_FD : formC[0].authorized_Officer_FD + formC[1].authorized_Officer_FD}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td class="text-center"><p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="number" [(ngModel)]="seizure.court">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{seizure.gamma_Unit != 'Total' ? seizure.court : formC[0].court + formC[1].court}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="seizure.under_Investigation">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.gamma_Unit != 'Total' ? seizure.under_Investigation : formC[0].under_Investigation + formC[1].under_Investigation}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="number" [(ngModel)]="seizure.pccf">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{ seizure.gamma_Unit != 'Total' ? seizure.pccf : formC[0].pccf + formC[1].pccf}}
+                </ng-template>
+            </p-cellEditor>
+        </td>     
+        <td class="text-center"><p-cellEditor>
+            <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="seizure.session_Court">
+            </ng-template>
+            <ng-template pTemplate="output">
+                {{ seizure.gamma_Unit != 'Total' ? seizure.session_Court : formC[0].session_Court + formC[1].session_Court}}
+            </ng-template>
+        </p-cellEditor>
+    </td>
+        <td class="text-center"><p-cellEditor>
+            <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="seizure.high_Court">
+            </ng-template>
+            <ng-template pTemplate="output">
+                {{seizure.gamma_Unit != 'Total' ? seizure.high_Court : formC[0].high_Court + formC[1].high_Court}}
+            </ng-template>
+        </p-cellEditor>
+    </td> 
+    <td class="text-center"><p-cellEditor>
+        <ng-template pTemplate="input">
+            <input pInputText type="number" [(ngModel)]="seizure.others">
+        </ng-template>
+        <ng-template pTemplate="output">
+            {{seizure.gamma_Unit != 'Total' ? seizure.others : formC[0].others + formC[1].others}}
+        </ng-template>
+    </p-cellEditor>
+</td> 
+                        <td >
+                            <div *ngIf="seizure.gamma_Unit != 'Total'" class="flex align-items-center justify-content-center gap-2">
+                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                                    (click)="onRowEditInitFormC(seizure)" class="p-button-rounded p-button-text"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                                    (click)="onRowEditSaveFormC(seizure)"
+                                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                                    (click)="onRowEditCancelFormC(seizure, i)"
+                                    class="p-button-rounded p-button-text p-button-danger"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-card>
     </div>
     <p-card *ngIf="!showSeizureReport">
