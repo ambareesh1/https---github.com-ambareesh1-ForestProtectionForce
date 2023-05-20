@@ -96,7 +96,7 @@ debugger;
           email: this.userForm.value.email,
           alternativeemail: this.superadminDetails[0].alternativeemail,
           mobile: this.userForm.value.mobile,
-          province: this.userForm.value.province,
+          province: this.userForm.value.province == null ? this.sharedServices.getProvinceForSuperAdminOrNormal() : this.userForm.value.province,
           ipaddress: '10.10.10',
           name: 'superadmin',
           roleId: 0,

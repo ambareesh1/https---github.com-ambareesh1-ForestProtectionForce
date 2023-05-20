@@ -464,6 +464,102 @@
                 </ng-template>
             </p-table>
         </p-card>
+     
+         <p-card *ngIf="manAnimalConflictVisibility">
+            
+            <p-table #dt [value]="manAnimalConflict" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                            pTooltip="CSV" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormC()"
+                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                            class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-filter"
+                            (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th >S.No</th>
+                      <th >Name of Gamma Unit</th>
+                      <th >Place Of Occurence</th>
+                      <th >No Of FPF Personnel Deployed</th>
+                      <th >Remarks</th>
+                      
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+                    {{seizure}}
+                    <tr [pEditableRow]="seizure">
+                        <td hidden="true">{{ seizure.id }}</td>
+                        <td >{{ seizure.sNo }}</td>
+                        <td class="text-center"><p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="seizure.nameOfGammaUnit">
+                            </ng-template>
+                       
+                            <ng-template pTemplate="output">
+                                {{seizure.nameOfGammaUnit }}
+                              </ng-template>
+                              
+                        </p-cellEditor>
+                    </td>
+                    <td class="text-center"><p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="seizure.placeOfOccurrence">
+                        </ng-template>
+                   
+                        <ng-template pTemplate="output">
+                            {{seizure.placeOfOccurrence }}
+                          </ng-template>
+                          
+                    </p-cellEditor>
+                </td>
+                <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="seizure.noOfFPFPersonnelDeployed">
+                    </ng-template>
+               
+                    <ng-template pTemplate="output">
+                        {{seizure.noOfFPFPersonnelDeployed }}
+                      </ng-template>
+                      
+                </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.remarks">
+                </ng-template>
+           
+                <ng-template pTemplate="output">
+                    {{seizure.remarks }}
+                  </ng-template>
+                  
+            </p-cellEditor>
+        </td>
+        <td >
+            <div *ngIf="seizure.gamma_Unit != 'Total'" class="flex align-items-center justify-content-center gap-2">
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                    (click)="onRowEditInitFormC(seizure)" class="p-button-rounded p-button-text"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSaveFormC(seizure)"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancelFormC(seizure, i)"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+            </div>
+        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+         </p-card>
+
+
     </div>
     <p-card *ngIf="!showSeizureReport">
         <div class="custom-skeleton p-4">

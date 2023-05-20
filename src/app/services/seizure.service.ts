@@ -5,6 +5,7 @@ import { Seizures_Form_A } from '../Models/Seizures_Form_A';
 import { Observable } from 'rxjs';
 import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
 import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Form_C';
+import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,21 @@ createSeizureReport_C(formC: Seizure_CasesOfMonth_FormC): Observable<Seizure_Cas
  updateFormC(id: number, formC: Seizure_CasesOfMonth_FormC[]): Observable<any> {
  
   return this.http.put(this.baseUrl+'/Seizures/UpdateCaseOfMonthFromC/?id='+id, formC);
+ }
+
+ // Man Animal Conflict 
+ 
+ CheckManAnimalConflictAlreadyExistForDistrictAndMonth (id:any){
+  return  this.http.get<SeizureManAnimalConflict[]>(this.baseUrl+'/Seizures/CheckManAnimalConflictAlreadyExistForDistrictAndMonth/?id='+id);
+}
+
+createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable<SeizureManAnimalConflict> {
+  return this.http.post<SeizureManAnimalConflict>(this.baseUrl+'/Seizures/PostCasesOfMonthManAnimalConflict', manAnimalConflict);
+ } 
+ 
+ updateManAnimal(id: number, manAnimalConflict: Seizure_CasesOfMonth_FormC[]): Observable<any> {
+ 
+  return this.http.put(this.baseUrl+'/Seizures/UpdateCaseOfMonthFromC/?id='+id, manAnimalConflict);
  }
 
 }

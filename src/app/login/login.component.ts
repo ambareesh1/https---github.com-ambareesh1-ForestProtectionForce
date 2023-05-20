@@ -90,12 +90,13 @@ export class LoginComponent implements OnInit {
         let superadmin = this.setSuperAdminData(data);
         localStorage.setItem('userDetails', JSON.stringify(superadmin));
         localStorage.setItem('isLoggedIn', 'true');
-        this.router.navigate(['/TwoWayAuthentication']);
-        // if(environment.otpFlag){
-        //   this.router.navigate(['/TwoWayAuthentication']);
-        // }else{
-        //   this.router.navigate(['/dashboard']);
-        // }
+       
+        if(environment.otpFlag){
+          this.router.navigate(['/TwoWayAuthentication']);
+        }else{
+          this.authService.login();
+          this.router.navigate(['/dashboard']);
+        }
       } else {
         if (data.isActive == true) {
           let user: User = {
@@ -114,13 +115,13 @@ export class LoginComponent implements OnInit {
           };
           localStorage.setItem('userDetails', JSON.stringify(user));
           localStorage.setItem('isLoggedIn', 'true');
-          this.router.navigate(['/TwoWayAuthentication']);
-          // if(environment.otpFlag){
-          //   this.router.navigate(['/TwoWayAuthentication']);
-          // }else{
-          //   this.authService.login();
-          //   this.router.navigate(["/dashboard"]);
-          // }
+          
+          if(environment.otpFlag){
+            this.router.navigate(['/TwoWayAuthentication']);
+          }else{
+            this.authService.login();
+            this.router.navigate(["/dashboard"]);
+          }
          
         }
         else {

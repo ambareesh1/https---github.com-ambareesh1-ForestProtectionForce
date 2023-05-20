@@ -162,8 +162,8 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       createdOn: new Date(),
       updatedOn: new Date(),
       provinceId: this.userForm.value.province,
-      circleId: this.userForm.value.circle,
-      districtId: this.userForm.value.district,
+      circleId: this.userForm.value.circle ,
+      districtId: this.userForm.value.district == null ? this.sharedService.getDistrictId() : this.userForm.value.district,
       otp: 0
     }
 
@@ -351,7 +351,7 @@ addValidator() {
    
 
   onReset = () => {
-    this.initFormUserDetails({} as UserDetails);
+   
     this.isDistrictRequired = false;
     this.isProvinceRequired = false;
     this.isEdit = false;
