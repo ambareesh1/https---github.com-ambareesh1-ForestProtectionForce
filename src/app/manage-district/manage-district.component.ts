@@ -8,6 +8,7 @@ import { Circle, CircleView, District, Province } from '../Models/ManageDataMode
 import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
 import { districtValidator } from '../custom-validators/customvalidators';
+import { Observable, forkJoin } from 'rxjs';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ManageDistrictComponent {
   provinceData : Province[] = [];
   submitted: boolean = true;
   search : any = "";
-
+  isDataLoaded : boolean = false;
  formDistrict: FormGroup =new FormGroup({});
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
@@ -35,12 +36,28 @@ export class ManageDistrictComponent {
      }
 
  ngOnInit() {
-   this.getDistrictData();
-   //this.getCircleData();
-   this.getProvinceData();
+
+  const sources$: Observable<any>[] = [
+    this.getDistrictData(),
+    this.getProvinceData()
+  ];
+  forkJoin(sources$).subscribe((data: any[]) => {
+    debugger;
+    this.district = data[0];
+     data[1].unshift({
+      id: -1,
+      name: 'Select',
+      isActive: false,
+    });
+    this.provinceData = data;
+    this.provinceData = data[1];
+    this.isDataLoaded = true;
+    this.initForm();
+  });
  }
+
  initForm(district: District = {} as District){
-  
+  debugger;
    this.formDistrict = this.fb.group({
     districtName: [district.name || '', Validators.required, [districtValidator(this.manageDataService)]],
     circle : [district.circleId || ''],
@@ -49,9 +66,7 @@ export class ManageDistrictComponent {
 }
 
 getDistrictData(){
- this.manageDataService.getDistrict().subscribe((data)=>{
-   this.district = data;
- })
+ return this.manageDataService.getDistrict();
 }
 
 getCircleData = () => {
@@ -68,15 +83,7 @@ getCircleData = () => {
 }
 
 getProvinceData = () =>{
-  this.manageDataService.getProvince().subscribe((data) =>{
-    data.unshift({
-      id: -1,
-      name: 'Select',
-      isActive: false,
-    });
-    this.provinceData = data;
-    this.initForm();
-   });
+  return this.manageDataService.getProvince();
 }
 
 onSubmitDistrict() {
@@ -94,7 +101,9 @@ onSubmitDistrict() {
     if(x){
      let districtAddmsg = "district "+this.formDistrict.value.districtName+ " saved"
      this.messageService.add({severity:'success', summary: 'Successful', detail: districtAddmsg, life: 5000});
-     this.getDistrictData();
+     this.getDistrictData().subscribe(x =>{
+      this.district = x;
+     });
      this.formDistrict.reset();
     }
    })
@@ -105,7 +114,9 @@ onSubmitDistrict() {
          let provinceAddmsg = "District  "+this.formDistrict.value.districtName+ " updated"
          this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
          this.formDistrict.reset();
-         this.getProvinceData();
+         this.getDistrictData().subscribe(x =>{
+          this.district = x;
+         });
         this.districtDataOnEdit = {} as District;
        })
   }

@@ -3,12 +3,12 @@
 <div class="grid">
     <div class="col-8 p-3">
         <p-card header="{{btnTitle}} District/Division" styleClass="p-fluid">
-            <form *ngIf="formDistrict"  [formGroup]="formDistrict"  (ngSubmit)="onSubmitDistrict()">
+            <form *ngIf="formDistrict && isDataLoaded"  [formGroup]="formDistrict"  (ngSubmit)="onSubmitDistrict()">
                 <div class="formgrid">
          
                     <div class="field">
-                        <label for="DistrictName">District Name</label>
-                        <input id="DistrictName" pInputText mode="text" formControlName="districtName" />
+                        <label for="districtName">District Name</label>
+                        <input id="districtName" pInputText mode="text" formControlName="districtName" />
                         <small class="p-error block"
                             *ngIf="formDistrict.get('districtName')?.invalid && formDistrict.get('districtName')?.dirty"> District is
                             required.</small>

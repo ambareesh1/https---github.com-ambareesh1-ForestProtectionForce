@@ -39,6 +39,7 @@ export class NavbarComponent {
     });
     console.log(this.isUserLoggedIn)
     if (this.isUserLoggedIn) {
+      debugger;
       let details = this.sharedService.getUserDetails()
       this.name = details.name;
       this.userName = details.username;
@@ -102,7 +103,6 @@ export class NavbarComponent {
 
   logout() {
     this.isUserLoggedIn = false;
- 
     this.authService.logout();
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.clear();
