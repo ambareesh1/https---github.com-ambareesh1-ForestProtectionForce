@@ -81,7 +81,7 @@ updateDistrict(id: number, district: District): Observable<any>{
 }
 
 getDistricteByid = (id:any) =>{
-  return  this.http.get<DistrictView>(this.baseUrl+'/Districts/'+id+'');
+  return  this.http.get<DistrictView>(this.baseUrl+'/Districts/'+id);
 }
 createDistrict(district: District): Observable<District> {
 

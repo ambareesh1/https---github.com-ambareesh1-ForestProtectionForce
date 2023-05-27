@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { AuthServiceService } from '../services/auth-service.service';
@@ -7,6 +8,7 @@ import { UserDetailService } from '../services/user-detail.service';
 import { ManagedataService } from '../services/managedata.service';
 import { UserTypeService } from '../services/user-type.service';
 import {moveFromRightToLeftAnimation} from '../animations/custom-animations';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -33,55 +35,58 @@ export class NavbarComponent {
           
     }
 
-  ngOnInit() {
-     this.authService.isLoggedIn$.subscribe((value)=>{
-      this.isUserLoggedIn=localStorage.getItem('isLoggedIn')
-    });
-    console.log(this.isUserLoggedIn)
-    if (this.isUserLoggedIn) {
-      debugger;
-      let details = this.sharedService.getUserDetails()
-      this.name = details.name;
-      this.userName = details.username;
-      if (this.notASuperAdminOfAnyProvince()) {
-        this.userDetailsService.getUserDetailsByUserName(this.userName).subscribe((x) => {
-          debugger;
-          if (this.isOnlyDistrictVisibility) {
-            this.getDistrictName(x);
-          } else {
-            this.getProvinceName(x);
+    async ngOnInit() {
+      this.authService.isLoggedIn$.subscribe(async (value) => {
+        this.isUserLoggedIn = localStorage.getItem('isLoggedIn');
+        this.isOnlyDistrictVisibility = this.sharedService.isCaseEntryOperator() || this.sharedService.isDuptyDirector();
+        if (this.isUserLoggedIn) {
+          let details = this.sharedService.getUserDetails();
+          this.name = details.name;
+          this.userName = details.username;
+          this.userType = details.roleName;
+          //is Superadmin of jammu & kashmir
+          if (this.sharedService.isSuperAdminOrJammuOrKashmir()) {
+            this.setProvinceAndUserTypeForSuperadmin();
+          }else{
+            //if user is not super admin but deputy director or case entry operator
+            let x = await this.userDetailsService.getUserDetailsByUserName(this.userName).toPromise();
+            if (this.isOnlyDistrictVisibility) {
+              (await this.getDistrictName(x)).subscribe((district)=>{
+                  this.districtName = district.name;
+              })
+            } else {
+               //if user is only director
+              (await this.getProvinceName(x)).subscribe((province)=>{
+                this.provisionName = province.name;
+              });
+            }
+            (await this.getUserTypes(x)).subscribe((usertype)=>{
+              this.userType = usertype.name;
+            });
           }
-          this.getUserTypes(x);
-        })
-      }else {
-        this.setProvinceAndUserTypeForSuperadmin();
-      }
-    }else{
-      this.userName = '';
+        } else {
+          this.userName = '';
+        }
+      });
     }
 
+  async getUserDetailsByUserName(username: string) {
+    // Example implementation using `of` to return the user details as an Observable
+    const userDetails = this.userDetailsService.getUserDetailsByUserName(username);
+    return of(userDetails);
   }
-
-  getDistrictName (userDetails: any) {
-    this.manageDataService.getDistricteByid(userDetails.districtId).subscribe((y)=>{
-      this.districtName = y.name;
-    })
+  async getDistrictName(userDetails: any) {
+   return  this.manageDataService.getDistricteByid(userDetails.districtId);
   }
-
-  getProvinceName(userDetails:any) {
+  
+  async getProvinceName(userDetails: any) {
     debugger;
-      this.manageDataService.getProvinceByid(userDetails.provinceId).subscribe((z)=>{
-        this.provisionName = z.name;
-      })
-      if(userDetails.userType_Id == 1){
-        this.provisionName = "Jammu & Kashmir";
-      }
+   return  this.manageDataService.getProvinceByid(userDetails.provinceId);
+  
   }
 
-  getUserTypes(userDetails:any){
-    this.userTypeService.getUserTypesById(userDetails.userType_Id).subscribe((x)=>{
-      this.userType = x.name;
-    })
+  async getUserTypes(userDetails:any){
+    return   this.userTypeService.getUserTypesById(userDetails.userType_Id);
   }
 
   notASuperAdminOfAnyProvince = () =>{

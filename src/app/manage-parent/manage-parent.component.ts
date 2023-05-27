@@ -40,6 +40,7 @@ export class ManageParentComponent {
 
   
   refreshChildComponents(event:any) {
+    debugger;
     if(this.isTabOpen){
     let componentFactory;
     switch (event.target.textContent.trim()) {
@@ -53,7 +54,7 @@ export class ManageParentComponent {
         this.circleContainer.clear();
         const circleComponentRef = this.circleContainer.createComponent(componentFactory);
         break;
-      case 'Manage Forest District/ Division':
+      case 'Manage Forest Gamma Unit':
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageDistrictComponent);
         this.districtContainer.clear();
         const districtComponentRef = this.districtContainer.createComponent(componentFactory);
@@ -77,7 +78,7 @@ export class ManageParentComponent {
         break;
     }
   }
-  this.isTabOpen = !this.isTabOpen;
+ // this.isTabOpen = !this.isTabOpen;
   }
 
   refreshChildComponentss(event:any) {

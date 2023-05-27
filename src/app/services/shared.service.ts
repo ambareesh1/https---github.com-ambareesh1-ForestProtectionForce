@@ -24,35 +24,35 @@ export class SharedService {
   }
 
   isUserCaseEntryOperatorOrDuptyDirector(){
-    return (this.userTypeId == UserTypeEnum.CaseEntryOperator || this.userTypeId == UserTypeEnum.DeputyDirector);
+    return (this.getUserTypeFromLocalStorage() == UserTypeEnum.CaseEntryOperator || this.getUserTypeFromLocalStorage == UserTypeEnum.DeputyDirector);
   }
 
   isDirector() {
-    return  this.userTypeId == UserTypeEnum.Director;
+    return  this.getUserTypeFromLocalStorage() == UserTypeEnum.Director;
   }
 
   isJointDirector= () =>{
-    return this.userTypeId == UserTypeEnum.JointDirector;
+    return this.getUserTypeFromLocalStorage() == UserTypeEnum.JointDirector;
   }
 
   isDuptyDirector(){
-    return  this.userTypeId == UserTypeEnum.DeputyDirector;
+    return  this.getUserTypeFromLocalStorage() == UserTypeEnum.DeputyDirector;
   }
 
   isCaseEntryOperator = () =>{
-    return this.userTypeId == UserTypeEnum.CaseEntryOperator;
+    return this.getUserTypeFromLocalStorage() == UserTypeEnum.CaseEntryOperator;
   }
 
   isSuperAdmin()  {
-     return this.userName === 'superadmin';
+     return this.getUserNameFromLocalStorage() === 'superadmin';
   }
 
   isSuperAdminOfJammu() {
-    return this.userName === 'superadmin_jammu';
+    return this.getUserNameFromLocalStorage() === 'superadmin_jammu';
   }
 
   isSuperAdminOfKashmir(){
-    return this.userName === 'superadmin_kashmir';
+    return this.getUserNameFromLocalStorage() === 'superadmin_kashmir';
   }
 
   isSuperAdminOrJammuOrKashmir = () =>{
@@ -117,6 +117,14 @@ export class SharedService {
 
   reportsAuth = () =>{
     return this.isSuperAdminOrJammuOrKashmir() || this.isDuptyDirector() || this.isDirector() || this.isJointDirector() 
+  }
+
+  getUserNameFromLocalStorage : any = () =>{
+    return  this.getUserDetails().username;
+  }
+
+  getUserTypeFromLocalStorage :any = () =>{
+   return  this.getUserDetails().roleId;
   }
 
 }

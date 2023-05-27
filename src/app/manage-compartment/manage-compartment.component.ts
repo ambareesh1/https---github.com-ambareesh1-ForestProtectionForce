@@ -177,13 +177,14 @@ refreshCompartmentData = () =>{
  
  onChangeProvince = (event:any)=>{
   this.manageDataService.getCircle().subscribe((data)=>{
+   
+    data= data.filter(x=>x.provinceId == event.value);
     data.unshift({
       id: -1, name: 'Select',
       isActive: false,
       province: { id: -1, name: "", isActive: true },
       provinceId: 0
     });
-    data= data.filter(x=>x.provinceId == event.value);
      this.circleData = data;
    })
  }
