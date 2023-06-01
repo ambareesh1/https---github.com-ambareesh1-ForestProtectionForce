@@ -15,6 +15,7 @@ import {SumPipe} from '../pipes/sumPipe';
 import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
 import { ForestFire } from '../Models/ForestFire';
 import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
+import { ForestOffenderModal } from '../Models/HebitualForestOffender';
 
 
 
@@ -35,6 +36,7 @@ export class SeizureComponent implements OnInit {
   forestFire : any[] = [];
   complaints : any [] = [];
   manAnimalConflict : any[] = [];
+  forestOffenders : any[] = [];
   editing : boolean = false;
   clonedProducts: { [s: string]: Seizures_Form_A } = {};
   clonedFormB : {[s:string] : Seizure_GammaUni_FormB } = {};
@@ -59,6 +61,7 @@ export class SeizureComponent implements OnInit {
   manAnimalConflictVisibility : boolean = false;
   fireIncident : boolean = false;
   complaintsRegistered : boolean = false;
+  forestOffendersVisibility = false;
   
   //form A 
 
@@ -79,7 +82,8 @@ export class SeizureComponent implements OnInit {
       {name: 'Form C', code: 3},
       {name: 'Man Animal Conflict Activity', code: 4},
       {name: 'Fire Incident Cases', code: 5},
-      {name: 'Complaints Registered', code: 6}
+      {name: 'Complaints Registered', code: 6},
+      {name: 'Habitual Forest Offenders Register', code: 7}
   ];
 
    
@@ -364,6 +368,7 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
+  this.forestOffendersVisibility = false;
   return this.FormAExecution(this.districtId);
  }
  if(this.formTypeValue == 2){
@@ -373,6 +378,7 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
+  this.forestOffendersVisibility = false;
   return this.FormBGammaUnit(this.districtId);
  }
 
@@ -383,6 +389,7 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
+  this.forestOffendersVisibility = false;
   return this.FormCGammaUnit(this.districtId);
  }
 
@@ -393,6 +400,7 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = true;
   this.fireIncident = false;
   this.complaintsRegistered = false;
+  this.forestOffendersVisibility = false;
   return this.FormManAnimalConflict(this.districtId);
  }
 
@@ -403,6 +411,7 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = false;
   this.fireIncident = true;
   this.complaintsRegistered = false;
+  this.forestOffendersVisibility = false;
   return this.FormFireIncident(this.districtId);
  }
 
@@ -413,10 +422,21 @@ export class SeizureComponent implements OnInit {
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = true;
+  this.forestOffendersVisibility = false;
   return this.FormComplaintsRegistered(this.districtId);
  }
 
+ if(this.formTypeValue == 7){
+  this.formAVisibility = false;
+  this.formBVisibility = false;
+  this.formCVisibility = false;
+  this.manAnimalConflictVisibility = false;
+  this.fireIncident = false;
+  this.complaintsRegistered = false;
+  this.forestOffendersVisibility = true;
+  return this.FormForestOffendersRegistered(this.districtId);
     }
+  }
 
     FormAExecution = (event : any) =>{
       this.seizureService.getStatusOfFormAAlreadyCreated(event).subscribe(data =>{
@@ -890,6 +910,88 @@ export class SeizureComponent implements OnInit {
           .subscribe((data:any)=>{
          if(data){
            this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.complaints = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
+    FormForestOffendersRegistered = (event:any) =>{
+      this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.forestOffenders = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: ForestOffenderModal = {
+            Id: 0,
+            Sno: 1,
+            ActiveDormant : "",
+            AreaOfOperations :"",
+            CasesRegistered : 0,
+            CasesStatus : "",
+            ModusOperandi : "",
+            NameOfForestOffender :"",
+            ProvinceId: this.provinceId,
+            DistrictId: this.districtId,
+            Month: this.value.getMonth()+1,
+            Year: this.value.getFullYear(),
+            DateOfInsertion: new Date(),
+            IsActive: true,
+            LastUpdatedOn: new Date(),
+            UpdatedBy: ''
+          };
+
+          this.seizureService.createForestOffendersRegistered(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.complaints = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter here
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.complaints = data;

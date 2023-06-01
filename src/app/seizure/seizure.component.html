@@ -569,14 +569,19 @@
             </div>
          </p-card>
        
-         <p-card header="Fire Incident Cases">
-            <app-forest-fire-seizure *ngIf="fireIncident" [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId">
+         <p-card *ngIf="fireIncident" header="Fire Incident Cases">
+            <app-forest-fire-seizure  [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId">
             </app-forest-fire-seizure>
          </p-card>
 
-         <p-card header="Complaints Registered">
+         <p-card *ngIf="complaintsRegistered" header="Complaints Registered">
             <app-complaints-registered  [complaints]="complaints" [districtId]="districtId" [provinceId]="provinceId">
             </app-complaints-registered>
+         </p-card>
+
+         <p-card *ngIf="forestOffendersVisibility" header="Habitual Forest Offenders Registered">
+            <app-habitual-forest-offenders  [forestOffenders]="forestOffenders" [districtId]="districtId" [provinceId]="provinceId">
+            </app-habitual-forest-offenders>
          </p-card>
 
     </div>

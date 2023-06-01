@@ -89,6 +89,8 @@ import { OffenderViewComponent } from './offender-view/offender-view.component';
 import { SumPipe } from './pipes/sumPipe';
 import { ForestFireSeizureComponent } from './forest-fire-seizure/forest-fire-seizure.component';
 import { ComplaintsRegisteredComponent } from './complaints-registered/complaints-registered.component';
+import { HabitualForestOffendersComponent } from './habitual-forest-offenders/habitual-forest-offenders.component';
+import { AntiPochingPartAActivityComponent } from './anti-poching-part-aactivity/anti-poching-part-aactivity.component';
 
 
 
@@ -127,7 +129,9 @@ import { ComplaintsRegisteredComponent } from './complaints-registered/complaint
     OffenderViewComponent,
      SumPipe,
      ForestFireSeizureComponent,
-     ComplaintsRegisteredComponent
+     ComplaintsRegisteredComponent,
+     HabitualForestOffendersComponent,
+     AntiPochingPartAActivityComponent
   ],
   imports: [
     BrowserModule,

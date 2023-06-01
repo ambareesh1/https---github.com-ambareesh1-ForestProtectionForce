@@ -8,6 +8,7 @@ import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Fo
 import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
 import { ForestFire } from '../Models/ForestFire';
 import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
+import { ForestOffenderModal } from '../Models/HebitualForestOffender';
 
 @Injectable({
   providedIn: 'root'
@@ -128,6 +129,22 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
    updateComplaintsRegistered(id: number, forestFire: ComplaintsRegistered): Observable<any> {
    
     return this.http.put(this.baseUrl+'/Seizures/PostComplaintsRegistered/?id='+id, forestFire);
+   }
+
+   
+     // Forest Offenders
+ 
+  CheckForestOffenderalreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<ForestOffenderModal[]>(this.baseUrl+'/Seizures/CheckForestOffendersAlreadyExistForDistrictAndMonth/?id='+id);
+  }
+  
+  createForestOffendersRegistered(forestFire: ForestOffenderModal): Observable<ForestOffenderModal> {
+    return this.http.post<ForestOffenderModal>(this.baseUrl+'/Seizures/PostForestOffenders', forestFire);
+   } 
+   
+   updateForestOffendersRegistered(id: number, forestFire: ForestOffenderModal): Observable<any> {
+   
+    return this.http.put(this.baseUrl+'/Seizures/UpdateForestOffenders/?id='+id, forestFire);
    }
 
 }
