@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-panel header="Seizure Forms">
     <p-message *ngIf="isSuperAdminOfJammuOrKashmir && enableMessage" severity="warn"
         text="Please select the district to view the seizure report" styleClass="mr-2"></p-message>
@@ -41,8 +42,8 @@
                 </div>
 
             </div>
-            <div class="col-lg-4">
-                <div class="field col-12 md:col-4">
+            <div class="col-lg-6">
+                <div class="field col-12 md:col-6">
                     <label for="icon">Select Month</label>
                     <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value"
                         [showIcon]="true" inputId="icon"></p-calendar>
@@ -493,7 +494,7 @@
                     </tr>
                   </ng-template>
                 <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
-                    {{seizure}}
+                 
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td >{{ seizure.sNo }}</td>
@@ -542,23 +543,41 @@
             </p-cellEditor>
         </td>
         <td >
-            <div *ngIf="seizure.gamma_Unit != 'Total'" class="flex align-items-center justify-content-center gap-2">
+            <div class="flex align-items-center justify-content-center gap-2">
                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                    (click)="onRowEditInitFormC(seizure)" class="p-button-rounded p-button-text"></button>
+                    (click)="onRowEditInitAnimalConflicts(seizure)" class="p-button-rounded p-button-text"></button>
                 <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="onRowEditSaveFormC(seizure)"
+                    (click)="onRowEditSaveManAnimalConflict(seizure)"
                     class="p-button-rounded p-button-text p-button-success mr-2"></button>
                 <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                    (click)="onRowEditCancelFormC(seizure, i)"
+                    (click)="onRowEditCancelManAnimalConflict(seizure, i)"
                     class="p-button-rounded p-button-text p-button-danger"></button>
+
+                    <button *ngIf="seizure.gamma_Unit!=''" pButton pRipple type="button"  icon="pi pi-trash"
+                    (click)="onRowEditDeleteManAnimalConflict(seizure, i)"
+                    class="p-button-rounded p-button-danger p-button-outlined"></button>
             </div>
         </td>
                     </tr>
                 </ng-template>
 
             </p-table>
+            <div class="mt-2">
+                <button pButton type="button" label="Add a row" icon="pi pi-plus" iconPos="left" class="p-button-secondary" (click)="AddARowManAnimalConflict()"></button>
+              <button *ngIf="manAnimalConflict.length>1" pButton type="button" label="Delete a row" icon="pi pi-minus" iconPos="left" class="p-button-secondary ml-2" (click)="DeleteARowManAnimalConflict()"></button>
+
+            </div>
+         </p-card>
+       
+         <p-card header="Fire Incident Cases">
+            <app-forest-fire-seizure *ngIf="fireIncident" [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId">
+            </app-forest-fire-seizure>
          </p-card>
 
+         <p-card header="Complaints Registered">
+            <app-complaints-registered  [complaints]="complaints" [districtId]="districtId" [provinceId]="provinceId">
+            </app-complaints-registered>
+         </p-card>
 
     </div>
     <p-card *ngIf="!showSeizureReport">
@@ -626,4 +645,4 @@
 
 </p-panel>
 
-<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

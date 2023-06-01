@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
 import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Form_C';
 import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
+import { ForestFire } from '../Models/ForestFire';
+import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
 
 @Injectable({
   providedIn: 'root'
@@ -93,9 +95,39 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
   return this.http.post<SeizureManAnimalConflict>(this.baseUrl+'/Seizures/PostCasesOfMonthManAnimalConflict', manAnimalConflict);
  } 
  
- updateManAnimal(id: number, manAnimalConflict: Seizure_CasesOfMonth_FormC[]): Observable<any> {
+ updateManAnimal(id: number, manAnimalConflict: SeizureManAnimalConflict): Observable<any> {
  
-  return this.http.put(this.baseUrl+'/Seizures/UpdateCaseOfMonthFromC/?id='+id, manAnimalConflict);
+  return this.http.put(this.baseUrl+'/Seizures/UpdateMonthManAnimalConflict/?id='+id, manAnimalConflict);
  }
+
+  // Forest Fire Incident
+ 
+  CheckForestFireAlreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<ForestFire[]>(this.baseUrl+'/Seizures/CheckFireIncidentAlreadyExistForDistrictAndMonth/?id='+id);
+  }
+  
+  createForestFire(forestFire: ForestFire): Observable<ForestFire> {
+    return this.http.post<ForestFire>(this.baseUrl+'/Seizures/PostFireIncident', forestFire);
+   } 
+   
+   updateForestFire(id: number, forestFire: ForestFire): Observable<any> {
+   
+    return this.http.put(this.baseUrl+'/Seizures/UpdateFireIncident/?id='+id, forestFire);
+   }
+
+     // Complaints Registered
+ 
+  CheckComplaintsRegisteredlreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<ComplaintsRegistered[]>(this.baseUrl+'/Seizures/CheckComplaintsRegisteredAlreadyExistForDistrictAndMonth/?id='+id);
+  }
+  
+  createComplaintsRegistered(forestFire: ComplaintsRegistered): Observable<ComplaintsRegistered> {
+    return this.http.post<ComplaintsRegistered>(this.baseUrl+'/Seizures/PostComplaintsRegistered', forestFire);
+   } 
+   
+   updateComplaintsRegistered(id: number, forestFire: ComplaintsRegistered): Observable<any> {
+   
+    return this.http.put(this.baseUrl+'/Seizures/PostComplaintsRegistered/?id='+id, forestFire);
+   }
 
 }

@@ -1,0 +1,156 @@
+
+<p-table #dt [value]="forestFire" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                pTooltip="CSV" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-excel" 
+                class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf" 
+                class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-filter"
+                (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                pTooltip="Selection Only" tooltipPosition="bottom"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th class="text-center" rowspan="2">S.No</th>
+          <th colspan="2">OB</th>
+          <th colspan="6">New Cases Reported</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+           
+            <th  class="text-center" rowspan="2"> Name of the FPF Gamma Unit</th>
+            <th class="text-center" rowspan="2">"OB" (Total number of Fire fighting cases ending previous month)</th>
+            <th class="text-center" rowspan="2">Name of Forest Division involved</th>
+            <th class="text-center" rowspan="2">Fire occurence spot/com ppt.No.</th>
+            <th class="text-center" rowspan="2">Area of Forest Damange due to Fire (Hecta)</th>
+            <th class="text-center" rowspan="2">Forest crop Damanged</th>
+            <th class="text-center w-25" rowspan="2">Date and Time of Fire incident</th>
+            <th class="text-center" rowspan="2">Name of FPF peronsal deployed for Forest Fire fighting</th>
+            <th class="text-center" rowspan="2">Total Fire Fighting Casessduring the Month</th>
+
+          <th></th>
+        </tr>
+
+      </ng-template>
+    <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+        <tr [pEditableRow]="seizure">
+            <td hidden="true">{{ seizure.id }}</td>
+            <td class="text-center">{{ seizure.sno }}</td>
+        
+            <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="seizure.gamma_unit_name">
+                            
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.gamma_unit_name}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="number" [(ngModel)]="seizure.ob_total_cases">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.ob_total_cases}}
+                </ng-template>
+            </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.forest_division_name">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.forest_division_name}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+           
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.fire_spot">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.fire_spot}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+        <td class="text-center"><p-cellEditor>
+            <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="seizure.forest_damage_area">
+            </ng-template>
+            <ng-template pTemplate="output">
+                {{seizure.forest_damage_area}}
+            </ng-template>
+        </p-cellEditor>
+    </td>
+            <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="seizure.forest_crop_damaged">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.forest_crop_damaged}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="datetime-local" [(ngModel)]="seizure.fire_datetime"> 
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ convertToDate(seizure.fire_datetime) }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+    
+    <td class="text-center"><p-cellEditor>
+        <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="seizure.fpf_personnel_name">
+        </ng-template>
+        <ng-template pTemplate="output">
+            {{seizure.fpf_personnel_name}}
+        </ng-template>
+    </p-cellEditor>
+</td>
+
+<td class="text-center"><p-cellEditor>
+    <ng-template pTemplate="input">
+        <input pInputText type="number" [(ngModel)]="seizure.total_fire_cases">
+    </ng-template>
+    <ng-template pTemplate="output">
+        {{seizure.total_fire_cases}}
+    </ng-template>
+</p-cellEditor>
+</td>
+          
+            <td>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                        (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(seizure)"
+                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(seizure, i)"
+                        class="p-button-rounded p-button-text p-button-danger"></button>
+                        <button *ngIf="seizure.gamma_Unit!=''" pButton pRipple type="button"  icon="pi pi-trash"
+                        (click)="onRowDelete(seizure, i)"
+                        class="p-button-rounded p-button-danger p-button-outlined"></button>
+                </div>
+            </td>
+          
+        </tr>
+    </ng-template>
+    
+    </p-table>
+    <div class="mt-2">
+        <button pButton type="button" label="Add a row" icon="pi pi-plus" iconPos="left" class="p-button-secondary" (click)="AddARow()"></button>
+
+
+    </div>

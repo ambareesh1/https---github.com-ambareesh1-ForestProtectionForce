@@ -1,0 +1,9 @@
+:host ::ng-deep .p-calendar .p-inputtext {
+    flex: 1 1 auto;
+    width: auto;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker {
+    min-width: 100%;
+    top: -400px !important
+}

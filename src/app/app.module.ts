@@ -87,6 +87,8 @@ import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { ManageUserTypesComponent } from './manage-user-types/manage-user-types.component';
 import { OffenderViewComponent } from './offender-view/offender-view.component';
 import { SumPipe } from './pipes/sumPipe';
+import { ForestFireSeizureComponent } from './forest-fire-seizure/forest-fire-seizure.component';
+import { ComplaintsRegisteredComponent } from './complaints-registered/complaints-registered.component';
 
 
 
@@ -123,7 +125,9 @@ import { SumPipe } from './pipes/sumPipe';
     CreateAdminComponent,
     ManageUserTypesComponent,
     OffenderViewComponent,
-     SumPipe
+     SumPipe,
+     ForestFireSeizureComponent,
+     ComplaintsRegisteredComponent
   ],
   imports: [
     BrowserModule,

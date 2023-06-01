@@ -1,0 +1,141 @@
+
+<p-table #dt [value]="complaints" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                pTooltip="CSV" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-excel" 
+                class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-file-pdf" 
+                class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+            <button type="button" pButton pRipple icon="pi pi-filter"
+                (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto d-none"
+                pTooltip="Selection Only" tooltipPosition="bottom"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+   
+        <tr>
+
+            <th  class="text-center" rowspan="2"> S.no</th>
+            <th  class="text-center" rowspan="2"> Complaint No</th>
+            <th  class="text-center" rowspan="2"> Date and Time of Receipt</th>
+            <th class="text-center" rowspan="2">Source of Complaint Made</th>
+            <th class="text-center" rowspan="2">Brief Description of Complaint</th>
+            <th class="text-center" rowspan="2">Complaint Area</th>
+            <th class="text-center" rowspan="2">Cognizance under Section</th>
+            <th class="text-center" rowspan="2">Action Taken</th>
+            <th class="text-center" rowspan="2">Name/Sign Munshi/Moharir</th>
+          <th></th>
+        </tr>
+
+      </ng-template>
+    <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
+        <tr [pEditableRow]="seizure">
+            <td hidden="true">{{ seizure.id }}</td>
+            <td class="text-center">{{ seizure.sno }}</td>
+        
+            <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="seizure.complaintNo">
+                            
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.complaintNo}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="datetime-local" [(ngModel)]="seizure.dateTimeOfReceipt"> 
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{convertToDate(seizure.dateTimeOfReceipt)}}
+                </ng-template>
+            </p-cellEditor>
+            </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.sourceOfComplaint">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.sourceOfComplaint}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+           
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.briefDescription">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.briefDescription}}
+                </ng-template>
+            </p-cellEditor>
+        </td>
+        <td class="text-center"><p-cellEditor>
+            <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="seizure.complaintArea">
+            </ng-template>
+            <ng-template pTemplate="output">
+                {{seizure.complaintArea}}
+            </ng-template>
+        </p-cellEditor>
+    </td>
+            <td class="text-center"><p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="seizure.cognizanceUnderSection">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{seizure.cognizanceUnderSection}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="seizure.actionTaken">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ seizure.actionTaken }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+    
+    <td class="text-center"><p-cellEditor>
+        <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="seizure.nameSignMunshiMoharir">
+        </ng-template>
+        <ng-template pTemplate="output">
+            {{seizure.nameSignMunshiMoharir}}
+        </ng-template>
+    </p-cellEditor>
+</td>
+
+
+          
+            <td>
+                <div class="flex align-items-center justify-content-center gap-2">
+                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                        (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(seizure)"
+                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(seizure, i)"
+                        class="p-button-rounded p-button-text p-button-danger"></button>
+                        <button *ngIf="seizure.gamma_Unit!=''" pButton pRipple type="button"  icon="pi pi-trash"
+                        (click)="onRowDelete(seizure, i)"
+                        class="p-button-rounded p-button-danger p-button-outlined"></button>
+                </div>
+            </td>
+          
+        </tr>
+    </ng-template>
+    
+    </p-table>
+    <div class="mt-2">
+        <button pButton type="button" label="Add a row" icon="pi pi-plus" iconPos="left" class="p-button-secondary" (click)="AddARow()"></button>
+
+
+    </div>

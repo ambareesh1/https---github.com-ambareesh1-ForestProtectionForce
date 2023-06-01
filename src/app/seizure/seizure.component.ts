@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Seizures_Form_A } from '../Models/Seizures_Form_A';
 import { SeizureService } from '../services/seizure.service';
-import { Message, MessageService } from 'primeng/api';
-import { Observable, catchError, forkJoin, throwError } from 'rxjs';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
+import { Observable, catchError, forkJoin, from, last, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import {dateFormate} from '../utilities/shared';
 import { CircleView, District, Province } from '../Models/ManageDataModels';
@@ -13,6 +13,8 @@ import { Seizure_GammaUni_FormB } from '../Models/Seizures_GammaUnit_Form_B';
 import { Seizure_CasesOfMonth_FormC } from '../Models/Seizures_Cases_Of_Month_Form_C';
 import {SumPipe} from '../pipes/sumPipe';
 import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
+import { ForestFire } from '../Models/ForestFire';
+import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
 
 
 
@@ -30,6 +32,8 @@ export class SeizureComponent implements OnInit {
   formA : Seizures_Form_A[] = [];
   formB : Seizure_GammaUni_FormB[] = [];
   formC : any[] = [];
+  forestFire : any[] = [];
+  complaints : any [] = [];
   manAnimalConflict : any[] = [];
   editing : boolean = false;
   clonedProducts: { [s: string]: Seizures_Form_A } = {};
@@ -53,6 +57,8 @@ export class SeizureComponent implements OnInit {
   formBVisibility :boolean = false;
   formCVisibility :boolean = false;
   manAnimalConflictVisibility : boolean = false;
+  fireIncident : boolean = false;
+  complaintsRegistered : boolean = false;
   
   //form A 
 
@@ -65,13 +71,15 @@ export class SeizureComponent implements OnInit {
   
 
   constructor( private seizureService : SeizureService, private messageService : MessageService,
-     private manageDataService : ManagedataService, private sharedServices : SharedService ){
+     private manageDataService : ManagedataService, private sharedServices : SharedService, private confirmationService : ConfirmationService ){
     this.formsTypes = [
       {name : 'Select', code : -1 },
       {name: 'Form A', code: 1},
       {name: 'Form B', code: 2},
       {name: 'Form C', code: 3},
-      {name: 'Man Animal Conflict Activity', code: 4}
+      {name: 'Man Animal Conflict Activity', code: 4},
+      {name: 'Fire Incident Cases', code: 5},
+      {name: 'Complaints Registered', code: 6}
   ];
 
    
@@ -172,6 +180,11 @@ export class SeizureComponent implements OnInit {
         
     }
 
+    onRowEditInitAnimalConflicts = (manAnimalConflict : any) =>{
+      this.clonedFormC[manAnimalConflict.id] = {... manAnimalConflict};
+      
+  }
+
     onRowEditSave = (formA :Seizures_Form_A) =>{
       console.log(formA);
   if (formA.id > 0) {
@@ -239,6 +252,25 @@ export class SeizureComponent implements OnInit {
        }
     }
 
+    //man animal conflit
+
+    onRowEditSaveManAnimalConflict = (manAnimalConflict :SeizureManAnimalConflict) =>{
+ debugger;
+      if (manAnimalConflict.id >= 0) {
+               // delete this.clonedProducts[product.id];
+               this.seizureService.updateManAnimal(manAnimalConflict.id, manAnimalConflict).pipe(
+                catchError((error) => {
+                  // Handle error
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+                  return throwError(() => error);
+                })
+              ).subscribe((data)=>{
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data is updated' });
+               })
+            } 
+            this.editing = !this.editing;
+        }
+
 
 
     onRowEditCancel = (formA :Seizures_Form_A, index: number) =>{
@@ -256,6 +288,12 @@ export class SeizureComponent implements OnInit {
     onRowEditCancelFormC = (formC :Seizure_CasesOfMonth_FormC, index: number) =>{
       this.formC[index] = this.clonedFormC[formC.id || 0];
       delete this.clonedFormC[formC.id || 0];
+      this.editing = !this.editing;
+    }
+
+    onRowEditCancelManAnimalConflict = (form :SeizureManAnimalConflict, index: number) =>{
+      this.manAnimalConflict[index] = this.clonedFormC[form.id || 0];
+      delete this.clonedFormC[form.id || 0];
       this.editing = !this.editing;
     }
 
@@ -324,6 +362,8 @@ export class SeizureComponent implements OnInit {
   this.formBVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
+  this.fireIncident = false;
+  this.complaintsRegistered = false;
   return this.FormAExecution(this.districtId);
  }
  if(this.formTypeValue == 2){
@@ -331,6 +371,8 @@ export class SeizureComponent implements OnInit {
   this.formBVisibility = true;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
+  this.fireIncident = false;
+  this.complaintsRegistered = false;
   return this.FormBGammaUnit(this.districtId);
  }
 
@@ -339,6 +381,8 @@ export class SeizureComponent implements OnInit {
   this.formBVisibility = false;
   this.formCVisibility = true;
   this.manAnimalConflictVisibility = false;
+  this.fireIncident = false;
+  this.complaintsRegistered = false;
   return this.FormCGammaUnit(this.districtId);
  }
 
@@ -347,7 +391,29 @@ export class SeizureComponent implements OnInit {
   this.formBVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = true;
+  this.fireIncident = false;
+  this.complaintsRegistered = false;
   return this.FormManAnimalConflict(this.districtId);
+ }
+
+ if(this.formTypeValue == 5){
+  this.formAVisibility = false;
+  this.formBVisibility = false;
+  this.formCVisibility = false;
+  this.manAnimalConflictVisibility = false;
+  this.fireIncident = true;
+  this.complaintsRegistered = false;
+  return this.FormFireIncident(this.districtId);
+ }
+
+ if(this.formTypeValue == 6){
+  this.formAVisibility = false;
+  this.formBVisibility = false;
+  this.formCVisibility = false;
+  this.manAnimalConflictVisibility = false;
+  this.fireIncident = false;
+  this.complaintsRegistered = true;
+  return this.FormComplaintsRegistered(this.districtId);
  }
 
     }
@@ -675,6 +741,174 @@ export class SeizureComponent implements OnInit {
 })
     }
 
+    FormFireIncident = (event:any) =>{
+      this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.forestFire = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: ForestFire = {
+            id: 0,
+            province_id: this.provinceId,
+            district_id: this.districtId,
+            gamma_unit_name: '',
+            ob_total_cases: 0,
+            forest_division_name: '',
+            fire_spot: '',
+            forest_damage_area: 0,
+            forest_crop_damaged: '',
+            fire_datetime: new Date(),
+            fpf_personnel_name: '',
+            total_fire_cases: 0,
+            month: 0,
+            year: 0,
+            date_of_insertion: new Date(),
+            is_active: false,
+            last_updated_on: new Date(),
+            sno: 0
+          };
+
+          this.seizureService.createForestFire(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.forestFire = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter here
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.forestFire = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
+    FormComplaintsRegistered = (event:any) =>{
+      this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.complaints = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: ComplaintsRegistered = {
+            id: 0,
+            sno: 1,
+            complaintNo: '',
+            dateTimeOfReceipt: new Date(),
+            sourceOfComplaint: '',
+            briefDescription: '',
+            complaintArea: '',
+            cognizanceUnderSection: '',
+            actionTaken: '',
+            nameSignMunshiMoharir: '',
+            provinceId: this.provinceId,
+            districtId: this.districtId,
+            month: this.value.getMonth()+1,
+            year: this.value.getFullYear(),
+            dateOfInsertion: new Date(),
+            isActive: true,
+            lastUpdatedOn: new Date(),
+            updatedBy: ''
+          };
+
+          this.seizureService.createComplaintsRegistered(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.complaints = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter here
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.complaints = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
     exportedColumns_FormA = () =>{
      this.exportColumns_FormA = [
         { field: 'sno', header: 'S.No' },
@@ -777,7 +1011,57 @@ getCasesRegistered():any {
     return total;
 }
 
+AddARowManAnimalConflict = () =>{
+debugger;
+  let id = 1;
+ from(this.manAnimalConflict)
+  .pipe(last())
+  .subscribe((lastRow) => {
+   id = lastRow.sNo+1;
+   let month = this.value.getMonth();
+   let seizure_Report: SeizureManAnimalConflict = {
+    id: 0,
+    sNo: id,
+    nameOfGammaUnit: '',
+    placeOfOccurrence: '',
+    noOfFPFPersonnelDeployed: 0,
+    remarks: '',
+    provinceId: this.provinceId,
+    districtId: this.districtId,
+    month: this.value.getMonth()+1,
+    year: this.value.getFullYear(),
+    lastUpdatedOn: new Date(),
+    isActive: true
+  };
+  this.manAnimalConflict.push(seizure_Report); 
+  });
+}
 
+DeleteARowManAnimalConflict = () =>{
+  this.manAnimalConflict.pop();
+}
+  onRowEditDeleteManAnimalConflict = (form: SeizureManAnimalConflict, id: any) => {
+
+    return this.confirmationService.confirm({
+      message: 'Are you sure you want to delete row ?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        form.isActive = false;
+        this.seizureService.updateManAnimal(form.id, form).pipe(
+          catchError((error) => {
+            // Handle error
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+            return throwError(() => error);
+          })
+        ).subscribe((data) => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Row is Deleted' });
+          this.manAnimalConflict.pop();
+        })
+      }
+    });
+
+  }
 }
 
 interface Forms {
