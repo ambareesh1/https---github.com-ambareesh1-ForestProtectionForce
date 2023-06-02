@@ -9,6 +9,9 @@ import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
 import { ForestFire } from '../Models/ForestFire';
 import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
 import { ForestOffenderModal } from '../Models/HebitualForestOffender';
+import { AntiPochingFormAModel } from '../Models/AntiPochingFormA';
+import { AntiPochingFormBModel } from '../Models/AntiPochingFormBModel';
+import { AntiPochingFormCModel } from '../Models/AntiPochingFormCModel';
 
 @Injectable({
   providedIn: 'root'
@@ -146,5 +149,50 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
    
     return this.http.put(this.baseUrl+'/Seizures/UpdateForestOffenders/?id='+id, forestFire);
    }
+
+   //Anti poching Form A
+
+   CheckAntiPochingFormAalreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<AntiPochingFormAModel[]>(this.baseUrl+'/Seizures/CheckAntiPochingAlreadyExistForDistrictAndMonth/?id='+id);
+ }
+
+ createAntiPochingFormA(formA: AntiPochingFormAModel): Observable<AntiPochingFormAModel> {
+  return this.http.post<AntiPochingFormAModel>(this.baseUrl+'/Seizures/PostAntiPochingFormA', formA);
+} 
+
+updateAntiPochingFormA(id: number, formA: AntiPochingFormAModel): Observable<any> {
+ 
+  return this.http.put(this.baseUrl+'/Seizures/UpdateAntiPochingFormA/?id='+id, formA);
+}
+
+   //Anti poching Form B
+
+   CheckAntiPochingFormBalreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<AntiPochingFormBModel[]>(this.baseUrl+'/Seizures/CheckAntiPochingBAlreadyExistForDistrictAndMonth/?id='+id);
+ }
+
+ createAntiPochingFormB(formA: AntiPochingFormBModel): Observable<AntiPochingFormBModel> {
+  return this.http.post<AntiPochingFormBModel>(this.baseUrl+'/Seizures/PostAntiPochingFormB', formA);
+} 
+
+updateAntiPochingFormB(id: number, formA: AntiPochingFormBModel): Observable<any> {
+ 
+  return this.http.put(this.baseUrl+'/Seizures/UpdateAntiPochingFormB/?id='+id, formA);
+}
+
+   //Anti poching Form B
+
+   CheckAntiPochingFormCalreadyExistForDistrictAndMonth (id:any){
+    return  this.http.get<AntiPochingFormCModel[]>(this.baseUrl+'/Seizures/CheckAntiPochingCAlreadyExistForDistrictAndMonth/?id='+id);
+ }
+
+ createAntiPochingFormC(formA: AntiPochingFormCModel): Observable<AntiPochingFormCModel> {
+  return this.http.post<AntiPochingFormCModel>(this.baseUrl+'/Seizures/PostAntiPochingFormC', formA);
+} 
+
+updateAntiPochingFormC(id: number, formA: AntiPochingFormCModel): Observable<any> {
+ 
+  return this.http.put(this.baseUrl+'/Seizures/UpdateAntiPochingFormC/?id='+id, formA);
+}
 
 }

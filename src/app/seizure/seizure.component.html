@@ -584,6 +584,21 @@
             </app-habitual-forest-offenders>
          </p-card>
 
+         <p-card *ngIf="antiPochingFormAVisibility" header="Anti - Poching Control Room PART A Activity">
+            <app-anti-poching-part-aactivity  [antiPouchingFormA]="AntiPochingFormA" [districtId]="districtId" [provinceId]="provinceId">
+            </app-anti-poching-part-aactivity>
+         </p-card>
+
+         <p-card *ngIf="antiPochingFormBVisibility" header="Anti - Poching Control Room PART B SEIZURES">
+            <app-anti-poching-part-bsizures  [antiPouchingFormB]="AntiPochingFormB" [districtId]="districtId" [provinceId]="provinceId">
+            </app-anti-poching-part-bsizures>
+         </p-card>
+
+         <p-card *ngIf="antiPochingFormCVisibility" header="Anti - Poching Control Room PART C LEGAL ACTION">
+            <app-anti-poching-part-clegal-action  [AntiPochingFormC]="AntiPochingFormC" [districtId]="districtId" [provinceId]="provinceId">
+            </app-anti-poching-part-clegal-action>
+         </p-card>
+
     </div>
     <p-card *ngIf="!showSeizureReport">
         <div class="custom-skeleton p-4">

@@ -1,5 +1,5 @@
 
-<p-table #dt [value]="antiPouchingFormA" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
+<p-table #dt [value]="antiPouchingFormB" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
         <div class="flex">
             <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
@@ -17,7 +17,7 @@
         <tr>
 
             <th  class="text-center" rowspan="2"> S.no</th>
-            <th  class="text-center" rowspan="2"> Activity</th>
+            <th  class="text-center" rowspan="2"> Article</th>
             <th  class="text-center" rowspan="2"> Unit</th>
             <th class="text-center" rowspan="2">Details</th>
           <th></th>
@@ -28,7 +28,7 @@
         <tr [pEditableRow]="seizure">
             <td hidden="true">{{ seizure.id }}</td>
             <td class="text-center"> {{ seizure.sno }} </td>
-            <td class="text-left"> {{seizure.activity}} </td>
+            <td class="text-left"> {{seizure.article}} </td>
             <td class="text-center"> {{seizure.unit}} </td>
            
             <td class="text-center"><p-cellEditor>

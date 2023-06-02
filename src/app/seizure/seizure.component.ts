@@ -16,6 +16,9 @@ import { SeizureManAnimalConflict } from '../Models/SeizureManAnimalConflict';
 import { ForestFire } from '../Models/ForestFire';
 import { ComplaintsRegistered } from '../Models/ComplaintsRegistered';
 import { ForestOffenderModal } from '../Models/HebitualForestOffender';
+import { AntiPochingFormAModel } from '../Models/AntiPochingFormA';
+import { AntiPochingFormBModel } from '../Models/AntiPochingFormBModel';
+import { AntiPochingFormCModel } from '../Models/AntiPochingFormCModel';
 
 
 
@@ -37,6 +40,10 @@ export class SeizureComponent implements OnInit {
   complaints : any [] = [];
   manAnimalConflict : any[] = [];
   forestOffenders : any[] = [];
+  AntiPochingFormA:any = [];
+  AntiPochingFormB:any = [];
+  AntiPochingFormC:any = [];
+
   editing : boolean = false;
   clonedProducts: { [s: string]: Seizures_Form_A } = {};
   clonedFormB : {[s:string] : Seizure_GammaUni_FormB } = {};
@@ -62,7 +69,9 @@ export class SeizureComponent implements OnInit {
   fireIncident : boolean = false;
   complaintsRegistered : boolean = false;
   forestOffendersVisibility = false;
-  
+  antiPochingFormAVisibility = false;
+  antiPochingFormBVisibility = false;
+  antiPochingFormCVisibility = false;
   //form A 
 
   cols: any[]=[];
@@ -83,7 +92,10 @@ export class SeizureComponent implements OnInit {
       {name: 'Man Animal Conflict Activity', code: 4},
       {name: 'Fire Incident Cases', code: 5},
       {name: 'Complaints Registered', code: 6},
-      {name: 'Habitual Forest Offenders Register', code: 7}
+      {name: 'Habitual Forest Offenders Register', code: 7},
+      {name: 'Anti Poching Part A Activity', code: 8},
+      {name: 'Anti Poching Part B SEIZURES', code: 9},
+      {name: 'Anti Poching Part C Legal Action', code: 10}
   ];
 
    
@@ -369,74 +381,140 @@ export class SeizureComponent implements OnInit {
   this.fireIncident = false;
   this.complaintsRegistered = false;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormAExecution(this.districtId);
  }
  if(this.formTypeValue == 2){
-  this.formAVisibility = false;
   this.formBVisibility = true;
+  this.formAVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormBGammaUnit(this.districtId);
  }
 
  if(this.formTypeValue == 3){
+  this.formCVisibility = true;
   this.formAVisibility = false;
   this.formBVisibility = false;
-  this.formCVisibility = true;
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormCGammaUnit(this.districtId);
  }
 
  if(this.formTypeValue == 4){
+  this.manAnimalConflictVisibility = true;
   this.formAVisibility = false;
   this.formBVisibility = false;
   this.formCVisibility = false;
-  this.manAnimalConflictVisibility = true;
   this.fireIncident = false;
   this.complaintsRegistered = false;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormManAnimalConflict(this.districtId);
  }
 
  if(this.formTypeValue == 5){
+  this.fireIncident = true;
   this.formAVisibility = false;
   this.formBVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
-  this.fireIncident = true;
   this.complaintsRegistered = false;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormFireIncident(this.districtId);
  }
 
  if(this.formTypeValue == 6){
+  this.complaintsRegistered = true;
   this.formAVisibility = false;
   this.formBVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
-  this.complaintsRegistered = true;
   this.forestOffendersVisibility = false;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormComplaintsRegistered(this.districtId);
  }
 
  if(this.formTypeValue == 7){
+  this.forestOffendersVisibility = true;
   this.formAVisibility = false;
   this.formBVisibility = false;
   this.formCVisibility = false;
   this.manAnimalConflictVisibility = false;
   this.fireIncident = false;
   this.complaintsRegistered = false;
-  this.forestOffendersVisibility = true;
+  this.antiPochingFormAVisibility = false;
+  this.antiPochingFormBVisibility = false;
+  this.antiPochingFormCVisibility = false;
   return this.FormForestOffendersRegistered(this.districtId);
     }
+
+    if(this.formTypeValue == 8){
+      this.antiPochingFormAVisibility = true;
+      this.formAVisibility = false;
+      this.formBVisibility = false;
+      this.formCVisibility = false;
+      this.manAnimalConflictVisibility = false;
+      this.fireIncident = false;
+      this.complaintsRegistered = false;
+      this.forestOffendersVisibility = false;
+      this.antiPochingFormBVisibility = false;
+      this.antiPochingFormCVisibility = false;
+      return this.FormAntiPochingFormARegistered(this.districtId);
+        }
+
+        if(this.formTypeValue == 9){
+          this.antiPochingFormBVisibility = true;
+          this.formAVisibility = false;
+          this.formBVisibility = false;
+          this.formCVisibility = false;
+          this.manAnimalConflictVisibility = false;
+          this.fireIncident = false;
+          this.complaintsRegistered = false;
+          this.forestOffendersVisibility = false;
+          this.antiPochingFormAVisibility = false;
+          this.antiPochingFormCVisibility = false;
+          return this.FormAntiPochingFormBRegistered(this.districtId);
+            }
+            
+            if(this.formTypeValue == 10){
+              this.formAVisibility = false;
+              this.formBVisibility = false;
+              this.formCVisibility = false;
+              this.manAnimalConflictVisibility = false;
+              this.fireIncident = false;
+              this.complaintsRegistered = false;
+              this.forestOffendersVisibility = false;
+              this.antiPochingFormAVisibility = false;
+              this.antiPochingFormBVisibility = false;
+              this.antiPochingFormCVisibility = true;
+              return this.FormAntiPochingFormCRegistered(this.districtId);
+                }
+      
   }
+
+  
 
     FormAExecution = (event : any) =>{
       this.seizureService.getStatusOfFormAAlreadyCreated(event).subscribe(data =>{
@@ -995,6 +1073,242 @@ export class SeizureComponent implements OnInit {
             console.log(data);
              this.showSeizureReport = true;
              this.complaints = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
+    FormAntiPochingFormARegistered = (event:any) =>{
+      this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormA = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: AntiPochingFormAModel = {
+            id: 0,
+            sno: 1,
+            provinceId: this.provinceId,
+            districtId: this.districtId,
+            month: this.value.getMonth() + 1,
+            year: this.value.getFullYear(),
+            isActive: true,
+            updatedBy: '',
+            activity: '',
+            unit: '',
+            details: '',
+            dateOfInsertion: new Date(),
+            lastUpdatedOn: new Date()
+          };
+
+          this.seizureService.createAntiPochingFormA(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.AntiPochingFormA = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter here
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormA = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+    FormAntiPochingFormBRegistered = (event:any) =>{
+      this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormB = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: AntiPochingFormBModel = {
+            id: 0,
+            sno: 1,
+            provinceId: this.provinceId,
+            districtId: this.districtId,
+            month: this.value.getMonth() + 1,
+            year: this.value.getFullYear(),
+            isActive: true,
+            updatedBy: '',
+            article: '',
+            unit: '',
+            details: '',
+            dateOfInsertion: new Date(),
+            lastUpdatedOn: new Date()
+          };
+
+          this.seizureService.createAntiPochingFormB(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.AntiPochingFormB = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter heres
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormB = data;
+             // API call completed
+             this.messageService.add({
+               severity: 'success',
+               summary: 'Received the Sizure',
+               detail: 'The Sizure report is ready with the selected district.',
+               life: 10000
+             });
+        })
+       }else{
+         alert("errpr");
+       }
+          })
+        }
+})
+    }
+
+    FormAntiPochingFormCRegistered = (event:any) =>{
+      this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+        if(data.length > 0 ){
+          console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormC = data;
+                 // API call completed
+                 this.messageService.add({
+                   severity: 'success',
+                   summary: 'Received the Sizure',
+                   detail: 'The Sizure report is ready with the selected district.',
+                   life: 10000
+                 });
+        }else{
+         this.messageService.add({
+           severity: 'info',
+           summary: 'Creation of report in progress...',
+           detail: 'creating the seizure report for selected district & month. ',
+           life: 10000
+         
+         });
+          // create new seizure report with selected  district
+          let seizure_Report: AntiPochingFormCModel = {
+            id: 0,
+            sno: 1,
+            provinceId: this.provinceId,
+            districtId: this.districtId,
+            month: this.value.getMonth() + 1,
+            year: this.value.getFullYear(),
+            isActive: true,
+            updatedBy: '',
+            details: '',
+            dateOfInsertion: new Date(),
+            lastUpdatedOn: new Date(),
+            fIRRegistered: '',
+            noDate: ''
+          };
+
+          this.seizureService.createAntiPochingFormC(seizure_Report)
+          .pipe(
+           catchError((error) => {
+             // handle error
+             console.error(error);
+             this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+               this.showSeizureReport = true;
+               this.AntiPochingFormB = data;
+               // API call completed
+               this.messageService.add({
+                 severity: 'success',
+                 summary: 'Received the Sizure',
+                 detail: 'The Sizure report is ready with the selected district.',
+                 life: 10000
+               });
+          })
+             return throwError(error); // no need for type parameter heres
+           })
+         )
+          .subscribe((data:any)=>{
+         if(data){
+           this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+            console.log(data);
+             this.showSeizureReport = true;
+             this.AntiPochingFormB = data;
              // API call completed
              this.messageService.add({
                severity: 'success',

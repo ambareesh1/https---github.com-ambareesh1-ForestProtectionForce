@@ -91,6 +91,8 @@ import { ForestFireSeizureComponent } from './forest-fire-seizure/forest-fire-se
 import { ComplaintsRegisteredComponent } from './complaints-registered/complaints-registered.component';
 import { HabitualForestOffendersComponent } from './habitual-forest-offenders/habitual-forest-offenders.component';
 import { AntiPochingPartAActivityComponent } from './anti-poching-part-aactivity/anti-poching-part-aactivity.component';
+import { AntiPochingPartBSizuresComponent } from './anti-poching-part-bsizures/anti-poching-part-bsizures.component';
+import { AntiPochingPartCLegalActionComponent } from './anti-poching-part-clegal-action/anti-poching-part-clegal-action.component';
 
 
 
@@ -131,7 +133,9 @@ import { AntiPochingPartAActivityComponent } from './anti-poching-part-aactivity
      ForestFireSeizureComponent,
      ComplaintsRegisteredComponent,
      HabitualForestOffendersComponent,
-     AntiPochingPartAActivityComponent
+     AntiPochingPartAActivityComponent,
+     AntiPochingPartBSizuresComponent,
+     AntiPochingPartCLegalActionComponent
   ],
   imports: [
     BrowserModule,
