@@ -93,6 +93,9 @@ import { HabitualForestOffendersComponent } from './habitual-forest-offenders/ha
 import { AntiPochingPartAActivityComponent } from './anti-poching-part-aactivity/anti-poching-part-aactivity.component';
 import { AntiPochingPartBSizuresComponent } from './anti-poching-part-bsizures/anti-poching-part-bsizures.component';
 import { AntiPochingPartCLegalActionComponent } from './anti-poching-part-clegal-action/anti-poching-part-clegal-action.component';
+import { HistorySheetDataComponent } from './history-sheet-data/history-sheet-data.component';
+import { HistorySheetViewComponent } from './history-sheet-view/history-sheet-view.component';
+import { DisposedCasesComponent } from './disposed-cases/disposed-cases.component';
 
 
 
@@ -135,7 +138,10 @@ import { AntiPochingPartCLegalActionComponent } from './anti-poching-part-clegal
      HabitualForestOffendersComponent,
      AntiPochingPartAActivityComponent,
      AntiPochingPartBSizuresComponent,
-     AntiPochingPartCLegalActionComponent
+     AntiPochingPartCLegalActionComponent,
+     HistorySheetDataComponent,
+     HistorySheetViewComponent,
+     DisposedCasesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,42 +1,56 @@
+<p-toast></p-toast>
 <p-panel header="History Sheet of Offender">
-    <form>
+    <form *ngIf="formHistory && !needSpinner" [formGroup]="formHistory" (ngSubmit)="onSubmitHistory()">
     <p-card subheader="History Sheet">
      
         <div class="row">
             <div class="col-lg-6">
-                <div class="field">
-                    <label for="ItemDescription" class="block">Identifier Officier Name</label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
-                        class="offender-input-width" 
-                        ></textarea>
-                </div>
-                <div class="field">
-                    <label for="ItemDescription" class="block">Usual Field of Operation</label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
-                        class="offender-input-width" 
-                        ></textarea>
+                <div class="field w-75">
+                    <label for="NameOfAccused" class="block">Name of Offender <span class="required-field">*</span></label>
+                    <span class="p-fluid">
+                        <p-autoComplete  formControlName="offender" placeholder="Enter names"  [suggestions]="filteredOffenders" dataKey="aadhaarNo" 
+                         (completeMethod)="filterCountry($event)" field="name" [multiple]="false" (onSelect)="onSelect($event)"  [delay]="300" [dropdown]="true"> 
+                            <ng-template  let-option pTemplate="option">
+                              <div class="option-item">
+                                <div class="option-details">
+                                    <img [alt]="option.name" [src]="offenderProfilePicPath+option.photo_Url" width="40" height="40" style="vertical-align: middle; border-radius:50%" />
+                                    <span class="font-bold ml-2">{{option.name}} , {{option.surnameAlias}}</span> | Aadhar : <span class="text-secondary font-bold"> {{option.aadhaarNo}} </span>
+                                   
+                                </div>
+                              </div>
+                            </ng-template>
+                          </p-autoComplete>
+                    </span>
                 </div>
 
                 <div class="field">
-                    <label for="ItemDescription" class="block">Modus Operand</label>
-                    <input id="CrimeDetails"  pInputText 
-                        class="offender-input-width"  />
+                    <label for="identifierOfficerName" class="block">Identifier Officier Name</label>
+                  
+                        <input formControlName = "identifierOfficerName" id="identifierOfficerName"  pInputText class="offender-input-width"  />
+                </div>
+                <div class="field">
+                    <label for="usualFieldOfOperation" class="block">Usual Field of Operation</label>
+                        <input formControlName = "usualFieldOfOperation" id="usualFieldOfOperation"  pInputText class="offender-input-width"  />
+                </div>
+
+                <div class="field">
+                    <label for="placeOfHabitualResort" class="block">Place Of Habitual Resort</label>
+                    <input formControlName="placeOfHabitualResort" id="placeOfHabitualResort"  pInputText  class="offender-input-width" />
+                   
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Previous History </label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
+                    <label for="previousHistory" class="block">Previous History </label>
+                    <textarea id="previousHistory" formControlName = "previousHistory" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
                         class="offender-input-width" 
                         ></textarea>
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Place of Habitual Resort</label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
-                        class="offender-input-width" 
-                        ></textarea>
+                    <label for="modusOperandi" class="block">Modus Operand</label>
+                    <input formControlName="modusOperandi" id="modusOperandi"  pInputText 
+                        class="offender-input-width"  />
                 </div>
-       
             </div>
         </div>
     </p-card>
@@ -45,62 +59,40 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Name of Relative</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
-                </div>
-                <div class="field">
-                    <label for="ItemDescription" class="block">RelationShip</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
+                    <label for="relationship" class="block">Name of Relative</label>
+                    <input id="relationship" formControlName="relationship"  pInputText  class="offender-input-width"  />
                 </div>
 
                 <div class="field">
-                    <label for="ItemDescription" class="block">Criminality If Any</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
+                    <label for="CrimeDetails" class="block">Criminality If Any</label>
+                    <input formControlName = "criminality" id="CrimeDetails"  pInputText class="offender-input-width"  />
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Name of Associate</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
+                    <label for="nameOfAssociate" class="block">Name of Associate</label>
+                    <input formControlName = "nameOfAssociate" id="CrimeDetails"  pInputText class="offender-input-width"  />
                 </div>
-                <div class="field">
-                    <label for="ItemDescription" class="block">Criminality If Any</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
-                </div>
+              
             </div>
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Percentage</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
+                    <label for="parentage" class="block">Perantage</label>
+                    <input formControlName = "parentage" id="parentage"  pInputText class="offender-input-width"  />
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Address</label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
+                    <label for="address" class="block">Address</label>
+                    <textarea formControlName = "address" id="address" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
                         class="offender-input-width" 
                         ></textarea>
                 </div>
          
-                <div class="field">
-                    <label for="ItemDescription" class="block">Property</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
-                </div>
-      
-                <div class="field">
-                    <label for="ItemDescription" class="block">Perentage</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width"  />
-                </div>
-                
-                <div class="field">
-                    <label for="ItemDescription" class="block">Address</label>
-                    <textarea id="CrimeDetails" [rows]="5" [cols]="20" pInputTextarea [autoResize]="true"
-                        class="offender-input-width" 
-                        ></textarea>
-                </div>
+               
             </div>
         </div>
     </p-card>
 
-    <div class="p-card-footer flex justify-content-center flex-wrap gap-4 mt-1">
+    <div class="p-card-footer flex justify-content-center flex-wrap gap-4 mt-2">
                         
-        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success">Submit</button>
+        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success" [ngClass]="{'p-button-warning': isEdit}" >{{isEdit ? "Update" : "Submit"}}</button>
         <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
     </div>
 </form>

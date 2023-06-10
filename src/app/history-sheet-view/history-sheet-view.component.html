@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-lg-6">
+        <p-card class="card-header-view">
+            <div class="p-0">
+                <h5> <p-avatar icon="pi pi-history" shape="circle" size="large"
+                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> History </h5>
+            </div>
+            <hr>
+            <label class="text-bold"> Aadhar Card No : </label>
+            <label class="text-bold pl-2"><h4> {{history.aadharCard}}</h4></label> 
+            <div class="mb-2">
+                <label class="text-bold">Offender : </label>
+                <label class="pl-2"> {{history.offender}}</label>
+            </div>
+           
+            <div class="mb-2">
+                <label class="text-bold">Identifier Officer Name : </label>
+                <label class="pl-2"> {{history.identifierOfficerName}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Usual Field Of Operation : </label>
+                <label class="pl-2">{{history.usualFieldOfOperation}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Modus Operandi : </label>
+                <label class="pl-2">{{history.modusOperandi}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Previous History : </label>
+                <label class="pl-2">{{history.previousHistory}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">Place Of Habitual Resort : </label>
+                <label class="pl-2">{{history.placeOfHabitualResort}}</label>
+            </div>
+        </p-card>
+    </div>
+
+        <div class="col-lg-6">
+            <p-card>
+                <div class="p-0">
+                    <h5> <p-avatar icon="pi pi-list" shape="circle" size="large"
+                            [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> History </h5>
+                </div>
+                <hr>
+               
+                <div class="mb-2">
+                    <label class="text-bold">Name Of Relative : </label>
+                    <label class="pl-2">{{history.nameOfRelative}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Relationship : </label>
+                    <label class="pl-2">{{history.relationship}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Criminality : </label>
+                    <label class="pl-2">{{history.criminality}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Name Of Associate : </label>
+                    <label class="pl-2">{{history.nameOfAssociate}}</label>
+                </div>
+    
+                <div class="mb-2">
+                    <label class="text-bold">Parentage : </label>
+                    <label class="pl-2">{{history.parentage}}</label>
+                </div>
+                <div class="mb-2">
+                    <label class="text-bold">Address : </label>
+                    <label class="pl-2">{{history.address}}</label>
+                </div>
+            </p-card>
+        </div>
+     
+    </div>
+

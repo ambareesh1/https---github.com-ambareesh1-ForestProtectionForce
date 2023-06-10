@@ -1,0 +1,103 @@
+<p-panel header="History Sheet Data" [@fadeIn]>
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="!isDataLoaded"></p-progressBar>
+    <p-table #dt [value]="historyData" [rows]="10" [paginator]="true" [globalFilterFields]="['caseNo','dateOfDetection','officerName','firNo', 'DateOfCrime','Status']"
+    [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+    [showCurrentPageReport]="true" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="caption">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)] = "searchValue" (input)="dt.filterGlobal(searchValue, 'contains')" placeholder="Search..." />
+                </span>
+            </ng-template>
+    
+            <ng-template pTemplate="center" >
+                <div class="d-none">
+                <h6 >Date Range</h6>
+                 <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [showIcon]="true" inputId="icon" [readonlyInput]="true" inputId="range" (ngModelChange)="onDateRangeSelect($event)">
+                   
+                 </p-calendar>
+                 <button pButton type="button" label="Clear Global Filters" icon="pi pi-filter" iconPos="left" class="p-button-secondary" (click)="onClear()"></button>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <button pButton type="button" label="Add History Sheet" icon="pi pi-plus" iconPos="left" class="p-button-secondary" (click)="navigateToHistorySheet()"></button>
+            </ng-template>
+        </p-toolbar>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+
+            <th pSortableColumn="aadharCard"> Aadhar Card <p-sortIcon field="aadharCard"></p-sortIcon></th>
+            <th pSortableColumn="offender">Offender <p-sortIcon field="offender"></p-sortIcon></th>
+            <th pSortableColumn="identifierOfficerName">Identifier Officer Name<p-sortIcon field="identifierOfficerName"></p-sortIcon></th>
+            <th pSortableColumn="usualFieldOfOperation">Usal Field of Operation <p-sortIcon field="usualFieldOfOperation"></p-sortIcon></th>
+            <th pSortableColumn="modusOperandi">Modus Operandi <p-sortIcon field="modusOperandi"></p-sortIcon></th>
+            <th pSortableColumn="previousHistory">Previous History <p-sortIcon field="previousHistory"></p-sortIcon></th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        <tr>
+			
+            <th>
+				<p-columnFilter type="date" field="aadharCard"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="offender"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="identifierOfficerName"></p-columnFilter>
+			</th>
+            <th>
+				<p-columnFilter type="date" field="usualFieldOfOperation"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="modusOperandi"></p-columnFilter>
+			</th>
+            <th>
+				<p-columnFilter type="text" field="previousHistory"></p-columnFilter>
+			</th>
+            <th>
+				
+			</th>
+            <th>
+				
+			</th>
+            <th>
+				
+			</th>
+		</tr>
+	</ng-template>
+  
+    <ng-template pTemplate="body" let-history>
+        <tr>
+           
+            <td style="font-weight: 700;" hidden>
+             {{history.id}}
+            </td>
+            <td><b>{{history.aadharCard}}</b></td>
+            <td>{{history.offender}}</td>
+            <td>{{history.identifierOfficerName}}</td>
+            <td>{{history.usualFieldOfOperation}}</td>
+            <td>{{history.modusOperandi}}</td>
+            <td>{{history.previousHistory}}</td>
+            <td class="p-1">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editHistory(history)"  pTooltip="Edit History Data"></button>
+                
+            </td>
+            <td class="p-1">
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"  (click)="viewHistory(history)"  pTooltip="View History"></button>
+                
+            </td>
+            <td class="p-1 d-none">
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-secondary" label="History" (click)="addHistory(history)" pTooltip="Add History"></button>
+            </td>
+        </tr>
+    </ng-template>
+  
+</p-table>
+</p-panel>

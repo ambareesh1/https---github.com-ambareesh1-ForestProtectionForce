@@ -26,6 +26,7 @@ import { SeizureComponent } from './seizure/seizure.component';
 import { ReportsComponent } from './reports/reports.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { AuthGuard } from './auth.guard';
+import { HistorySheetDataComponent } from './history-sheet-data/history-sheet-data.component';
 
 const routes: Routes = [
 
@@ -55,10 +56,12 @@ const routes: Routes = [
     {path: 'offenderprofile', component:OffenderProfileComponent , canActivate:[AuthGuard]},
     {path: 'offenderprofile/:id', component:OffenderProfileComponent, canActivate:[AuthGuard]},
     {path:'offenderprofileData', component:OffenderProfileDataComponent, canActivate:[AuthGuard]},
-    {path:'history', component:HistoryComponent},
-    {path:'disposed', component:DisposedComponent},
-    {path:'seizure', component:SeizureComponent},
-    {path:'reports', component:ReportsComponent}
+    {path:'history', component:HistoryComponent, canActivate:[AuthGuard]},
+    {path:'history/:id', component:HistoryComponent, canActivate:[AuthGuard]},
+    {path:'historygrid', component:HistorySheetDataComponent, canActivate:[AuthGuard]},
+    {path:'disposed', component:DisposedComponent, canActivate:[AuthGuard]},
+    {path:'seizure', component:SeizureComponent, canActivate:[AuthGuard]},
+    {path:'reports', component:ReportsComponent, canActivate:[AuthGuard]}
    ]
 }
 ];

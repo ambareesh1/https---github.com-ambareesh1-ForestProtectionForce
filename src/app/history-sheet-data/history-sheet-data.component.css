@@ -1,20 +1,3 @@
-:host ::ng-deep  .p-card .p-card-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    background: #607D8B;
-    color: #fff;
-    padding: 10px;
-}
-
-.text-bold{
-    font-weight: 600;
-}
-
-label{
-    font-size: medium !important;
-}
-
 :host ::ng-deep .p-datatable .p-datatable-header {
     background: #f8f9fa;
     color: #343a40;

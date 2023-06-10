@@ -80,7 +80,7 @@ export class SharedService {
   }
 
   getDistrictId(){
-    return this.userDetails.districtId;
+    return this.userDetails.districtId??0;
   }
 
   getUserName (){
