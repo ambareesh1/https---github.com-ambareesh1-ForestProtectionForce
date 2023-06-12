@@ -96,6 +96,8 @@ import { AntiPochingPartCLegalActionComponent } from './anti-poching-part-clegal
 import { HistorySheetDataComponent } from './history-sheet-data/history-sheet-data.component';
 import { HistorySheetViewComponent } from './history-sheet-view/history-sheet-view.component';
 import { DisposedCasesComponent } from './disposed-cases/disposed-cases.component';
+import { DisposedCasesGridComponent } from './disposed-cases-grid/disposed-cases-grid.component';
+import { DisposalViewComponent } from './disposal-view/disposal-view.component';
 
 
 
@@ -141,7 +143,9 @@ import { DisposedCasesComponent } from './disposed-cases/disposed-cases.componen
      AntiPochingPartCLegalActionComponent,
      HistorySheetDataComponent,
      HistorySheetViewComponent,
-     DisposedCasesComponent
+     DisposedCasesComponent,
+     DisposedCasesGridComponent,
+     DisposalViewComponent
   ],
   imports: [
     BrowserModule,

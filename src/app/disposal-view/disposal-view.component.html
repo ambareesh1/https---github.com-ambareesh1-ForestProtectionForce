@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <p-card class="Diposed Case">
+            <div class="p-0">
+                <h5> <p-avatar icon="pi pi-trash" shape="circle" size="large"
+                        [style]="{'background-color': 'darkseagreen', 'color':'#fff'}"></p-avatar> Disposed Case </h5>
+            </div>
+            <hr>
+           
+            <label class="text-bold"> Case No : </label>
+            <label class="text-bold pl-2"><h4> {{disposed.caseId}}</h4></label> 
+            <div class="mb-2">
+                <label class="text-bold">Date Of Filling Complaints : </label>
+                <label class="pl-2"> {{convertToDate(disposed.dateOfFillingComplaints)}}</label>
+            </div>
+           
+            <div class="mb-2">
+                <label class="text-bold">Name Of Court : </label>
+                <label class="pl-2"> {{disposed.nameOfCourt}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Tools Amplements : </label>
+                <label class="pl-2">{{disposed.toolsAmplements}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">No Of Accused : </label>
+                <label class="pl-2">{{disposed.noOfAccused}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Final Disposal Of Case : </label>
+                <label class="pl-2">{{convertStatus(disposed.finalDisposalOfCase)}}</label>
+            </div>
+
+            <div class="mb-2">
+                <label class="text-bold">If Convicted Punishment : </label>
+                <label class="pl-2">{{disposed.ifConvictedPunishment}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Attachment : </label>
+                <label class="pl-2">{{disposed.attachment}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Sections Of Laws : </label>
+                <label class="pl-2">{{disposed.sectionsOfLaws}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Details Of Seizures Recory : </label>
+                <label class="pl-2">{{disposed.detailsOfSeizuresRecory}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Amount : </label>
+                <label class="pl-2">{{disposed.amount}}</label>
+            </div>
+            <div class="mb-2">
+                <label class="text-bold">Appeal Filled If Any : </label>
+                <label class="pl-2">{{disposed.appealFilledIfAny}}</label>
+            </div>
+        </p-card>
+    </div>
+
+      
+     
+    </div>
+

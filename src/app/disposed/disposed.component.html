@@ -1,5 +1,7 @@
-<p-panel header="Disposed Cases">
-    <p-table #dt [value]="baselineData" [rows]="10" [paginator]="true"
+
+<p-toast></p-toast>
+<p-panel  [@fadeIn] header="Disposed Cases">
+    <p-table  *ngIf="!isEdit" #dt [value]="baselineData" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         styleClass="p-datatable-gridlines" [showCurrentPageReport]="true" responsiveLayout="stack"
@@ -26,8 +28,8 @@
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <button pButton type="button" label="Add Baseline Data" icon="pi pi-plus" iconPos="left"
-                        class="p-button-secondary d-none" (click)="navigateToBaselineProfile()"></button>
+                    <button pButton type="button" label="View Disposed Cases" icon="pi pi-table" iconPos="left"
+                        class="p-button-secondary" (click)="navigateToDisposedCases()"></button>
                 </ng-template>
             </p-toolbar>
         </ng-template>
@@ -76,13 +78,14 @@
             <tr>
 
                 <td style="font-weight: 700;">
-                    <p-tableRadioButton value={{Baseline.caseNo}} (onSelect)="onCaseIdClick($event)"></p-tableRadioButton> {{Baseline.caseNo}}
+                    <p-tableRadioButton [value]="Baseline" (click)="onCaseIdClick(Baseline)"></p-tableRadioButton>
+                    {{Baseline.caseNo}}
                 </td>
                 <td>{{this.convertToDate(Baseline.dateOfDetection)}}</td>
                 <td>{{Baseline.officerName}}</td>
                 <td>{{Baseline.firNo}}</td>
                 <td>{{this.convertToDate(Baseline.crimeDate)}}</td>
-                <td>{{Baseline.status}}</td>
+                <td> <span [ngClass]="changeColorOnStatusOfBaselineView(Baseline.status)" class="customer-badge">{{Baseline.status}}</span></td>
                 <td class="p-1">
                     <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"
                         (click)="viewBaseline(Baseline)"></button>
@@ -96,70 +99,77 @@
             </div>
         </ng-template>
     </p-table>
-
-    <p-card subheader="Add Details Of disposed case ">
+ 
+    <p-card *ngIf="caseId != null || this.isEdit" subheader=  " {{isEdit ? 'Edit' : 'Add'}} Details Of disposed case ">
+        <form *ngIf="formDisposedCases && isDataLoaded" [formGroup]="formDisposedCases" (ngSubmit)="onSubmitDisposed()">
         <div class="row">
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Case No</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" value="{{this.caseId}}" disabled="true"  />
+                    <label for="caseId" class="block">Case No</label>
+                    <input id="caseId" formControlName = "caseId"  pInputText class="offender-input-width" value="{{this.caseId}}" />
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Date of Filling Complaints</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
-                </div>
-
-                <div class="field">
-                    <label for="ItemDescription" class="block">Name of the Court</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="dateOfFillingComplaints" class="block">Date of Filling Complaints</label>
+                    <p-calendar  id="dateOfFillingComplaints"  [showIcon]="true" inputId="icon" 
+                    styleClass="p-button-success offender-input-width"
+                    formControlName="dateOfFillingComplaints"></p-calendar>
                 </div>
 
                 <div class="field">
-                    <label for="ItemDescription" class="block">Total Amplements</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="nameOfCourt" class="block">Name of the Court</label>
+                    <input id="nameOfCourt" formControlName = "nameOfCourt"  pInputText class="offender-input-width"   />
+                </div>
+
+                <div class="field">
+                    <label for="toolsAmplements" class="block">Total Amplements</label>
+                    <input id="toolsAmplements" formControlName = "toolsAmplements"  pInputText class="offender-input-width"   />
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Final Disposal Of Case</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="noOfAccused" class="block">No Of Accused</label>
+                    <input id="noOfAccused" formControlName = "noOfAccused"  pInputText class="offender-input-width"   />
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">If convicted Of Case</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="finalDisposalOfCase" class="block">Final Disposal Of Case</label>
+                    <p-dropdown [options]="disposedStatus" class="offender-input-width" formControlName = "finalDisposalOfCase"
+                        optionLabel="name"  optionValue="code"></p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="ifConvictedPunishment" class="block">If convicted Punishment</label>
+                    <input id="ifConvictedPunishment" formControlName = "ifConvictedPunishment"  pInputText class="offender-input-width" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="field">
-                    <label for="ItemDescription" class="block">Section Of Laws</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="sectionsOfLaws" class="block">Section Of Laws</label>
+                    <p-chips  placeholder="Hint: enter item and hit 'enter'"
+                            styleClass="offender-input-width" formControlName="sectionsOfLaws"></p-chips>
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Details Of Recovery</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="detailsOfSeizuresRecory" class="block">Details Of Seizures Recovery</label>
+                    <input id="detailsOfSeizuresRecory" formControlName = "detailsOfSeizuresRecory"  pInputText class="offender-input-width" />
+                </div>
+               
+                <div class="field">
+                    <label for="nameOfAccused" class="block">Name of Accused</label>
+                    <input id="nameOfAccused" formControlName = "nameOfAccused"  pInputText class="offender-input-width"/>
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Case of Death</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="amount" class="block">If Compounded Amount - Rupees</label>
+                    <p-inputNumber formControlName = "amount" inputId="locale-indian" mode="decimal" locale="en-IN" [minFractionDigits]="2" class="offender-input-width"> </p-inputNumber>
                 </div>
                 <div class="field">
-                    <label for="ItemDescription" class="block">Name of Accused</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
-                </div>
-                <div class="field">
-                    <label for="ItemDescription" class="block">If Compounded Amount - Rupees</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
-                </div>
-                <div class="field">
-                    <label for="ItemDescription" class="block">Appeal filled</label>
-                    <input id="CrimeDetails"  pInputText class="offender-input-width" disabled="true"  />
+                    <label for="appealFilledIfAny" class="block">Appeal filled</label>
+                    <input id="appealFilledIfAny" formControlName = "appealFilledIfAny"  pInputText class="offender-input-width"  />
                 </div>
             </div>
 
             <div class="p-card-footer flex justify-content-center flex-wrap gap-4 mt-1">
                         
-                <button pButton type="submit" class="p-button-raised p-button-rounded p-button-warning">Update</button>
+                <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success" [ngClass]="{'p-button-warning': isEdit}" >{{isEdit?'Update':'Submit'}}</button>
                 <button pButton type="reset" class="p-button-raised p-button-rounded p-button-secondary">Cancel</button>
             </div>
         </div>
+    </form>
     </p-card>
 
 </p-panel>

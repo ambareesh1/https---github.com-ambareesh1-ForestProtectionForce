@@ -3,12 +3,14 @@ import { HistorySheet } from '../Models/HistorySheet';
 import { HistorysheetService } from '../services/historysheet.service';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ManagedataService } from '../services/managedata.service';
+import { fadeInEffect } from '../animations/custom-animations';
 
 
 @Component({
   selector: 'app-history-sheet-view',
   templateUrl: './history-sheet-view.component.html',
-  styleUrls: ['./history-sheet-view.component.css']
+  styleUrls: ['./history-sheet-view.component.css'],
+  animations:[fadeInEffect]
 })
 export class HistorySheetViewComponent implements OnInit{
 

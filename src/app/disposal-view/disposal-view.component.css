@@ -1,0 +1,56 @@
+:host ::ng-deep  .p-card .p-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: #607D8B;
+    color: #fff;
+    padding: 10px;
+}
+
+.text-bold{
+    font-weight: 600;
+}
+
+label{
+    font-size: medium !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    background: #f8f9fa;
+    color: #343a40;
+    font-weight: 700;
+}
+
+:host ::ng-deep .p-toolbar {
+    background: #f8f9fa;
+    border: none !important;
+    padding: 0px !important;
+    border-radius: 6px;
+    gap: 0.5rem;
+}
+
+
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    background: #f8f9fa;
+    color: #64748B;
+    border: 1px solid #dee2e6;
+    border-width: 1px 0 1px 0;
+    padding: 1rem 1rem;
+    font-weight: 700;
+}
+
+:host ::ng-deep .p-button {
+    color: #ffffff;
+    background: #64748B;
+    border: 1px solid #64748B;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+}
+
+:host ::ng-deep .p-toolbar-group-center{
+    display: contents !important;
+}
+

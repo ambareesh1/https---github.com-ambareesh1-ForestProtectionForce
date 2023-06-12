@@ -11,11 +11,13 @@ import { environment } from 'src/environments/environment.development';
 import { OffenderdataService } from '../services/offenderdata.service';
 import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { fadeInEffect } from '../animations/custom-animations';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  styleUrls: ['./history.component.css'],
+  animations:[fadeInEffect]
 })
 export class HistoryComponent implements OnInit{
   formHistory: FormGroup =new FormGroup({});

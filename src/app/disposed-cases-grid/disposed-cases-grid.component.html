@@ -1,0 +1,96 @@
+<p-panel  header="Disposed Cases" [@fadeIn] header="Disposed Cases">
+    <p-table #dt [value]="disposed" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','SurnameAlias','FatherHusbandNameAlias','CaseId']" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        styleClass="p-datatable-gridlines" [showCurrentPageReport]="true" responsiveLayout="stack"
+        [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="caption">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchValue"
+                            (input)="dt.filterGlobal(searchValue, 'contains')" placeholder="Search..." />
+                    </span>
+                </ng-template>
+
+             
+
+                <ng-template pTemplate="right">
+                    <button pButton type="button" label="Make a Case Disposal" icon="pi pi-plus" iconPos="left"
+                        class="p-button-secondary" (click)="navigateToCasesTobeDisposed()"></button>
+                </ng-template>
+            </p-toolbar>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="caseId">Case No <p-sortIcon field="caseId"></p-sortIcon></th>
+                <th pSortableColumn="dateOfFillingComplaints">Date Of Filling Complaints <p-sortIcon
+                        field="dateOfFillingComplaints"></p-sortIcon></th>
+                <th pSortableColumn="nameOfCourt">Name Of Court <p-sortIcon field="nameOfCourt"></p-sortIcon>
+                </th>
+                <th pSortableColumn="noOfAccused">No Of Accused <p-sortIcon field="noOfAccused"></p-sortIcon></th>
+                <th pSortableColumn="finalDisposalOfCase">Final Disposal Of Case <p-sortIcon field="finalDisposalOfCase"></p-sortIcon></th>
+                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
+                <th> </th>
+                <th> </th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="caseId"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="DateOdateOfFillingComplaintsfDetection"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="nameOfCourt"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="noOfAccused"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="finalDisposalOfCase"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="amount"></p-columnFilter>
+                </th>
+
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-Disposed>
+            <tr>
+
+                <td style="font-weight: 700;">
+                   
+                    {{Disposed.caseId}}
+                </td>
+                <td>{{convertToDate(Disposed.dateOfFillingComplaints)}}</td>
+                <td>{{Disposed.nameOfCourt}}</td>
+                <td>{{Disposed.noOfAccused}}</td>
+                <td>{{convertStatus(Disposed.finalDisposalOfCase)}} </td>
+                <td >{{Disposed.amount }}</td>
+               
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary"
+                    (click)="editDisposed(Disposed)"></button>
+
+                </td>
+                <td class="p-1">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary"
+                        (click)="viewDispoedCase(Disposed)"></button>
+
+                </td>
+            </tr>
+        </ng-template>
+       
+    </p-table>
+    </p-panel>
