@@ -8,6 +8,9 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { HistorysheetService } from '../services/historysheet.service';
 import { HistorySheetViewComponent } from '../history-sheet-view/history-sheet-view.component';
+import { OffenderdataService } from '../services/offenderdata.service';
+import { Offender } from '../Models/OffenderModel';
+import { OffenderViewComponent } from '../offender-view/offender-view.component';
 
 @Component({
   selector: 'app-history-sheet-data',
@@ -23,7 +26,8 @@ export class HistorySheetDataComponent implements OnInit {
   ref: DynamicDialogRef | undefined;
   
 constructor( private router: Router,
-  public dialogService: DialogService, public messageService: MessageService, private sharedService: SharedService, private historySheetService : HistorysheetService){
+  public dialogService: DialogService, public messageService: MessageService, private sharedService: SharedService, 
+  private historySheetService : HistorysheetService, private offenderService : OffenderdataService){
 
 }
 
@@ -67,6 +71,13 @@ addHistory = (history : HistorySheet) =>{
   
 }
 
+onClickAadhar = (aadhaarNo:any) =>{
+  debugger;
+  this.offenderService.getOffenderWithAdhar(aadhaarNo).subscribe((x)=>{
+    this.showOffender(x);
+  })
+}
+
 onClear = () =>{
   this.rangeDates = [];
   this.searchValue = "";
@@ -78,6 +89,16 @@ show(baseline:HistorySheet) {
       contentStyle: {"max-height": "600px", "overflow": "auto"},
       baseZIndex: 10000,
       data: baseline.id
+  });
+}
+
+showOffender(offender:any) {
+  this.ref = this.dialogService.open(OffenderViewComponent, {
+      header: 'Offender Details',
+      width: '90%',
+      contentStyle: {"max-height": "600px", "overflow": "auto"},
+      baseZIndex: 10000,
+      data: offender.id
   });
 }
 }

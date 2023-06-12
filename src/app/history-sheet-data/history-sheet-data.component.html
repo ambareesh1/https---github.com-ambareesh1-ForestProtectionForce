@@ -79,7 +79,7 @@
             <td style="font-weight: 700;" hidden>
              {{history.id}}
             </td>
-            <td><b>{{history.aadharCard}}</b></td>
+            <td><b class="a-underline" (click)="onClickAadhar(history.aadharCard)">{{history.aadharCard}}</b></td>
             <td>{{history.offender}}</td>
             <td>{{history.identifierOfficerName}}</td>
             <td>{{history.usualFieldOfOperation}}</td>

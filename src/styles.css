@@ -73,3 +73,8 @@ body{
   opacity: 1;
   transition: opacity 0.5s;
 }
+
+.a-underline {
+  border-bottom: 2px solid #79554863;
+    cursor: pointer;
+}
