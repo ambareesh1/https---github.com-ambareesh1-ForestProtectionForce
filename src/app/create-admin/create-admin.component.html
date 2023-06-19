@@ -32,7 +32,7 @@
                     </small>
                 </div>
                 <div class="field">
-                    <label for="userType_Name" class="block">District<span class="required-field">*</span></label>
+                    <label for="userType_Name" class="block">Forest Division / Gamma Unit<span class="required-field">*</span></label>
                     <p-dropdown  [options]="district" [showClear]="true" class="offender-input-width" formControlName="district" optionLabel="name" optionValue="id" [readonly]="isEditOrCaseEntryOperatorSelected" > </p-dropdown>
                    
                     <small class="p-error block"
@@ -82,7 +82,7 @@
 
                 <div class="field">
                     <label for="email" class="block">Email<span class="required-field">*</span></label>
-                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"  [readOnly]="isEdit" [ngClass]="isEdit?'bg-grey':'bg-white'"  />
+                    <input id="email" pInputText mode="text" class="offender-input-width" formControlName="email"  [readOnly]="isEdit && !isEditOrCaseEntryOperatorSelected" [ngClass]="isEdit  && !isEditOrCaseEntryOperatorSelected ?'bg-grey':'bg-white'"  />
                     <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty && !emailControl?.hasError('emailtaken')">
                         Email is required.
                     </small>

@@ -45,6 +45,7 @@ import { TooltipModule  } from 'primeng/tooltip';
 import { MessageModule } from 'primeng/message';
 import {BadgeModule} from 'primeng/badge';
 import {AvatarModule} from 'primeng/avatar';
+import { PasswordModule } from 'primeng/password';
 // -----------------------  Imports - Primng API ---------------
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
@@ -64,6 +65,7 @@ import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { ManageAdminUsersComponent } from './manage-admin-users/manage-admin-users.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+
 
 
 // ------------------------  Services ---------------------
@@ -194,7 +196,8 @@ import { DisposalViewComponent } from './disposal-view/disposal-view.component';
     TooltipModule,
     MessageModule,
     BadgeModule,
-    AvatarModule
+    AvatarModule,
+    PasswordModule
   ],
   providers: [ProductService, MessageService, ConfirmationService, DialogService, 
      { provide: LocationStrategy, useClass: HashLocationStrategy },

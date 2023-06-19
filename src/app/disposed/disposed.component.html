@@ -151,7 +151,21 @@
                
                 <div class="field">
                     <label for="nameOfAccused" class="block">Name of Accused</label>
-                    <input id="nameOfAccused" formControlName = "nameOfAccused"  pInputText class="offender-input-width"/>
+                  
+                    <span class="p-fluid">
+                        <p-autoComplete  formControlName="nameOfAccused" placeholder="Enter names"  [suggestions]="filteredOffenders" dataKey="aadhaarNo" 
+                         (completeMethod)="filterCountry($event)" field="name" [multiple]="true" (onSelect)="onSelect($event)"  [delay]="300"> 
+                            <ng-template  let-option pTemplate="option">
+                              <div class="option-item">
+                                <div class="option-details">
+                                    <img [alt]="option.name" [src]="offenderProfilePicPath+option.photo_Url" width="40" height="40" style="vertical-align: middle; border-radius:50%" />
+                                    <span class="font-bold ml-2">{{option.name}} , {{option.surnameAlias}}</span> | Aadhar : <span class="text-secondary font-bold"> {{option.aadhaarNo}} </span>
+                                   
+                                </div>
+                              </div>
+                            </ng-template>
+                          </p-autoComplete>
+                    </span>
                 </div>
                 <div class="field">
                     <label for="amount" class="block">If Compounded Amount - Rupees</label>

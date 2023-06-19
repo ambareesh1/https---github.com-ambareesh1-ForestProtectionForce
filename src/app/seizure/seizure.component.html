@@ -1,10 +1,10 @@
 <p-toast></p-toast>
-<p-panel header="Seizure Forms">
+<p-panel header="Seizure Forms" [@fadeIn]>
     <p-message *ngIf="isSuperAdminOfJammuOrKashmir && enableMessage" severity="warn"
-        text="Please select the district to view the seizure report" styleClass="mr-2"></p-message>
-    <p-card class="mb-2">
+        text="Please select the Forest Division / Gamma Unit to view the seizure report" styleClass="mr-2 mb-3"></p-message>
+    <p-card styleClass="mb-2"  *ngIf="isSuperAdminOfJammuOrKashmir">
 
-        <div class="row">
+        <div class="row" >
             <div class="col-lg-4">
                 <div class="field">
                     <label for="name" class="block">Province</label>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="field">
-                    <label for="name" class="block">Forest District / Division</label>
+                    <label for="name" class="block">Forest Division / Gamma Unit</label>
                     <p-dropdown [options]="districtData" [(ngModel)]="districtId" optionLabel="name" optionValue="id"
                         (onChange)="onChangeDistrict($event)"></p-dropdown>
 
@@ -32,7 +32,7 @@
     <p-progressBar *ngIf="!showSeizureReport" mode="indeterminate"
         [style]="{'height': '6px', 'background' : 'tomoato'}"></p-progressBar>
 
-    <p-card *ngIf="districtId > 0">
+    <p-card styleClass="mb-2" *ngIf="districtId > 0">
         <div class="row">
             <div class="col-lg-4">
                 <div class="field">
@@ -46,22 +46,29 @@
                 <div class="field col-12 md:col-6">
                     <label for="icon">Select Month</label>
                     <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value"
-                        [showIcon]="true" inputId="icon"></p-calendar>
+                        [showIcon]="true" inputId="icon" (ngModelChange)="onMonthChange()" ></p-calendar>
                 </div>
             </div>
         </div>
     </p-card>
 
-    <div *ngIf="isSuperAdminOfJammuOrKashmir && districtId > 0 ">
-        <p-card *ngIf="formAVisibility">
+    <div  *ngIf="districtId > 0 ">
+
+        <p-card  class="card-bg" styleClass="mb-2" *ngIf="this.formName!=''">
+            <h5 class="m-0 text-center">
+               {{ this.formName}} for the month <b>{{this.formattedDate}}</b> of Forest Division / Gamma Unit :  <b>{{this.districtName}}</b>
+            </h5>
+        </p-card>
+
+        <p-card styleClass="mb-2" *ngIf="formAVisibility">
     
             <p-table #dt [value]="formA" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
                 <ng-template pTemplate="caption">
                     <div class="flex">
-                        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
+                        <button type="button " pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                             pTooltip="CSV" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
-                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                            class="p-button-success mr-2  d-none" pTooltip="XLS" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
                             class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-filter"
@@ -96,7 +103,7 @@
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.ob_independent"
-                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) + (seizure.during_month_independent || 0)">
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     {{seizure.ob_independent}}
@@ -106,7 +113,7 @@
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_independent"
-                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) * (seizure.during_month_independent || 0)">
+                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) + (seizure.during_month_independent || 0)">
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     {{seizure.during_month_independent}}
@@ -118,7 +125,7 @@
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.ob_joint"
-                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) + (seizure.during_month_joint|| 0)">
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     {{seizure.ob_joint}}
@@ -129,7 +136,7 @@
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_joint"
-                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) * (seizure.during_month_joint|| 0)">
+                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) + (seizure.during_month_joint|| 0)">
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     {{seizure.during_month_joint}}
@@ -156,11 +163,11 @@
         <p-card  *ngIf="formBVisibility">
             <p-table #dt [value]="formB" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
                 <ng-template pTemplate="caption">
-                    <div class="flex">
+                    <div class="flex d-none">
                         <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                             pTooltip="CSV" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormB()"
-                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                            class="p-button-success mr-2  d-none" pTooltip="XLS" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
                             class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-filter"
@@ -194,7 +201,16 @@
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td class="text-center">{{ seizure.serialNo }}</td>
-                        <td class="text-center"><b>{{seizure.gamma_Unit}}</b></td>
+                        <td *ngIf="isSuperAdminOfJammuOrKashmir" class="text-center">  <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="seizure.gamma_Unit">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <b> seizure.gamma_Unit</b>
+                            </ng-template>
+                        </p-cellEditor>
+                        </td>
+                        <td *ngIf="!isSuperAdminOfJammuOrKashmir"><b>{{this.districtName}}</b></td>
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.nakas_Laid">
@@ -300,11 +316,11 @@
     
             <p-table #dt [value]="formC" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
                 <ng-template pTemplate="caption">
-                    <div class="flex">
+                    <div class="flex d-none">
                         <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                             pTooltip="CSV" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormC()"
-                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                            class="p-button-success mr-2  d-none" pTooltip="XLS" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
                             class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-filter"
@@ -470,11 +486,11 @@
             
             <p-table #dt [value]="manAnimalConflict" dataKey="id" editMode="row" styleClass="p-datatable-gridlines">
                 <ng-template pTemplate="caption">
-                    <div class="flex">
+                    <div class="flex d-none">
                         <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                             pTooltip="CSV" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcelFormC()"
-                            class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                            class="p-button-success mr-2  d-none" pTooltip="XLS" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
                             class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
                         <button type="button" pButton pRipple icon="pi pi-filter"
@@ -569,38 +585,38 @@
             </div>
          </p-card>
        
-         <p-card *ngIf="fireIncident" header="Fire Incident Cases">
+         <p-card *ngIf="fireIncident" >
             <app-forest-fire-seizure  [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId">
             </app-forest-fire-seizure>
          </p-card>
 
-         <p-card *ngIf="complaintsRegistered" header="Complaints Registered">
+         <p-card *ngIf="complaintsRegistered">
             <app-complaints-registered  [complaints]="complaints" [districtId]="districtId" [provinceId]="provinceId">
             </app-complaints-registered>
          </p-card>
 
-         <p-card *ngIf="forestOffendersVisibility" header="Habitual Forest Offenders Registered">
+         <p-card *ngIf="forestOffendersVisibility" >
             <app-habitual-forest-offenders  [forestOffenders]="forestOffenders" [districtId]="districtId" [provinceId]="provinceId">
             </app-habitual-forest-offenders>
          </p-card>
 
-         <p-card *ngIf="antiPochingFormAVisibility" header="Anti - Poching Control Room PART A Activity">
+         <p-card *ngIf="antiPochingFormAVisibility">
             <app-anti-poching-part-aactivity  [antiPouchingFormA]="AntiPochingFormA" [districtId]="districtId" [provinceId]="provinceId">
             </app-anti-poching-part-aactivity>
          </p-card>
 
-         <p-card *ngIf="antiPochingFormBVisibility" header="Anti - Poching Control Room PART B SEIZURES">
+         <p-card *ngIf="antiPochingFormBVisibility">
             <app-anti-poching-part-bsizures  [antiPouchingFormB]="AntiPochingFormB" [districtId]="districtId" [provinceId]="provinceId">
             </app-anti-poching-part-bsizures>
          </p-card>
 
-         <p-card *ngIf="antiPochingFormCVisibility" header="Anti - Poching Control Room PART C LEGAL ACTION">
+         <p-card *ngIf="antiPochingFormCVisibility">
             <app-anti-poching-part-clegal-action  [AntiPochingFormC]="AntiPochingFormC" [districtId]="districtId" [provinceId]="provinceId">
             </app-anti-poching-part-clegal-action>
          </p-card>
 
     </div>
-    <p-card *ngIf="!showSeizureReport">
+    <p-card styleClass="mb-2" *ngIf="!showSeizureReport">
         <div class="custom-skeleton p-4">
             <ul class="m-0 o-0" style="list-style-type: none;">
                 <li class="mb-3">

@@ -12,6 +12,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { fadeInEffect } from '../animations/custom-animations';
 import { BaselineViewComponent } from '../baseline-view/baseline-view.component';
 import { changeColorOnStatus } from '../utilities/shared';
+import { environment } from 'src/environments/environment.development';
+import { OffenderdataService } from '../services/offenderdata.service';
 @Component({
   selector: 'app-disposed',
   templateUrl: './disposed.component.html',
@@ -31,10 +33,13 @@ export class DisposedComponent {
   id : any;
   isDataLoaded : boolean = false;
   ref: DynamicDialogRef | undefined;
-  
+  offenderProfilePicPath = environment.fileUploadPath;
+  selectedOffenders: any[] = [];
+  offendars: any[] = [];
+  filteredOffenders: any[] = [];
   constructor(private fb: FormBuilder,private baselineDataService : BaselinedataService, private router: Router, 
     public dialogService: DialogService, public messageService: MessageService, private sharedService: SharedService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute, private offenderDataService : OffenderdataService,
      private disposedCasesService : DisposedCasesService)
   {
     debugger;
@@ -184,9 +189,61 @@ export class DisposedComponent {
   onCaseIdClick = (baseline:any) =>{
     debugger;
     this.caseId = baseline.caseNo;
+    
     this.formDisposedCases.controls['caseId'].setValue(baseline.caseNo);
     this.formDisposedCases.controls['noOfAccused'].setValue(baseline.noOfAccused);
     this.formDisposedCases.controls['sectionsOfLaws'].setValue(baseline.sectionOfLaw?.split(","));
+    this.loadOffenders(baseline);
+  }
+
+  loadOffenders = async (baseline: BaselineModel) => {
+    debugger;
+    this.selectedOffenders = [];
+    (await this.offenderDataService.getOffendersData()).subscribe(x => {
+      this.isDataLoaded = true;
+      this.offendars = x;
+      if (baseline.nameOfAccused.split(',').length > 1) {
+        this.offendars.forEach((element: any) => {
+          this.selectedOffenders.push(this.offendars.filter(x => x.aadhaarNo == element)[0]);
+          this.filteredOffenders = this.selectedOffenders;
+         // this.formDisposedCases.controls['NameOfAccused'].setValue(this.selectedOffenders);
+        });
+      } else {
+        //this.isDataLoaded = true;
+        this.selectedOffenders.push(this.offendars.filter(x => x.aadhaarNo == baseline.nameOfAccused)[0]);
+        let offenders = this.selectedOffenders;
+       // this.formDisposedCases.controls['NameOfAccused'].setValue(offenders);
+      }
+      if (this.isEdit) {
+       
+        this.isDataLoaded = true;
+      }
+   //   this.isDataLoaded = true;
+    })
+  }
+
+  filterCountry(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.offendars.length; i++) {
+      let country = this.offendars[i];
+      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(this.offendars[i]);
+      }
+    }
+
+    this.filteredOffenders = filtered;
+  }
+
+  onSelect(event: any) {
+    debugger;
+    // Access the selected item from the event object
+    const selectedItem = event;
+    this.selectedOffenders = [];
+    // Push the selected item to the selectedOffenders array
+    this.selectedOffenders.push(selectedItem);
+    this.formDisposedCases.controls['NameOfAccused'].setValue(this.selectedOffenders);
   }
 
   

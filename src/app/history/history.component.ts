@@ -12,6 +12,7 @@ import { OffenderdataService } from '../services/offenderdata.service';
 import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { fadeInEffect } from '../animations/custom-animations';
+import { stayAndNavigate } from '../utilities/shared';
 
 @Component({
   selector: 'app-history',
@@ -52,6 +53,8 @@ export class HistoryComponent implements OnInit{
         }else{
          this.initFormHistory({} as HistorySheet);
         }
+
+        
     });
       
   }
@@ -61,7 +64,7 @@ export class HistoryComponent implements OnInit{
  
     this.formHistory = this.fb.group({
       id :[historySheet.id],
-      aadharCard: [historySheet.aadharCard || []],
+      aadharCard: [historySheet.aadharCard || ''],
       offender: [historySheet.offender ||''],
       identifierOfficerName: [historySheet.identifierOfficerName ||''],
       usualFieldOfOperation: [historySheet.usualFieldOfOperation ||''],
@@ -108,7 +111,8 @@ export class HistoryComponent implements OnInit{
         this.historyService.updateHistorySheet(parseInt(this.id), historyData).subscribe(data => {
           let provinceAddmsg = "History sheet are updated";
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceAddmsg, life: 10000 });
-          this.router.navigate(['/historygrid'])
+          stayAndNavigate(3000,"/historygrid",this.router);
+         
         })
       } else {
         this.historyService.createHistorySheet(historyData).subscribe((x) => {
@@ -118,7 +122,7 @@ export class HistoryComponent implements OnInit{
         
             let provinceAddmsg = "History Sheet created";
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceAddmsg, life: 10000 });
-            this.router.navigate(['/historygrid'])
+            stayAndNavigate(3000,"/historygrid",this.router);
             //this.isDataLoaded = true;
            
           }
@@ -134,19 +138,17 @@ export class HistoryComponent implements OnInit{
       this.historyService.getHostorySheetbyId(id).subscribe((x)=>{
         debugger;
         this.needSpinner = false
-        this.selectedOffenders.push(this.offenders.filter((y:any) => y.aadhaarNo == x.aadharCard)[0]);
-        this.offenderName = this.selectedOffenders[0].name;
-      //  this.formHistory.controls['offender'].setValue(this.selectedOffenders);
+       // this.selectedOffenders = [];
+        let selectedOffender = this.selectedOffenders[0].filter((y:any) => y.aadhaarNo == x.aadharCard);
+         this.offenderName = selectedOffender[0].name;
+         this.aadhar = selectedOffender[0].aadhaarNo;
         this.initFormHistory(x);
-       
+        this.formHistory.controls['offender'].setValue(selectedOffender[0]);
       })
     }
   
-    getAccusedNames = () => {
-      debugger
-      let result = this.selectedOffenders.map(x => x.aadhaarNo);
-      this.aadhar = result[0];
-      this.offenderName = this.selectedOffenders.map(x => x.name)[0];
+    getAccusedNames = (aadhaarNo:any) => {
+      let result = this.selectedOffenders[0].filter((x:any) => x.aadhaarNo == aadhaarNo);
       return result;
     }
 
@@ -156,6 +158,7 @@ export class HistoryComponent implements OnInit{
     (await this.offenderDataService.getOffendersData()).subscribe(x => {
       this.offenders = x;
      
+      this.selectedOffenders.push(x);
       if(this.isEdit){
         this.loadHistorySheetById(this.id);
       }else{
@@ -182,6 +185,7 @@ export class HistoryComponent implements OnInit{
   onSelect(event: any) {
     debugger;
     // Access the selected item from the event object
+    this.selectedOffenders = [];
     const selectedItem = event;
 
     // Push the selected item to the selectedOffenders array

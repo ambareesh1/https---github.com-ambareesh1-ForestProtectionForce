@@ -104,28 +104,28 @@ export class OffenderProfileComponent {
       name: [offender.name || '', Validators.required],
       surNameAlias: [offender.surnameAlias ||''],
       fatherName: [offender.fatherHusbandNameAlias ||'', Validators.required],
-      caste: [offender.caste ||'', Validators.required],
-      trade: [offender.tradeProfession ||'', Validators.required],
-      dateOfPhotography: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfPhotography):''||'', Validators.required],
+      caste: [offender.caste ||''],//, Validators.required
+      trade: [offender.tradeProfession ||''],//, Validators.required
+      dateOfPhotography: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfPhotography):''||''], //, Validators.required
       photo: [offender.Photo|| ''],
 
       dateOfBirth: [Object.keys(offender).length !== 0 ?new Date(offender.dateOfBirth):''||'', Validators.required],
       age: [offender.age ||0, Validators.required],
       sex: [offender.sex ||'male', Validators.required],
       citizenShip: [offender.citizenship ||'', Validators.required],
-      email: [offender.email ||'', Validators.required],
-      passport: [offender.passportNo ||'', Validators.required],
+      email: [offender.email ||''], //, Validators.required
+      passport: [offender.passportNo ||''], //, Validators.required
       mobileNo: [offender.telephoneMobileNo ||'', Validators.required],
       aadharNo: [offender.aadhaarNo ||'', Validators.required],
-      backAccountNo: [offender.bankAccountNo ||'', Validators.required],
+      backAccountNo: [offender.bankAccountNo ||''],//, Validators.required
 
-      houseNo: [offender.houseNo ||'', Validators.required],
+      houseNo: [offender.houseNo ||''], //, Validators.required
       village: [offender.village ||'', Validators.required],
       city: [offender.city ||'', Validators.required],
-      street: [offender.street ||'', Validators.required],
+      street: [offender.street ||''], //, Validators.required
       policeStation: [offender.policeStation ||'', Validators.required],
       district: [offender.districtId ||this.districtData[0].id, Validators.required],
-      pincode: [offender.pinCode ||'', Validators.required]
+      pincode: [offender.pinCode ||''] //, Validators.required
     });
   }
 
@@ -148,7 +148,7 @@ export class OffenderProfileComponent {
         FatherHusbandNameAlias: this.formOffender.value.fatherName,
         Caste: this.formOffender.value.caste,
         TradeProfession: this.formOffender.value.trade,
-        DateOfPhotography: this.formOffender.value.dateOfPhotography,
+        DateOfPhotography: this.formOffender.value.dateOfPhotography == '' ? null : this.formOffender.value.dateOfPhotography,
         Photo: this.formOffender.value.photo,
 
         DateOfBirth: this.formOffender.value.dateOfBirth,

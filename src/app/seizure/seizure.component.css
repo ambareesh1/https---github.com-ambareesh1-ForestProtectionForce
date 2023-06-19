@@ -15,3 +15,8 @@
 :host ::ng-deep .p-dropdown{
     width: 75%;
 }
+
+:host ::ng-deep .card-bg .p-card {
+    background: #6c757d !important;
+    color: white !important;
+  }

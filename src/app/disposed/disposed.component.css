@@ -125,3 +125,7 @@
 :host ::ng-deep span.p-inputnumber.p-component {
     width : 100% !important;
 }
+
+:host ::ng-deep .p-fluid .p-inputtext {
+    width: 75%;
+}

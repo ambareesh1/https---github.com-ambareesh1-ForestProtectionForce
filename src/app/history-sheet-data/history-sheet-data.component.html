@@ -1,7 +1,7 @@
 <p-panel header="History Sheet Data" [@fadeIn]>
     <p-progressBar mode="indeterminate" [style]="{ height: '6px'}" [hidden]="!isDataLoaded"></p-progressBar>
     <p-table #dt [value]="historyData" [rows]="10" [paginator]="true" [globalFilterFields]="['caseNo','dateOfDetection','officerName','firNo', 'DateOfCrime','Status']"
-    [rowHover]="true" dataKey="id"
+    [rowHover]="true" dataKey="id" styleClass="p-datatable-gridlines"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
     [showCurrentPageReport]="true" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="caption">
@@ -39,7 +39,7 @@
             <th pSortableColumn="previousHistory">Previous History <p-sortIcon field="previousHistory"></p-sortIcon></th>
             <th> </th>
             <th> </th>
-            <th> </th>
+            
         </tr>
         <tr>
 			
@@ -67,9 +67,7 @@
             <th>
 				
 			</th>
-            <th>
-				
-			</th>
+           
 		</tr>
 	</ng-template>
   

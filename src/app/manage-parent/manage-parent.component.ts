@@ -54,7 +54,7 @@ export class ManageParentComponent {
         this.circleContainer.clear();
         const circleComponentRef = this.circleContainer.createComponent(componentFactory);
         break;
-      case 'Manage Forest Gamma Unit':
+      case 'Manage Forest Division Gamma Unit':
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageDistrictComponent);
         this.districtContainer.clear();
         const districtComponentRef = this.districtContainer.createComponent(componentFactory);

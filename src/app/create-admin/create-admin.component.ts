@@ -36,6 +36,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   userTypeId : number = 1;
   isEditOrCaseEntryOperatorSelected:boolean = false;
   usernameToCompare : any;
+  editedUserDetails : any;
   constructor(private formBuilder: FormBuilder, private userDetailsService: UserDetailService,
     private messageService: MessageService, private manageDataService: ManagedataService, 
     private confirmationService: ConfirmationService, private sharedService : SharedService) {
@@ -166,10 +167,11 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       districtId: this.userForm.value.district == null ? this.sharedService.getDistrictId() : this.userForm.value.district,
       otp: 0
     }
-
-    if (this.userForm.value.userType_Id == UserTypeEnum.CaseEntryOperator && !this.isEdit) {
+    let userType = this.userForm.value.userType_Id;
+    if (userType == UserTypeEnum.CaseEntryOperator || userType == UserTypeEnum.DeputyDirector && this.isEdit) {
       
-      this.checkUserOfDistrictAlreadyExist(userDetails);
+      //this.checkUserOfDistrictAlreadyExist(userDetails);
+       this.checkUserOfDistrictAlreadyExist(userDetails);
     
     } else {
       this.saveAndUpdateTheData(userDetails);
@@ -240,6 +242,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
     this.getCircleData();
     this.getDistrictData();
     this.ProvinceCircleDistrictDDlVisibility(userDetails.userType_Id);
+    this.editedUserDetails = userDetails;
     this.initFormUserDetails(userDetails);
   }
 
@@ -284,6 +287,62 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
 
   checkUserOfDistrictAlreadyExist = (userDetails: UserDetails) => {
     debugger;
+    this.userDetailsService.verifyEmail(userDetails.email).subscribe((alreadyExistedUser) => {
+      if (alreadyExistedUser != null) {
+        let district = this.district.filter(x=>x.id == alreadyExistedUser.districtId)[0].name;
+        this.confirmationService.confirm({
+          message: `<div style="font-size: 16px; line-height: 1.2;">
+          <p style="margin-bottom: 10px;">The user <strong>${alreadyExistedUser.first_Name} ${alreadyExistedUser.last_Name}</strong> already exists in the database with district : <strong>${district}</strong>.</p>
+          <p style="margin-bottom: 10px;">Email  <strong>${alreadyExistedUser.email} </strong> </p>
+          <p style="margin-bottom: 10px;">  Phone No : <strong>${alreadyExistedUser.mobile}</strong>. </p>
+          <p style="margin-bottom: 10px;>  Address: <strong>${alreadyExistedUser.address}</strong>.</p> </p>
+          <p style="margin-bottom: 10px;"><b>Do you want to interchange the details? </b> </p>
+          <p style="margin-bottom: 10px;">Are you sure you want to proceed?</p>
+        </div>`,
+          header: 'Confirm',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+          // Interchanging the user details with existing user 
+          let currentUserEmail = this.editedUserDetails.email;
+          let currentUserPhone = this.editedUserDetails.mobile;
+          let currentAdress = this.editedUserDetails.address;
+          let currentAlternateEmail = this.editedUserDetails.alternate_Email;
+          let currentFirstName = this.editedUserDetails.first_Name;
+          let currentLastName = this.editedUserDetails.last_Name;
+
+          userDetails.email = alreadyExistedUser.email
+          userDetails.address = alreadyExistedUser.address;
+          userDetails.mobile = alreadyExistedUser.mobile;
+          userDetails.alternate_Email = alreadyExistedUser.alternate_Email;
+          userDetails.first_Name = alreadyExistedUser.first_Name;
+          userDetails.last_Name = alreadyExistedUser.last_Name;
+
+           this.saveAndUpdateTheData(userDetails);
+
+           alreadyExistedUser.email = currentUserEmail;
+           alreadyExistedUser.address = currentAdress;
+           alreadyExistedUser.alternate_Email = currentAlternateEmail;
+           alreadyExistedUser.mobile = currentUserPhone;
+           alreadyExistedUser.first_Name = currentFirstName;
+           alreadyExistedUser.last_Name = currentLastName;
+
+           this.saveAndUpdateTheData(alreadyExistedUser);
+          // locking the user if already exists with same district
+          // this.ActivateUserDetails(alreadyExistedUser);
+
+          }, reject: () => {
+
+          }
+        });
+      }else{
+        this.saveAndUpdateTheData(userDetails);
+      }
+    })
+  }
+
+   // as of now not using 
+  checkUserAlreadyExistInOtherDepartment = (userDetails: UserDetails) => {
+    debugger;
     this.userDetailsService.verifyUserAlreadyExistedWithSameDistrict(userDetails).subscribe((alreadyExistedUser) => {
       if (alreadyExistedUser != null) {
         let district = this.district.filter(x=>x.id == userDetails.districtId)[0].name;
@@ -310,7 +369,6 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       }
     })
   }
-
 
   setDistrictOnAndDisableOtherControls = () =>{
     debugger;

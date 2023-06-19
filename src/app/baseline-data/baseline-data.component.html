@@ -72,7 +72,7 @@
                         <small class="p-error block" *ngIf="formBaseline.get('CircleId')?.invalid && formBaseline.get('CircleId')?.dirty">Circle ID is required.</small>
                       </div>
                       <div class="field">
-                        <label for="ForestDivisionId" class="block">Forest District / Division <span class="required-field">*</span></label>
+                        <label for="ForestDivisionId" class="block">Forest Division / Gamma Unit <span class="required-field">*</span></label>
                         <p-dropdown id="ForestDivisionId" [options]="forestDivisions" [showClear]="true" formControlName="ForestDivisionId" optionLabel="name" optionValue="id" (onChange)="onForestDivisionChange($event)" [readonly]="isUserCaseEntryOperatorOrDuptyDirector()"></p-dropdown>
                         <small class="p-error block" *ngIf="formBaseline.get('ForestDivisionId')?.invalid && formBaseline.get('ForestDivisionId')?.dirty">Forest Division ID is required.</small>
                       </div>
@@ -122,16 +122,27 @@
                             of Law is required.</small>
                     </div>
                     <div class="field">
-                        <label for="Quantity" class="block">Item Quantity</label>
-                        <input id="Quantity" pInputText type="number" class="offender-input-width"
+                        <label for="Quantity" class="block">Item Quantity / Weight</label>
+                        <div class="d-flex">
+                            <input id="Quantity" pInputText type="number" class="offender-input-width"
                             formControlName="Quantity" />
-                      
-                    </div>
-                    <div class="field">
-                        <label for="Weight" class="block">Item Weight</label>
-                        <div class="flex">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <input id="Weight" pInputText type="number" class=""
                             formControlName="Weight" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="SpeciesDetected" class="block">Species Detected <span class="required-field">*</span></label>
+                        <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
+                            styleClass="offender-input-width" formControlName="SpeciesDetected"></p-chips>
+                        <small class="p-error block"
+                            *ngIf="formBaseline.get('SpeciesDetected')?.invalid && formBaseline.get('SpeciesDetected')?.dirty">Species
+                            Detected is required.</small>
+                    </div>
+                    <div class="field d-none">
+                        <label for="Weight" class="block">Item Weight</label>
+                        <div class="flex">
+                           
                              <p-dropdown id="CircleId" [options]="units"  optionLabel="name" optionValue="id" class="units-dropdown"> </p-dropdown>
                         </div>
                     </div>
@@ -171,14 +182,7 @@
                             *ngIf="formBaseline.get('NameOfAccused')?.invalid && formBaseline.get('NameOfAccused')?.dirty">Name
                             of Accused is required.</small>
                     </div>
-                    <div class="field">
-                        <label for="SpeciesDetected" class="block">Species Detected <span class="required-field">*</span></label>
-                        <p-chips separator={{separatorExp}} placeholder="Hint: enter item and hit 'enter'"
-                            styleClass="offender-input-width" formControlName="SpeciesDetected"></p-chips>
-                        <small class="p-error block"
-                            *ngIf="formBaseline.get('SpeciesDetected')?.invalid && formBaseline.get('SpeciesDetected')?.dirty">Species
-                            Detected is required.</small>
-                    </div>
+                    
                     <div class="field">
                         <label for="ItemDescription" class="block">Item Description <span class="required-field">*</span></label>
                         <textarea id="CrimeDetails" [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"

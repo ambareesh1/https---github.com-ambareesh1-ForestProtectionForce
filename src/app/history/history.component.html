@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-panel header="History Sheet of Offender">
+<p-panel header=" {{isEdit?'Edit':'Add'}} History Sheet of Offender">
     <form *ngIf="formHistory && !needSpinner" [formGroup]="formHistory" (ngSubmit)="onSubmitHistory()">
     <p-card subheader="History Sheet">
      

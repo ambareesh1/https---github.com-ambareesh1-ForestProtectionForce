@@ -1,4 +1,6 @@
 import { DatePipe } from "@angular/common";
+import { take, timer } from "rxjs";
+import { Router } from '@angular/router';
 
 
 export function changeColorOnStatus(status:any){
@@ -16,3 +18,12 @@ export function changeColorOnStatus(status:any){
       const formattedDate = datePipe.transform(onlyDate, 'yyyy-MM-dd');
       return formattedDate;
   }
+
+  export function stayAndNavigate(timeoutDuration: number, path: string, router: Router): void {
+    timer(timeoutDuration)
+      .pipe(take(1))
+      .subscribe(() => {
+        router.navigate([path]);
+      });
+  }
+  

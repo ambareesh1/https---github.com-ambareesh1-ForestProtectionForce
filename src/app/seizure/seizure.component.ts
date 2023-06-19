@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Seizures_Form_A } from '../Models/Seizures_Form_A';
 import { SeizureService } from '../services/seizure.service';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
-import { Observable, catchError, forkJoin, from, last, throwError } from 'rxjs';
+import { Observable, catchError, forkJoin, from, last, share, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import {dateFormate} from '../utilities/shared';
 import { CircleView, District, Province } from '../Models/ManageDataModels';
@@ -19,18 +19,22 @@ import { ForestOffenderModal } from '../Models/HebitualForestOffender';
 import { AntiPochingFormAModel } from '../Models/AntiPochingFormA';
 import { AntiPochingFormBModel } from '../Models/AntiPochingFormBModel';
 import { AntiPochingFormCModel } from '../Models/AntiPochingFormCModel';
+import { HabitualForestOffendersComponent } from '../habitual-forest-offenders/habitual-forest-offenders.component';
+import { fadeInEffect } from '../animations/custom-animations';
 
 
 
 @Component({
   selector: 'app-seizure',
   templateUrl: './seizure.component.html',
-  styleUrls: ['./seizure.component.css']
+  styleUrls: ['./seizure.component.css'],
+  animations:[fadeInEffect]
 })
 
 export class SeizureComponent implements OnInit {
-
   formsTypes:any = []
+  formName : any ="";
+  formattedDate : any;
   formsVisibility : FormsVisibility[] = []
   formTypeValue : any ;
   formA : Seizures_Form_A[] = [];
@@ -50,6 +54,7 @@ export class SeizureComponent implements OnInit {
   clonedFormC: {[s: string]: Seizure_CasesOfMonth_FormC} = {};
   value: Date =  new Date();
   districtData : District[]=[];
+  districtName : any;
   provinceData : Province[]=[];
   circleData : CircleView[] =[];
 
@@ -80,10 +85,11 @@ export class SeizureComponent implements OnInit {
 
   //sum
   totalOpeningBalance : any;
-  
+  month : any = new Date().getMonth()+1;
 
   constructor( private seizureService : SeizureService, private messageService : MessageService,
-     private manageDataService : ManagedataService, private sharedServices : SharedService, private confirmationService : ConfirmationService ){
+     private manageDataService : ManagedataService, private sharedServices : SharedService,
+      private confirmationService : ConfirmationService ){
     this.formsTypes = [
       {name : 'Select', code : -1 },
       {name: 'Form A', code: 1},
@@ -116,7 +122,7 @@ export class SeizureComponent implements OnInit {
         //this.getDistrictData(),
         //this.getCircleData(),
         this.getProvinceData(),
-       
+      
       ];
     
       forkJoin(sources$).subscribe((data: any[]) => {
@@ -142,6 +148,56 @@ export class SeizureComponent implements OnInit {
   this.formBVisibility  = false;
   this.formCVisibility  = false;
   this.manAnimalConflictVisibility = false;
+
+  let currentDate = new Date(); // Replace this with your date
+  this.formattedDate = this.convertToDate(currentDate);
+  this.settingDistrictProvinceOnRole();
+    }
+
+    onMonthChange = () =>{
+      debugger;
+      let selectedValue = this.formTypeValue;
+      this.month = this.value.getMonth()+1;
+      let form : FormDistrictMonth ={
+        id: this.districtId,
+        month: this.value.getMonth()+1
+      }
+      this.formattedDate = this.convertToDate(this.value);
+      switch (selectedValue) {
+        case 1:
+          this.FormAExecution(this.districtId);
+          break;
+        case 2:
+          this.FormBGammaUnit(this.districtId);
+          break;
+        case 3:
+          this.FormCGammaUnit(this.districtId);
+          break;
+        case 4:
+         this.FormManAnimalConflict(this.districtId);
+         break;
+        case 5:
+          this.FormFireIncident(this.districtId);
+          break;
+        case 6:
+          this.FormComplaintsRegistered(this.districtId);
+          break;
+        case 7:
+          this.FormForestOffendersRegistered(this.districtId);
+          break;
+        case 8:
+          this.FormAntiPochingFormARegistered(this.districtId);
+          break;
+        case 9:
+          this.FormAntiPochingFormBRegistered(this.districtId);
+          break;
+        case 10:
+         this.FormAntiPochingFormCRegistered(this.districtId);
+          break;
+        default:
+          console.log('Selected value not found');
+          break;
+      }
     }
 
   getseizureReport_FormA = (districtId : number) =>{
@@ -347,6 +403,7 @@ export class SeizureComponent implements OnInit {
           provinceId: 0
         });
          this.districtData = data;
+         this.districtName = this.districtData.filter(x=>x.id == this.districtId)[0].name;
        })
      }
 
@@ -357,6 +414,7 @@ export class SeizureComponent implements OnInit {
         // Disable message display
        
            this.districtId = event.value;
+           this.enableMessage = false;
       }
     }
 
@@ -371,7 +429,9 @@ export class SeizureComponent implements OnInit {
         life: 1000
       
       });
-     
+
+      this.formName = this.formsTypes.filter((x:any)=>x.code == this.formTypeValue)[0].name;
+      if(this.isSuperAdminOfJammuOrKashmir) {this.districtName =  this.districtData.filter(x=>x.id == this.districtId)[0].name; }
  // Make API call
  if(this.formTypeValue == 1){
   this.formAVisibility = true;
@@ -517,12 +577,74 @@ export class SeizureComponent implements OnInit {
   
 
     FormAExecution = (event : any) =>{
-      this.seizureService.getStatusOfFormAAlreadyCreated(event).subscribe(data =>{
-        if(data){
-           
-            this.seizureService.getFormAOnDistrict(event).subscribe(data=>{
+          debugger;
+           let form : FormDistrictMonth ={
+             id: event,
+             month: this.month
+           }
+            this.seizureService.getFormAOnDistrict(form).subscribe(data=>{
              this.showSeizureReport = true;
-             this.formA = data;
+             if(data.length>0){
+              this.formA = data;
+              // API call completed
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Received the Sizure',
+                detail: 'The Sizure report is ready with the selected district.',
+                life: 10000
+              });
+             }else{
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Creation of report in progress...',
+                detail: 'creating the seizure report for selected district & month. ',
+                life: 10000
+              
+              });
+
+              let seizure_Report: Seizures_Form_A = {
+                id: 0,
+                serialNo: '',
+                name: '',
+                ob_independent: undefined,
+                during_month_independent: undefined,
+                total_independent: undefined,
+                ob_joint: undefined,
+                during_month_joint: undefined,
+                total_joint: undefined,
+                provinceId: this.provinceId,
+                districtId: this.districtId,
+                month: this.month,
+                year: 0,
+                DateOfInsertion: new Date(),
+                IsActive: false,
+                LastUpdatedOn: new Date()
+              };
+    
+              this.seizureService.createSeizureReport_A(seizure_Report)
+              .pipe(
+               catchError((error) => {
+                 // handle error
+                 console.error(error);
+                 this.seizureService.getFormAOnDistrict(form).subscribe(data=>{
+                   this.showSeizureReport = true;
+                   this.formA = data;
+                   // API call completed
+                   this.messageService.add({
+                     severity: 'success',
+                     summary: 'Received the Sizure',
+                     detail: 'The Sizure report is ready with the selected district.',
+                     life: 10000
+                   });
+              })
+                 return throwError(error); // no need for type parameter here
+               })
+             )
+              .subscribe((data:any)=>{
+             if(data){
+               this.seizureService.getFormAOnDistrict(form).subscribe(data=>{
+                 this.showSeizureReport = true;
+                 this.formA = data;
                  // API call completed
                  this.messageService.add({
                    severity: 'success',
@@ -531,80 +653,25 @@ export class SeizureComponent implements OnInit {
                    life: 10000
                  });
             })
-        
-        }else{
-         this.messageService.add({
-           severity: 'info',
-           summary: 'Creation of report in progress...',
-           detail: 'creating the seizure report for selected district & month. ',
-           life: 10000
-         
-         });
-          // create new seizure report with selected  district
-          let seizure_Report: Seizures_Form_A = {
-            id: 0,
-            serialNo: '',
-            name: '',
-            ob_independent: undefined,
-            during_month_independent: undefined,
-            total_independent: undefined,
-            ob_joint: undefined,
-            during_month_joint: undefined,
-            total_joint: undefined,
-            provinceId: this.provinceId,
-            districtId: this.districtId,
-            month: 0,
-            year: 0,
-            DateOfInsertion: new Date(),
-            IsActive: false,
-            LastUpdatedOn: new Date()
-          };
-
-          this.seizureService.createSeizureReport_A(seizure_Report)
-          .pipe(
-           catchError((error) => {
-             // handle error
-             console.error(error);
-             this.seizureService.getFormAOnDistrict(event).subscribe(data=>{
-               this.showSeizureReport = true;
-               this.formA = data;
-               // API call completed
-               this.messageService.add({
-                 severity: 'success',
-                 summary: 'Received the Sizure',
-                 detail: 'The Sizure report is ready with the selected district.',
-                 life: 10000
-               });
-          })
-             return throwError(error); // no need for type parameter here
-           })
-         )
-          .subscribe((data:any)=>{
-         if(data){
-           this.seizureService.getFormAOnDistrict(event.value).subscribe(data=>{
-             this.showSeizureReport = true;
-             this.formA = data;
-             // API call completed
-             this.messageService.add({
-               severity: 'success',
-               summary: 'Received the Sizure',
-               detail: 'The Sizure report is ready with the selected district.',
-               life: 10000
-             });
-        })
-       }else{
-         alert("errpr");
-       }
-          })
+           }else{
+             alert("errpr");
+           }
+              })
+            }
+          
+          });
         }
-})
-    }
+            
+          // create new seizure report with selected  district
+         
+
+    
 
     FormBGammaUnit = (event:any)=>{
-      this.seizureService.CheckSeizureBlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckSeizureBlreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data){
            
-            this.seizureService.getFormBOnDistrict(event).subscribe(data=>{
+            this.seizureService.getFormBOnDistrict(event, this.month).subscribe(data=>{
              this.showSeizureReport = true;
              this.formB = data;
                  // API call completed
@@ -630,7 +697,7 @@ export class SeizureComponent implements OnInit {
             serialNo: 0,
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: 0,
+            month: this.month,
             year: 0,
             gamma_Unit: '',
             nakas_Laid: 0,
@@ -652,7 +719,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.getFormBOnDistrict(event).subscribe(data=>{
+             this.seizureService.getFormBOnDistrict(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.formB = data;
                // API call completed
@@ -668,7 +735,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.getFormBOnDistrict(event).subscribe(data=>{
+           this.seizureService.getFormBOnDistrict(event,this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.formB = data;
@@ -689,7 +756,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormCGammaUnit = (event:any)=>{
-      this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event,this.month).subscribe(data =>{
         if(data.length > 0){
           console.log(data);
              this.showSeizureReport = true;
@@ -714,7 +781,7 @@ export class SeizureComponent implements OnInit {
             id: 0,
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: 0,
+            month: this.month,
             year: 0,
             isActive: false,
             lastUpdatedOn: new Date(),
@@ -725,7 +792,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event,0).subscribe(data=>{
                this.showSeizureReport = true;
                this.formC = data;
                // API call completed
@@ -741,7 +808,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckSeizureClreadyExistForDistrictAndMonth(event,this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.formC = data;
@@ -762,7 +829,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormManAnimalConflict = (event:any)=>{
-      this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -792,7 +859,7 @@ export class SeizureComponent implements OnInit {
             remarks: '',
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: 0,
+            month: this.month,
             year: 0,
             lastUpdatedOn: new Date(),
             isActive: false
@@ -803,7 +870,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.formC = data;
                // API call completed
@@ -819,10 +886,10 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckManAnimalConflictAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
-             this.formC = data;
+             this.manAnimalConflict = data;
              // API call completed
              this.messageService.add({
                severity: 'success',
@@ -840,7 +907,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormFireIncident = (event:any) =>{
-      this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -874,7 +941,7 @@ export class SeizureComponent implements OnInit {
             fire_datetime: new Date(),
             fpf_personnel_name: '',
             total_fire_cases: 0,
-            month: 0,
+            month: this.month,
             year: 0,
             date_of_insertion: new Date(),
             is_active: false,
@@ -887,7 +954,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.forestFire = data;
                // API call completed
@@ -903,7 +970,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckForestFireAlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.forestFire = data;
@@ -924,7 +991,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormComplaintsRegistered = (event:any) =>{
-      this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -971,7 +1038,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.complaints = data;
                // API call completed
@@ -987,7 +1054,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckComplaintsRegisteredlreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.complaints = data;
@@ -1008,7 +1075,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormForestOffendersRegistered = (event:any) =>{
-      this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -1040,7 +1107,7 @@ export class SeizureComponent implements OnInit {
             NameOfForestOffender :"",
             ProvinceId: this.provinceId,
             DistrictId: this.districtId,
-            Month: this.value.getMonth()+1,
+            Month: this.month,
             Year: this.value.getFullYear(),
             DateOfInsertion: new Date(),
             IsActive: true,
@@ -1053,7 +1120,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.complaints = data;
                // API call completed
@@ -1069,7 +1136,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckForestOffenderalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.complaints = data;
@@ -1090,7 +1157,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormAntiPochingFormARegistered = (event:any) =>{
-      this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -1116,7 +1183,7 @@ export class SeizureComponent implements OnInit {
             sno: 1,
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: this.value.getMonth() + 1,
+            month: this.month,
             year: this.value.getFullYear(),
             isActive: true,
             updatedBy: '',
@@ -1132,7 +1199,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.AntiPochingFormA = data;
                // API call completed
@@ -1148,7 +1215,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckAntiPochingFormAalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.AntiPochingFormA = data;
@@ -1168,7 +1235,7 @@ export class SeizureComponent implements OnInit {
 })
     }
     FormAntiPochingFormBRegistered = (event:any) =>{
-      this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -1194,7 +1261,7 @@ export class SeizureComponent implements OnInit {
             sno: 1,
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: this.value.getMonth() + 1,
+            month: this.month,
             year: this.value.getFullYear(),
             isActive: true,
             updatedBy: '',
@@ -1210,7 +1277,7 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
                this.AntiPochingFormB = data;
                // API call completed
@@ -1226,7 +1293,7 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckAntiPochingFormBalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
              this.AntiPochingFormB = data;
@@ -1247,7 +1314,7 @@ export class SeizureComponent implements OnInit {
     }
 
     FormAntiPochingFormCRegistered = (event:any) =>{
-      this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data =>{
+      this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event, this.month).subscribe(data =>{
         if(data.length > 0 ){
           console.log(data);
              this.showSeizureReport = true;
@@ -1273,7 +1340,7 @@ export class SeizureComponent implements OnInit {
             sno: 1,
             provinceId: this.provinceId,
             districtId: this.districtId,
-            month: this.value.getMonth() + 1,
+            month: this.month,
             year: this.value.getFullYear(),
             isActive: true,
             updatedBy: '',
@@ -1289,9 +1356,9 @@ export class SeizureComponent implements OnInit {
            catchError((error) => {
              // handle error
              console.error(error);
-             this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+             this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
                this.showSeizureReport = true;
-               this.AntiPochingFormB = data;
+               this.AntiPochingFormC = data;
                // API call completed
                this.messageService.add({
                  severity: 'success',
@@ -1305,10 +1372,10 @@ export class SeizureComponent implements OnInit {
          )
           .subscribe((data:any)=>{
          if(data){
-           this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event).subscribe(data=>{
+           this.seizureService.CheckAntiPochingFormCalreadyExistForDistrictAndMonth(event, this.month).subscribe(data=>{
             console.log(data);
              this.showSeizureReport = true;
-             this.AntiPochingFormB = data;
+             this.AntiPochingFormC = data;
              // API call completed
              this.messageService.add({
                severity: 'success',
@@ -1434,7 +1501,7 @@ debugger;
   .pipe(last())
   .subscribe((lastRow) => {
    id = lastRow.sNo+1;
-   let month = this.value.getMonth();
+   let month = this.month;
    let seizure_Report: SeizureManAnimalConflict = {
     id: 0,
     sNo: id,
@@ -1444,7 +1511,7 @@ debugger;
     remarks: '',
     provinceId: this.provinceId,
     districtId: this.districtId,
-    month: this.value.getMonth()+1,
+    month: this.month,
     year: this.value.getFullYear(),
     lastUpdatedOn: new Date(),
     isActive: true
@@ -1478,6 +1545,41 @@ DeleteARowManAnimalConflict = () =>{
     });
 
   }
+
+  settingDistrictProvinceOnRole = () =>{
+    debugger;
+    if(this.sharedServices.isUserCaseEntryOperatorOrDuptyDirector()){
+      this.districtId = this.sharedServices.getDistrictId();
+      this.enableMessage = false;
+      this.isSuperAdminOfJammuOrKashmir = false;
+      this.getDistrictWithId().then(() => {
+      this.formTypeValue = 1;
+      this.formAVisibility = true;
+      this.formName = this.formsTypes.filter((x:any)=>x.code == this.formTypeValue)[0].name;
+      this.FormAExecution(this.districtId);
+      });
+    }
+  }
+
+  getDistrictWithId = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      this.manageDataService.getDistricteByid(this.districtId).subscribe(
+        (x) => {
+          this.districtName = x.name;
+          resolve(); // Resolve the promise once the data is retrieved
+        },
+        (error) => {
+          reject(error); // Reject the promise if an error occurs
+        }
+      );
+    });
+  }
+
+  convertToDate = (onlyDate: any) => {
+    const datePipe = new DatePipe('en-US');
+    const formattedDate = datePipe.transform(onlyDate, 'MM/yyyy');
+    return formattedDate;
+  }
 }
 
 interface Forms {
@@ -1488,4 +1590,9 @@ interface Forms {
 interface FormsVisibility {
   code: number,
   isVisible: boolean
+}
+
+export interface FormDistrictMonth{
+  id : number;
+  month : number;
 }

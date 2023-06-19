@@ -34,7 +34,7 @@
                                 required.</small>
                         </div>
                         <div class="field">
-                            <label for="caste" class="block">Caste <span class="required-field">*</span></label>
+                            <label for="caste" class="block">Caste </label>
                             <input id="caste" pInputText mode="text" class="offender-input-width" formControlName="caste"  />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('caste')?.invalid && formOffender.get('caste')?.dirty"> Caste is
@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-6">
                         <div class="field">
-                            <label for="trade" class="block">Trade or Profession <span class="required-field">*</span></label>
+                            <label for="trade" class="block">Trade or Profession </label>
                             <input id="trade" pInputText mode="text" class="offender-input-width" formControlName="trade" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('trade')?.invalid && formOffender.get('trade')?.dirty"> Trade or Profession is
@@ -51,7 +51,7 @@
                         </div>
                   
                         <div class="field">
-                            <label for="userName" class="block">Date of Photography <span class="required-field">*</span></label>
+                            <label for="userName" class="block">Date of Photography </label>
                             <p-calendar  [showIcon]="true" inputId="icon" styleClass="p-button-success " formControlName="dateOfPhotography"></p-calendar>
                             <small class="p-error block"
                             *ngIf="formOffender.get('dateOfPhotography')?.invalid && formOffender.get('dateOfPhotography')?.dirty">Date of Photography is
@@ -119,7 +119,7 @@
                                 required.</small>
                         </div>
                         <div class="field">
-                            <label for="email" class="block">Email Address <span class="required-field">*</span></label>
+                            <label for="email" class="block">Email Address </label>
                             <input id="email" pInputText mode="email" class="offender-input-width" formControlName="email" />
                             <small class="p-error block"
                                 *ngIf="formOffender.get('email')?.invalid && formOffender.get('email')?.dirty"> Email is
@@ -128,11 +128,11 @@
                     </div>
                     <div class="col-6">
                         <div class="field">
-                            <label for="passport" class="block">Passport No <span class="required-field">*</span></label>
+                            <label for="passport" class="block">Passport No </label>
                             <input id="passport" pInputText mode="text" class="offender-input-width" formControlName="passport" />
-                            <small class="p-error block"
+                            <!-- <small class="p-error block"
                             *ngIf="formOffender.get('passport')?.invalid && formOffender.get('passport')?.dirty">Passport is required.
-                           </small>
+                           </small> -->
                         </div>
 
                         <div class="field">
@@ -155,7 +155,7 @@
                         </div>
 
                         <div class="field">
-                            <label for="backAccountNo" class="block">Bank Account No <span class="required-field">*</span></label>
+                            <label for="backAccountNo" class="block">Bank Account No </label>
                             <input id="backAccountNo" pInputText mode="text" class="offender-input-width"
                                 formControlName="backAccountNo" />
                             <small class="p-error block"
@@ -174,7 +174,7 @@
                <div class="row">
                 <div class="col-6">
                     <div class="field">
-                        <label for="houseNo" class="block">House No. <span class="required-field">*</span></label>
+                        <label for="houseNo" class="block">House No.</label>
                         <input id="houseNo" pInputText mode="text" class="offender-input-width" formControlName="houseNo" />
                         <small class="p-error block" *ngIf="formOffender.get('houseNo')?.invalid && formOffender.get('houseNo')?.dirty">
                             House No. is required.
@@ -188,14 +188,14 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="city" class="block">City <span class="required-field">*</span></label>
+                        <label for="city" class="block">City / Town <span class="required-field">*</span></label>
                         <input id="city" pInputText mode="text" class="offender-input-width" formControlName="city" />
                         <small class="p-error block" *ngIf="formOffender.get('city')?.invalid && formOffender.get('city')?.dirty">
                             City is required.
                         </small>
                     </div>
                     <div class="field">
-                        <label for="street" class="block">Street <span class="required-field">*</span></label>
+                        <label for="street" class="block">Street </label>
                         <input id="street" pInputText mode="text" class="offender-input-width" formControlName="street" />
                         <small class="p-error block" *ngIf="formOffender.get('street')?.invalid && formOffender.get('street')?.dirty">
                             Street is required.
@@ -212,7 +212,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="district" class="block">District <span class="required-field">*</span></label>
+                        <label for="district" class="block">Forest Division / Gamma Unit <span class="required-field">*</span></label>
                         <p-dropdown [options]="districtData" formControlName="district" class="offender-input-width" optionLabel="name" optionValue="id"></p-dropdown>
                         <small class="p-error block"
                             *ngIf="formOffender.get('district')?.invalid && formOffender.get('district')?.dirty">
@@ -220,7 +220,7 @@
                         </small>
                     </div>
                     <div class="field">
-                        <label for="pincode" class="block">Pincode <span class="required-field">*</span></label>
+                        <label for="pincode" class="block">Pincode </label>
                         <input id="pincode" pInputText mode="text" class="offender-input-width" formControlName="pincode" />
                         <small class="p-error block"
                             *ngIf="formOffender.get('pincode')?.invalid && formOffender.get('pincode')?.dirty">

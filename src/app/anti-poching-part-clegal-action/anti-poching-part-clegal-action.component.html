@@ -5,7 +5,7 @@
             <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2 d-none"
                 pTooltip="CSV" tooltipPosition="bottom"></button>
             <button type="button" pButton pRipple icon="pi pi-file-excel" 
-                class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                class="p-button-success mr-2 d-none" pTooltip="XLS" tooltipPosition="bottom"></button>
             <button type="button" pButton pRipple icon="pi pi-file-pdf" 
                 class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
             <button type="button" pButton pRipple icon="pi pi-filter"
@@ -30,10 +30,10 @@
             <td class="text-center"> {{ seizure.sno }} </td>
             <td class="text-center"><p-cellEditor>
                 <ng-template pTemplate="input">
-                    <input  pInputText type="text"  [(ngModel)]="seizure.fIRRegistered" />
+                    <input  pInputText type="text"  [(ngModel)]="seizure.firRegistered" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                    {{seizure.fIRRegistered}}
+                    {{seizure.firRegistered}}
                 </ng-template>
             </p-cellEditor>
         </td>
