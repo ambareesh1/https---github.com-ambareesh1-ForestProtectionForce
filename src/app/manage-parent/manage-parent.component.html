@@ -1,31 +1,56 @@
 <p-card header="Manage Data">
-    <p-accordion>
+    <!-- <p-accordion>
         <p-accordionTab header="Manage Province" (click)="refreshChildComponents($event)">
-         <!-- <app-manage-province></app-manage-province> -->
+        
          <ng-template #provinceContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Circle" (click)="refreshChildComponents($event)">
-          <!-- <app-manage-circle></app-manage-circle> -->
+       
           <ng-template #circleContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Forest Division Gamma Unit"  (click)="refreshChildComponents($event)">
-           <!-- <app-manage-district></app-manage-district> -->
+        
            <ng-template #districtContainer></ng-template>
         </p-accordionTab>
         <p-accordionTab header="Manage Forest Range"  (click)="refreshChildComponents($event)">
-            <!-- <app-manage-division></app-manage-division> -->
+           
             <ng-template #divisionContainer></ng-template>
          </p-accordionTab>
          <p-accordionTab header="Manage Compartment"  (click)="refreshChildComponents($event)">
-            <!-- <app-manage-compartment></app-manage-compartment> -->
+           
             <ng-template #compartmentContainer></ng-template>
          </p-accordionTab>
          <p-accordionTab header="Manage User Types"  (click)="refreshChildComponents($event)" [ngClass]="isSuperAdmin?'d-block':'d-none'">
-            <!-- <app-manage-user-types></app-manage-user-types> -->
+          
             <ng-template #userTypesContainer></ng-template>
          </p-accordionTab>
-    </p-accordion>
+    </p-accordion> -->
     
+    
+<p-tabView>
+   <p-tabPanel header="Manage Province" >
+     
+      <app-manage-province></app-manage-province>
+   </p-tabPanel>
+   <p-tabPanel header="Manage Circle" >
+     <app-manage-circle></app-manage-circle>
+   </p-tabPanel>
+   <p-tabPanel header="Manage Forest Division Gamma Unit" >
+      <app-manage-district></app-manage-district>
+    </p-tabPanel>
+    <p-tabPanel header="Manage Forest Range" >
+      <app-manage-division></app-manage-division>
+    </p-tabPanel>
+    <p-tabPanel header="Manage Compartment" >
+      <app-manage-compartment></app-manage-compartment>
+    </p-tabPanel>
+  
+    <p-tabPanel header="Manage User Types" [ngClass]="isSuperAdmin?'d-block':'d-none'">
+      <app-manage-user-types></app-manage-user-types>
+    </p-tabPanel>
+
+</p-tabView>
+
 
 </p-card>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

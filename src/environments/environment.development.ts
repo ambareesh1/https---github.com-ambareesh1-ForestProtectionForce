@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+//     production: true,
    apiBaseUrl: 'https://localhost:7164/api',
    fileUploadPath: 'https://localhost:7164/uploads/',
    otpFlag : false

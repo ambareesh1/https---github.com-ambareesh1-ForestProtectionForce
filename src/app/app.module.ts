@@ -50,7 +50,7 @@ import { PasswordModule } from 'primeng/password';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-
+import { TabViewModule } from 'primeng/tabview';
 
 // -----------------------  Imports - Componenets ---------------
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
@@ -197,7 +197,8 @@ import { DisposalViewComponent } from './disposal-view/disposal-view.component';
     MessageModule,
     BadgeModule,
     AvatarModule,
-    PasswordModule
+    PasswordModule,
+    TabViewModule
   ],
   providers: [ProductService, MessageService, ConfirmationService, DialogService, 
      { provide: LocationStrategy, useClass: HashLocationStrategy },

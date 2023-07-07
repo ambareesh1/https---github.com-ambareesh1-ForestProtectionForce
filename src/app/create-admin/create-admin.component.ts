@@ -30,13 +30,15 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   isUsernameTaken: boolean = false;
   isEmailTaken: boolean = false;
   isPhoneNoTaken: boolean = false;
-  isProvinceRequired: boolean = false;
+  isProvinceRequired: boolean = true;
   isDistrictRequired: boolean = false;
   editOrCreateText: string = "Create Users";
   userTypeId : number = 1;
   isEditOrCaseEntryOperatorSelected:boolean = false;
   usernameToCompare : any;
   editedUserDetails : any;
+  search : any = "";
+
   constructor(private formBuilder: FormBuilder, private userDetailsService: UserDetailService,
     private messageService: MessageService, private manageDataService: ManagedataService, 
     private confirmationService: ConfirmationService, private sharedService : SharedService) {
@@ -52,6 +54,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getDistrictData();
     this.initFormUserDetails({} as UserDetails);
     this.getUserTypes();
     this.getUserDetails();
@@ -95,13 +98,13 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   getDistrictData() {
     this.manageDataService.getDistrict().subscribe((data) => {
       this.district = data;
-    })
+    });
   }
 
   onChangeUserType = (event: any) => {
     this.getProvinceData();
     this.userTypeId = event.value;
-    this.userTypeId == UserTypeEnum.CaseEntryOperator ? this.removeValidator() : this.addValidator();
+    //this.userTypeId == UserTypeEnum.CaseEntryOperator ? this.removeValidator() : this.addValidator();
     this.ProvinceCircleDistrictDDlVisibility(event.value);
   }
 
@@ -168,14 +171,14 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
       otp: 0
     }
     let userType = this.userForm.value.userType_Id;
-    if (userType == UserTypeEnum.CaseEntryOperator || userType == UserTypeEnum.DeputyDirector && this.isEdit) {
+    //if (userType == UserTypeEnum.CaseEntryOperator || userType == UserTypeEnum.DeputyDirector && this.isEdit) {
       
       //this.checkUserOfDistrictAlreadyExist(userDetails);
-       this.checkUserOfDistrictAlreadyExist(userDetails);
+       //this.checkUserOfDistrictAlreadyExist(userDetails);
     
-    } else {
+   // } else {
       this.saveAndUpdateTheData(userDetails);
-    }
+    //}
   }else{
     markAllFieldsAsDirty(this.userForm);
     let provinceAddmsg = "Please fill all required details with valid input.";
@@ -236,11 +239,13 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   editUserDetails = (userDetails: UserDetails) => {
+    debugger;
     this.isEdit = true;
     this.disableTheControlsOnEdit();
     this.editOrCreateText = "Update User";
     this.getCircleData();
     this.getDistrictData();
+    this.getProvinceData();
     this.ProvinceCircleDistrictDDlVisibility(userDetails.userType_Id);
     this.editedUserDetails = userDetails;
     this.initFormUserDetails(userDetails);
@@ -385,6 +390,10 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
          
        })
       }
+  }
+
+  getDistrictName = (district : any) =>{
+    this.district.filter(x=> x.id == district)[0].name;
   }
 
  // Remove the validator from the form control

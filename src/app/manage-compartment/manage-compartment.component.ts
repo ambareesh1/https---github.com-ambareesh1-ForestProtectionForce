@@ -8,6 +8,7 @@ import { CircleView, Compartment, District, Division, Province } from '../Models
 import { RefreshService } from '../services/refresh.service';
 import { compartmentValidator } from '../custom-validators/customvalidators';
 import { Observable, forkJoin } from 'rxjs';
+import { ViewportScroller } from '@angular/common';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class ManageCompartmentComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder, private refreshServie : RefreshService) { 
+      private fb: FormBuilder, private refreshServie : RefreshService,
+      private scroll : ViewportScroller) { 
      }
 
  ngOnInit() {
@@ -150,6 +152,7 @@ refreshCompartmentData = () =>{
   this.compartmentDataOnEdit = compartment;
     this.initForm(compartment);
      this.productDialog = true;
+     this.scroll.scrollToPosition([0,0]);
  }
 
  deleteCompartment(compartment: Compartment) {

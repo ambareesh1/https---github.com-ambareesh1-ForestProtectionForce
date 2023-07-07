@@ -1,5 +1,5 @@
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserDetailService } from '../services/user-detail.service';
 import { ManagedataService } from '../services/managedata.service';
@@ -82,4 +82,37 @@ export function emailValidator(userService: UserDetailService): AsyncValidatorFn
         map(isTaken => (isTaken ? { compartmentTaken: true } : null))
       );
     };
+  }
+
+  export function passwordValidator(control: AbstractControl): ValidationErrors | null {
+    const value: string = control.value || '';
+  
+    const hasLowercase = /[a-z]/.test(value);
+    const hasUppercase = /[A-Z]/.test(value);
+    const hasNumeric = /[0-9]/.test(value);
+    const hasSpecialChar = /[^A-Za-z0-9]/.test(value);
+  
+    const errors: ValidationErrors = {};
+  
+    if (!hasLowercase) {
+      errors['lowercase'] = true;
+    }
+  
+    if (!hasUppercase) {
+      errors['uppercase'] = true;
+    }
+  
+    if (!hasNumeric) {
+      errors['numeric'] = true;
+    }
+  
+    if (!hasSpecialChar) {
+      errors['special'] = true;
+    }
+  
+    if (value.length < 8) {
+      errors['minlength'] = true;
+    }
+  
+    return Object.keys(errors).length ? errors : null;
   }

@@ -49,7 +49,7 @@
 </div>
 
 <div class="card">
-    <p-toolbar styleClass="p-mb-4">
+    <p-toolbar styleClass="p-mb-4 d-none">
         <ng-template pTemplate="left">
            <h4>Manage Compartments</h4>
         </ng-template>
@@ -79,7 +79,7 @@
                 <td>{{Compartment.name}}</td>
                 <td>{{Compartment.division.name}}</td>
                 <td class="gap-3">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editCompartment(Compartment)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCompartment(Compartment)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCompartment(Compartment)"></button>
                 </td>
             </tr>

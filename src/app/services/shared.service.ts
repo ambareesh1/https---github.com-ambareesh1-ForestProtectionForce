@@ -88,7 +88,7 @@ export class SharedService {
   }
 
   createdUserAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir()  || this.isCaseEntryOperator()
+    return this.isSuperAdminOrJammuOrKashmir();
   }
 
   manageDataAuth = () =>{
@@ -96,27 +96,27 @@ export class SharedService {
   }
 
   baselineAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir()  || this.isUserCaseEntryOperatorOrDuptyDirector()
+    return this.isSuperAdminOrJammuOrKashmir()  || this.isCaseEntryOperator() || this.isDuptyDirector()
   }
 
   offenderAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator() || this.isDuptyDirector();
   }
 
   historySheetAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator() || this.isDuptyDirector();
   }
 
   seizerAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator() || this.isDuptyDirector();
   }
 
   disposedAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator();
+    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator() || this.isDuptyDirector();
   }
 
   reportsAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isDuptyDirector() || this.isDirector() || this.isJointDirector() 
+    return this.isSuperAdminOrJammuOrKashmir() || this.isDuptyDirector() || this.isDirector() || this.isJointDirector() || this.isCaseEntryOperator();
   }
 
   getUserNameFromLocalStorage : any = () =>{

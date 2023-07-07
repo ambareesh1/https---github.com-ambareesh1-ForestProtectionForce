@@ -45,7 +45,7 @@
 </div>
 
 <div class="card">
-    <p-toolbar styleClass="p-mb-4">
+    <p-toolbar styleClass="p-mb-4 d-none">
         <ng-template pTemplate="left">
            <h4>Manage Forest Range</h4>
         </ng-template>
@@ -76,7 +76,7 @@
                 <td>{{Division.name}}</td>
                 <td>{{Division.district.name}}</td>
                 <td class="gap-3">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editDivision(Division)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDivision(Division)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDivision(Division)"></button>
                 </td>
             </tr>

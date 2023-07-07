@@ -82,7 +82,8 @@ export class ManageParentComponent {
   }
 
   refreshChildComponentss(event:any) {
-    if ((event.target as HTMLElement).classList.contains('p-accordion-header-link') || (event.target as HTMLElement).classList.contains('p-accordion-header-text')) {
+    debugger;
+    if ((event.target as HTMLElement).classList.contains('p-tabview-title')) {
       this.refreshService.emitRefreshEvent();
     }
   }

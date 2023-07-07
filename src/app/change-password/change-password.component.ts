@@ -7,6 +7,7 @@ import { SharedService } from '../services/shared.service';
 import { UserDetailService } from '../services/user-detail.service';
 import { SuperadminService } from '../services/superadmin.service';
 import { markAllFieldsAsDirty } from '../utilities/makedirty';
+import { passwordValidator } from '../custom-validators/customvalidators';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -32,10 +33,10 @@ export class ChangePasswordComponent {
        }
    }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.changeForm = this.formBuilder.group({
       password: ['', Validators.required],
-      newpassword: ['', Validators.required],
+      newpassword: ['', Validators.compose([Validators.required, passwordValidator])],
       confirmPassword: ['', Validators.required]
     }, {
       validator: this.matchingPasswords('newpassword', 'confirmPassword')
@@ -54,6 +55,7 @@ export class ChangePasswordComponent {
   }
 
   onSubmitPassword = ()=>{
+    console.log(this.changeForm)
     debugger;
    this.isLoading = true;
     let userName = this.sharedService.getUserDetails().username;
@@ -96,5 +98,10 @@ export class ChangePasswordComponent {
     this.messages = [{ severity: 'warn', summary: 'Error', detail: 'Please enter the required data. ',   }];
   }
  
+  } //SQL 1. 
+
+
+  get passwordControl() {
+    return this.changeForm.get('newpassword');
   }
 }

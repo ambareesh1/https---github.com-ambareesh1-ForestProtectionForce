@@ -33,7 +33,7 @@
 </div>
 
 <div class="card">
-    <p-toolbar styleClass="p-mb-1">
+    <p-toolbar styleClass="p-mb-1 d-none">
         <ng-template pTemplate="left">
            <h6>Manage Province</h6>
         </ng-template>
@@ -65,7 +65,7 @@
                 <td>{{province.name}}</td>
               
                 <td class="pl-2 gap-3">
-                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success p-mr-5" (click)="editProvince(province)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" iconPos="left" class="p-button-rounded p-button-success mr-2" (click)="editProvince(province)"></button>
                     <button pButton pRipple icon="pi pi-trash" iconPos="left" class="p-button-rounded p-button-warning" (click)="deleteProvince(province)"></button>
                 </td>
             </tr>

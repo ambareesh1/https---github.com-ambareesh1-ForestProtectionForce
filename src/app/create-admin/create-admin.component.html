@@ -127,41 +127,63 @@
             </div>
         </div>
     </form>
-  <p-card >
-    <p-table  selectionMode="single" dataKey="username" [value]="userDetails" [tableStyle]="{ 'min-width': '50rem' }">
+<p-card header="Manage Users">
+
+    <p-toolbar styleClass="p-mb-1">
+       
+        <ng-template pTemplate="right">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="search" (input)="dt.filterGlobal(search, 'contains')"
+                        placeholder="Search..." />
+
+                </span>
+            </div>
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt  [value]="userDetails" [rows]="10" dataKey="username"  [paginator]="true" [globalFilterFields]="['username']"
+    [rowHover]="true" dataKey="id"  styleClass="p-datatable-gridlines"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th>User Name</th>
-                <th>First Name </th>
-                <th>Last Name</th>
-                <th>User Type</th>
-                <th>Email</th>
-                <th>Phone No</th>
-                <th></th>
-                <th></th>
+                <th pSortableColumn="username">User Name<p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="first_Name">First Name<p-sortIcon field="first_Name"></p-sortIcon></th>
+                <th pSortableColumn="last_Name">Last Name<p-sortIcon field="last_Name"></p-sortIcon></th>
+                <th pSortableColumn="userType_Name">User Type<p-sortIcon field="userType_Name"></p-sortIcon></th>
+                <!-- <th pSortableColumn="district">District<p-sortIcon field="district"></p-sortIcon></th> -->
+                <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="mobile">Phone No<p-sortIcon field="mobile"></p-sortIcon></th>
+                <th></th>  
+                <th></th>  
             </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-user>
-             
+
             <tr *ngIf="user.username != this.usernameToCompare">
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_Name }}</td>
                 <td>{{ user.last_Name }}</td>
                 <td>{{ user.userType_Name }}</td>
+                <!-- <td>{{getDistrictName(user.districtId) }}</td> -->
                 <td>{{ user.email }}</td>
                 <td>{{ user.mobile }}</td>
                 <td class="p-1">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2" (click)="editUserDetails(user)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-mr-2"
+                        (click)="editUserDetails(user)"></button>
                 </td>
                 <td class="p-1">
-                    <button pButton pRipple [icon]="user.isActive ? 'pi pi-lock' : 'pi pi-unlock'" [class]="user.isActive ?'p-button-rounded p-button-secondary' : 'p-button-rounded p-button-danger'" (click)="ActivateUserDetails(user)"></button>
-
-                    
+                    <button pButton pRipple [icon]="user.isActive ? 'pi pi-lock' : 'pi pi-unlock'"
+                        [class]="user.isActive ?'p-button-rounded p-button-secondary' : 'p-button-rounded p-button-danger'"
+                        (click)="ActivateUserDetails(user)"></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
-  </p-card>
+</p-card>
+
 </p-panel>
 <p-toast></p-toast>
 <p-confirmDialog [style]="{width: '750px'}"></p-confirmDialog>

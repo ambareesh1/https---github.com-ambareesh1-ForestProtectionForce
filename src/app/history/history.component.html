@@ -4,7 +4,14 @@
     <p-card subheader="History Sheet">
      
         <div class="row">
-            <div class="col-lg-6">
+            <p-card>
+                <div class="field">
+                    <label for="identifierOfficerName" class="block">Identifier Officier Name</label>
+                  
+                        <input formControlName = "identifierOfficerName" id="identifierOfficerName"  pInputText class="offender-input-width"  />
+                </div>
+            </p-card>
+            <div class="col-lg-6 mt-2">
                 <div class="field w-75">
                     <label for="NameOfAccused" class="block">Name of Offender <span class="required-field">*</span></label>
                     <span class="p-fluid">
@@ -23,11 +30,7 @@
                     </span>
                 </div>
 
-                <div class="field">
-                    <label for="identifierOfficerName" class="block">Identifier Officier Name</label>
-                  
-                        <input formControlName = "identifierOfficerName" id="identifierOfficerName"  pInputText class="offender-input-width"  />
-                </div>
+             
                 <div class="field">
                     <label for="usualFieldOfOperation" class="block">Usual Field of Operation</label>
                         <input formControlName = "usualFieldOfOperation" id="usualFieldOfOperation"  pInputText class="offender-input-width"  />

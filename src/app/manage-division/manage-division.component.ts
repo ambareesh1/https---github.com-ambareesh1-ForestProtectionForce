@@ -8,6 +8,7 @@ import { Circle, CircleView, District, Division, Province } from '../Models/Mana
 import { RefreshService } from '../services/refresh.service';
 import { divisionValidator } from '../custom-validators/customvalidators';
 import { Observable, forkJoin, tap } from 'rxjs';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-manage-division',
@@ -33,7 +34,8 @@ export class ManageDivisionComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder, private refreshService: RefreshService) { 
+      private fb: FormBuilder, private refreshService: RefreshService,
+      private viewportScroller: ViewportScroller) { 
       
      }
 
@@ -138,6 +140,7 @@ onSubmitDivision() {
   this.btnTitle = "Update";
     this.initForm(division);
      this.productDialog = true;
+     this.viewportScroller.scrollToPosition([0, 0]);
  }
 
  deleteDivision(division: Division) {

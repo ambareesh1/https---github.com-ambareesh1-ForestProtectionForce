@@ -8,6 +8,7 @@ import { Circle, Province } from '../Models/ManageDataModels';
 import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
 import { circleValidator } from '../custom-validators/customvalidators';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-manage-circle',
@@ -30,7 +31,8 @@ export class ManageCircleComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder, private refreshService : RefreshService) { 
+      private fb: FormBuilder, private refreshService : RefreshService,
+      private viewportScroller: ViewportScroller) { 
      }
 
  ngOnInit() {
@@ -97,6 +99,7 @@ onSubmitCircle() {
   this.btnTitle = "Update";
     this.initForm(circle);
      this.productDialog = true;
+     this.viewportScroller.scrollToPosition([0, 0]);
  }
 
  

@@ -1,3 +1,14 @@
 :host ::ng-deep .p-card-body{
     background-color: #eeeeee !important;
 }
+
+:host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #8BC34A;
+    border-color: #607D8B;
+    color: #fff;
+}
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: none;
+}

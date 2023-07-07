@@ -9,6 +9,7 @@ import { async } from '@angular/core/testing';
 import { RefreshService } from '../services/refresh.service';
 import { districtValidator } from '../custom-validators/customvalidators';
 import { Observable, forkJoin } from 'rxjs';
+import { ViewportScroller } from '@angular/common';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class ManageDistrictComponent {
  constructor(private manageDataService: ManagedataService,
     private messageService: MessageService,
      private confirmationService: ConfirmationService,
-      private fb: FormBuilder, private refreshService: RefreshService) { 
+      private fb: FormBuilder, private refreshService: RefreshService,
+      private viewportScroller: ViewportScroller) { 
      }
 
  ngOnInit() {
@@ -111,7 +113,7 @@ onSubmitDistrict() {
     this.districtDataOnEdit.name = this.formDistrict.value.districtName;
       this.manageDataService.updateDistrict(this.districtDataOnEdit.id, this.districtDataOnEdit).subscribe((x)=>{
        
-         let provinceAddmsg = "District  "+this.formDistrict.value.districtName+ " updated"
+         let provinceAddmsg = "Divison / Gamma unit  "+this.formDistrict.value.districtName+ " updated"
          this.messageService.add({severity:'success', summary: 'Successful', detail: provinceAddmsg, life: 5000});
          this.formDistrict.reset();
          this.getDistrictData().subscribe(x =>{
@@ -127,6 +129,7 @@ onSubmitDistrict() {
   this.districtDataOnEdit = district;
     this.initForm(district);
      this.productDialog = true;
+     this.viewportScroller.scrollToPosition([0,0]);
  }
 
  deleteDistrict(district: District) {

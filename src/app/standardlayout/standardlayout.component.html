@@ -54,7 +54,7 @@
               <li *ngIf="disposedAuth" class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'disposed'" [class.inactive]="activeItem !== 'disposed'" (click)="activateItem('disposed')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="disposed">
                   <i class="pi pi-stop-circle" style="font-size: 1.5rem;"> </i>
-                  <span class="pl-3">Disposed Case</span>
+                  <span class="pl-3">Case Disposal</span>
                 </a>
               </li>
               <li *ngIf="seizerAuth"  class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'seizure'" [class.inactive]="activeItem !== 'seizure'" (click)="activateItem('seizure')">

@@ -7,7 +7,7 @@
                 <div class="formgrid">
          
                     <div class="field">
-                        <label for="districtName">District Name</label>
+                        <label for="districtName">Division / Gamma Unit Name</label>
                         <input id="districtName" pInputText mode="text" formControlName="districtName" />
                         <small class="p-error block"
                             *ngIf="formDistrict.get('districtName')?.invalid && formDistrict.get('districtName')?.dirty"> District is
@@ -41,7 +41,7 @@
 </div>
 
 <div class="card">
-    <p-toolbar styleClass="p-mb-4">
+    <p-toolbar styleClass="p-mb-4 d-none">
         <ng-template pTemplate="left">
            <h4>Manage Forest Division Gamma Unit</h4>
         </ng-template>
@@ -72,7 +72,7 @@
                 <td>{{District.name}}</td>
                 <td>{{District.circle.name}}</td>
                 <td class="gap-3">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editDistrict(District)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDistrict(District)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDistrict(District)"></button>
                 </td>
             </tr>

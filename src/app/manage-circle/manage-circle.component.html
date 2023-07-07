@@ -37,7 +37,7 @@
 </div>
 
 <div class="card">
-    <p-toolbar styleClass="p-mb-4">
+    <p-toolbar styleClass="p-mb-4 d-none">
         <ng-template pTemplate="left">
            <h6>Manage Circle</h6>
         </ng-template>
@@ -68,7 +68,7 @@
                 <td>{{Circle.name}}</td>
                 <td>{{Circle.province.name}}</td>
                 <td class="gap-3">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-5" (click)="editCircle(Circle)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCircle(Circle)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCircle(Circle)"></button>
                 </td>
             </tr>
