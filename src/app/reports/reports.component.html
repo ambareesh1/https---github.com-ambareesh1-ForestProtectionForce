@@ -1,64 +1,331 @@
 <p-card header="Reports">
 
-    <p-card styleClass="mb-2" >
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="field">
-                    <label for="ItemDescription" class="block">Select Form</label>
-                    <p-dropdown [options]="formsTypes" class="offender-input-width" [(ngModel)]=" formTypeValue"
-                        optionLabel="name" (onChange)="onChangeForm()" optionValue="code"></p-dropdown>
-                </div>
-
-            </div>
-            <div class="col-lg-6">
-                <div class="field col-12 md:col-6">
-                    <label for="icon">Select Month</label>
-                    <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value"
-                        [showIcon]="true" inputId="icon" (ngModelChange)="onMonthChange()" ></p-calendar>
-                </div>
-            </div>
+  <p-card styleClass="mb-2">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="field">
+          <label for="ItemDescription" class="block">Select Form</label>
+          <p-dropdown [options]="formsTypes" class="offender-input-width" [(ngModel)]=" formTypeValue"
+            optionLabel="name" (onChange)="onChangeForm()" optionValue="code"></p-dropdown>
         </div>
-    </p-card>
 
-    <p-table #dt  [value]="FormAReportModel" [scrollable]="true" scrollHeight="600px" styleClass="p-datatable-gridlines">
+      </div>
+      <div class="col-lg-6">
+        <div class="field col-12 md:col-6">
+          <label for="icon">Select Month</label>
+          <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value" [showIcon]="true"
+            inputId="icon" (ngModelChange)="onMonthChange()"></p-calendar>
+        </div>
+      </div>
+    </div>
+  </p-card>
 
-        <ng-template pTemplate="caption">
-            <div class="flex">
-                <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-            
-                <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-              <th rowspan="2">Items</th>
-              <ng-container *ngFor="let header of districts">
-                <th colspan="3">{{header.name}}</th>
-              </ng-container>
-            </tr>
-            <tr>
-              <ng-container *ngFor="let header of districts">
-                <th>Pre</th>
-                <th>Dur</th>
-                <th>Total</th>
-              </ng-container>
-            </tr>
-          </ng-template>
-          
-          <ng-template pTemplate="body" let-row>
+  <p-table *ngIf="formTypeValue == 1" id="ReportA" #dt [value]="FormAReportModel" [scrollable]="true"
+    scrollHeight="600px" styleClass="p-datatable-gridlines">
+
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcel()"
+          class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })"
+          class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th rowspan="2">Items</th>
+
+        <ng-container *ngFor="let header of districts">
+          <th colspan="3">{{header.name}}</th>
+        </ng-container>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let header of districts">
+          <th>Pre</th>
+          <th>Dur</th>
+          <th>Total</th>
+        </ng-container>
+
+      </tr>
+      <tr>
+
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <!-- <tr>Conifer Timber(Sawn/Logs)
+            </tr> -->
+      <tr>
+        <td class="font-bold">{{ row.Item }}</td>
+        <ng-container *ngFor="let district of districts; let i = index">
+          <td>{{ row["District " + (i + 1)].Pre }}</td>
+          <td>{{ row["District " + (i + 1)].Dur }}</td>
+          <td>{{ row["District " + (i + 1)].Total }}</td>
+
+        </ng-container>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+
+    </ng-template>
+  </p-table>
+
+  <p-table *ngIf="formTypeValue == 2" [columns]="selectedColumns" [value]="FormBReportModel"
+    [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+        placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <th rowspan="2" *ngIf="col.subColumns.length == 0">
+            {{col.header}}
+          </th>
+          <th colspan="2" *ngIf="col.subColumns.length > 0">
+            {{col.header}}
+          </th>
+        </ng-container>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <ng-container *ngIf="col.subColumns.length > 0">
+            <th *ngFor="let col of col.subColumns">{{col.header}} </th>
+          </ng-container>
+        </ng-container>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
+      <tr>
+        <ng-container *ngFor="let col of columns">
+
+          <ng-container *ngIf="col.field =='empty' ">
+            <td *ngFor="let subcol of col.subColumns">
+
+              {{product[subcol.field]}}
+
+            </td>
+          </ng-container>
+
+          <td *ngIf="col.field != 'empty'">
+            {{product[col.field]}}
+          </td>
+        </ng-container>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="footer" let-product let-columns="columns" let-rowIndex="index">
+
+      <tr>
+        <td>Total</td>
+        <td *ngIf="disabledTheSelectedColumnsTotal('nakas_Laid', false)">{{ calculateColumnTotal('nakas_Laid') }}</td>
+        <td>{{ calculateColumnTotal('patrollings_Performed') }}</td>
+        <td>{{ calculateColumnTotal('jungle_Gashts_Performed') }}</td>
+        <td>{{ calculateColumnTotal('joP_Reports_Received') }}</td>
+        <td>{{ calculateColumnTotal('joP_Reports_Received') }}</td>
+        <td>{{ calculateColumnTotal('no_Of_Fire_Fighting_Operations') }}</td>
+        <td>{{ calculateColumnTotal('complaints_Received') }}</td>
+        <td>{{ calculateColumnTotal('complaints_Verified') }}</td>
+        <td>{{ calculateColumnTotal('requisitions_Made') }}</td>
+        <td>{{ calculateColumnTotal('requisitions_Attended') }}</td>
+        <!-- Add more columns as needed -->
+      </tr>
+
+    </ng-template>
+  </p-table>
+
+  <p-table *ngIf="formTypeValue == 3" [columns]="selectedColumns" [value]="FormCReportModel"
+    [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+        placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <th rowspan="2" *ngIf="col.subColumns.length == 0">
+            {{col.header}}
+          </th>
+          <th colspan="8" *ngIf="col.subColumns.length > 0">
+            {{col.header}}
+          </th>
+        </ng-container>
+       
+      </tr>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <ng-container *ngFor="let col of col.subColumns">
+
+            <th *ngIf="col.childSubColumns.length>0 && col.header == 'Pendency of registered cases'" colspan="3">
+              {{col.header}}
+            </th>
+            <th *ngIf="col.childSubColumns.length>0 && col.header == 'Pendency of Appeals'" colspan="5">
+              {{col.header}}
+            </th>
+
+          </ng-container>
+        </ng-container>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
         
-            <tr>
-              <td class="font-bold">{{ row.Item }}</td>
-              <ng-container *ngFor="let district of districts; let i = index">
-                <td>{{ row["District " + (i + 1)].Pre }}</td>
-                <td>{{ row["District " + (i + 1)].Dur }}</td>
-                <td>{{ row["District " + (i + 1)].Total }}</td>
+        <ng-container *ngFor="let col of columns">
+        
+          <ng-container *ngIf="col.subColumns.length > 0">
+            <ng-container *ngFor="let subCol of col.subColumns">
+              <ng-container *ngFor="let subChildCol of subCol.childSubColumns">
+                <th>
+                  {{subChildCol.header}} 
+                </th>
               </ng-container>
-            </tr>
-          </ng-template>
-        <ng-template pTemplate="footer">
-          
-        </ng-template>
-    </p-table>
 
+            </ng-container>
+           
+          </ng-container>
+        </ng-container>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
+      <tr>
+        <td> {{product.gammaUnit}}</td>
+        <ng-container *ngFor="let col of columns">
+        <td *ngIf="col.field!='empty' && col.field != 'districtId'">{{product.seizure_CasesMonth_Form_Cs[col.field]}}  </td>
+       
+         <ng-container *ngIf="col.field =='empty'">
+          <ng-container *ngFor="let sub of col.subColumns">
+           
+            <ng-container *ngFor="let subChild of sub.childSubColumns">
+             <td > {{product.seizure_CasesMonth_Form_Cs[subChild.field]}} </td>
+            </ng-container>
+        </ng-container>
+         </ng-container>
+        </ng-container>
+       
+      </tr>
+     
+    </ng-template>
+    <ng-template pTemplate="footer" let-product let-columns="columns" let-rowIndex="index">
+      <tr>
+        <td>Total</td>
+        <ng-container *ngFor="let col of columns">
+        <td *ngIf="col.field!='empty' && col.field != 'districtId'"> {{calculateReportCColumnTotal(col.field)}} </td>
+       
+         <ng-container *ngIf="col.field =='empty'">
+          <ng-container *ngFor="let sub of col.subColumns">
+           
+            <ng-container *ngFor="let subChild of sub.childSubColumns">
+             <td >{{calculateReportCColumnTotal(subChild.field)}} </td>
+            </ng-container>
+        </ng-container>
+         </ng-container>
+        </ng-container>
+
+        
+      </tr>
+
+    </ng-template>
+  </p-table>
+  
+  <p-table *ngIf="formTypeValue == 4" [columns]="selectedColumns" [value]="FormAbstractMonth"  [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+        placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <th>
+            {{col.header}}
+          </th>
+        </ng-container>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
+      <tr>
+      
+        <ng-container *ngFor="let col of columns">
+        <td> {{product[col.field]}}  </td>
+        </ng-container>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-table *ngIf="formTypeValue == 5" [columns]="selectedColumns" [value]="FormMonthCF"   styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+        selectedItemsLabel="{0} columns selected" 
+        placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <th class="text-center" *ngIf="col.header == 'Circle / Gamma Unit'" rowspan="3">
+            {{col.header}}
+          </th>
+          <th class="text-center" *ngIf="col.header != 'Circle / Gamma Unit'" colspan="5">
+            {{col.header}}
+          </th>
+        </ng-container>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <ng-container *ngFor="let subColumns of col.subColumns">
+               <th>{{subColumns.header}}</th>
+          </ng-container>
+        </ng-container>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
+     
+        <tr *ngIf="product['circle'] != 'GRAND TOTAL'">
+           <td style="width:100%" class="text-bold">{{product['circle']}}
+          </td>
+          <ng-container *ngFor="let item of tdElements">
+            <td></td> 
+          </ng-container>
+      </tr>
+
+       
+         <ng-container *ngFor="let districts of product['districts']">
+          <tr>
+            
+             <td  [ngClass]="{'text-bold': districts.district.indexOf('Sub Total') !== -1 || districts.district.indexOf('GRAND TOTAL') !== -1, 'text-normal': districts.district.indexOf('Sub Total') === -1}">
+              {{districts.district}}
+            </td>
+          <td> {{districts.items['Total Conifer Timber']}}</td>
+          <td> {{districts.items['Fire wood (in Qtis)']}}</td>
+          <td> {{districts.items['Seizure of vehicles (Nos )']}}</td>
+          <td> {{districts.items['Seizure of Horses/Pones']}}</td>
+          <td> {{districts.items['MFP Seized']}}</td>
+
+          <td> {{districts.items['Total Conifer Timber_Current']}}</td>
+          <td> {{districts.items['Fire wood (in Qtis)_Current']}}</td>
+          <td> {{districts.items['Seizure of vehicles (Nos )_Current']}}</td>
+          <td> {{districts.items['Seizure of Horses/Pones_Current']}}</td>
+          <td> {{districts.items['MFP Seized_Current']}}</td>
+
+          <td> {{districts.items['Total Conifer Timber_Cumulative']}}</td>
+          <td> {{districts.items['Fire wood (in Qtis)_Cumulative']}}</td>
+          <td> {{districts.items['Seizure of vehicles (Nos )_Cumulative']}}</td>
+          <td> {{districts.items['Seizure of Horses/Pones_Cumulative']}}</td>
+          <td> {{districts.items['MFP Seized_Cumulative']}}</td>
+        </tr>
+        </ng-container>
+     
+     
+     
+    </ng-template>
+  </p-table>
 </p-card>

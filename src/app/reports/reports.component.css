@@ -1,0 +1,30 @@
+.text-center{
+    text-align: center !important;
+}
+
+.rotated-text {
+    /* For modern browsers */
+    transform: rotate(90deg);
+  
+    /* For older browsers (like IE9 and earlier) */
+    -ms-transform: rotate(90deg);
+  
+    /* For some versions of Firefox */
+    -moz-transform: rotate(90deg);
+  
+    /* For some versions of Safari and Chrome */
+    -webkit-transform: rotate(90deg);
+  
+    /* For some versions of Opera */
+    -o-transform: rotate(90deg);
+  
+    /* To keep the layout from breaking */
+    /* (optional, adjust height and width as needed) */
+    white-space: nowrap;
+    width: 20px;
+    height: 200px;
+  }
+
+  .text-bold {
+    font-weight: bold;
+  }
