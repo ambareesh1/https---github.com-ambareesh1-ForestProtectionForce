@@ -13,6 +13,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
+   currentDate = new Date();
   districtId : any = 0 ;
   formTypeValue : any = 1;
   value: Date =  new Date();
@@ -27,6 +28,13 @@ export class ReportsComponent implements OnInit {
   cols!: Column[];
   _selectedColumns!: Column[];
   tdElements = Array.from({ length: 15 });
+  reportHeader : any = "Form A";
+  reportYear : any = this.getMonthName(this.currentDate.getMonth())+' '+this.currentDate.getFullYear();
+  month:number =  this.currentDate.getMonth();
+  year : number = this.currentDate.getFullYear();
+  selectedFinancialYear: any = this.currentDate.getFullYear();
+  financialYears: { label: string; value: number }[] = [];
+  isFinancialYearSelected : boolean = false;
 
   constructor(
     private manageDataService : ManagedataService,
@@ -34,8 +42,8 @@ export class ReportsComponent implements OnInit {
     private sharedService : SharedService,
     private reportsServices : ReportsServicesService, 
      private route: ActivatedRoute) { 
-   
-       this.reportsServices.getFormAReport();
+      this.financialYears = this.generateFinancialYears();
+       this.reportsServices.getFormAReport(this.districtId, this.month, this.year);
        this.formsTypes = [
         {name : 'Select', code : -1 },
         {name: 'Form A', code: 1},
@@ -60,26 +68,45 @@ export class ReportsComponent implements OnInit {
         detail: 'Fetching the seizure report for selected district...',
         life: 1000
       });
-    
+      this.reportYear = this.value.getFullYear();
       if(this.formTypeValue == 1){
         this.getReportA();
+        this.reportHeader = "Form A"
+        
       }else if(this.formTypeValue == 2){
         this.getFormBReport();
+        this.reportHeader = "Performance Report of Forest Protection Force Kashmir Region Ending";
       }else if(this.formTypeValue == 3){
         this.getFormCReport();
+        this.reportHeader = "Status of Seizure cases for the month  of ";
       }else if(this.formTypeValue == 4){
         this.getAbstractMontheReport();
+        this.reportHeader = "ABSTRACT OF SEIZURES ENDING ";
       }else if(this.formTypeValue == 5){
         this.getMonthCFReport();
+        this.reportHeader = "Summary of Seizures made by FPF During Forest Protection Operation in Kashmir Region Ending Month"
       }
       else{
         this.getReportA();
       }
-
-
+      this.reportYear = this.isFinancialYearSelected ? this.reportYear : this.getMonthName(this.month)+' '+this.year;
     }
 
     onMonthChange = () =>{
+
+      this.month = this.value.getMonth()+1;
+      this.year= this.value.getFullYear();
+      this.reportYear = this.getMonthName(--this.month)+' '+this.year;
+      this.isFinancialYearSelected = false;
+      this.onChangeForm();
+    }
+
+    onFinancialYearChange = (event:any) =>{
+      this.isFinancialYearSelected = true;
+      //console.log(this.selectedFinancialYear);
+      this.year = this.selectedFinancialYear['value'];
+      this.reportYear = this.selectedFinancialYear['label'];
+      this.onChangeForm();
     }
 
     getDistrictData = () => {
@@ -89,7 +116,8 @@ export class ReportsComponent implements OnInit {
     }
    
     getReportA = () =>{
-      this.reportsServices.getFormAReport().subscribe((x:any)=>{
+     
+      this.reportsServices.getFormAReport(this.districtId, this.month, this.year).subscribe((x:any)=>{
        
           this.FormAReportModel = x;
           let itemsList = x.map((y:any)=>y.item);
@@ -97,16 +125,9 @@ export class ReportsComponent implements OnInit {
       })
     }
 
-    exportToExcel() {
-      const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportA'));
-      const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-      saveAs(data, 'exported-data.xlsx');
-    }
 
     getFormBReport = () =>{
-      this.reportsServices.getFormBReport(this.districtId, this.value.getMonth()+1).subscribe((data) => {
+      this.reportsServices.getFormBReport(this.districtId, this.month, this.year).subscribe((data) => {
         this.FormBReportModel = data;
         console.log(data);
       });
@@ -128,7 +149,7 @@ export class ReportsComponent implements OnInit {
     }
 
     getFormCReport = () =>{
-      this.reportsServices.getFormCReport(this.districtId, this.value.getMonth()+1).subscribe((data) => {
+      this.reportsServices.getFormCReport(this.districtId, this.month, this.year).subscribe((data) => {
         this.FormCReportModel = data;
         console.log(data);
       });
@@ -177,7 +198,7 @@ export class ReportsComponent implements OnInit {
       const currentDate = new Date(); // Replace this with your actual date variable
       const previousMonthDate = new Date(this.value);
       previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-      this.reportsServices.getAbstractFormReport(this.districtId, this.value.getMonth()+1).subscribe((data) => {
+      this.reportsServices.getAbstractFormReport(this.districtId, this.month, this.year).subscribe((data) => {
         // data.push({
         //   header: '',
         //   field: 'monthHeader',
@@ -205,7 +226,7 @@ export class ReportsComponent implements OnInit {
     getMonthCFReport = () =>{
       console.log(this.value);
       
-      this.reportsServices.getMonthMFFormReport(this.districtId, this.value.getMonth()+1).subscribe((data) => {
+      this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected).subscribe((data) => {
         this.FormMonthCF = data;
         console.log(data);
       });
@@ -270,6 +291,89 @@ export class ReportsComponent implements OnInit {
     isFieldExists = (column:string)=>{
       return this.FormCReportModel.map((x:any)=>x.seizure_CasesMonth_Form_Cs).some((item:any) => item.hasOwnProperty(column));
     }
+
+   // Reports Genaration in Excel sheet 
+
+   exportToExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportA'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(data, 'Form A Report.xlsx');
+  }
+
+  exportToExcelFormB() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportB'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(data, 'Form B Report.xlsx');
+  }
+
+
+  
+  exportToExcelFormC() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportC'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(data, 'Form C Report.xlsx');
+  }
+
+  exportToExcelAbstractMonth() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportAbstractMonth'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(data, 'Abstract Month Report.xlsx');
+  }
+
+  exportToExcelMonthCF() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('ReportMonthCF'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(data, 'Month CF Report.xlsx');
+  }
+
+    private generateFinancialYears(): { label: string; value: number }[] {
+      const currentYear = new Date().getFullYear();
+      const years: { label: string; value: number }[] = [];
+      const yearsRange = 10; // Adjust the range as needed
+  
+      for (let i = currentYear - yearsRange; i <= currentYear; i++) {
+        years.push({
+          label: `${i} - ${i + 1}`,
+          value: i,
+        });
+      }
+  
+      return years;
+    }
+
+    private getMonthName(monthIndex: number): string {
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      return months[monthIndex];
+    }
+
+    onSelectItem = (selectedItem:any) =>{
+    
+      this.FormAReportModel = this.FormAReportModel.filter((items:any) => items.Item !== selectedItem);
+    }
+  
 }
 
 

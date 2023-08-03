@@ -1,6 +1,6 @@
 <p-card header="Reports">
 
-  <p-card styleClass="mb-2">
+
     <div class="row">
       <div class="col-lg-4">
         <div class="field">
@@ -10,29 +10,39 @@
         </div>
 
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="field col-12 md:col-6">
-          <label for="icon">Select Month</label>
+          <label for="icon" class="block">Select Month</label>
           <p-calendar view="month" dateFormat="mm/yy" [readonlyInput]="true" [(ngModel)]="value" [showIcon]="true"
             inputId="icon" (ngModelChange)="onMonthChange()"></p-calendar>
         </div>
       </div>
+      <div class="col-lg-4">
+        <div class="field col-12 md:col-6">
+          <label for="icon" class="block">Select Financial Year</label>
+          <p-dropdown [options]="financialYears" [(ngModel)]="selectedFinancialYear" optionLabel="label"
+            placeholder="Select a financial year" (onChange)="onFinancialYearChange($event)" > </p-dropdown>
+        </div>
+      </div>
     </div>
-  </p-card>
+
 
   <p-table *ngIf="formTypeValue == 1" id="ReportA" #dt [value]="FormAReportModel" [scrollable]="true"
     scrollHeight="600px" styleClass="p-datatable-gridlines">
 
     <ng-template pTemplate="caption">
       <div class="flex">
+        <div class="">
+          {{reportHeader}} - {{this.reportYear}}
+      </div>
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcel()"
-          class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-        <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt.exportCSV({ selectionOnly: true })"
-          class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
+        class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
+
     <ng-template pTemplate="header" let-columns>
       <tr>
+        <th></th>
         <th rowspan="2">Items</th>
 
         <ng-container *ngFor="let header of districts">
@@ -40,6 +50,7 @@
         </ng-container>
       </tr>
       <tr>
+        <th></th>
         <ng-container *ngFor="let header of districts">
           <th>Pre</th>
           <th>Dur</th>
@@ -56,6 +67,7 @@
       <!-- <tr>Conifer Timber(Sawn/Logs)
             </tr> -->
       <tr>
+        <td><input type="checkbox" (change)="onSelectItem(row.Item)" ></td>
         <td class="font-bold">{{ row.Item }}</td>
         <ng-container *ngFor="let district of districts; let i = index">
           <td>{{ row["District " + (i + 1)].Pre }}</td>
@@ -70,13 +82,19 @@
     </ng-template>
   </p-table>
 
-  <p-table *ngIf="formTypeValue == 2" [columns]="selectedColumns" [value]="FormBReportModel"
+  <p-table *ngIf="formTypeValue == 2" id="ReportB" [columns]="selectedColumns" [value]="FormBReportModel"
     [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-        placeholder="Choose Columns"></p-multiSelect>
+      <div [ngClass]="'flex'">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+          selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+          placeholder="Choose Columns"></p-multiSelect>
+        <span class="ml-5 pt-2">{{ reportHeader }} - {{this.reportYear}}</span>
+        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcelFormB()"
+        class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
+      </div>
     </ng-template>
+    
     <ng-template pTemplate="header" let-columns>
       <tr>
         <ng-container *ngFor="let col of columns">
@@ -136,12 +154,15 @@
     </ng-template>
   </p-table>
 
-  <p-table *ngIf="formTypeValue == 3" [columns]="selectedColumns" [value]="FormCReportModel"
+  <p-table *ngIf="formTypeValue == 3" id="ReportC" [columns]="selectedColumns" [value]="FormCReportModel"
     [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-        placeholder="Choose Columns"></p-multiSelect>
+      <div [ngClass]="'flex-between'">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+          selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+          placeholder="Choose Columns"></p-multiSelect>
+        <span style="margin-left: 10%;">{{ reportHeader }} - {{this.reportYear}}</span>
+      </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -235,11 +256,14 @@
     </ng-template>
   </p-table>
   
-  <p-table *ngIf="formTypeValue == 4" [columns]="selectedColumns" [value]="FormAbstractMonth"  [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
+  <p-table *ngIf="formTypeValue == 4" id="ReportAbstractMonth" [columns]="selectedColumns" [value]="FormAbstractMonth"  [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-        placeholder="Choose Columns"></p-multiSelect>
+      <div [ngClass]="'flex-between'">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+          selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+          placeholder="Choose Columns"></p-multiSelect>
+        <span style="margin-left: 10%;">{{ reportHeader }} - {{this.reportYear}}</span>
+      </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -261,11 +285,14 @@
     </ng-template>
   </p-table>
 
-  <p-table *ngIf="formTypeValue == 5" [columns]="selectedColumns" [value]="FormMonthCF"   styleClass="p-datatable-gridlines">
+  <p-table *ngIf="formTypeValue == 5" id="ReportMonthCF" [columns]="selectedColumns" [value]="FormMonthCF" scrollHeight="600px"   styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-        selectedItemsLabel="{0} columns selected" 
-        placeholder="Choose Columns"></p-multiSelect>
+      <div [ngClass]="'flex-between'">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+          selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+          placeholder="Choose Columns"></p-multiSelect>
+        <span style="margin-left: 10%;">{{ reportHeader }} - {{this.reportYear}}</span>
+      </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -289,8 +316,8 @@
 
     <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
      
-        <tr *ngIf="product['circle'] != 'GRAND TOTAL'">
-           <td style="width:100%" class="text-bold">{{product['circle']}}
+        <tr style="background: #9e9e9e57;"  *ngIf="product['circle'] != 'GRAND TOTAL'">
+           <td colspan="14" style="width:100%" class="text-bold">{{product['circle']}}
           </td>
           <ng-container *ngFor="let item of tdElements">
             <td></td> 
@@ -301,7 +328,7 @@
          <ng-container *ngFor="let districts of product['districts']">
           <tr>
             
-             <td  [ngClass]="{'text-bold': districts.district.indexOf('Sub Total') !== -1 || districts.district.indexOf('GRAND TOTAL') !== -1, 'text-normal': districts.district.indexOf('Sub Total') === -1}">
+             <td style="width: 100%" [ngClass]="{'text-bold': districts.district.indexOf('Sub Total') !== -1 || districts.district.indexOf('GRAND TOTAL') !== -1, 'text-normal': districts.district.indexOf('Sub Total') === -1}">
               {{districts.district}}
             </td>
           <td> {{districts.items['Total Conifer Timber']}}</td>

@@ -87,6 +87,9 @@ export class SeizureComponent implements OnInit {
   totalOpeningBalance : any;
   month : any = new Date().getMonth()+1;
 
+  totalConiferTimber : string = "Total Conifer Timber";
+  totalBroadLeavedTimber: string ="Total Broad Leaved Timber (cfts)";
+
   constructor( private seizureService : SeizureService, private messageService : MessageService,
      private manageDataService : ManagedataService, private sharedServices : SharedService,
       private confirmationService : ConfirmationService ){
@@ -155,7 +158,7 @@ export class SeizureComponent implements OnInit {
     }
 
     onMonthChange = () =>{
-      debugger;
+      
       let selectedValue = this.formTypeValue;
       this.month = this.value.getMonth()+1;
       let form : FormDistrictMonth ={
@@ -260,6 +263,7 @@ export class SeizureComponent implements OnInit {
     onRowEditSave = (formA :Seizures_Form_A) =>{
       console.log(formA);
   if (formA.id > 0) {
+    
            // delete this.clonedProducts[product.id];
            this.seizureService.updateFormA(formA.id, formA).pipe(
             catchError((error) => {
@@ -269,9 +273,25 @@ export class SeizureComponent implements OnInit {
             })
           ).subscribe((data)=>{
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data is updated' });
+              this.onSaveTotalConfire(this.getTypeOnItemPassed(formA.name));
            })
+           
+
         } 
         this.editing = !this.editing;
+    }
+
+    onSaveTotalConfire = (type:any) =>{
+      let totalConfier = this.formA.filter((x:any)=>x.name == type)[0];
+           this.seizureService.updateFormA(totalConfier.id, totalConfier).pipe(
+            catchError((error) => {
+              // Handle error
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update data' });
+              return throwError(() => error);
+            })
+          ).subscribe((data)=>{
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Total Data is updated' });
+           })
     }
 
     onRowEditSaveFormB = (formB :Seizure_GammaUni_FormB) =>{
@@ -293,7 +313,7 @@ export class SeizureComponent implements OnInit {
 
 
     onRowEditSaveFormC = (formCDetails : any)=>{
-      debugger;
+      
       let formcAdded : any[] = []; 
   // adding the sum of two rows in database
       this.formC[2].opening_Balance = this.formC[0].opening_Balance + this.formC[1].opening_Balance;
@@ -327,7 +347,7 @@ export class SeizureComponent implements OnInit {
     //man animal conflit
 
     onRowEditSaveManAnimalConflict = (manAnimalConflict :SeizureManAnimalConflict) =>{
- debugger;
+ 
       if (manAnimalConflict.id >= 0) {
                // delete this.clonedProducts[product.id];
                this.seizureService.updateManAnimal(manAnimalConflict.id, manAnimalConflict).pipe(
@@ -577,7 +597,7 @@ export class SeizureComponent implements OnInit {
   
 
     FormAExecution = (event : any) =>{
-          debugger;
+          
            let form : FormDistrictMonth ={
              id: event,
              month: this.month
@@ -1447,7 +1467,7 @@ export class SeizureComponent implements OnInit {
 
 exportExcelFormB(){
   import('xlsx').then((xlsx) => {
-    debugger;
+    
     const worksheet = xlsx.utils.json_to_sheet(this.formB);
   
     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data']};
@@ -1458,7 +1478,7 @@ exportExcelFormB(){
 
 exportExcelFormC(){
   import('xlsx').then((xlsx) => {
-    debugger;
+    
     const worksheet = xlsx.utils.json_to_sheet(this.formC);
   
     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data']};
@@ -1495,7 +1515,7 @@ getCasesRegistered():any {
 }
 
 AddARowManAnimalConflict = () =>{
-debugger;
+
   let id = 1;
  from(this.manAnimalConflict)
   .pipe(last())
@@ -1547,7 +1567,7 @@ DeleteARowManAnimalConflict = () =>{
   }
 
   settingDistrictProvinceOnRole = () =>{
-    debugger;
+    
     if(this.sharedServices.isUserCaseEntryOperatorOrDuptyDirector()){
       this.districtId = this.sharedServices.getDistrictId();
       this.enableMessage = false;
@@ -1574,6 +1594,99 @@ DeleteARowManAnimalConflict = () =>{
       );
     });
   }
+
+  updateIndependentTotal(seizure: any, type: any): void {
+    
+    const ob_independent = parseFloat(seizure.ob_independent) || 0;
+    const during_month_independent = parseFloat(seizure.during_month_independent) || 0;
+    const ob_joint = parseFloat(seizure.ob_joint) || 0;
+    const during_month_joint = parseFloat(seizure.during_month_joint) || 0;
+  
+    if (type == 'ob_independent') {
+      seizure.total_independent = ob_independent + during_month_independent;
+    } else {
+      seizure.total_joint = ob_joint + during_month_joint;
+    }
+  
+    this.calculateTotalConiferTimber(seizure.name, type); // Call the other method here
+  }
+  
+calculateTotalConiferTimber(name: string, type: string): any {
+  
+  if (name === 'Total Conifer Timber' || name === 'Total Broad Leaved Timber (cfts)') {
+    const requiredItems =  name === 'Total Conifer Timber' ? ['Deodar', 'Kail', 'Fir', 'Chir', 'Spruce', 'others']
+                                  :  ['Broad leaved timber', 'Poplar', 'Walnut', 'Willow', 'Spruce', 'Sheesham', 'Toon', 'Mango', 'Khair', 'Simbal','Oak', 'Others' ]; 
+    let total = 0;
+
+    switch (type) {
+      case 'ob_independent':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.ob_independent, 0);
+        break;
+      case 'ob_joint':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.ob_joint, 0);
+        break;
+      case 'during_month_independent':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.during_month_independent, 0);
+        break;
+      case 'during_month_joint':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.during_month_joint, 0);
+        break;
+      case 'total_independent':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.total_independent, 0);
+        break;
+      case 'total_joint':
+        total = this.formA.filter(item => requiredItems.includes(item.name)).reduce((sum, item) => sum + +item.total_joint, 0);
+        break;
+      default:
+        // Handle the default case if necessary
+        break;
+    }
+
+    // Update the value in formA for "Total Conifer Timber"
+    const totalConiferItem = name == this.totalConiferTimber? this.formA.find(item => item.name === this.totalConiferTimber) :
+     this.formA.find(item => item.name === this.totalBroadLeavedTimber)
+    if (totalConiferItem) {
+      switch (type) {
+        case 'ob_independent':
+          totalConiferItem.ob_independent = total;
+          break;
+        case 'ob_joint':
+          totalConiferItem.ob_joint = total;
+          break;
+        case 'during_month_independent':
+          totalConiferItem.during_month_independent = total;
+          break;
+        case 'during_month_joint':
+          totalConiferItem.during_month_joint = total;
+          break;
+        case 'total_independent':
+          totalConiferItem.total_independent = total;
+          break;
+        case 'total_joint':
+          totalConiferItem.total_joint = total;
+          break;
+        default:
+          // Handle the default case if necessary
+          break;
+      }
+    }
+    
+    return total;
+  }
+
+}
+
+getTypeOnItemPassed = (item:any) =>{
+  const totalConiferItemList = ['Deodar', 'Kail', 'Fir', 'Chir', 'Spruce', 'others'];
+  const totalConiferTimberList =  ['Broad leaved timber', 'Poplar', 'Walnut', 'Willow', 'Spruce', 'Sheesham', 'Toon', 'Mango', 'Khair', 'Simbal','Oak', 'Others' ]; 
+
+  if(totalConiferItemList.includes(item)){
+       return this.totalConiferTimber;
+  }
+  return this.totalBroadLeavedTimber
+}
+
+
 
   convertToDate = (onlyDate: any) => {
     const datePipe = new DatePipe('en-US');

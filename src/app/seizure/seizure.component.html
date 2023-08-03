@@ -96,56 +96,43 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-seizure let-editing="editing" let-i="rowIndex">
-                    <tr [pEditableRow]="seizure">
+                    <tr [pEditableRow]="seizure" [ngClass]="seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? 'grey-background' : ''">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td class="text-center">{{ seizure.serialNo }}</td>
                         <td><b>{{seizure.name}}</b></td>
-                        <td class="text-center"><p-cellEditor>
-                                <ng-template pTemplate="input">
-                                    <input pInputText type="number" [(ngModel)]="seizure.ob_independent"
-                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) + (seizure.during_month_independent || 0)">
-                                </ng-template>
-                                <ng-template pTemplate="output">
-                                    {{seizure.ob_independent}}
-                                </ng-template>
-                            </p-cellEditor>
+                        <td class="text-center">
+                           {{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'ob_independent'): seizure.ob_independent}}
                         </td>
                         <td class="text-center"><p-cellEditor>
-                                <ng-template pTemplate="input">
+                                <ng-template pTemplate="input" >
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_independent"
-                                        (ngModelChange)="seizure.total_independent = (seizure.ob_independent || 0) + (seizure.during_month_independent || 0)">
+                                        (ngModelChange)="updateIndependentTotal(seizure,'ob_independent')">
                                 </ng-template>
                                 <ng-template pTemplate="output">
-                                    {{seizure.during_month_independent}}
+                                    {{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'during_month_independent'): seizure.during_month_independent}}  
                                 </ng-template>
                             </p-cellEditor>
                         </td>
     
-                        <td class="text-center">{{ seizure.total_independent}}</td>
-                        <td class="text-center"><p-cellEditor>
-                                <ng-template pTemplate="input">
-                                    <input pInputText type="number" [(ngModel)]="seizure.ob_joint"
-                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) + (seizure.during_month_joint|| 0)">
-                                </ng-template>
-                                <ng-template pTemplate="output">
-                                    {{seizure.ob_joint}}
-                                </ng-template>
-                            </p-cellEditor>
+                        <td class="text-center">{{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'total_independent'): seizure.total_independent}}</td>
+
+                        <td class="text-center">
+                               {{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'ob_joint'): seizure.ob_joint}}
                         </td>
     
                         <td class="text-center"><p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="number" [(ngModel)]="seizure.during_month_joint"
-                                        (ngModelChange)="seizure.total_joint = (seizure.ob_joint || 0) + (seizure.during_month_joint|| 0)">
+                                    (ngModelChange)="updateIndependentTotal(seizure,'ob_joint')">
                                 </ng-template>
                                 <ng-template pTemplate="output">
-                                    {{seizure.during_month_joint}}
+                                    {{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'during_month_joint'): seizure.during_month_joint}} 
                                 </ng-template>
                             </p-cellEditor>
                         </td>
-                        <td class="text-center">{{ seizure.total_joint}}</td>
+                        <td class="text-center">{{seizure.name === totalConiferTimber || seizure.name == totalBroadLeavedTimber ? calculateTotalConiferTimber(seizure.name,'total_joint'): seizure.total_joint}}</td>
                         <td>
-                            <div class="flex align-items-center justify-content-center gap-2">
+                            <div *ngIf="seizure.name !== totalConiferTimber && seizure.name != totalBroadLeavedTimber" class="flex align-items-center justify-content-center gap-2">
                                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
                                     (click)="onRowEditInit(seizure)" class="p-button-rounded p-button-text"></button>
                                 <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"

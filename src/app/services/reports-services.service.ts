@@ -16,24 +16,24 @@ export class ReportsServicesService {
 
   baseUrl = environment.apiBaseUrl;
 
-  getFormAReport(){
-    return  this.http.get<any[]>(this.baseUrl+'/Reports');
+  getFormAReport(district:number, month:number, year : number){
+    return  this.http.get<any[]>(`${this.baseUrl}/Reports/GetFormAReport?districtId=${district}&month=${month}&year=${year}`);
   }
 
-  getFormBReport = (district:number,month:number)=>{
-    return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Reports/GetGammaUnitFormBReport?id=${district}&month=${month}`);
+  getFormBReport = (district:number,month:number, year : number)=>{
+    return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Reports/GetGammaUnitFormBReport?districtId=${district}&month=${month}&year=${year}`);
   }
 
-  getFormCReport = (district:number,month:number)=>{
-    return this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Reports/GetGammaUnitFormCReport?id=${district}&month=${month}`);
+  getFormCReport = (district:number,month:number, year : number)=>{
+    return this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Reports/GetGammaUnitFormCReport?districtId=${district}&month=${month}&year=${year}`);
   }
 
-  getAbstractFormReport = (district:number,month:number)=>{
-    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetGammaUnitAbstractFormReport?id=${district}&month=${month}`);
+  getAbstractFormReport = (district:number,month:number, year : number)=>{
+    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetGammaUnitAbstractFormReport?districtId=${district}&month=${month}&year=${year}`);
   }
 
-  getMonthMFFormReport = (district:number,month:number)=>{
-    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetMonthCFFormReport?id=${district}&month=${month}`);
+  getMonthMFFormReport = (district:number,month:number, year : number, isFinancialYearSelected:boolean)=>{
+    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetMonthCFFormReport?districtId=${district}&month=${month}&year=${year}&isFinancialYearSelected=${isFinancialYearSelected}`);
   }
 
 }

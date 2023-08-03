@@ -20,3 +20,8 @@
     background: #6c757d !important;
     color: white !important;
   }
+
+  .grey-background{
+    background-color: #eee !important;
+    font-weight: bold !important;
+  }
