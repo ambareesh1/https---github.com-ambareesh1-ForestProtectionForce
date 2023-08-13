@@ -29,7 +29,14 @@
             <td hidden="true">{{ seizure.id }}</td>
             <td class="text-center"> {{ seizure.sno }} </td>
             <td class="text-left"> {{seizure.article}} </td>
-            <td class="text-center"> {{seizure.unit}} </td>
+            <td class="text-center"><p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input class="w-100" pInputText type="text"  [(ngModel)]="seizure.unit"/>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{seizure.unit}} 
+                </ng-template>
+                </p-cellEditor>
            
             <td class="text-center"><p-cellEditor>
                 <ng-template pTemplate="input">

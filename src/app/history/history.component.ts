@@ -82,7 +82,7 @@ export class HistoryComponent implements OnInit{
 
 
   onSubmitHistory = () => {
-    debugger;
+    
   
     if(this.formHistory.valid) {
       let historyData: HistorySheet = {
@@ -116,7 +116,7 @@ export class HistoryComponent implements OnInit{
         })
       } else {
         this.historyService.createHistorySheet(historyData).subscribe((x) => {
-          debugger;
+          
           if (x) {
             console.log(x);
         
@@ -136,7 +136,7 @@ export class HistoryComponent implements OnInit{
   
     loadHistorySheetById = async(id:any) =>{
       this.historyService.getHostorySheetbyId(id).subscribe((x)=>{
-        debugger;
+        
         this.needSpinner = false
        // this.selectedOffenders = [];
         let selectedOffender = this.selectedOffenders[0].filter((y:any) => y.aadhaarNo == x.aadharCard);
@@ -154,7 +154,7 @@ export class HistoryComponent implements OnInit{
 
 
   loadOffenders = async () => {
-    debugger;
+    
     (await this.offenderDataService.getOffendersData()).subscribe(x => {
       this.offenders = x;
      
@@ -183,7 +183,7 @@ export class HistoryComponent implements OnInit{
   }
 
   onSelect(event: any) {
-    debugger;
+    
     // Access the selected item from the event object
     this.selectedOffenders = [];
     const selectedItem = event;

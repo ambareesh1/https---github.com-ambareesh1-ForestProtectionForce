@@ -48,7 +48,7 @@ export class ManageDivisionComponent {
       ];
     
       forkJoin(sources$).subscribe((data: any[]) => {
-        debugger;
+        
         this.division = data[0];
        // this.districtData = data[1];
        // this.circleData = data[2];
@@ -67,7 +67,7 @@ export class ManageDivisionComponent {
     }
 
  initForm(division: Division = {} as Division){
-  debugger;
+  
    this.formDivision = this.fb.group({
     divisionName: [ ''|| division.name, Validators.required,[divisionValidator(this.manageDataService)]], //, 
     district : ['' || division.districtId],
@@ -176,7 +176,7 @@ onSubmitDivision() {
 
  onChangeProvince = (event:any)=>{
   this.manageDataService.getCircle().subscribe((data)=>{
-    debugger;
+    
     data= data.filter(x=>x.provinceId == event.value);
     data.unshift({
       id: -1, name: 'Select',
@@ -190,7 +190,7 @@ onSubmitDivision() {
  
  onChangeCircle = (event:any) =>{
   this.manageDataService.getDistrict().subscribe((data)=>{
-    debugger;
+    
     data= data.filter(x=>x.circleId == event.value);
     data.unshift({
       id: -1, name: 'Select',

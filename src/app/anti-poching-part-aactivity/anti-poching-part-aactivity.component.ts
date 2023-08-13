@@ -34,7 +34,7 @@ export class AntiPochingPartAActivityComponent {
     }
   
     onRowEditSave = (formA :any) =>{
-     debugger;
+     
   if (formA.id >= 0) {
            // delete this.clonedProducts[product.id];
            this.seizureService.updateAntiPochingFormA(formA.id, formA).pipe(
@@ -57,7 +57,7 @@ export class AntiPochingPartAActivityComponent {
     }
   
     AddARow = () =>{
-      debugger;
+      
         let id = 1;
         let month:number = 1;
         let year : number = 1;
@@ -71,7 +71,7 @@ export class AntiPochingPartAActivityComponent {
            activity: "",
            details: "",
            sno: 0,
-           unit: "",
+           unit: 0,
            provinceId: this.provinceId,
            districtId: this.districtId,
            month: new Date().getMonth() + 1,

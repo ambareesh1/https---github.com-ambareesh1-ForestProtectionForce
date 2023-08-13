@@ -21,7 +21,7 @@ export class HistorySheetViewComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    debugger;
+    
     this.historyId = this.config.data;
       this.historyService.getHostorySheetbyId(this.historyId).subscribe(data=>{
         this.history = data;

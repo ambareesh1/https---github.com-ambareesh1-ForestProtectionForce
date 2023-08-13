@@ -188,14 +188,16 @@
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td class="text-center">{{ seizure.serialNo }}</td>
-                        <td *ngIf="isSuperAdminOfJammuOrKashmir" class="text-center">  <p-cellEditor>
+                        <td *ngIf="isSuperAdminOfJammuOrKashmir" class="text-center"> 
+                             <!-- <p-cellEditor>
                             <ng-template pTemplate="input">
                                 <input pInputText type="text" [(ngModel)]="seizure.gamma_Unit">
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ seizure.gamma_Unit}}
                             </ng-template>
-                        </p-cellEditor>
+                        </p-cellEditor> -->
+                        {{this.districtName}}
                         </td>
                         <td *ngIf="!isSuperAdminOfJammuOrKashmir"><b>{{this.districtName}}</b></td>
                         <td class="text-center"><p-cellEditor>
@@ -501,16 +503,18 @@
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td >{{ seizure.sNo }}</td>
-                        <td class="text-center"><p-cellEditor>
+                         <td class="text-center"><p-cellEditor>
                             <ng-template pTemplate="input">
                                 <input pInputText type="text" [(ngModel)]="seizure.nameOfGammaUnit">
                             </ng-template>
                        
                             <ng-template pTemplate="output">
                                 {{seizure.nameOfGammaUnit }}
+                                
                               </ng-template>
                               
                         </p-cellEditor>
+                        <!-- {{this.districtName}} -->
                     </td>
                     <td class="text-center"><p-cellEditor>
                         <ng-template pTemplate="input">

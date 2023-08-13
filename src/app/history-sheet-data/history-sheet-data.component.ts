@@ -72,7 +72,7 @@ addHistory = (history : HistorySheet) =>{
 }
 
 onClickAadhar = (aadhaarNo:any) =>{
-  debugger;
+  
   this.offenderService.getOffenderWithAdhar(aadhaarNo).subscribe((x)=>{
     this.showOffender(x);
   })

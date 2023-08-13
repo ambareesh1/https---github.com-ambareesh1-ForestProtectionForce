@@ -56,7 +56,7 @@ export class ChangePasswordComponent {
 
   onSubmitPassword = ()=>{
     console.log(this.changeForm)
-    debugger;
+    
    this.isLoading = true;
     let userName = this.sharedService.getUserDetails().username;
     let password = this.changeForm.value.password;

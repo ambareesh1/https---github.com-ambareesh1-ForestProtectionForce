@@ -93,7 +93,7 @@ export class ManageProvinceComponent {
               icon: 'pi pi-exclamation-triangle',
               accept: () => {
                 this.manageDataService.deleteProvince(province.id).subscribe((x)=>{
-                  debugger;
+                  
                   console.log(x);
                   if(x==null){
                   this.province = this.province.filter(val => val.id !== province.id);
@@ -117,7 +117,7 @@ export class ManageProvinceComponent {
     }
     
     onFocusOutProvince (event:any){
-      debugger;
+      
       let name = this.formProvince.value.provinceName;
       if(name!=""){
       this.manageDataService.getProvinceByName(name).subscribe(x=>{

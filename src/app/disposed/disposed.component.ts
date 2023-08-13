@@ -42,7 +42,7 @@ export class DisposedComponent {
     private route: ActivatedRoute, private offenderDataService : OffenderdataService,
      private disposedCasesService : DisposedCasesService)
   {
-    debugger;
+    
     this.id = this.route.snapshot.paramMap.get('id')!;
     this.isEdit = this.id != null;
   }
@@ -60,14 +60,14 @@ export class DisposedComponent {
 
   getOffenderData = () =>{
      this.baselineDataService.getBaseline().subscribe((data)=>{
-        this.baselineData = data;
+        this.baselineData = data.filter(x=>x.status == 'Approved');
         this.isDataLoaded = true;
      })
   }
 
   getDisposedOnEdit = () =>{
     this.disposedCasesService.getDisposedCasesbyId(this.id).subscribe((x)=>{
-      debugger;
+      
        this.initFormDisposalCases(x);
       
     })
@@ -96,7 +96,7 @@ export class DisposedComponent {
   }
 
   onSubmitDisposed = () => {
-    debugger;
+    
   
     if(this.formDisposedCases.valid) {
       let disposalData: DisposedCasesModel = {
@@ -129,7 +129,7 @@ export class DisposedComponent {
         })
       } else {
         this.disposedCasesService.createDisposedCases(disposalData).subscribe((x) => {
-          debugger;
+          
           if (x) {
             console.log(x);
         
@@ -187,7 +187,7 @@ export class DisposedComponent {
   }
 
   onCaseIdClick = (baseline:any) =>{
-    debugger;
+    
     this.caseId = baseline.caseNo;
     
     this.formDisposedCases.controls['caseId'].setValue(baseline.caseNo);
@@ -197,7 +197,7 @@ export class DisposedComponent {
   }
 
   loadOffenders = async (baseline: BaselineModel) => {
-    debugger;
+    
     this.selectedOffenders = [];
     (await this.offenderDataService.getOffendersData()).subscribe(x => {
       this.isDataLoaded = true;
@@ -237,7 +237,7 @@ export class DisposedComponent {
   }
 
   onSelect(event: any) {
-    debugger;
+    
     // Access the selected item from the event object
     const selectedItem = event;
     this.selectedOffenders = [];

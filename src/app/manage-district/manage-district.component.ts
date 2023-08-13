@@ -44,7 +44,7 @@ export class ManageDistrictComponent {
     this.getProvinceData()
   ];
   forkJoin(sources$).subscribe((data: any[]) => {
-    debugger;
+    
     this.district = data[0];
      data[1].unshift({
       id: -1,
@@ -59,7 +59,7 @@ export class ManageDistrictComponent {
  }
 
  initForm(district: District = {} as District){
-  debugger;
+  
    this.formDistrict = this.fb.group({
     districtName: [district.name || '', Validators.required, [districtValidator(this.manageDataService)]],
     circle : [district.circleId || ''],
@@ -152,7 +152,7 @@ onSubmitDistrict() {
 
  onProvinceChange = (event:any) =>{
   this.manageDataService.getCircle().subscribe((data)=>{
-    debugger;
+    
     data= data.filter(x=>x.provinceId == event.value);
     data.unshift({
       id: -1, name: 'Select',

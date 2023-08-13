@@ -15,7 +15,7 @@ export function usernameTakenValidator(userService: UserDetailService): AsyncVal
 }
 export function emailValidator(userService: UserDetailService): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-    debugger;
+    
     const email = control.value;
     return userService.verifyEmail(email).pipe(
       map(isTaken => (isTaken ? { emailtaken: true } : null))
@@ -66,7 +66,7 @@ export function emailValidator(userService: UserDetailService): AsyncValidatorFn
 
   export function divisionValidator(manageDataService: ManagedataService): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      debugger;
+      
       const division = control.value;
       return manageDataService.getDivisonByName(division).pipe(
         map(isTaken => (isTaken ? { divisionTaken: true } : null))

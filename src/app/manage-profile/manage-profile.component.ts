@@ -87,7 +87,7 @@ export class ManageProfileComponent implements OnInit {
   }
 
   onSubmitIserDetails = () =>{
-debugger;
+
     if(this.sharedServices.isSuperAdminOrJammuOrKashmir()){
       if(this.userForm.value){
         let userDetails : Superadmin = {

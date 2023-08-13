@@ -56,7 +56,7 @@ export class ComplaintsRegisteredComponent {
     }
   
     AddARow = () =>{
-      debugger;
+      
         let id = 1;
         let month:number = 1;
         let year : number = 1;

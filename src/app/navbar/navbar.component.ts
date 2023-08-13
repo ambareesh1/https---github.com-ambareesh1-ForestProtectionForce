@@ -80,7 +80,7 @@ export class NavbarComponent {
   }
   
   async getProvinceName(userDetails: any) {
-    debugger;
+    
    return  this.manageDataService.getProvinceByid(userDetails.provinceId);
   
   }

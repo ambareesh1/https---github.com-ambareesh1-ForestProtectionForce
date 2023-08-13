@@ -32,7 +32,7 @@ export class HabitualForestOffendersComponent {
     }
   
     onRowEditSave = (formA :any) =>{
-     debugger;
+     
   if (formA.id >= 0) {
            // delete this.clonedProducts[product.id];
            this.seizureService.updateForestOffendersRegistered(formA.id, formA).pipe(
@@ -55,7 +55,7 @@ export class HabitualForestOffendersComponent {
     }
   
     AddARow = () =>{
-      debugger;
+      
         let id = 1;
         let month:number = 1;
         let year : number = 1;

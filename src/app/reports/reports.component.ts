@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ManagedataService } from '../services/managedata.service';
 import { MessageService } from 'primeng/api';
 import { SharedService } from '../services/shared.service';
@@ -7,6 +7,15 @@ import { ReportsServicesService } from '../services/reports-services.service';
 import { DatePipe } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import  jsPDF from 'jspdf';
+import autoTable, { Table } from 'jspdf-autotable'
+import 'jspdf-autotable';
+import { UserOptions } from 'jspdf-autotable';
+
+// interface jsPDFWithPlugin extends jsPDF{
+//   autotable : (options : UserOptions) => jsPDF;
+// }
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -16,7 +25,7 @@ export class ReportsComponent implements OnInit {
    currentDate = new Date();
   districtId : any = 0 ;
   formTypeValue : any = 1;
-  value: Date =  new Date();
+  value: Date | null =  new Date();
   formsTypes:any = []
   districts : any = [];
   FormAReportModel:any = [];
@@ -28,14 +37,21 @@ export class ReportsComponent implements OnInit {
   cols!: Column[];
   _selectedColumns!: Column[];
   tdElements = Array.from({ length: 15 });
-  reportHeader : any = "Form A";
+  reportHeader : any = "Form A - Joint";
   reportYear : any = this.getMonthName(this.currentDate.getMonth())+' '+this.currentDate.getFullYear();
   month:number =  this.currentDate.getMonth();
   year : number = this.currentDate.getFullYear();
   selectedFinancialYear: any = this.currentDate.getFullYear();
   financialYears: { label: string; value: number }[] = [];
   isFinancialYearSelected : boolean = false;
+  checkboxOptions: any[] = [];
+  calendarYear :any;
+  isJoint : boolean = true;
+  selectedCheckboxOptions: any[] = [];
+  dataLoaded: boolean = false; // Initially set to false
+  typeOfDateSelection : string  = 'month';
 
+  @ViewChild('ReportA', { static: false }) table: Table | undefined;
   constructor(
     private manageDataService : ManagedataService,
     private messageService: MessageService,
@@ -43,10 +59,11 @@ export class ReportsComponent implements OnInit {
     private reportsServices : ReportsServicesService, 
      private route: ActivatedRoute) { 
       this.financialYears = this.generateFinancialYears();
-       this.reportsServices.getFormAReport(this.districtId, this.month, this.year);
+       this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint);
        this.formsTypes = [
         {name : 'Select', code : -1 },
-        {name: 'Form A', code: 1},
+        {name: 'Form A - Joint', code: 1},
+        {name: 'Form A - Independent', code: 6},
         {name: 'Form B', code: 2},
         {name: 'Form C', code: 3},
         {name: 'Abstract Month', code: 4},
@@ -59,7 +76,7 @@ export class ReportsComponent implements OnInit {
   }
 
     onChangeForm = () =>{
-       
+      this.dataLoaded = false;
       this.messageService.clear();
       // Show fetching message
       this.messageService.add({
@@ -68,19 +85,21 @@ export class ReportsComponent implements OnInit {
         detail: 'Fetching the seizure report for selected district...',
         life: 1000
       });
-      this.reportYear = this.value.getFullYear();
-      if(this.formTypeValue == 1){
+    
+      if(this.formTypeValue == 1 || this.formTypeValue == 6){
+        this.reportHeader = this.formTypeValue == 1 ? "Form A - Joint" : "Form A - Independent";
+        this.isJoint =  this.formTypeValue == 1 ? true:false;
         this.getReportA();
-        this.reportHeader = "Form A"
-        
       }else if(this.formTypeValue == 2){
         this.getFormBReport();
         this.reportHeader = "Performance Report of Forest Protection Force Kashmir Region Ending";
       }else if(this.formTypeValue == 3){
         this.getFormCReport();
+      
         this.reportHeader = "Status of Seizure cases for the month  of ";
       }else if(this.formTypeValue == 4){
-        this.getAbstractMontheReport();
+        //this.getAbstractMontheReport();
+        this.getSeizureAItemNames();
         this.reportHeader = "ABSTRACT OF SEIZURES ENDING ";
       }else if(this.formTypeValue == 5){
         this.getMonthCFReport();
@@ -89,36 +108,50 @@ export class ReportsComponent implements OnInit {
       else{
         this.getReportA();
       }
-      this.reportYear = this.isFinancialYearSelected ? this.reportYear : this.getMonthName(this.month)+' '+this.year;
     }
 
     onMonthChange = () =>{
-
-      this.month = this.value.getMonth()+1;
-      this.year= this.value.getFullYear();
-      this.reportYear = this.getMonthName(--this.month)+' '+this.year;
+      this.dataLoaded = false;
+      this.month = this.value? this.value.getMonth()+ 1 : 0;
+      this.year = this.value?.getFullYear()??0;
+      this.reportYear =  this.getMonthName(this.month-1)+' '+this.year
       this.isFinancialYearSelected = false;
       this.onChangeForm();
     }
 
+    onYearChange = () =>{
+      this.typeOfDateSelection = 'calendaryear';
+      this.year = this.calendarYear.getFullYear();
+      this.reportYear = "Calendar Year -"+ this.year;
+      console.log(this.year);
+    }
+
     onFinancialYearChange = (event:any) =>{
+      this.typeOfDateSelection = 'financialyear';
       this.isFinancialYearSelected = true;
       //console.log(this.selectedFinancialYear);
       this.year = this.selectedFinancialYear['value'];
-      this.reportYear = this.selectedFinancialYear['label'];
+      this.reportYear = "Financial Year "+this.selectedFinancialYear['label'];
       this.onChangeForm();
     }
+
+    onClickFinancialYear = () =>{
+      this.financialYears = this.generateFinancialYears();
+    }
+
 
     getDistrictData = () => {
      this.manageDataService.getDistrict().subscribe((x)=>{
            this.districts = x;
+           this.districts = this.districts.sort((a: any, b: any) => b.ID - a.ID); // Sorting in descending order based on ID
+
       });
     }
    
     getReportA = () =>{
      
-      this.reportsServices.getFormAReport(this.districtId, this.month, this.year).subscribe((x:any)=>{
-       
+      this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint).subscribe((x:any)=>{
+          this.dataLoaded = true;
           this.FormAReportModel = x;
           let itemsList = x.map((y:any)=>y.item);
           this.items = [...new Set(itemsList)];
@@ -129,7 +162,7 @@ export class ReportsComponent implements OnInit {
     getFormBReport = () =>{
       this.reportsServices.getFormBReport(this.districtId, this.month, this.year).subscribe((data) => {
         this.FormBReportModel = data;
-        console.log(data);
+        this.dataLoaded = true;
       });
 
       this.cols = [
@@ -151,7 +184,7 @@ export class ReportsComponent implements OnInit {
     getFormCReport = () =>{
       this.reportsServices.getFormCReport(this.districtId, this.month, this.year).subscribe((data) => {
         this.FormCReportModel = data;
-        console.log(data);
+        this.dataLoaded = true;
       });
 
       this.cols = [
@@ -193,22 +226,14 @@ export class ReportsComponent implements OnInit {
     }
 
     getAbstractMontheReport = () =>{
-      console.log(this.value);
+      
       const datePipe = new DatePipe('en-US');
       const currentDate = new Date(); // Replace this with your actual date variable
-      const previousMonthDate = new Date(this.value);
+      const previousMonthDate = new Date(this.value??0);
       previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-      this.reportsServices.getAbstractFormReport(this.districtId, this.month, this.year).subscribe((data) => {
-        // data.push({
-        //   header: '',
-        //   field: 'monthHeader',
-        //   cft: '',
-        //   prev: datePipe.transform(previousMonthDate, 'MMM/yyyy'),
-        //   current: datePipe.transform(this.value, 'MMM/yyyy'),
-        //   cumulative : datePipe.transform(this.value, 'MMM/yyyy')
-        // });
+      this.reportsServices.getAbstractFormReport(this.districtId, this.month, this.year, this.selectedCheckboxOptions, this.typeOfDateSelection).subscribe((data) => {
         this.FormAbstractMonth = data;
-        console.log(data);
+        this.dataLoaded = true;
       });
 
       this.cols = [
@@ -224,11 +249,9 @@ export class ReportsComponent implements OnInit {
 
 
     getMonthCFReport = () =>{
-      console.log(this.value);
-      
-      this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected).subscribe((data) => {
+      this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected, this.typeOfDateSelection).subscribe((data) => {
         this.FormMonthCF = data;
-        console.log(data);
+        this.dataLoaded = true;
       });
 
       let subColumns =  [ {
@@ -258,6 +281,14 @@ export class ReportsComponent implements OnInit {
       this._selectedColumns = this.cols;
     }
 
+    getSeizureAItemNames = () =>{
+      this.reportsServices.getItemNamesFromSezureOne().subscribe(x=>{
+        x.forEach(element => {
+          this.checkboxOptions.push({label: element, value: element})
+        });
+      })
+    }
+
     @Input() get selectedColumns(): any[] {
       return this._selectedColumns;
     }
@@ -271,7 +302,7 @@ export class ReportsComponent implements OnInit {
       return this.FormBReportModel.reduce((total:any, item:any) => total + (item[column] || 0), 0);
     }
     calculateReportCColumnTotal( column: string): number {
-      debugger;
+      
       if(this.FormCReportModel !== undefined){
        if(this.isFieldExists(column))
        {
@@ -336,6 +367,14 @@ export class ReportsComponent implements OnInit {
     saveAs(data, 'Month CF Report.xlsx');
   }
 
+
+  exportPdf(tableId:any, nameOfPdf : string) {
+    
+    const doc = new jsPDF('portrait','px','a4') ;//as jsPDFWithPlugin;
+    autoTable(doc,{ html: '#ReportA' });
+    doc.save(nameOfPdf+'.pdf');
+  }
+
     private generateFinancialYears(): { label: string; value: number }[] {
       const currentYear = new Date().getFullYear();
       const years: { label: string; value: number }[] = [];
@@ -373,6 +412,7 @@ export class ReportsComponent implements OnInit {
     
       this.FormAReportModel = this.FormAReportModel.filter((items:any) => items.Item !== selectedItem);
     }
+
   
 }
 

@@ -40,7 +40,7 @@ export class ManageParentComponent {
 
   
   refreshChildComponents(event:any) {
-    debugger;
+    
     if(this.isTabOpen){
     let componentFactory;
     switch (event.target.textContent.trim()) {
@@ -82,7 +82,7 @@ export class ManageParentComponent {
   }
 
   refreshChildComponentss(event:any) {
-    debugger;
+    
     if ((event.target as HTMLElement).classList.contains('p-tabview-title')) {
       this.refreshService.emitRefreshEvent();
     }

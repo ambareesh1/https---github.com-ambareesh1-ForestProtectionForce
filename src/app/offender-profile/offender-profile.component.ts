@@ -53,7 +53,7 @@ export class OffenderProfileComponent {
     private sharedService : SharedService, 
     private baseLineservice : BaselinedataService,
      private route: ActivatedRoute) { 
-    debugger;
+    
       this.caseId = this.sharedService.getCaseId();
       this.route.queryParams.subscribe(params => {
         if (Object.keys(params).length > 0) {
@@ -205,7 +205,7 @@ export class OffenderProfileComponent {
   }
   
   onUpload(event:any) {
-    debugger;
+    
      for(let file of event.files) {
             this.uploadedFiles.push(file);
         }

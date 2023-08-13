@@ -1208,7 +1208,7 @@ export class SeizureComponent implements OnInit {
             isActive: true,
             updatedBy: '',
             activity: '',
-            unit: '',
+            unit: 0,
             details: '',
             dateOfInsertion: new Date(),
             lastUpdatedOn: new Date()
@@ -1286,7 +1286,7 @@ export class SeizureComponent implements OnInit {
             isActive: true,
             updatedBy: '',
             article: '',
-            unit: '',
+            unit: 0,
             details: '',
             dateOfInsertion: new Date(),
             lastUpdatedOn: new Date()
@@ -1596,7 +1596,7 @@ DeleteARowManAnimalConflict = () =>{
   }
 
   updateIndependentTotal(seizure: any, type: any): void {
-    
+    debugger
     const ob_independent = parseFloat(seizure.ob_independent) || 0;
     const during_month_independent = parseFloat(seizure.during_month_independent) || 0;
     const ob_joint = parseFloat(seizure.ob_joint) || 0;

@@ -28,3 +28,13 @@
   .text-bold {
     font-weight: bold;
   }
+
+  :host ::ng-deep .p-datatable .p-datatable-header {
+    background: #6c757d;
+    color: #fff;
+    border: 1px solid #dee2e6;
+    border-width: 1px 0 1px 0;
+    padding: 1rem 1rem;
+    font-weight: 700;
+    font-size: 20px;
+}

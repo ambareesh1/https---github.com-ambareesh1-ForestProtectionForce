@@ -19,7 +19,7 @@ export class DisposalViewComponent {
 
     }
   ngOnInit(): void {
-    debugger;
+    
     this.disposalId = this.config.data;
       this.disposedService.getDisposedCasesbyId(this.disposalId).subscribe(data=>{
         this.disposed = data;
@@ -28,7 +28,7 @@ export class DisposalViewComponent {
 }
 
 convertStatus = (id:any) =>{
-  debugger;
+  
   return disposedEnum[id];
 }
 

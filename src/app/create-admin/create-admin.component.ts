@@ -69,7 +69,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
 
   getUserDetails = () => {
     this.userDetailsService.getUserDetails().subscribe(data => {
-      debugger;
+      
       const userDetails = JSON.parse(window.localStorage.getItem('userDetails')!);
      this.usernameToCompare = userDetails.username;
       this.userDetails = data;
@@ -148,7 +148,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   onSubmitUserDetails(): void {
-    debugger;
+    
     if (this.userForm.valid) {
     let userDetails: UserDetails = {
       id: this.isEdit ? this.userForm.value.id : 0,
@@ -217,7 +217,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   initFormUserDetails = (userDetails: UserDetails = {} as UserDetails) => {
-    debugger;
+    
     this.userForm = this.formBuilder.group({
       id: [this.isEdit ? userDetails.id : 0 || 0],
       userType_Id: [userDetails.userType_Id || 0],
@@ -239,7 +239,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   editUserDetails = (userDetails: UserDetails) => {
-    debugger;
+    
     this.isEdit = true;
     this.disableTheControlsOnEdit();
     this.editOrCreateText = "Update User";
@@ -291,7 +291,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   checkUserOfDistrictAlreadyExist = (userDetails: UserDetails) => {
-    debugger;
+    
     this.userDetailsService.verifyEmail(userDetails.email).subscribe((alreadyExistedUser) => {
       if (alreadyExistedUser != null) {
         let district = this.district.filter(x=>x.id == alreadyExistedUser.districtId)[0].name;
@@ -347,7 +347,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
 
    // as of now not using 
   checkUserAlreadyExistInOtherDepartment = (userDetails: UserDetails) => {
-    debugger;
+    
     this.userDetailsService.verifyUserAlreadyExistedWithSameDistrict(userDetails).subscribe((alreadyExistedUser) => {
       if (alreadyExistedUser != null) {
         let district = this.district.filter(x=>x.id == userDetails.districtId)[0].name;
@@ -376,7 +376,7 @@ export class CreateAdminComponent implements OnInit, AfterViewInit {
   }
 
   setDistrictOnAndDisableOtherControls = () =>{
-    debugger;
+    
     
       if(this.sharedService.isUserCaseEntryOperatorOrDuptyDirector()){
         this.getDistrictData();

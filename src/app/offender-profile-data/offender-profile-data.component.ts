@@ -53,7 +53,7 @@ export class OffenderProfileDataComponent implements OnInit {
     this.router.navigate(['/offenderprofile']);
   }
   show(offender:Offender) {
-    debugger;
+    
     console.log(offender);
     this.ref = this.dialogService.open(OffenderViewComponent, {
         header: 'Offender Details',

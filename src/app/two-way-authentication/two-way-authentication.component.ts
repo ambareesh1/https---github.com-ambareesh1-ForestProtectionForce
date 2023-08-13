@@ -31,7 +31,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    debugger;
+    
 
     let username = this.sharedService.getUserName();
     if(this.sharedService.isSuperAdminOrJammuOrKashmir()){
@@ -60,7 +60,7 @@ export class TwoWayAuthenticationComponent implements OnInit {
   }
 
   public onSubmitOTP = () =>{
-      debugger;
+      
       let enteredOtp = (this.otpForm.value.one + this.otpForm.value.two+this.otpForm.value.three+this.otpForm.value.four)
       
       if(this.otp == Number(enteredOtp)){

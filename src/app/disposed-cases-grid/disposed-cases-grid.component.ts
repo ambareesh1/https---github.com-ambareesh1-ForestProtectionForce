@@ -32,7 +32,7 @@ export class DisposedCasesGridComponent implements OnInit {
 
 getDisposedCases = () =>{
   this.disposedCasesService.getDisposedCases().subscribe((x)=>{
-    debugger;
+    
     console.log(x);
     this.disposed = x;
   })
@@ -57,7 +57,7 @@ convertToDate = (onlyDate:any)=>{
 }
 
 convertStatus = (id:any) =>{
-  debugger;
+  
   return disposedEnum[id];
 }
 show(disposal:DisposedCasesModel) {

@@ -54,7 +54,7 @@ if (formA.id >= 0) {
   }
 
   AddARow = () =>{
-    debugger;
+    
       let id = 1;
       let month:number = 1;
       let year : number = 1;

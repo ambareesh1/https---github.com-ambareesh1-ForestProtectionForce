@@ -55,7 +55,7 @@ onSubmitUserTypes() {
    };
   
    this.userTypeDataService.createUserTypes(userTypesData).subscribe((x)=>{
-    debugger;
+    
     if(x){
      let userTypesAddmsg = "UserTypes "+this.formUserTypes.value.userTypesName+ " saved"
      this.messageService.add({severity:'success', summary: 'Successful', detail: userTypesAddmsg, life: 5000});
@@ -77,7 +77,7 @@ onSubmitUserTypes() {
            icon: 'pi pi-exclamation-triangle',
            accept: () => {
              this.userTypeDataService.deleteUserTypes(userTypes.id).subscribe((x)=>{
-               debugger;
+               
                console.log(x);
                if(x==null){
                this.userTypes = this.userTypes.filter(val => val.id !== userTypes.id);

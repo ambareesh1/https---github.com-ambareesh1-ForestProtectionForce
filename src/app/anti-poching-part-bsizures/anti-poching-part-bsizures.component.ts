@@ -34,7 +34,7 @@ export class AntiPochingPartBSizuresComponent {
     }
   
     onRowEditSave = (formA :any) =>{
-     debugger;
+     
   if (formA.id >= 0) {
            // delete this.clonedProducts[product.id];
            this.seizureService.updateAntiPochingFormB(formA.id, formA).pipe(

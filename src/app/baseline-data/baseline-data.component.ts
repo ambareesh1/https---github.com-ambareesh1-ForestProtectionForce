@@ -206,7 +206,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   setDistrictOnAndDisableOtherControls = () =>{
-    debugger;
+    
     
       if(this.isUserCaseEntryOperatorOrDuptyDirector()){
         this.loadDistrictData();
@@ -253,7 +253,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onSubmitBaseline = () => {
-    debugger;
+    
     markAllFieldsAsDirty(this.formBaseline);
     if(this.formBaseline.valid) {
     let baseLineData: BaselineModel = {
@@ -328,7 +328,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   onCircleChange = (event: any) => {
-    debugger;
+    
     if (event.value == -1) {
       this.forestDivisions = [];
       this.forestRanges = [];
@@ -384,7 +384,7 @@ export class BaselineDataComponent implements OnInit {
   }
 
   loadOffenders = async (baseline: BaselineModel) => {
-    debugger;
+    
     (await this.offenderDataService.getOffendersData()).subscribe(x => {
       this.offendars = x;
       if (this.isEdit) {
@@ -410,7 +410,7 @@ export class BaselineDataComponent implements OnInit {
     this.filteredOffenders = filtered;
   }
   onSelect(event: any) {
-    debugger;
+    
     // Access the selected item from the event object
     const selectedItem = event;
 
@@ -431,7 +431,7 @@ export class BaselineDataComponent implements OnInit {
           this.selectedOffenders.splice(index, 1);
         }
         this.offenderDataService.removeCaseId(this.caseId, event).subscribe(x => {
-          debugger;
+          
           console.log(x);
           if (x == null) {
             let provinceDeltedItem = "Offender [" + event.name + "] is removed from the case successfully.";
@@ -440,7 +440,7 @@ export class BaselineDataComponent implements OnInit {
           }
         })
       }, reject: () => {
-        debugger;
+        
         this.formBaseline.controls['NameOfAccused'].setValue(this.selectedOffenders);
     }
     });
@@ -534,7 +534,7 @@ onSubmittedRejectedReason = () =>{
 }
 
 onProvinceChanged = (event : any) =>{
-  debugger;
+  
   this.manageDataService.getCircle().subscribe((data) => {
     this.provinceId = Number(event.target.value);
     this.circles = data.filter(x=>x.provinceId == this.provinceId);

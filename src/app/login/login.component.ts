@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
   }
 
   afterLoginVerified = (data: any, isSuperAdmin: boolean) => {
-    debugger;
+    
     if (data) {
       this.messages = [{ severity: 'success', summary: 'Success', detail: 'Valid Credentials, Please wait it will redirect to OTP screen' }];
       if (isSuperAdmin) {

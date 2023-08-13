@@ -2,7 +2,7 @@ export interface AntiPochingFormBModel {
     id: number;
     sno: number;
     article: string;
-    unit: string;
+    unit: number;
     details: string;
     provinceId: number;
     districtId: number;
