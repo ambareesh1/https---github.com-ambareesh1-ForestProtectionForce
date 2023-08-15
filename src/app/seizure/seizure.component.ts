@@ -158,7 +158,7 @@ export class SeizureComponent implements OnInit {
     }
 
     onMonthChange = () =>{
-      
+   
       let selectedValue = this.formTypeValue;
       this.month = this.value.getMonth()+1;
       let form : FormDistrictMonth ={
@@ -430,11 +430,15 @@ export class SeizureComponent implements OnInit {
     
 
      onChangeDistrict(event: any) {
+   
       if (event.value > 0) {
         // Disable message display
-       
            this.districtId = event.value;
            this.enableMessage = false;
+           this.districtName = this.districtData.filter(x=>x.id == this.districtId)[0].name;
+           if(this.showSeizureReport){
+              this.onMonthChange();
+           }
       }
     }
 

@@ -39,7 +39,7 @@ export class ReportsComponent implements OnInit {
   tdElements = Array.from({ length: 15 });
   reportHeader : any = "Form A - Joint";
   reportYear : any = this.getMonthName(this.currentDate.getMonth())+' '+this.currentDate.getFullYear();
-  month:number =  this.currentDate.getMonth();
+  month:number =  this.currentDate.getMonth()+1;
   year : number = this.currentDate.getFullYear();
   selectedFinancialYear: any = this.currentDate.getFullYear();
   financialYears: { label: string; value: number }[] = [];
@@ -112,9 +112,9 @@ export class ReportsComponent implements OnInit {
 
     onMonthChange = () =>{
       this.dataLoaded = false;
-      this.month = this.value? this.value.getMonth()+ 1 : 0;
+      this.month = this.value? this.value.getMonth() : 0;
       this.year = this.value?.getFullYear()??0;
-      this.reportYear =  this.getMonthName(this.month-1)+' '+this.year
+      this.reportYear =  this.getMonthName(this.month)+' '+this.year
       this.isFinancialYearSelected = false;
       this.onChangeForm();
     }
@@ -149,9 +149,10 @@ export class ReportsComponent implements OnInit {
     }
    
     getReportA = () =>{
-     
+    
       this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint).subscribe((x:any)=>{
           this.dataLoaded = true;
+          console.log(x);
           this.FormAReportModel = x;
           let itemsList = x.map((y:any)=>y.item);
           this.items = [...new Set(itemsList)];

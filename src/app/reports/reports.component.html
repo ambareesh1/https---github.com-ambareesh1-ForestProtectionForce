@@ -86,12 +86,12 @@
     <ng-template pTemplate="body" let-row>
       <!-- <tr>Conifer Timber(Sawn/Logs)
             </tr> -->
-      <tr>
-        <td class="font-bold">{{ row.Item }}</td>
+      <tr [ngClass]="row.Item === 'Total Conifer Timber' || row.Item === 'Total Broad Leaved Timber (cfts)' ? 'grey-background' : ''">
+        <td class="font-bold" >{{ row.Item }}</td>
         <ng-container *ngFor="let district of districts; let i = index">
-          <td>{{ row["District " + (i + 1)].Pre }}</td>
-          <td>{{ row["District " + (i + 1)].Dur }}</td>
-          <td>{{ row["District " + (i + 1)].Total }}</td>
+          <td>{{ row["District " + (district.id)].Pre }}</td>
+          <td>{{ row["District " + (district.id)].Dur }}</td>
+          <td>{{ row["District " + (district.id)].Total }}</td>
 
         </ng-container>
       </tr>
