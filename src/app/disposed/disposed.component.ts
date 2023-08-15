@@ -137,6 +137,17 @@ export class DisposedComponent {
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceAddmsg, life: 10000 });
            // this.router.navigate(['/historygrid'])
             //this.isDataLoaded = true;
+            let caseId = this.formDisposedCases.value.caseId;
+           this.baselineDataService.getBaselineById(caseId).subscribe((x)=>{
+            let data = x;
+            data.status = 'Disposed';
+           this.baselineDataService.updateBaselinet(data.id,data).subscribe((x)=>{
+            let provinceAddmsg = "Base line details updated";
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: provinceAddmsg, life: 10000 });
+           })
+            
+           })
+            
            
           }
         })

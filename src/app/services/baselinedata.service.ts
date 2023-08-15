@@ -15,6 +15,10 @@ export class BaselinedataService {
   getBaseline(){
     return  this.http.get<BaselineModel[]>(this.baseUrl+'/Baselines');
   }
+
+  getBaselineById(id: string): Observable<any> {
+    return this.http.get<BaselineModel>(this.baseUrl+'/Baselines/'+id+'');
+  }
   
   createBaseline(baselinedata: BaselineModel): Observable<BaselineModel> {
     console.log(baselinedata);
