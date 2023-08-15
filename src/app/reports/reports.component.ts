@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ManagedataService } from '../services/managedata.service';
 import { MessageService } from 'primeng/api';
 import { SharedService } from '../services/shared.service';
@@ -51,7 +51,7 @@ export class ReportsComponent implements OnInit {
   dataLoaded: boolean = false; // Initially set to false
   typeOfDateSelection : string  = 'month';
 
-  @ViewChild('ReportA', { static: false }) table: Table | undefined;
+  @ViewChild('dtReportA') table!: ElementRef;
   constructor(
     private manageDataService : ManagedataService,
     private messageService: MessageService,
@@ -369,11 +369,36 @@ export class ReportsComponent implements OnInit {
   }
 
 
-  exportPdf(tableId:any, nameOfPdf : string) {
-    
-    const doc = new jsPDF('portrait','px','a4') ;//as jsPDFWithPlugin;
-    autoTable(doc,{ html: '#ReportA' });
-    doc.save(nameOfPdf+'.pdf');
+  exportPdf(nameOfPdf : string) {
+    import('jspdf').then((jsPDF) => {
+      import('jspdf-autotable').then((x) => {
+        
+      const customWidth = 900; // Set your desired width in pixels
+      const customHeight = 500; // Use the same height as A4
+      
+      // Create the PDF with custom dimensions
+      const doc = new jsPDF.default({
+        orientation: 'l',
+        unit: 'px',
+        format: [customWidth, customHeight],
+      });
+       // Set font properties
+       doc.setFont('helvetica'); // Choose the desired font
+      
+       doc.setTextColor('#495057'); // Set text color
+ 
+       // Calculate the text width and centered position
+       const text = this.reportHeader+" - "+this.reportYear;;
+       const fontSize = 12;
+       const textWidth = doc.getStringUnitWidth(text) * fontSize / doc.internal.scaleFactor;
+       const textX = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+ 
+       // Draw the centered text
+       doc.text(text, textX, 10);
+          (doc as any).autoTable({html:'table'});
+          doc.save(nameOfPdf+'.pdf');
+      });
+  });
   }
 
     private generateFinancialYears(): { label: string; value: number }[] {

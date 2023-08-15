@@ -46,7 +46,7 @@
       </div>
     </div>
 
-  <p-table *ngIf="formTypeValue == 1 || formTypeValue == 6" id="ReportA" #dt [value]="FormAReportModel" [scrollable]="true"
+  <p-table *ngIf="formTypeValue == 1 || formTypeValue == 6" id="ReportA" #dtReportA [value]="FormAReportModel" [scrollable]="true"
     scrollHeight="600px" styleClass="p-datatable-gridlines">
 
     <ng-template pTemplate="caption">
@@ -57,8 +57,8 @@
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcel()"
         class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
 
-        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('#ReportA', 'FormA')"
-         class="p-button-warning mr-2 d-none" pTooltip="PDF" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('FormA')"
+         class="p-button-warning ml-3" pTooltip="PDF" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
 
@@ -101,6 +101,7 @@
     </ng-template>
   </p-table>
 
+  
   <p-table *ngIf="formTypeValue == 2" id="ReportB" [columns]="selectedColumns" [value]="FormBReportModel"
     [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines">
     <ng-template pTemplate="caption">
@@ -111,6 +112,8 @@
         <h5 class="ml-5 pt-2">{{ reportHeader }} - {{this.reportYear}}</h5>
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcelFormB()"
         class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('FormB')"
+        class="p-button-warning ml-3" pTooltip="PDF" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
     
@@ -183,6 +186,8 @@
         <span class="mr-2">{{ reportHeader }} - {{this.reportYear}}</span>
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcelFormC()"
         class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('FormC')"
+        class="p-button-warning ml-3" pTooltip="PDF" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
@@ -286,6 +291,8 @@
         <span class="mr-2">{{ reportHeader }} - {{this.reportYear}}</span>
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcelAbstractMonth()"
         class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('AbstractMonth')"
+        class="p-button-warning ml-3" pTooltip="PDF" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
@@ -317,12 +324,14 @@
         <span class="mr-2">{{ reportHeader }} - {{this.reportYear}}</span>
         <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportToExcelMonthCF()"
         class="p-button-success ml-auto" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf('MonthCF')"
+        class="p-button-warning ml-3" pTooltip="PDF" tooltipPosition="bottom"></button>
       </div>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
         <ng-container *ngFor="let col of columns">
-          <th class="text-center" *ngIf="col.header == 'Circle / Gamma Unit'" rowspan="3">
+          <th class="text-center" *ngIf="col.header == 'Circle / Gamma Unit'" rowspan="2">
             {{col.header}}
           </th>
           <th class="text-center" *ngIf="col.header != 'Circle / Gamma Unit'" colspan="5">
@@ -342,7 +351,7 @@
     <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="index">
      
         <tr style="background: #9e9e9e57;"  *ngIf="product['circle'] != 'GRAND TOTAL'">
-           <td colspan="14" style="width:100%" class="text-bold">{{product['circle']}}
+           <td colspan="15" class="text-bold">{{product['circle']}}
           </td>
           <ng-container *ngFor="let item of tdElements">
             <td></td> 
