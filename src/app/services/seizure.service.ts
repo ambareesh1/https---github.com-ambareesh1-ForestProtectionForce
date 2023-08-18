@@ -35,7 +35,7 @@ export class SeizureService {
 
  getFormAOnDistrict(form : FormDistrictMonth){
 
-  return this.http.get<Seizures_Form_A[]>(`${this.baseUrl}/Seizures/GetFormAWithDistrict?id=${form.id}&month=${form.month}`);
+  return this.http.get<Seizures_Form_A[]>(`${this.baseUrl}/Seizures/GetFormAWithDistrict?id=${form.id}&month=${form.month}&year=${form.year}`);
  }
 
  createSeizureReport_A(formA: Seizures_Form_A): Observable<Seizures_Form_A> {
@@ -60,12 +60,12 @@ getFormGammaUnitB(){
   return  this.http.get<Seizure_GammaUni_FormB[]>(this.baseUrl+'/Seizures/GammaUnitB');
 }
 
-CheckSeizureBlreadyExistForDistrictAndMonth (id:any, month:number){
-   return  this.http.get<Seizure_GammaUni_FormB>(`${this.baseUrl}/Seizures/CheckSeizureBlreadyExistForDistrictAndMonth?id=${id}&month=${month}`);
+CheckSeizureBlreadyExistForDistrictAndMonth (id:any, month:number, year:number){
+   return  this.http.get<Seizure_GammaUni_FormB>(`${this.baseUrl}/Seizures/CheckSeizureBlreadyExistForDistrictAndMonth?id=${id}&month=${month}&year=${year}`);
 }
 
-getFormBOnDistrict(id : number, month:number){
- return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Seizures/GetGammaUnitFormBWithDistrict?districtId=${id}&month=${month}`);
+getFormBOnDistrict(id : number, month:number, year : number){
+ return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Seizures/GetGammaUnitFormBWithDistrict?districtId=${id}&month=${month}&year=${year}`);
 
 }
 
@@ -79,8 +79,8 @@ updateFormB(id: number, formA: Seizure_GammaUni_FormB): Observable<any> {
 }
 
 // FORM C - Cases of Month
-CheckSeizureClreadyExistForDistrictAndMonth (id : number, month:number){
-  return  this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Seizures/CheckSeizureClreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+CheckSeizureClreadyExistForDistrictAndMonth (id : number, month:number, year : number){
+  return  this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Seizures/CheckSeizureClreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
 }
 
 createSeizureReport_C(formC: Seizure_CasesOfMonth_FormC): Observable<Seizure_CasesOfMonth_FormC> {
@@ -94,8 +94,8 @@ createSeizureReport_C(formC: Seizure_CasesOfMonth_FormC): Observable<Seizure_Cas
 
  // Man Animal Conflict 
  
- CheckManAnimalConflictAlreadyExistForDistrictAndMonth (id:any, month:number){
-  return  this.http.get<SeizureManAnimalConflict[]>(`${this.baseUrl}/Seizures/CheckManAnimalConflictAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+ CheckManAnimalConflictAlreadyExistForDistrictAndMonth (id:any, month:number, year : number){
+  return  this.http.get<SeizureManAnimalConflict[]>(`${this.baseUrl}/Seizures/CheckManAnimalConflictAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
 }
 
 createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable<SeizureManAnimalConflict> {
@@ -109,8 +109,8 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
 
   // Forest Fire Incident
  
-  CheckForestFireAlreadyExistForDistrictAndMonth (id:any, month:number){
-    return  this.http.get<ForestFire[]>(`${this.baseUrl}/Seizures/CheckFireIncidentAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+  CheckForestFireAlreadyExistForDistrictAndMonth (id:any, month:number, year : number){
+    return  this.http.get<ForestFire[]>(`${this.baseUrl}/Seizures/CheckFireIncidentAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
   }
   
   createForestFire(forestFire: ForestFire): Observable<ForestFire> {
@@ -124,8 +124,8 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
 
      // Complaints Registered
  
-  CheckComplaintsRegisteredlreadyExistForDistrictAndMonth (id:any, month:number){
-    return  this.http.get<ComplaintsRegistered[]>(`${this.baseUrl}/Seizures/CheckComplaintsRegisteredAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+  CheckComplaintsRegisteredlreadyExistForDistrictAndMonth (id:any, month:number, year : number){
+    return  this.http.get<ComplaintsRegistered[]>(`${this.baseUrl}/Seizures/CheckComplaintsRegisteredAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
   }
   
   createComplaintsRegistered(forestFire: ComplaintsRegistered): Observable<ComplaintsRegistered> {
@@ -140,8 +140,8 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
    
      // Forest Offenders
  
-  CheckForestOffenderalreadyExistForDistrictAndMonth (id:any, month:number){
-    return  this.http.get<ForestOffenderModal[]>(`${this.baseUrl}/Seizures/CheckForestOffendersAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+  CheckForestOffenderalreadyExistForDistrictAndMonth (id:any, month:number, year : number){
+    return  this.http.get<ForestOffenderModal[]>(`${this.baseUrl}/Seizures/CheckForestOffendersAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
   }
   
   createForestOffendersRegistered(forestFire: ForestOffenderModal): Observable<ForestOffenderModal> {
@@ -155,8 +155,8 @@ createManAnimalConflict(manAnimalConflict: SeizureManAnimalConflict): Observable
 
    //Anti poching Form A
 
-   CheckAntiPochingFormAalreadyExistForDistrictAndMonth (id:any, month:number){
-    return  this.http.get<AntiPochingFormAModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+   CheckAntiPochingFormAalreadyExistForDistrictAndMonth (id:any, month:number, year : number){
+    return  this.http.get<AntiPochingFormAModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
  }
 
  createAntiPochingFormA(formA: AntiPochingFormAModel): Observable<AntiPochingFormAModel> {
@@ -170,8 +170,8 @@ updateAntiPochingFormA(id: number, formA: AntiPochingFormAModel): Observable<any
 
    //Anti poching Form B
 
-   CheckAntiPochingFormBalreadyExistForDistrictAndMonth (id:any, month : number){
-    return  this.http.get<AntiPochingFormBModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingBAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+   CheckAntiPochingFormBalreadyExistForDistrictAndMonth (id:any, month : number, year : number){
+    return  this.http.get<AntiPochingFormBModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingBAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
  }
 
  createAntiPochingFormB(formA: AntiPochingFormBModel): Observable<AntiPochingFormBModel> {
@@ -185,8 +185,8 @@ updateAntiPochingFormB(id: number, formA: AntiPochingFormBModel): Observable<any
 
    //Anti poching Form B
 
-   CheckAntiPochingFormCalreadyExistForDistrictAndMonth (id:any, month : number){
-    return  this.http.get<AntiPochingFormCModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingCAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}`);
+   CheckAntiPochingFormCalreadyExistForDistrictAndMonth (id:any, month : number, year : number){
+    return  this.http.get<AntiPochingFormCModel[]>(`${this.baseUrl}/Seizures/CheckAntiPochingCAlreadyExistForDistrictAndMonth/?id=${id}&month=${month}&year=${year}`);
  }
 
  createAntiPochingFormC(formA: AntiPochingFormCModel): Observable<AntiPochingFormCModel> {

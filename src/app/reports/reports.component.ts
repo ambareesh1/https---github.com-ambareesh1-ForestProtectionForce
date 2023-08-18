@@ -73,6 +73,7 @@ export class ReportsComponent implements OnInit {
   ngOnInit(): void {
     this.getReportA();
    this.getDistrictData();
+   this.districtId = this.sharedService.isCaseEntryOperator() || this.sharedService.isDuptyDirector() ?  this.sharedService.getDistrictId() : this.districtId;
   }
 
     onChangeForm = () =>{
@@ -124,6 +125,7 @@ export class ReportsComponent implements OnInit {
       this.year = this.calendarYear.getFullYear();
       this.reportYear = "Calendar Year -"+ this.year;
       console.log(this.year);
+      this.onChangeForm();
     }
 
     onFinancialYearChange = (event:any) =>{
@@ -239,7 +241,7 @@ export class ReportsComponent implements OnInit {
 
       this.cols = [
         { field : 'header' , header:'Seizure', subColumns : []},
-        { field : 'cft' , header:'Unit', subColumns : []},
+        //{ field : 'cft' , header:'Unit', subColumns : []},
         { field : 'prev' , header:'Previous', subColumns : []},
         { field: 'current', header: 'Current', subColumns : [] },
         { field: 'cumulative', header: 'Cumulative', subColumns : [] }
