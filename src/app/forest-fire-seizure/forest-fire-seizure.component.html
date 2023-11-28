@@ -24,14 +24,14 @@
         <tr>
            
             <th  class="text-center" rowspan="2"> Name of the FPF Gamma Unit</th>
-            <th class="text-center" rowspan="2">"OB" (Total number of Fire fighting cases ending previous month)</th>
+            <th class="text-center" rowspan="2">"OB" (Total number of Fire Incident cases ending previous month)</th>
             <th class="text-center" rowspan="2">Name of Forest Division involved</th>
             <th class="text-center" rowspan="2">Fire occurence spot/com ppt.No.</th>
             <th class="text-center" rowspan="2">Area of Forest Damange due to Fire (Hecta)</th>
             <th class="text-center" rowspan="2">Forest crop Damanged</th>
             <th class="text-center w-25" rowspan="2">Date and Time of Fire incident</th>
-            <th class="text-center" rowspan="2">Name of FPF peronsal deployed for Forest Fire fighting</th>
-            <th class="text-center" rowspan="2">Total Fire Fighting Casessduring the Month</th>
+            <th class="text-center" rowspan="2">Name of FPF peronsal deployed for Forest Fire Incident</th>
+            <th class="text-center" rowspan="2">Total Fire Incident Cases during the Month</th>
 
           <th></th>
         </tr>
@@ -42,24 +42,12 @@
             <td hidden="true">{{ seizure.id }}</td>
             <td class="text-center">{{ seizure.sno }}</td>
         
-            <td class="text-center"><p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="text" [(ngModel)]="seizure.gamma_unit_name">
-                            
-                    </ng-template>
-                    <ng-template pTemplate="output">
+            <td class="text-center">
                         {{seizure.gamma_unit_name}}
-                    </ng-template>
-                </p-cellEditor>
             </td>
-            <td class="text-center"><p-cellEditor>
-                <ng-template pTemplate="input">
-                    <input pInputText type="number" [(ngModel)]="seizure.ob_total_cases">
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td class="text-center">
                     {{seizure.ob_total_cases}}
-                </ng-template>
-            </p-cellEditor>
+                
             </td>
             <td class="text-center"><p-cellEditor>
                 <ng-template pTemplate="input">
@@ -119,14 +107,9 @@
     </p-cellEditor>
 </td>
 
-<td class="text-center"><p-cellEditor>
-    <ng-template pTemplate="input">
-        <input pInputText type="number" [(ngModel)]="seizure.total_fire_cases">
-    </ng-template>
-    <ng-template pTemplate="output">
+<td class="text-center">
         {{seizure.total_fire_cases}}
-    </ng-template>
-</p-cellEditor>
+    
 </td>
           
             <td>

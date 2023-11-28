@@ -7,7 +7,7 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse w-100" id="navbarNav">
+          <div class="w-100" id="navbarNav">
             <ul class=" navbar-nav flex-column nav nav-item w-100">
               <li class="nav-item fs-5 border-bottom" [class.active]="activeItem === 'dashboard'" [class.inactive]="activeItem !== 'dashboard'" (click)="activateItem('dashboard')">
                 <a class="nav-link  text-white" aria-current="page" routerLink="dashboard">

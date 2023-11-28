@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "node_modules/canvg/lib/index.es.js"
+           ],
             "outputPath": "dist/forest-protection-force-project",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -47,7 +50,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "50000kb",
-                  "maximumError": "3mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -18,6 +18,9 @@ export class ForestFireSeizureComponent {
   districtId : any ;
   @Input()
   provinceId : any;
+  @Input()
+  districtName:any;
+
   cloned: {[s: string]: ForestFire} = {};
   editing : boolean = false;
 
@@ -61,6 +64,7 @@ if (formA.id >= 0) {
      from(this.forestFire)
       .pipe(last())
       .subscribe((lastRow) => {
+        debugger;
        id = lastRow.sno+1;
        month = lastRow.month;
        year = lastRow.year;
@@ -69,15 +73,15 @@ if (formA.id >= 0) {
          sno: id,
          province_id: this.provinceId,
          district_id: this.districtId,
-         gamma_unit_name: '',
-         ob_total_cases: 0,
+         gamma_unit_name: this.districtName,
+         ob_total_cases: lastRow.ob_total_cases,
          forest_division_name: '',
          fire_spot: '',
          forest_damage_area: 0,
          forest_crop_damaged: '',
          fire_datetime: new Date(),
          fpf_personnel_name: '',
-         total_fire_cases: 0,
+         total_fire_cases: id,
          month: month,
          year: year,
          date_of_insertion: new Date(),

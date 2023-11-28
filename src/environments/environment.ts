@@ -1,8 +1,8 @@
 export const environment = {
-    //     production: true,
-    //    apiBaseUrl: 'https://localhost:7164/api',
-    //    fileUploadPath: 'https://localhost:7164/uploads/',
-    //    otpFlag : false
+        production: true,
+       apiBaseUrl: 'https://localhost:7164/api',
+       fileUploadPath: 'https://localhost:7164/uploads/',
+       otpFlag : false
     
       // **** conneciton to local iis 
       //   production: true,
@@ -11,8 +11,8 @@ export const environment = {
       // otpFlag : true
     
           // **** conneciton to PROD iis 
-        production: true,
-        apiBaseUrl: 'https://jkfpf.jk.gov.in/forestprotectionforce/api',
-        fileUploadPath: 'https://jkfpf.jk.gov.in/forestprotectionforce/uploads/',
-        otpFlag: false
+       // production: true,
+        //apiBaseUrl: 'https://jkfpf.jk.gov.in/forestprotectionforce/api',
+        //fileUploadPath: 'https://jkfpf.jk.gov.in/forestprotectionforce/uploads/',
+        //otpFlag: false
     };

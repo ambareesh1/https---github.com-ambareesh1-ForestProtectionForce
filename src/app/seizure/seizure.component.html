@@ -503,18 +503,8 @@
                     <tr [pEditableRow]="seizure">
                         <td hidden="true">{{ seizure.id }}</td>
                         <td >{{ seizure.sNo }}</td>
-                         <td class="text-center"><p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input pInputText type="text" [(ngModel)]="seizure.nameOfGammaUnit">
-                            </ng-template>
-                       
-                            <ng-template pTemplate="output">
+                         <td class="text-center">
                                 {{seizure.nameOfGammaUnit }}
-                                
-                              </ng-template>
-                              
-                        </p-cellEditor>
-                        <!-- {{this.districtName}} -->
                     </td>
                     <td class="text-center"><p-cellEditor>
                         <ng-template pTemplate="input">
@@ -577,7 +567,7 @@
          </p-card>
        
          <p-card *ngIf="fireIncident" >
-            <app-forest-fire-seizure  [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId">
+            <app-forest-fire-seizure  [forestFire]="forestFire" [districtId]="districtId" [provinceId]="provinceId" [districtName]="districtName">
             </app-forest-fire-seizure>
          </p-card>
 
