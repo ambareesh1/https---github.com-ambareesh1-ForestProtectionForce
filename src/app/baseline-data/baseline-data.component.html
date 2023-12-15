@@ -78,13 +78,17 @@
                       </div>
                       <div class="field">
                         <label for="ForestRangeId" class="block">Forest Range <span class="required-field">*</span></label>
-                        <p-dropdown id="ForestRangeId" [options]="forestRanges" [showClear]="true" formControlName="ForestRangeId" optionLabel="name" optionValue="id" (onChange)="onForestRangeChange($event)"></p-dropdown>
-                        <small class="p-error block" *ngIf="formBaseline.get('ForestRangeId')?.invalid && formBaseline.get('ForestRangeId')?.dirty">Forest Range ID is required.</small>
+                        <!-- <p-dropdown id="ForestRangeId" [options]="forestRanges" [showClear]="true" formControlName="ForestRangeId" optionLabel="name" optionValue="id" (onChange)="onForestRangeChange($event)"></p-dropdown> -->
+                        <input id="ForestRangeId" pInputText mode="text" class="offender-input-width"
+                        formControlName="forestRangeName" />
+                        <small class="p-error block" *ngIf="formBaseline.get('forestRangeName')?.invalid && formBaseline.get('forestRangeName')?.dirty">Forest Range ID is required.</small>
                       </div>
                       <div class="field">
                         <label for="CompartmentId" class="block">Compartment <span class="required-field">*</span></label>
-                        <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id" (onChange)="onCompartmentChange($event)"></p-dropdown>
-                        <small class="p-error block" *ngIf="formBaseline.get('CompartmentId')?.invalid && formBaseline.get('CompartmentId')?.dirty">Compartment ID is required.</small>
+                        <!-- <p-dropdown id="CompartmentId" [options]="compartments" [showClear]="true" formControlName="CompartmentId" optionLabel="name" optionValue="id" (onChange)="onCompartmentChange($event)"></p-dropdown> -->
+                        <input id="compartmentName" pInputText mode="text" class="offender-input-width"
+                        formControlName="compartmentName" />
+                        <small class="p-error block" *ngIf="formBaseline.get('compartmentName')?.invalid && formBaseline.get('compartmentName')?.dirty">Compartment ID is required.</small>
                       </div>
                     <div class="field">
                         <label for="PoliceStation" class="block">Police Station <span class="required-field">*</span></label>
@@ -124,10 +128,10 @@
                     <div class="field">
                         <label for="Quantity" class="block">Item Quantity / Weight</label>
                         <div class="d-flex">
-                            <input id="Quantity" pInputText type="number" class="offender-input-width"
+                            <input id="Quantity" pInputText type="text" class="offender-input-width"
                             formControlName="Quantity" />
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input id="Weight" pInputText type="number" class=""
+                            <input id="Weight" pInputText type="text" class=""
                             formControlName="Weight" />
                         </div>
                     </div>

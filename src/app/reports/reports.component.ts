@@ -50,7 +50,8 @@ export class ReportsComponent implements OnInit {
   selectedCheckboxOptions: any[] = [];
   dataLoaded: boolean = false; // Initially set to false
   typeOfDateSelection : string  = 'month';
-
+  circleName : string = '';
+  districtName : string = '';
   @ViewChild('dtReportA') table!: ElementRef;
   constructor(
     private manageDataService : ManagedataService,
@@ -74,6 +75,12 @@ export class ReportsComponent implements OnInit {
     this.getReportA();
    this.getDistrictData();
    this.districtId = this.sharedService.isCaseEntryOperator() || this.sharedService.isDuptyDirector() ?  this.sharedService.getDistrictId() : this.districtId;
+    this.manageDataService.getCircleByid(this.sharedService.getCircleId()).subscribe((x:any)=>{
+      this.circleName = x.name;
+   });
+   this.manageDataService.getDistricteByid(this.sharedService.getDistrictId()).subscribe((x:any)=>{
+      this.districtName = x.name;
+   })
   }
 
     onChangeForm = () =>{
@@ -144,7 +151,7 @@ export class ReportsComponent implements OnInit {
 
     getDistrictData = () => {
      this.manageDataService.getDistrict().subscribe((x)=>{
-           this.districts = x;
+           this.districts = this.sharedService.isSuperAdminOrJammuOrKashmir() ? x : x.filter(x=>x.id == this.districtId);
            this.districts = this.districts.sort((a: any, b: any) => b.ID - a.ID); // Sorting in descending order based on ID
 
       });
@@ -253,7 +260,14 @@ export class ReportsComponent implements OnInit {
 
     getMonthCFReport = () =>{
       this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected, this.typeOfDateSelection).subscribe((data) => {
-        this.FormMonthCF = data;
+        debugger;
+        this.FormMonthCF = this.sharedService.isSuperAdminOrJammuOrKashmir() ?  data : data.filter(x=>x.circle == this.circleName);
+        if(!(this.sharedService.isSuperAdminOrJammuOrKashmir() || this.sharedService.isSuperAdminOfJammu() || this.sharedService.isSuperAdminOfKashmir())){
+          if(this.FormMonthCF[0].districts.length>2){
+            let subTotal = 
+            this.FormMonthCF[0].districts = (this.FormMonthCF[0].districts.filter((x:any)=>x.district == this.districtName || x.district.indexOf('Sub Total')>-1)) 
+          }
+        }
         this.dataLoaded = true;
       });
 

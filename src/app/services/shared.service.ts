@@ -83,6 +83,10 @@ export class SharedService {
     return this.isSuperAdminOrJammuOrKashmir() ?  this.userDetails.districtId??0 : this.userDetails.district;
   }
 
+  getCircleId(){
+    return this.isSuperAdminOrJammuOrKashmir() ?  this.userDetails.districtId??0 : this.userDetails.circle;
+  }
+
   getUserName (){
     return this.userDetails.username;
   }
@@ -108,7 +112,7 @@ export class SharedService {
   }
 
   seizerAuth = () =>{
-    return this.isSuperAdminOrJammuOrKashmir() || this.isCaseEntryOperator() || this.isDuptyDirector();
+    return  this.isCaseEntryOperator() || this.isDuptyDirector();
   }
 
   disposedAuth = () =>{

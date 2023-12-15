@@ -32,7 +32,7 @@
     <p-progressBar *ngIf="!showSeizureReport" mode="indeterminate"
         [style]="{'height': '6px', 'background' : 'tomoato'}"></p-progressBar>
 
-    <p-card styleClass="mb-2" *ngIf="districtId > 0">
+    <p-card styleClass="mb-2" *ngIf="isDuputyDirector || isSuperAdminOfJammuOrKashmir || isCaseEntryOperator">
         <div class="row">
             <div class="col-lg-4">
                 <div class="field">
@@ -52,7 +52,7 @@
         </div>
     </p-card>
 
-    <div  *ngIf="districtId > 0 ">
+    <div  *ngIf="districtId > 0 || isDuputyDirector  || isCaseEntryOperator">
 
         <p-card  class="card-bg" styleClass="mb-2" *ngIf="this.formName!=''">
             <h5 class="m-0 text-center">

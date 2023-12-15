@@ -84,7 +84,7 @@ export class OffenderProfileComponent {
 
   getDistrictData = () => {
     this.manageDataService.getDistrict().subscribe((data) =>{
-       this.districtData = data;
+       this.districtData = this.sharedService.isSuperAdminOrJammuOrKashmir() ? data : data.filter((x:any) => x.id == this.sharedService.getDistrictId());
        if(!this.isEdit){
           this.initFormOffender({} as Offender);
        }
@@ -116,7 +116,7 @@ export class OffenderProfileComponent {
       email: [offender.email ||''], //, Validators.required
       passport: [offender.passportNo ||''], //, Validators.required
       mobileNo: [offender.telephoneMobileNo ||'', Validators.required],
-      aadharNo: [offender.aadhaarNo ||'', Validators.required],
+      aadharNo: [offender.aadhaarNo ||''],
       backAccountNo: [offender.bankAccountNo ||''],//, Validators.required
 
       houseNo: [offender.houseNo ||''], //, Validators.required

@@ -8,6 +8,7 @@ export interface User {
     department: string;
     province : number;
     district : number;
+    circle: number;
     roleId: number;
     roleName: string;
     isActive: boolean;

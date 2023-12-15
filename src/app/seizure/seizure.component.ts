@@ -63,6 +63,8 @@ export class SeizureComponent implements OnInit {
   circleId : any;
 
   isSuperAdminOfJammuOrKashmir : boolean = false;
+  isDuputyDirector : boolean = false;
+  isCaseEntryOperator : boolean = false;
   enableMessage : boolean = true;
   progressValue : number = 0;
   showSeizureReport : boolean = false;
@@ -118,8 +120,10 @@ export class SeizureComponent implements OnInit {
     thisYearTotal: number=0;
 
     ngOnInit() {
-
+ debugger;
        this.isSuperAdminOfJammuOrKashmir = this.sharedServices.isSuperAdminOrJammuOrKashmir();
+       this.isDuputyDirector = this.sharedServices.isDuptyDirector();
+       this.isCaseEntryOperator = this.sharedServices.isCaseEntryOperator();
        const sources$: Observable<any>[] = [
         //this.getDivisionData(),
         //this.getDistrictData(),
@@ -1574,7 +1578,8 @@ DeleteARowManAnimalConflict = () =>{
 
   settingDistrictProvinceOnRole = () =>{
     
-    if(this.sharedServices.isUserCaseEntryOperatorOrDuptyDirector()){
+    if(this.isCaseEntryOperator || this.isDuputyDirector){
+      debugger;
       this.districtId = this.sharedServices.getDistrictId();
       this.enableMessage = false;
       this.isSuperAdminOfJammuOrKashmir = false;

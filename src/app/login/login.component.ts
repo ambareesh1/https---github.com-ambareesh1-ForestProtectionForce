@@ -107,6 +107,7 @@ export class LoginComponent implements OnInit {
             alternativeEmail: data.alternate_Email,
             address: data.address,
             district: data.districtId,
+            circle : data.circleId,
             province : data.provinceId,
             department: data.userType_Name,
             roleId: data.userType_Id,

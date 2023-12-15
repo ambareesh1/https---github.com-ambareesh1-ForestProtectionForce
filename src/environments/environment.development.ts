@@ -14,5 +14,5 @@ export const environment = {
     // production: true,
     // apiBaseUrl: 'https://jkfpf.jk.gov.in/forestprotectionforce/api',
     // fileUploadPath: 'https://jkfpf.jk.gov.in/forestprotectionforce/uploads/',
-    // otpFlag: false
+    // otpFlag: true
 };

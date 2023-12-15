@@ -146,12 +146,12 @@
                         </div>
 
                         <div class="field">
-                            <label for="aadharNo" class="block">Aadhar No <span class="required-field">*</span></label>
+                            <label for="aadharNo" class="block">Aadhar No <span class="required-field"></span></label>
                                 <p-inputMask mask="9999-9999-9999"   class="offender-input-width" formControlName="aadharNo" (focusout)="onAadharFocusOut($event)"></p-inputMask>
-                            <small class="p-error block"
+                            <!-- <small class="p-error block"
                                 *ngIf="formOffender.get('aadharNo')?.invalid && formOffender.get('aadharNo')?.dirty">Aadhar
                                 No is required.
-                            </small>
+                            </small> -->
                         </div>
 
                         <div class="field">
