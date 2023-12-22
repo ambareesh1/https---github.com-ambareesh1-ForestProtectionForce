@@ -31,6 +31,7 @@ export class OffenderProfileDataComponent implements OnInit {
 
   getOffenderData = async () =>{
      (await this.offenderDataService.getOffendersData()).subscribe((data)=>{
+      debugger;
       this.isDataLoaded = true;
         this.offerProfileData = data;
         console.log(data);

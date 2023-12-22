@@ -12,7 +12,7 @@ import { BaselinedataService } from '../services/baselinedata.service';
 import { ActivatedRoute } from '@angular/router';
 import {markAllFieldsAsDirty} from '../utilities/makedirty'
 import { fadeInEffect } from '../animations/custom-animations';
-
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-offender-profile',
   templateUrl: './offender-profile.component.html',
@@ -115,7 +115,7 @@ export class OffenderProfileComponent {
       citizenShip: [offender.citizenship ||'', Validators.required],
       email: [offender.email ||''], //, Validators.required
       passport: [offender.passportNo ||''], //, Validators.required
-      mobileNo: [offender.telephoneMobileNo ||'', Validators.required],
+      mobileNo: [offender.telephoneMobileNo ||''],
       aadharNo: [offender.aadhaarNo ||''],
       backAccountNo: [offender.bankAccountNo ||''],//, Validators.required
 
@@ -217,6 +217,7 @@ export class OffenderProfileComponent {
   }
 
   onUploadImg(event: any) {
+    debugger;
     const file = event.files[0];
      this.formData.append('file', file);
    
@@ -254,6 +255,16 @@ export class OffenderProfileComponent {
       })
      
      }
-    
   }
+
+  downloadImage(img:any): void {
+    const imageUrl = img;
+    this.offenderDataService.downloadFile(imageUrl, 'downloaded_image.jpg');
+  }
+
+  downloadPdf(pdf:any): void {
+    const pdfUrl = pdf;
+    this.offenderDataService.downloadFile(pdfUrl, 'downloaded_document.pdf');
+  }
+
 }

@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Offender } from '../Models/OffenderModel';
+import * as saveAs from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
@@ -47,5 +48,14 @@ export class OffenderdataService {
 
   removeCaseId(caseId : any,offendars: Offender[]): Observable<any> {
     return this.http.put(this.baseUrl+'/Offenders/RemoveCaseId?caseId='+caseId, offendars);
+  }
+
+  downloadFile(url: string, fileName: string): void {
+    this.http.get(url, { responseType: 'blob' })
+      .subscribe(blob => {
+        saveAs(blob, fileName);
+      }, error => {
+        console.error('Error downloading file:', error);
+      });
   }
 }

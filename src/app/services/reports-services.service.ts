@@ -17,32 +17,33 @@ export class ReportsServicesService {
 
   baseUrl = environment.apiBaseUrl;
 
-  getFormAReport(district:number, month:number, year : number, isJoint:boolean){
-    return  this.http.get<any[]>(`${this.baseUrl}/Reports/GetFormAReport?districtId=${district}&month=${month}&year=${year}&isJoint=${isJoint}`);
+  getFormAReport(district:number, month:number, year : number, isJoint:boolean, province:any){
+    return  this.http.get<any[]>(`${this.baseUrl}/Reports/GetFormAReport?districtId=${district}&month=${month}&year=${year}&isJoint=${isJoint}&province=${province}`);
   }
 
-  getFormBReport = (district:number,month:number, year : number)=>{
-    return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Reports/GetGammaUnitFormBReport?districtId=${district}&month=${month}&year=${year}`);
+  getFormBReport = (district:number,month:number, year : number, province:any)=>{
+    return this.http.get<Seizure_GammaUni_FormB[]>(`${this.baseUrl}/Reports/GetGammaUnitFormBReport?districtId=${district}&month=${month}&year=${year}&province=${province}`);
   }
 
-  getFormCReport = (district:number,month:number, year : number)=>{
-    return this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Reports/GetGammaUnitFormCReport?districtId=${district}&month=${month}&year=${year}`);
+  getFormCReport = (district:number,month:number, year : number, province:any)=>{
+    return this.http.get<Seizure_CasesOfMonth_FormC[]>(`${this.baseUrl}/Reports/GetGammaUnitFormCReport?districtId=${district}&month=${month}&year=${year}&province=${province}`);
   }
   
-  getAbstractFormReport(district: number, month: number, year: number, selectedOptions: string[], typeOfDateSelection : string): Observable<any[]> {
+  getAbstractFormReport(district: number, month: number, year: number, selectedOptions: string[], typeOfDateSelection : string, province:any): Observable<any[]> {
     const requestBody = {
       districtId: district,
       month: month,
       year: year,
       selectedOptions: selectedOptions,
-      TypeOfSelection:typeOfDateSelection
+      TypeOfSelection:typeOfDateSelection,
+      province:province
     };
 
     return this.http.post<any[]>(`${this.baseUrl}/Reports/GetGammaUnitAbstractFormReport`, requestBody);
   }
 
-  getMonthMFFormReport = (district:number,month:number, year : number, isFinancialYearSelected:boolean, typeOfSelection:string='month')=>{
-    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetMonthCFFormReport?districtId=${district}&month=${month}&year=${year}&isFinancialYearSelected=${isFinancialYearSelected}&typeOfSelection=${typeOfSelection}`);
+  getMonthMFFormReport = (district:number,month:number, year : number, isFinancialYearSelected:boolean, typeOfSelection:string='month', province:any)=>{
+    return this.http.get<any[]>(`${this.baseUrl}/Reports/GetMonthCFFormReport?districtId=${district}&month=${month}&year=${year}&isFinancialYearSelected=${isFinancialYearSelected}&typeOfSelection=${typeOfSelection}&province=${province}`);
   }
 
   getItemNamesFromSezureOne = ()=>{

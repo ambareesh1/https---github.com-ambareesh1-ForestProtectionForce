@@ -59,8 +59,8 @@
                         </div>
     
                         <div class="field">
-                            <label for="userName" class="block">Upload Photo - Max Size 10K <span class="required-field">*</span></label>
-                            <p-fileUpload name="myfile[]" [customUpload]="true"  (uploadHandler)="onUploadImg($event)" accept="image/*"  (onProgress)="onUploadProgress($event)" [maxFileSize]="1000000" >
+                            <label for="userName" class="block">Upload Photo - Max Size 50K <span class="required-field">*</span></label>
+                            <p-fileUpload name="myfile[]" [customUpload]="true"  (uploadHandler)="onUploadImg($event)" accept="image/*,application/pdf"  (onProgress)="onUploadProgress($event)" [maxFileSize]="5000000" >
                                 <ng-template pTemplate="toolbar">
                                 <div *ngIf="isEdit && this.imageUrlOfEdit != '' " class="p-fileupload-files ng-star-inserted mt-3">
                                     <div class="ng-star-inserted">
@@ -136,13 +136,13 @@
                         </div>
 
                         <div class="field">
-                            <label for="mobileNo" class="block">Telephone/Mobile No <span class="required-field">*</span></label>
+                            <label for="mobileNo" class="block">Telephone/Mobile No </label>
                             <input id="mobileNo" pInputText mode="text" class="offender-input-width"
                                 formControlName="mobileNo" />
-                            <small class="p-error block"
+                            <!-- <small class="p-error block"
                                 *ngIf="formOffender.get('mobileNo')?.invalid && formOffender.get('mobileNo')?.dirty">Passport
                                 is required.
-                            </small>
+                            </small> -->
                         </div>
 
                         <div class="field">

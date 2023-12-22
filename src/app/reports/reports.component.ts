@@ -47,6 +47,8 @@ export class ReportsComponent implements OnInit {
   checkboxOptions: any[] = [];
   calendarYear :any;
   isJoint : boolean = true;
+  isJointDirector:boolean = false;
+  province:any =0;
   selectedCheckboxOptions: any[] = [];
   dataLoaded: boolean = false; // Initially set to false
   typeOfDateSelection : string  = 'month';
@@ -60,7 +62,7 @@ export class ReportsComponent implements OnInit {
     private reportsServices : ReportsServicesService, 
      private route: ActivatedRoute) { 
       this.financialYears = this.generateFinancialYears();
-       this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint);
+       this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint,this.province);
        this.formsTypes = [
         {name : 'Select', code : -1 },
         {name: 'Form A - Joint', code: 1},
@@ -72,15 +74,18 @@ export class ReportsComponent implements OnInit {
     ];
     }
   ngOnInit(): void {
-    this.getReportA();
-   this.getDistrictData();
+   debugger;
    this.districtId = this.sharedService.isCaseEntryOperator() || this.sharedService.isDuptyDirector() ?  this.sharedService.getDistrictId() : this.districtId;
+   this.isJointDirector = this.sharedService.isJointDirector();
+   this.province = this.sharedService.getProvinceForSuperAdminOrNormal();
+   this.getDistrictData();
     this.manageDataService.getCircleByid(this.sharedService.getCircleId()).subscribe((x:any)=>{
       this.circleName = x.name;
    });
    this.manageDataService.getDistricteByid(this.sharedService.getDistrictId()).subscribe((x:any)=>{
       this.districtName = x.name;
    })
+   this.getReportA();
   }
 
     onChangeForm = () =>{
@@ -119,8 +124,9 @@ export class ReportsComponent implements OnInit {
     }
 
     onMonthChange = () =>{
+      debugger;
       this.dataLoaded = false;
-      this.month = this.value? this.value.getMonth() : 0;
+      this.month = this.value? this.value.getMonth()+1 : 0;
       this.year = this.value?.getFullYear()??0;
       this.reportYear =  this.getMonthName(this.month)+' '+this.year
       this.isFinancialYearSelected = false;
@@ -150,16 +156,27 @@ export class ReportsComponent implements OnInit {
 
 
     getDistrictData = () => {
-     this.manageDataService.getDistrict().subscribe((x)=>{
-           this.districts = this.sharedService.isSuperAdminOrJammuOrKashmir() ? x : x.filter(x=>x.id == this.districtId);
-           this.districts = this.districts.sort((a: any, b: any) => b.ID - a.ID); // Sorting in descending order based on ID
 
+      if (this.isJointDirector) {
+        this.manageDataService.getCircle().subscribe((circles: any[]) => {
+          const filteredCircles = circles.filter(circle => circle.provinceId === this.province);
+      
+          this.manageDataService.getDistrict().subscribe((districts: any[]) => {
+            this.districts = districts.filter(district => filteredCircles.some(filteredCircle => filteredCircle.id === district.circleId));
+          });
+        });
+      }
+      
+     this.manageDataService.getDistrict().subscribe((x)=>{
+           this.districts = (this.sharedService.isSuperAdminOrJammuOrKashmir() || this.sharedService.isDirector() || this.sharedService.isJointDirector()) ? x : x.filter(x=>x.id == this.districtId);
+           this.districts = this.districts.sort((a: any, b: any) => b.ID - a.ID); // Sorting in descending order based on 
       });
+     
     }
    
     getReportA = () =>{
-    
-      this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint).subscribe((x:any)=>{
+      debugger;
+      this.reportsServices.getFormAReport(this.districtId, this.month, this.year, this.isJoint ,this.province).subscribe((x:any)=>{
           this.dataLoaded = true;
           console.log(x);
           this.FormAReportModel = x;
@@ -170,7 +187,7 @@ export class ReportsComponent implements OnInit {
 
 
     getFormBReport = () =>{
-      this.reportsServices.getFormBReport(this.districtId, this.month, this.year).subscribe((data) => {
+      this.reportsServices.getFormBReport(this.districtId, this.month, this.year ,this.province).subscribe((data) => {
         this.FormBReportModel = data;
         this.dataLoaded = true;
       });
@@ -192,7 +209,7 @@ export class ReportsComponent implements OnInit {
     }
 
     getFormCReport = () =>{
-      this.reportsServices.getFormCReport(this.districtId, this.month, this.year).subscribe((data) => {
+      this.reportsServices.getFormCReport(this.districtId, this.month, this.year, this.province).subscribe((data) => {
         this.FormCReportModel = data;
         this.dataLoaded = true;
       });
@@ -236,12 +253,12 @@ export class ReportsComponent implements OnInit {
     }
 
     getAbstractMontheReport = () =>{
-      
+      debugger;
       const datePipe = new DatePipe('en-US');
       const currentDate = new Date(); // Replace this with your actual date variable
       const previousMonthDate = new Date(this.value??0);
       previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-      this.reportsServices.getAbstractFormReport(this.districtId, this.month, this.year, this.selectedCheckboxOptions, this.typeOfDateSelection).subscribe((data) => {
+      this.reportsServices.getAbstractFormReport(this.districtId, this.month, this.year, this.selectedCheckboxOptions, this.typeOfDateSelection, this.province).subscribe((data) => {
         this.FormAbstractMonth = data;
         this.dataLoaded = true;
       });
@@ -259,15 +276,16 @@ export class ReportsComponent implements OnInit {
 
 
     getMonthCFReport = () =>{
-      this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected, this.typeOfDateSelection).subscribe((data) => {
-        debugger;
-        this.FormMonthCF = this.sharedService.isSuperAdminOrJammuOrKashmir() ?  data : data.filter(x=>x.circle == this.circleName);
-        if(!(this.sharedService.isSuperAdminOrJammuOrKashmir() || this.sharedService.isSuperAdminOfJammu() || this.sharedService.isSuperAdminOfKashmir())){
-          if(this.FormMonthCF[0].districts.length>2){
-            let subTotal = 
-            this.FormMonthCF[0].districts = (this.FormMonthCF[0].districts.filter((x:any)=>x.district == this.districtName || x.district.indexOf('Sub Total')>-1)) 
-          }
-        }
+      this.reportsServices.getMonthMFFormReport(this.districtId, this.month, this.year, this.isFinancialYearSelected, this.typeOfDateSelection, this.province).subscribe((data) => {
+      
+        // this.FormMonthCF = this.sharedService.isSuperAdminOrJammuOrKashmir() ?  data : data.filter(x=>x.circle == this.circleName);
+        // if(!(this.sharedService.isSuperAdminOrJammuOrKashmir() || this.sharedService.isSuperAdminOfJammu() || this.sharedService.isSuperAdminOfKashmir())){
+        //   if(this.FormMonthCF[0].districts.length>2){
+        //     let subTotal = 
+        //     this.FormMonthCF[0].districts = (this.FormMonthCF[0].districts.filter((x:any)=>x.district == this.districtName || x.district.indexOf('Sub Total')>-1)) 
+        //   }
+        // }
+        this.FormMonthCF = data;
         this.dataLoaded = true;
       });
 

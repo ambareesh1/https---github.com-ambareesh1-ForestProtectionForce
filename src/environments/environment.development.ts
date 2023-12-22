@@ -10,9 +10,9 @@ export const environment = {
   //  fileUploadPath: 'http://localhost:88/forestprotectionforce/uploads/',
   //   otpFlag : false
 
-      // **** conneciton to PROD iis 
+    //   // **** conneciton to PROD iis 
     // production: true,
     // apiBaseUrl: 'https://jkfpf.jk.gov.in/forestprotectionforce/api',
     // fileUploadPath: 'https://jkfpf.jk.gov.in/forestprotectionforce/uploads/',
-    // otpFlag: true
+    // otpFlag: false
 };
